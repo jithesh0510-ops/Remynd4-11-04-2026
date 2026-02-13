@@ -9,10 +9,9 @@ libraries:
   - adminkit/global-styling
   - adminkit/select2-enhanced
 
+# Only module dependencies here. jQuery is a core library, not a module.
 dependencies:
   - select2:select2
-  - drupal:jquery
-  - drupal:drupal
 
 regions:
   logo: 'Logo'

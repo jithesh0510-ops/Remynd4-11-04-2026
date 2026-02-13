@@ -17,3 +17,6 @@ sites/simpletest
 # Optional: local environment.
 .env
 .env.*
+/INSTALL.txt
+/README.md
+/robots.txt

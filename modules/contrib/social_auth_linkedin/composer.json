@@ -1,0 +1,48 @@
+{
+    "name": "drupal/social_auth_linkedin",
+    "type": "drupal-module",
+    "description": "Social Auth integration for LinkedIn.",
+    "keywords": ["Drupal"],
+    "license": "GPL-2.0-or-later",
+    "homepage": "https://www.drupal.org/project/social_auth_linkedin",
+    "support": {
+        "issues": "https://www.drupal.org/project/issues/social_auth_linkedin",
+        "source": "https://git.drupalcode.org/project/social_auth_linkedin"
+    },
+    "authors": [
+        {
+            "name": "Getulio Valentin Sánchez (gvso)",
+            "email": "valentin2507@gmail.com"
+        },
+        {
+            "name": "Himanshu Dixit (himanshu-dixit)",
+            "email": "hudixt@gmail.com"
+        },
+        {
+            "name": "Christopher C. Wells (wells)",
+            "email": "drupal.org@chris-wells.net"
+        }
+    ],    
+    "repositories": [
+        {
+            "type": "composer",
+            "url":  "https://packages.drupal.org/8"
+        }
+    ],
+    "require": {
+        "league/oauth2-linkedin": "^5.0",
+        "drupal/social_auth": "^4.1",
+        "drupal/core": "^9.5 || ^10 || ^11"
+    },
+    "require-dev": {
+        "drupal/coder": "^8.3",
+        "phpcompatibility/php-compatibility": "^9.3"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+}
