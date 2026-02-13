@@ -1,22 +1,81 @@
-# Dependencies managed by Composer.
+# --- Dependencies ---
 /vendor/
+/node_modules/
 
-# Configuration and sensitive files.
+# --- Drupal: configuration and sensitive ---
 sites/*/settings*.php
 sites/*/services*.yml
 sites/default/settings.php
 sites/default/settings.local.php
+sites/default/services.yml
+sites/default/services.local.yml
 
-# User-generated content.
-sites/*/files
-sites/*/private
+# --- Drupal: user-generated and runtime ---
+sites/*/files/
+sites/*/private/
+sites/simpletest/
+sites/default/files/
 
-# Multi-site test environment.
-sites/simpletest
+# --- Drupal: caches and temp (if present at repo root) ---
+*.twigcache
 
-# Optional: local environment.
+# --- Environment and secrets ---
 .env
 .env.*
-/INSTALL.txt
-/README.md
-/robots.txt
+!.env.example
+
+# --- IDE and editors ---
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+.project
+.settings/
+.classpath
+
+# --- OS generated ---
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# --- Logs and backups ---
+*.log
+logs/
+*.bak
+*.backup
+*.orig
+
+# --- PHP ---
+.phpunit.result.cache
+.php-cs-fixer.cache
+coverage/
+.phan/
+
+# --- Composer (keep composer.lock committed) ---
+# composer.lock is usually committed for applications
+
+# --- DDEV: local / generated (keep .ddev/config.yaml) ---
+.ddev/.ssh/
+.ddev/.global_commands/
+.ddev/docker-compose*.yaml
+.ddev/traefik/
+.ddev/mailhog/
+.ddev/db_snapshots/
+
+# --- Optional: uncomment if core/ and contrib are installed via Composer ---
+# /core/
+# /modules/contrib/
+# /themes/contrib/
+# /libraries/
+
+# --- Project-specific optional ---
+# /INSTALL.txt
+# /README.md
+# /robots.txt
