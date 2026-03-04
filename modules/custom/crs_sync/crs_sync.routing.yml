@@ -1,49 +1,7 @@
 crs_sync.dashboard:
-  path: '/admin/crs-sync'
+  path: '/crs-sync/dashboard'
   defaults:
     _controller: '\Drupal\crs_sync\Controller\SyncController::dashboard'
-    _title: 'CRS Sync'
+    _title: 'CRS Sync Dashboard'
   requirements:
-    _permission: 'administer site configuration'
-
-crs_sync.import_companies:
-  path: '/admin/crs-sync/import/companies'
-  defaults:
-    _controller: '\Drupal\crs_sync\Controller\SyncController::importCompanies'
-    _title: 'Import Companies'
-  requirements:
-    _permission: 'administer site configuration'
-
-crs_sync.import_coaches:
-  path: '/admin/crs-sync/import/coaches'
-  defaults:
-    _controller: '\Drupal\crs_sync\Controller\SyncController::importCoaches'
-    _title: 'Import Coaches'
-  requirements:
-    _permission: 'administer site configuration'
-
-crs_sync.import_employees:
-  path: '/admin/crs-sync/import/employees'
-  defaults:
-    _controller: '\Drupal\crs_sync\Controller\SyncController::importEmployees'
-    _title: 'Import Employees'
-  requirements:
-    _permission: 'administer site configuration'
-
-crs_sync.import_questionnaires:
-  path: '/admin/crs-sync/import/questionnaires'
-  defaults:
-    _controller: '\Drupal\crs_sync\Controller\SyncController::importQuestionnaires'
-    _title: 'Import Questionnaires'
-  requirements:
-    _permission: 'administer site configuration'
-
-crs_sync.company_questionnaire_sync:
-  path: '/admin/structure/crs-sync/company-questionnaire/sync'
-  defaults:
-    _controller: '\Drupal\crs_sync\Controller\SyncController::importCompanyQuestionnaires'
-    _title: 'Sync Company ↔ Questionnaire'
-  requirements:
-    _permission: 'administer crs sync'
-  options:
-    _admin_route: TRUE
+    _permission: 'access content'

@@ -1,0 +1,179 @@
+<?php
+
+namespace Drupal\remynd4_user_actions\Controller;
+
+use Drupal\Core\Controller\ControllerBase;
+use Drupal\user\Entity\User;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+/**
+ * Coach CSV download endpoints.
+ */
+final class CoachImportDownloadController extends ControllerBase {
+
+  /**
+   * Download CSV sample for coach import.
+   */
+  public function sample(): Response {
+    $out = fopen('php://temp', 'w+');
+    $headers = [
+      'coach_id','first_name','last_name','address1','address2','email','phone_no',
+      'see_quest','see_action','status','skills_asse','lagard_to','see_previous_date',
+    ];
+    fputcsv($out, $headers);
+    fputcsv($out, [0,'John','Doe','Addr line 1','Addr line 2','john@example.com','="9999999999"','Yes','No','1','','','','']);
+    rewind($out);
+    $csv = stream_get_contents($out);
+    fclose($out);
+
+    $res = new Response($csv);
+    $res->headers->set('Content-Type', 'text/csv; charset=UTF-8');
+    $res->headers->set('Content-Disposition', 'attachment; filename="coach_import_sample.csv"');
+    $res->headers->set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+    $res->headers->set('Pragma', 'no-cache');
+    return $res;
+  }
+
+  /**
+   * URL: /coach/importcsv/coach-key?company=2584
+   * Downloads coaches linked to the company's profile(s).
+   */
+  public function coachKey(Request $request): Response {
+    $company_uid = (int) $request->query->get('company');
+    if ($company_uid <= 0) {
+      return new Response("Missing/invalid company parameter.\n", 400);
+    }
+
+    // 1) Get profile IDs owned by this company user.
+    $profile_ids = $this->getCompanyProfileIds($company_uid);
+
+    // 2) Find coach UIDs linked to those profile IDs (DB query, avoids entityQuery crash).
+    $coach_uids = $this->getCoachUidsByProfileIds($profile_ids);
+
+    // 3) Build CSV.
+    $out = fopen('php://temp', 'w+');
+    $headers = [
+      'coach_id','first_name','last_name','address1','address2','email','phone_no',
+      'see_quest','see_action','status','skills_asse','lagard_to','see_previous_date',
+    ];
+    fputcsv($out, $headers);
+
+    if (empty($coach_uids)) {
+      fputcsv($out, ['NO_COACHES','No coaches mapped to this company']);
+    }
+    else {
+      $users = User::loadMultiple($coach_uids);
+      foreach ($coach_uids as $uid) {
+        $u = $users[$uid] ?? NULL;
+        if (!$u) { continue; }
+
+        $phone = $this->pick($u, ['phone_no','field_phone_no','field_phone','field_phone_number']);
+        $row = [
+          (int) $u->id(),
+          $this->pick($u, ['first_name','field_first_name','field_fname']),
+          $this->pick($u, ['last_name','field_last_name','field_lname']),
+          $this->pick($u, ['address1','field_address1','field_address_1']),
+          $this->pick($u, ['address2','field_address2','field_address_2']),
+          $u->getEmail(),
+          $this->excelText($phone),
+          $this->yesNo($this->pick($u, ['see_quest','field_see_quest','field_see_questionnaire'])),
+          $this->yesNo($this->pick($u, ['see_action','field_see_action'])),
+          $this->pick($u, ['status','field_status']) ?: ($u->isActive() ? '1' : '0'),
+          $this->pick($u, ['skills_asse','field_skills_asse','field_skills_assessment']),
+          $this->pick($u, ['lagard_to','field_lagard_to']),
+          $this->pick($u, ['see_previous_date','field_see_previous_date']),
+        ];
+        fputcsv($out, $row);
+      }
+    }
+
+    rewind($out);
+    $csv = stream_get_contents($out);
+    fclose($out);
+
+    $filename = 'coach_key_company_' . $company_uid . '.csv';
+    $res = new Response($csv);
+    $res->headers->set('Content-Type', 'text/csv; charset=UTF-8');
+    $res->headers->set('Content-Disposition', 'attachment; filename="' . $filename . '"');
+    $res->headers->set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+    $res->headers->set('Pragma', 'no-cache');
+    return $res;
+  }
+
+  private function getCompanyProfileIds(int $company_uid): array {
+    if (!\Drupal::entityTypeManager()->hasDefinition('profile')) {
+      return [];
+    }
+    $profiles = \Drupal::entityTypeManager()
+      ->getStorage('profile')
+      ->loadByProperties(['uid' => $company_uid]);
+
+    return array_map('intval', array_keys($profiles));
+  }
+
+  private function getCoachUidsByProfileIds(array $profile_ids): array {
+    if (empty($profile_ids)) {
+      return [];
+    }
+
+    $db = \Drupal::database();
+    $schema = $db->schema();
+
+    // Try likely field tables in your site (pick first that exists).
+    $field_candidates = ['company_profiles','field_company_profiles','field_company_profile','field_company'];
+    $field = NULL;
+    foreach ($field_candidates as $f) {
+      if ($schema->tableExists('user__' . $f)) {
+        $field = $f;
+        break;
+      }
+    }
+    if (!$field) {
+      return [];
+    }
+
+    $t_profiles = 'user__' . $field;
+    $col_target = $field . '_target_id';
+
+    $q = $db->select($t_profiles, 'cp');
+    $q->addField('cp', 'entity_id', 'uid');
+    $q->join('users_field_data', 'u', 'u.uid = cp.entity_id');
+    $q->join('user__roles', 'ur', 'ur.entity_id = cp.entity_id');
+
+    $q->condition("cp.$col_target", $profile_ids, 'IN');
+    $q->condition('u.status', 1);
+    $q->condition('ur.roles_target_id', 'coach');
+    $q->distinct();
+
+    return array_map('intval', $q->execute()->fetchCol());
+  }
+
+  private function pick(User $u, array $field_names): string {
+    foreach ($field_names as $f) {
+      if ($u->hasField($f) && !$u->get($f)->isEmpty()) {
+        $it = $u->get($f)->first();
+        if (isset($it->value) && $it->value !== NULL) {
+          return (string) $it->value;
+        }
+        if (isset($it->target_id) && $it->target_id !== NULL) {
+          return (string) $it->target_id;
+        }
+      }
+    }
+    return '';
+  }
+
+  private function yesNo(string $v): string {
+    $v2 = strtolower(trim($v));
+    return in_array($v2, ['1','yes','y','true','on'], TRUE) ? 'Yes' : 'No';
+  }
+
+  // Prevent Excel converting big numbers to 9.63E+10
+  private function excelText(string $v): string {
+    $v = trim($v);
+    if ($v === '') return '';
+    return '="' . str_replace('"', '""', $v) . '"';
+  }
+
+}

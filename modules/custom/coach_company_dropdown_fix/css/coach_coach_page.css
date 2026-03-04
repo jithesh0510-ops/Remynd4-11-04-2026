@@ -1,0 +1,33 @@
+/* /coach: keep exposed filters + Search/Reset visible and aligned */
+.path-coach .views-exposed-form {
+  clear: both;
+  margin-bottom: 14px;
+  overflow: visible;
+}
+
+.path-coach .views-exposed-form .form--inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.path-coach .views-exposed-form .form--inline .form-item {
+  margin: 0 !important;
+}
+
+/* IMPORTANT: don't force actions to new row */
+.path-coach .views-exposed-form .form--inline .form-actions {
+  margin: 0 !important;
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+  margin-left: auto !important;   /* pushes Search/Reset to the far right */
+  width: auto !important;         /* prevents dropping to next line */
+  position: static !important;
+}
+
+.path-coach .views-exposed-form .form--inline .form-actions .button,
+.path-coach .views-exposed-form .form--inline .form-actions input {
+  white-space: nowrap;
+}

@@ -1,0 +1,7 @@
+user_selected_export.download:
+  path: '/user-selected-export-download'
+  defaults:
+    _controller: '\Drupal\user_selected_export\Controller\ExportController::download'
+    _title: 'Export Users'
+  requirements:
+    _permission: 'administer users'

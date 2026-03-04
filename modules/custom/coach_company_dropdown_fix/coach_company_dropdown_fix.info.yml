@@ -1,0 +1,4 @@
+name: Coach Company Dropdown Fix
+type: module
+core_version_requirement: ^10
+package: Custom

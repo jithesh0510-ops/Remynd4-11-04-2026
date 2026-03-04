@@ -1,0 +1,5 @@
+coach_coach_page:
+  version: 1.x
+  css:
+    theme:
+      css/coach_coach_page.css: {}

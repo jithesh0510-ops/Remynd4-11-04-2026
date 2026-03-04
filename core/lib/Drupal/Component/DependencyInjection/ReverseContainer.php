@@ -72,14 +72,7 @@ final class ReverseContainer {
     $service_recorder = \Closure::bind(function () : array {
       return $this->services;
     }, $this->serviceContainer, $this->serviceContainer);
-    $services = $service_recorder();
-    $mappings = [];
-    foreach ($services as $id => $service) {
-      if (\is_object($service)) {
-        $mappings[$this->generateServiceIdHash($service)] = $id;
-      }
-    }
-    self::$recordedServices = array_merge(self::$recordedServices, $mappings);
+    self::$recordedServices = array_merge(self::$recordedServices, array_flip(array_map([$this, 'generateServiceIdHash'], $service_recorder())));
   }
 
   /**

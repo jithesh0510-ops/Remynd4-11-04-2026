@@ -1,0 +1,161 @@
+<?php
+
+namespace Drupal\remynd4_user_actions\Controller;
+
+use Drupal\Core\Controller\ControllerBase;
+use Drupal\user\Entity\User;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+final class CoachImportDownloadController extends ControllerBase {
+
+  /**
+   * Download "Coach Key" CSV for selected company only.
+   * URL: /coach/importcsv/coach-key?company=2584
+   */
+  public function coachKey(Request $request): Response {
+    $company_uid = (int) $request->query->get('company');
+    if ($company_uid <= 0) {
+      return new Response("Missing/invalid company parameter.\n", 400);
+    }
+
+    // 1) Get profile IDs mapped to this company (company user owns profiles).
+    $profile_ids = $this->getCompanyProfileIds($company_uid);
+
+    // 2) Find coaches linked to those profiles via user field company_profiles.
+    $coach_uids = $this->getCoachUidsByCompanyProfiles($profile_ids);
+
+    // 3) Build CSV.
+    $out = fopen('php://temp', 'w+');
+
+    $headers = [
+      'coach_id','first_name','last_name','address1','address2','email','phone_no',
+      'see_quest','see_action','status','skills_asse','lagard_to','see_previous_date',
+    ];
+    fputcsv($out, $headers);
+
+    if (empty($coach_uids)) {
+      // Always return a valid CSV, never blank/500.
+      fputcsv($out, ['NO_COACHES', 'No coaches mapped to this company']);
+    }
+    else {
+      $users = User::loadMultiple($coach_uids);
+
+      foreach ($coach_uids as $uid) {
+        /** @var \Drupal\user\Entity\User|null $u */
+        $u = $users[$uid] ?? NULL;
+        if (!$u) {
+          continue;
+        }
+
+        $row = [
+          $u->id(),
+          $this->pickValue($u, ['field_first_name','first_name']),
+          $this->pickValue($u, ['field_last_name','last_name']),
+          $this->pickValue($u, ['field_address1','address1','field_address_1']),
+          $this->pickValue($u, ['field_address2','address2','field_address_2']),
+          $u->getEmail(),
+          $this->pickValue($u, ['field_phone_no','phone_no','field_phone','field_mobile']),
+          $this->pickBool($u, ['see_quest','field_see_quest','field_see_questions']),
+          $this->pickBool($u, ['see_action','field_see_action']),
+          $u->isActive() ? 'Yes' : 'No',
+          $this->pickBool($u, ['skills_asse','field_skills_asse','field_skills_assessment']),
+          $this->pickBool($u, ['lagard_to','field_lagard_to']),
+          $this->pickValue($u, ['see_previous_date','field_see_previous_date']),
+        ];
+
+        fputcsv($out, $row);
+      }
+    }
+
+    rewind($out);
+    $csv = stream_get_contents($out);
+    fclose($out);
+
+    $filename = 'coach_key_company_' . $company_uid . '.csv';
+    $response = new Response($csv);
+    $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
+    $response->headers->set('Content-Disposition', 'attachment; filename="' . $filename . '"');
+    $response->headers->set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+    $response->headers->set('Pragma', 'no-cache');
+    return $response;
+  }
+
+  /**
+   * Company mapping:
+   * If company user field company_profiles is empty, use profile.uid = company_uid.
+   */
+  private function getCompanyProfileIds(int $company_uid): array {
+    $pids = [];
+
+    // Try company user field first (if it exists and filled).
+    $company = User::load($company_uid);
+    if ($company && $company->hasField('company_profiles') && !$company->get('company_profiles')->isEmpty()) {
+      foreach ($company->get('company_profiles') as $it) {
+        if (isset($it->target_id)) {
+          $pids[] = (int) $it->target_id;
+        }
+      }
+    }
+
+    // Fallback: profiles owned by this company user.
+    if (empty($pids) && \Drupal::entityTypeManager()->hasDefinition('profile')) {
+      $pids = \Drupal::entityQuery('profile')
+        ->accessCheck(FALSE)
+        ->condition('uid', $company_uid)
+        ->execute();
+      $pids = array_map('intval', array_values($pids));
+    }
+
+    $pids = array_values(array_unique(array_filter($pids)));
+    return $pids;
+  }
+
+  /**
+   * Coaches are users with role coach, linked by user field company_profiles -> profile IDs.
+   */
+  private function getCoachUidsByCompanyProfiles(array $profile_ids): array {
+    $profile_ids = array_values(array_unique(array_filter(array_map('intval', $profile_ids))));
+    if (empty($profile_ids)) {
+      return [];
+    }
+
+    // Safety: if field doesn't exist, don't crash.
+    $storages = \Drupal::service('entity_field.manager')->getFieldStorageDefinitions('user');
+    if (!isset($storages['company_profiles'])) {
+      return [];
+    }
+
+    $uids = \Drupal::entityQuery('user')
+      ->accessCheck(FALSE)
+      ->condition('status', 1)
+      ->condition('roles', 'coach')
+      ->condition('company_profiles.target_id', $profile_ids, 'IN')
+      ->execute();
+
+    return array_map('intval', array_values($uids));
+  }
+
+  private function pickValue(User $u, array $field_names): string {
+    foreach ($field_names as $f) {
+      if ($u->hasField($f) && !$u->get($f)->isEmpty()) {
+        $it = $u->get($f)->first();
+        if (isset($it->value) && $it->value !== NULL) {
+          return (string) $it->value;
+        }
+        if (isset($it->target_id) && $it->target_id !== NULL) {
+          return (string) $it->target_id;
+        }
+      }
+    }
+    return '';
+  }
+
+  private function pickBool(User $u, array $field_names): string {
+    $v = $this->pickValue($u, $field_names);
+    if ($v === '') return 'No';
+    $v2 = strtolower(trim((string) $v));
+    return in_array($v2, ['1','yes','y','true','on'], TRUE) ? 'Yes' : 'No';
+  }
+
+}

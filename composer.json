@@ -19,6 +19,7 @@
         "drupal/address": "^2.0",
         "drupal/admin_toolbar": "^3.6",
         "drupal/anonymous_redirection": "^1.0",
+        "drupal/better_exposed_filters": "^7.1",
         "drupal/bootstrap5": "^4.0",
         "drupal/conditional_fields": "4.x-dev@dev",
         "drupal/core-composer-scaffold": "^10.4",
@@ -61,7 +62,11 @@
         "drupal/social_auth_microsoft": "^4.0",
         "drupal/tamper": "^1.0@beta",
         "drupal/user_csv_import": "^2.0",
-        "drush/drush": "^13.6"
+        "drupal/views_bulk_operations": "^4.4",
+        "drupal/views_data_export": "^1",
+        "drupal/views_filters_populate": "^2.2",
+        "drush/drush": "^13.7",
+        "phpoffice/phpspreadsheet": "^3"
     },
     "conflict": {
         "drupal/drupal": "*"

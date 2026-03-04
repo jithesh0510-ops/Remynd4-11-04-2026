@@ -1,0 +1,66 @@
+<?php
+
+use Drupal\Core\Form\FormStateInterface;
+
+function company_dropdown_module_implements_alter(array &$implementations, $hook): void {
+  if ($hook === 'form_alter' && isset($implementations['company_dropdown'])) {
+    $tmp = $implementations['company_dropdown'];
+    unset($implementations['company_dropdown']);
+    $implementations['company_dropdown'] = $tmp;
+  }
+}
+
+function company_dropdown_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
+  if (strpos($form_id, 'views_exposed_form') !== 0) {
+    return;
+  }
+
+  if (!isset($form['field_company_target_id'])) {
+    return;
+  }
+
+  $options = ['' => '- Any -'];
+
+  $ids = \Drupal::entityQuery('profile')
+    ->condition('type', 'company')
+    ->accessCheck(FALSE)
+    ->execute();
+
+  if ($ids) {
+    $profiles = \Drupal::entityTypeManager()
+      ->getStorage('profile')
+      ->loadMultiple($ids);
+
+    $list = [];
+
+    foreach ($profiles as $profile) {
+
+      // 👇 IMPORTANT — Use correct company name field here
+      if ($profile->hasField('field_company_name')) {
+        $label = $profile->get('field_company_name')->value;
+      } else {
+        $label = $profile->label();
+      }
+
+      if ($label) {
+        $list[$profile->id()] = $label;
+      }
+    }
+
+    natcasesort($list);
+
+    foreach ($list as $id => $label) {
+      $options[$id] = $label;
+    }
+  }
+
+  $current = $form_state->getValue('field_company_target_id');
+
+  $form['field_company_target_id']['#type'] = 'select';
+  $form['field_company_target_id']['#options'] = $options;
+  $form['field_company_target_id']['#empty_option'] = '- Any -';
+  $form['field_company_target_id']['#default_value'] = $current;
+  $form['field_company_target_id']['#size'] = 1;
+  $form['field_company_target_id']['#multiple'] = FALSE;
+  $form['field_company_target_id']['#attributes']['onchange'] = 'this.form.submit();';
+}

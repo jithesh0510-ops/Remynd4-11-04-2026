@@ -1,0 +1,5 @@
+name: 'Company Dropdown for Employee View'
+type: module
+description: 'Turns the Company exposed filter into a dropdown populated from existing values.'
+core_version_requirement: ^10 || ^11
+package: Custom

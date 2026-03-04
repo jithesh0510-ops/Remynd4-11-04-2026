@@ -1,0 +1,8 @@
+name: Coach CSV Import
+type: module
+description: Import/Update coach users by CSV with company selection.
+core_version_requirement: ^10
+package: Custom
+dependencies:
+  - drupal:user
+  - drupal:profile
