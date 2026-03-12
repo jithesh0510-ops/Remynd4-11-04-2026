@@ -2,65 +2,83 @@
 
 use Drupal\Core\Form\FormStateInterface;
 
-function company_dropdown_module_implements_alter(array &$implementations, $hook): void {
-  if ($hook === 'form_alter' && isset($implementations['company_dropdown'])) {
-    $tmp = $implementations['company_dropdown'];
-    unset($implementations['company_dropdown']);
-    $implementations['company_dropdown'] = $tmp;
-  }
-}
+/**
+ * Implements hook_form_alter().
+ */
+function company_dropdown_form_alter(&$form, FormStateInterface $form_state, $form_id) {
 
-function company_dropdown_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
-  if (strpos($form_id, 'views_exposed_form') !== 0) {
+  // Get current path.
+  $path = \Drupal::service('path.current')->getPath();
+
+  // Run only on coach and employee pages.
+  if ($path !== '/coach' && $path !== '/employee') {
     return;
   }
 
+  // Ensure the company filter exists.
   if (!isset($form['field_company_target_id'])) {
     return;
   }
 
-  $options = ['' => '- Any -'];
+  // Default dropdown option.
+  $options = [
+    '' => '- Select -',
+  ];
 
-  $ids = \Drupal::entityQuery('profile')
-    ->condition('type', 'company')
-    ->accessCheck(FALSE)
-    ->execute();
+  // Query companies used in profiles.
+  $query = \Drupal::database()->select('profile__field_company', 'fc');
+  $query->join('profile', 'p', 'p.profile_id = fc.entity_id');
+  $query->addField('fc', 'field_company_target_id');
+  $query->isNotNull('fc.field_company_target_id');
+  $query->distinct();
 
-  if ($ids) {
-    $profiles = \Drupal::entityTypeManager()
-      ->getStorage('profile')
-      ->loadMultiple($ids);
+  $company_ids = $query->execute()->fetchCol();
 
-    $list = [];
+  foreach ($company_ids as $company_id) {
 
-    foreach ($profiles as $profile) {
-
-      // 👇 IMPORTANT — Use correct company name field here
-      if ($profile->hasField('field_company_name')) {
-        $label = $profile->get('field_company_name')->value;
-      } else {
-        $label = $profile->label();
-      }
-
-      if ($label) {
-        $list[$profile->id()] = $label;
-      }
+    if (!$company_id) {
+      continue;
     }
 
-    natcasesort($list);
+    // Load company profile.
+    $profiles = \Drupal::entityTypeManager()
+      ->getStorage('profile')
+      ->loadByProperties([
+        'uid' => $company_id,
+        'type' => 'company'
+      ]);
 
-    foreach ($list as $id => $label) {
-      $options[$id] = $label;
+    if ($profiles) {
+
+      $profile = reset($profiles);
+
+      // Get company name field.
+      if ($profile->hasField('field_company_name')) {
+        $name = $profile->get('field_company_name')->value;
+      }
+      else {
+        // Fallback to user display name.
+        $user = \Drupal\user\Entity\User::load($company_id);
+        $name = $user ? $user->getDisplayName() : $company_id;
+      }
+
+      $options[$company_id] = $name;
     }
   }
 
-  $current = $form_state->getValue('field_company_target_id');
-
+  // Convert to dropdown.
   $form['field_company_target_id']['#type'] = 'select';
   $form['field_company_target_id']['#options'] = $options;
-  $form['field_company_target_id']['#empty_option'] = '- Any -';
-  $form['field_company_target_id']['#default_value'] = $current;
+  $form['field_company_target_id']['#empty_option'] = '- Select -';
+
+  // FORCE dropdown instead of listbox.
   $form['field_company_target_id']['#size'] = 1;
   $form['field_company_target_id']['#multiple'] = FALSE;
-  $form['field_company_target_id']['#attributes']['onchange'] = 'this.form.submit();';
+
+  // Prevent autofocus.
+  $form['field_company_target_id']['#attributes']['autofocus'] = FALSE;
+
+  // Add styling class.
+  $form['field_company_target_id']['#attributes']['class'][] = 'company-dropdown';
+
 }

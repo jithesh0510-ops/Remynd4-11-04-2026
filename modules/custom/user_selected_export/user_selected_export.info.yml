@@ -1,7 +1,0 @@
-name: User Selected Export
-type: module
-description: Export selected users from VBO with view fields.
-core_version_requirement: ^10
-package: Custom
-dependencies:
-  - views_bulk_operations

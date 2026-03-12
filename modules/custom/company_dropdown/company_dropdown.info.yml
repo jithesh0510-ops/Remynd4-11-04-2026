@@ -1,5 +1,7 @@
-name: 'Company Dropdown for Employee View'
+name: Company Dropdown
 type: module
-description: 'Turns the Company exposed filter into a dropdown populated from existing values.'
-core_version_requirement: ^10 || ^11
+description: Convert company text filter to dropdown
+core_version_requirement: ^9 || ^10
 package: Custom
+dependencies:
+  - drupal:views

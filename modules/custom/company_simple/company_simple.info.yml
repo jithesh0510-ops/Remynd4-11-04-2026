@@ -1,6 +1,0 @@
-name: Company Simple
-type: module
-description: Custom company management
-core_version_requirement: ^10
-package: Custom
-

@@ -1,9 +1,0 @@
-exposed_fix:
-  css:
-    theme:
-      css/exposed-fix.css: {}
-
-coach_page_polish:
-  css:
-    theme:
-      css/coach-page-polish.css: {}

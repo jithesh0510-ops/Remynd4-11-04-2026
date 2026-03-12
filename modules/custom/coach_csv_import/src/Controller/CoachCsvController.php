@@ -2,51 +2,110 @@
 
 namespace Drupal\coach_csv_import\Controller;
 
-use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Drupal\profile\Entity\Profile;
+use Drupal\user\Entity\User;
 
-class CoachCsvController extends ControllerBase {
+class CoachCsvController {
 
-  public function downloadSample(): Response {
-    $csv  = "email,first_name,last_name\n";
-    $csv .= "coach1@example.com,John,Doe\n";
-    $csv .= "coach2@example.com,Jane,Doe\n";
-    return $this->csvResponse($csv, 'coach_sample.csv');
-  }
+  /**
+   * Download Coach Key CSV filtered by company
+   */
+  public function downloadKey(Request $request) {
 
-  public function downloadKey(): Response {
-    $db = \Drupal::database();
+    $company_id = $request->query->get('company');
 
-    // Export existing coaches with their company id (if any).
-    $rows = $db->query("
-      SELECT u.uid, u.mail AS email, fc.field_company_target_id AS company_id
-      FROM {users_field_data} u
-      INNER JOIN {user__roles} ur ON ur.entity_id = u.uid AND ur.roles_target_id = :role
-      LEFT JOIN {profile} pr ON pr.uid = u.uid
-      LEFT JOIN {profile__field_company} fc ON fc.entity_id = pr.profile_id
-      WHERE u.status = 1
-      ORDER BY u.uid ASC
-    ", [':role' => 'coach'])->fetchAll();
+    $rows = [];
 
-    $out = "uid,email,company_id\n";
-    foreach ($rows as $r) {
-      $out .= (int) $r->uid . "," . $this->esc($r->email) . "," . (int) ($r->company_id ?? 0) . "\n";
+    // CSV Header
+    $rows[] = ['email','first_name','last_name','name'];
+
+    $query = \Drupal::entityQuery('profile')
+      ->condition('type', 'coach')
+      ->accessCheck(FALSE);
+
+    // Apply company filter
+    if (!empty($company_id)) {
+      $query->condition('field_company_target_id.target_id', $company_id);
     }
 
-    return $this->csvResponse($out, 'coach_key.csv');
-  }
+    $profile_ids = $query->execute();
 
-  private function csvResponse(string $csv, string $filename): Response {
+    if (!empty($profile_ids)) {
+
+      $profiles = Profile::loadMultiple($profile_ids);
+
+      foreach ($profiles as $profile) {
+
+        $user = User::load($profile->getOwnerId());
+
+        if ($user) {
+
+          $email = $user->getEmail();
+          $name  = $user->getDisplayName();
+
+          $first = '';
+          $last  = '';
+
+          if ($profile->hasField('field_first_name')) {
+            $first = $profile->get('field_first_name')->value;
+          }
+
+          if ($profile->hasField('field_last_name')) {
+            $last = $profile->get('field_last_name')->value;
+          }
+
+          $rows[] = [$email,$first,$last,$name];
+        }
+      }
+    }
+
+    // Create CSV
+    $handle = fopen('php://temp','r+');
+
+    foreach ($rows as $row) {
+      fputcsv($handle,$row);
+    }
+
+    rewind($handle);
+    $csv = stream_get_contents($handle);
+    fclose($handle);
+
     $response = new Response($csv);
-    $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
-    $response->headers->set('Content-Disposition', 'attachment; filename="' . $filename . '"');
+
+    $response->headers->set('Content-Type','text/csv');
+    $response->headers->set('Content-Disposition','attachment; filename="coach_key.csv"');
+
     return $response;
   }
 
-  private function esc($v): string {
-    $v = (string) $v;
-    $v = str_replace('"', '""', $v);
-    return '"' . $v . '"';
+  /**
+   * Download Sample CSV
+   */
+  public function downloadSample() {
+
+    $rows = [
+      ['email','first_name','last_name','name'],
+      ['coach@example.com','John','Doe','John Doe']
+    ];
+
+    $handle = fopen('php://temp','r+');
+
+    foreach ($rows as $row) {
+      fputcsv($handle,$row);
+    }
+
+    rewind($handle);
+    $csv = stream_get_contents($handle);
+    fclose($handle);
+
+    $response = new Response($csv);
+
+    $response->headers->set('Content-Type','text/csv');
+    $response->headers->set('Content-Disposition','attachment; filename="coach_sample.csv"');
+
+    return $response;
   }
 
 }

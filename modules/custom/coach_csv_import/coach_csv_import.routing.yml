@@ -1,21 +1,21 @@
-coach_csv_import.import_form:
+coach_csv_import.form:
   path: '/coach/importcsv'
   defaults:
     _form: '\Drupal\coach_csv_import\Form\CoachImportForm'
     _title: 'Import/Update coach'
   requirements:
-    _permission: 'administer users'
+    _permission: 'access content'
+
+coach_csv_import.download_key:
+  path: '/coach/importcsv/download-key'
+  defaults:
+    _controller: '\Drupal\coach_csv_import\Controller\CoachCsvController::downloadKey'
+  requirements:
+    _permission: 'access content'
 
 coach_csv_import.download_sample:
   path: '/coach/importcsv/sample'
   defaults:
     _controller: '\Drupal\coach_csv_import\Controller\CoachCsvController::downloadSample'
   requirements:
-    _permission: 'administer users'
-
-coach_csv_import.download_key:
-  path: '/coach/importcsv/key'
-  defaults:
-    _controller: '\Drupal\coach_csv_import\Controller\CoachCsvController::downloadKey'
-  requirements:
-    _permission: 'administer users'
+    _permission: 'access content'

@@ -1,5 +1,0 @@
-name: Company Dropdown Filter
-type: module
-description: Converts exposed Company filter into a dropdown showing company profile names.
-core_version_requirement: ^10
-package: Custom
