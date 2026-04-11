@@ -1,0 +1,10 @@
+# AdminKit Theme Settings
+theme_color: '#86f1ff'
+sidebar_collapsed: false
+dark_mode: false
+font_family: 'Inter'
+font_size: 'medium'
+border_radius: 'medium'
+
+
+

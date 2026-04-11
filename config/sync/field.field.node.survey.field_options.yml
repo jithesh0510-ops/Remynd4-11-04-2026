@@ -1,0 +1,43 @@
+uuid: 7a2a8bd7-e9ad-4130-8d24-97053d7a5bcd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_options
+    - node.type.survey
+    - paragraphs.paragraphs_type.options
+  module:
+    - entity_reference_revisions
+id: node.survey.field_options
+field_name: field_options
+entity_type: node
+bundle: survey
+label: Options
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      options: options
+    negate: 0
+    target_bundles_drag_drop:
+      category:
+        weight: 6
+        enabled: false
+      options:
+        weight: 7
+        enabled: true
+      question:
+        weight: 8
+        enabled: false
+      sub_category:
+        weight: 9
+        enabled: false
+      sub_sub_category:
+        weight: 10
+        enabled: false
+field_type: entity_reference_revisions

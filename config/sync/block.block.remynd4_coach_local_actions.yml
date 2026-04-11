@@ -1,0 +1,20 @@
+uuid: ecdb3d35-990c-4a24-9418-08e5b19fe95d
+langcode: en
+status: true
+dependencies:
+  theme:
+    - remynd4_coach
+_core:
+  default_config_hash: CTIl2YfuH-oGtxHw-nmyJaFfBEntQNtjSbXfkLVe-M4
+id: remynd4_coach_local_actions
+theme: remynd4_coach
+region: content
+weight: -2
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  label_display: '0'
+  provider: core
+visibility: {  }

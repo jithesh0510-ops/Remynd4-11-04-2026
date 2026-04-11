@@ -1,0 +1,143 @@
+uuid: 91b3beaa-04cf-4b0f-842c-41ecce83a844
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.survey.body
+    - field.field.node.survey.field_category
+    - field.field.node.survey.field_collect_name
+    - field.field.node.survey.field_is_survey
+    - field.field.node.survey.field_login_required
+    - field.field.node.survey.field_options
+    - field.field.node.survey.field_survey
+    - node.type.survey
+  module:
+    - entity_reference_revisions
+    - field_group
+    - layout_builder
+    - text
+    - user
+third_party_settings:
+  layout_builder:
+    enabled: false
+    allow_custom: false
+  field_group:
+    group_options:
+      children:
+        - group_col_left
+        - group_col_right
+      label: Options
+      parent_name: ''
+      region: content
+      weight: 3
+      format_type: html_element
+      format_settings:
+        classes: questionnaire-row
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        element: div
+        show_label: false
+        label_element: h3
+        label_element_classes: ''
+        attributes: ''
+        effect: none
+        speed: fast
+    group_col_left:
+      children:
+        - field_category
+      label: 'Col Left'
+      parent_name: group_options
+      region: content
+      weight: 20
+      format_type: html_element
+      format_settings:
+        classes: questionnaire-left-col
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        element: div
+        show_label: false
+        label_element: h3
+        label_element_classes: ''
+        attributes: ''
+        effect: none
+        speed: fast
+    group_col_right:
+      children:
+        - field_options
+      label: 'Col Right'
+      parent_name: group_options
+      region: content
+      weight: 21
+      format_type: html_element
+      format_settings:
+        classes: questionnaire-right-col
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        element: div
+        show_label: false
+        label_element: h3
+        label_element_classes: ''
+        attributes: ''
+        effect: none
+        speed: fast
+id: node.survey.default
+targetEntityType: node
+bundle: survey
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_category:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_collect_name:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 22
+    region: content
+  field_options:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_survey:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_is_survey: true
+  field_login_required: true
+  langcode: true

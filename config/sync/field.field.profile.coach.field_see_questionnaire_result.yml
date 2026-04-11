@@ -1,0 +1,21 @@
+uuid: 8561c843-50b1-4344-8602-df5089de18f5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.profile.field_see_questionnaire_result
+    - profile.type.coach
+id: profile.coach.field_see_questionnaire_result
+field_name: field_see_questionnaire_result
+entity_type: profile
+bundle: coach
+label: 'See Questionnaire Result'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

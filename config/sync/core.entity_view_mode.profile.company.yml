@@ -1,0 +1,11 @@
+uuid: 6cfbe487-da3a-4554-a495-918bfd16efa6
+langcode: en
+status: true
+dependencies:
+  module:
+    - profile
+id: profile.company
+label: Company
+description: ''
+targetEntityType: profile
+cache: true

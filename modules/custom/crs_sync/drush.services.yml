@@ -1,0 +1,6 @@
+services:
+  crs_sync.commands:
+    class: Drupal\crs_sync\Commands\CrsSyncCommands
+    arguments: ['@crs_sync.sync_manager']
+    tags:
+      - { name: drush.command }

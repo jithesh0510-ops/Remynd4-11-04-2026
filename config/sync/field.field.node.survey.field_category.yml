@@ -1,0 +1,49 @@
+uuid: a317787b-c52d-49d8-a8c2-bf14bb213034
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_category
+    - node.type.survey
+    - paragraphs.paragraphs_type.category
+  module:
+    - entity_reference_revisions
+id: node.survey.field_category
+field_name: field_category
+entity_type: node
+bundle: survey
+label: Category
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      category: category
+    negate: 0
+    target_bundles_drag_drop:
+      category:
+        weight: 5
+        enabled: true
+      options:
+        weight: 9
+        enabled: false
+      question:
+        weight: 6
+        enabled: false
+      sub_category:
+        weight: 7
+        enabled: false
+      sub_sub_category:
+        weight: 8
+        enabled: false
+      survey:
+        weight: 13
+        enabled: false
+      survey_questions:
+        weight: 14
+        enabled: false
+field_type: entity_reference_revisions

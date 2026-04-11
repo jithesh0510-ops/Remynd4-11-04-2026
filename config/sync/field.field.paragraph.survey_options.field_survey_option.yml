@@ -1,0 +1,19 @@
+uuid: a515a55a-0dcf-4430-a376-026d929f63fb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_survey_option
+    - paragraphs.paragraphs_type.survey_options
+id: paragraph.survey_options.field_survey_option
+field_name: field_survey_option
+entity_type: paragraph
+bundle: survey_options
+label: 'Survey Option'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

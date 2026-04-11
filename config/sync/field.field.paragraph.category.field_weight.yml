@@ -1,0 +1,23 @@
+uuid: 7b1af4b0-7c62-43f1-a90d-056a470b6b8b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_weight
+    - paragraphs.paragraphs_type.category
+id: paragraph.category.field_weight
+field_name: field_weight
+entity_type: paragraph
+bundle: category
+label: ' Weight (%) '
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 0
+  max: 100
+  prefix: ''
+  suffix: ''
+field_type: integer

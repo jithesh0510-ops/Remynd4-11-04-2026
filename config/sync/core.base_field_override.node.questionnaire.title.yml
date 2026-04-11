@@ -1,0 +1,18 @@
+uuid: f49da76b-ec0c-41ed-b842-fc722f270369
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.questionnaire
+id: node.questionnaire.title
+field_name: title
+entity_type: node
+bundle: questionnaire
+label: Title
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

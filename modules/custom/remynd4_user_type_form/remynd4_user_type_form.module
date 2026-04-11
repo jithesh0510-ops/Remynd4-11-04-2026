@@ -1,0 +1,86 @@
+<?php
+
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_form_alter().
+ * This is safer because admin add-user form ID can vary (user_form, user_register_form, etc).
+ */
+function remynd4_user_type_form_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
+  // Only affect /admin/people/create.
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  if ($route_name !== 'user.admin_create') {
+    return;
+  }
+
+  $q = \Drupal::request()->query;
+
+  $type = NULL;
+  if ($q->has('coach')) {
+    $type = 'coach';
+  }
+  elseif ($q->has('company')) {
+    $type = 'company';
+  }
+  elseif ($q->has('employee')) {
+    $type = 'employee';
+  }
+
+  if (!$type) {
+    return;
+  }
+
+  // ✅ Visible confirmation so you KNOW the code is running.
+  // You should see: "Add user (Company)" etc at top.
+  $form['#title'] = t('Add user (@type)', ['@type' => ucfirst($type)]);
+
+  // OPTIONAL: auto-assign role + hide roles widget (role machine names must match).
+  if (isset($form['account']['roles'])) {
+    $form['account']['roles']['#default_value'] = [$type];
+    $form['account']['roles']['#access'] = FALSE;
+  }
+
+  $types = ['coach', 'company', 'employee'];
+
+  $contains_type_word = function(string $text) use ($types): bool {
+    $t = strtolower($text);
+    foreach ($types as $x) {
+      if (strpos($t, $x) !== FALSE) {
+        return TRUE;
+      }
+    }
+    return FALSE;
+  };
+
+  // Recursively hide field-group "details" wrappers that are not the current type.
+  $hide_other_groups = function(array &$el) use (&$hide_other_groups, $type, $contains_type_word) {
+    foreach ($el as $k => &$v) {
+      if (!is_array($v)) {
+        continue;
+      }
+
+      $key = strtolower((string) $k);
+      $title = strtolower((string) ($v['#title'] ?? ''));
+
+      if (($v['#type'] ?? NULL) === 'details' && ($contains_type_word($key) || $contains_type_word($title))) {
+        $is_current = (strpos($key, $type) !== FALSE) || (strpos($title, $type) !== FALSE);
+        if (!$is_current) {
+          $v['#access'] = FALSE;
+        }
+      }
+
+      // Field_group often assigns fields to groups via #group.
+      if (isset($v['#group'])) {
+        $group = strtolower((string) $v['#group']);
+        if ($contains_type_word($group) && strpos($group, $type) === FALSE) {
+          $v['#access'] = FALSE;
+        }
+      }
+
+      $hide_other_groups($v);
+    }
+    unset($v);
+  };
+
+  $hide_other_groups($form);
+}

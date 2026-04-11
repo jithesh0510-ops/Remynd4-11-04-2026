@@ -1,0 +1,29 @@
+uuid: 805836d9-edfb-4159-b832-3b5cb7b36d1f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_questionnaire
+    - node.type.questionnaire
+    - paragraphs.paragraphs_type.assign_questionnaire
+id: paragraph.assign_questionnaire.field_questionnaire
+field_name: field_questionnaire
+entity_type: paragraph
+bundle: assign_questionnaire
+label: Questionnaire
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      questionnaire: questionnaire
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

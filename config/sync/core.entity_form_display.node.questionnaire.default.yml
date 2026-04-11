@@ -1,0 +1,57 @@
+uuid: dac66f09-a6cb-4440-bdc2-09b44392fe2b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.questionnaire.body
+    - field.field.node.questionnaire.field_category
+    - field.field.node.questionnaire.field_create_questionnaire
+    - field.field.node.questionnaire.field_options
+    - node.type.questionnaire
+  module:
+    - paragraphs
+id: node.questionnaire.default
+targetEntityType: node
+bundle: questionnaire
+mode: default
+content:
+  field_create_questionnaire:
+    type: paragraphs
+    weight: 1
+    region: content
+    settings:
+      title: Step
+      title_plural: Steps
+      edit_mode: open
+      closed_mode: preview
+      autocollapse: none
+      closed_mode_threshold: 0
+      add_mode: modal
+      form_display_mode: default
+      default_paragraph_type: _none
+      features:
+        add_above: '0'
+        collapse_edit_all: collapse_edit_all
+        convert: '0'
+        duplicate: '0'
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  body: true
+  created: true
+  field_category: true
+  field_options: true
+  langcode: true
+  path: true
+  promote: true
+  status: true
+  sticky: true
+  translation: true
+  uid: true

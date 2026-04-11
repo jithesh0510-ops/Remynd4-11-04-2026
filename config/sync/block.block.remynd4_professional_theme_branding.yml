@@ -1,0 +1,25 @@
+uuid: 83c9b0da-f620-4df6-a2e8-fe992cdb1f71
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - remynd4_professional_theme
+_core:
+  default_config_hash: h3ged36UsT5cjmx2L-06ff_WwxhvqJpkyPChLHbf5vQ
+id: remynd4_professional_theme_branding
+theme: remynd4_professional_theme
+region: header
+weight: -6
+provider: null
+plugin: system_branding_block
+settings:
+  id: system_branding_block
+  label: 'Site branding'
+  label_display: '0'
+  provider: system
+  use_site_logo: true
+  use_site_name: false
+  use_site_slogan: false
+visibility: {  }

@@ -1,0 +1,23 @@
+uuid: 48bed694-735c-47c5-98e3-dc3efa58744e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_number_of_meetings
+    - paragraphs.paragraphs_type.assign_questionnaire
+id: paragraph.assign_questionnaire.field_number_of_meetings
+field_name: field_number_of_meetings
+entity_type: paragraph
+bundle: assign_questionnaire
+label: 'Number of Meetings'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

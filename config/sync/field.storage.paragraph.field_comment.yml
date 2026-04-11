@@ -1,0 +1,19 @@
+uuid: 1217db8c-f81a-4b80-b0ce-3bba4e8cd127
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs
+id: paragraph.field_comment
+field_name: field_comment
+entity_type: paragraph
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,27 @@
+uuid: 283d5e8a-f199-48f3-9944-d4fbe78e7113
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.account
+  module:
+    - system
+  theme:
+    - remind4_admin_kit
+_core:
+  default_config_hash: v4InHOxRV9UTTg824c1Wk4dzSiQ_CI4jnaSK1-5ModQ
+id: remind4_admin_kit_account_menu
+theme: remind4_admin_kit
+region: header
+weight: -7
+provider: null
+plugin: 'system_menu_block:account'
+settings:
+  id: 'system_menu_block:account'
+  label: 'User account menu'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility: {  }

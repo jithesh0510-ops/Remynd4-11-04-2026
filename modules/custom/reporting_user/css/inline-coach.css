@@ -1,0 +1,182 @@
+/**
+ * @file
+ * Styles for inline coach multi-select field.
+ */
+
+/* Inline Coach Field Wrapper */
+.inline-coach-field-wrapper {
+  position: relative;
+  min-width: 200px;
+}
+
+/* Multi-select dropdown styling */
+.inline-coach-field-wrapper select.coach-multiselect {
+  width: 100%;
+  min-width: 200px;
+  padding: 0.5rem;
+  background-color: var(--theme-bg-light, #1a1f2e);
+  color: var(--theme-text-primary, #ffffff);
+  border: 1px solid var(--theme-border, #86f1ff);
+  border-radius: var(--theme-border-radius, 6px);
+  font-size: var(--theme-font-base, 1rem);
+  font-family: var(--theme-font-family, 'Roboto', 'Inter', sans-serif);
+}
+
+.inline-coach-field-wrapper select.coach-multiselect:focus {
+  outline: none;
+  border-color: var(--theme-primary-hover, #9ef5ff);
+  box-shadow: 0 0 0 2px rgba(134, 241, 255, 0.2);
+}
+
+.inline-coach-field-wrapper select.coach-multiselect:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.inline-coach-field-wrapper select.coach-multiselect option {
+  background-color: var(--theme-bg-light, #1a1f2e);
+  color: var(--theme-text-primary, #ffffff);
+  padding: 0.5rem;
+}
+
+/* Current coaches display */
+.coach-display {
+  margin-top: 0.25rem;
+  font-size: var(--theme-font-sm, 0.875rem);
+  color: var(--theme-text-secondary, #a7abb1);
+}
+
+.current-coaches {
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Loading state */
+.inline-coach-field-wrapper.loading select.coach-multiselect {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'%3E%3Cpath fill='%2386f1ff' d='M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z'%3E%3Cpath fill='%2386f1ff' d='M20,12H22A10,10 0 0,0 12,2V4A8,8 0 0,1 20,12Z'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  padding-right: 2rem;
+}
+
+/* Message styling */
+#return_msg {
+  margin: 1rem 0;
+  padding: 1rem;
+  border-radius: var(--theme-border-radius, 6px);
+  border-left: 4px solid;
+}
+
+#return_msg.messages--status {
+  background-color: rgba(8, 136, 63, 0.1);
+  border-color: #07883f;
+  color: #07883f;
+}
+
+#return_msg.messages--error {
+  background-color: rgba(220, 53, 69, 0.1);
+  border-color: #dc3545;
+  color: #dc3545;
+}
+
+/* Full Page Loader Overlay */
+.coach-save-full-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.coach-save-full-loader.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.coach-save-loader-content {
+  text-align: center;
+  color: #ffffff;
+}
+
+.coach-save-spinner {
+  width: 60px;
+  height: 60px;
+  border: 5px solid rgba(134, 241, 255, 0.3);
+  border-top-color: var(--theme-primary, #86f1ff);
+  border-radius: 50%;
+  animation: coach-save-spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+.coach-save-text {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--theme-primary, #86f1ff);
+  font-family: var(--theme-font-family, 'Roboto', 'Inter', sans-serif);
+}
+
+@keyframes coach-save-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ===========================================
+   SELECT2 CHECKBOX-STYLE OPTIONS
+   =========================================== */
+.inline-coach-field-wrapper .select2-checkbox-option {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  line-height: 1.2;
+}
+
+.inline-coach-field-wrapper .select2-checkbox-option .checkbox-icon {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--theme-border, #d1d5db);
+  border-radius: 3px;
+  background: var(--theme-bg-light, #ffffff);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.inline-coach-field-wrapper .select2-checkbox-option .checkbox-icon::after {
+  content: '';
+  font-size: 0.65rem;
+  color: var(--theme-primary-dark, #4030ad);
+  font-weight: bold;
+}
+
+.inline-coach-field-wrapper .select2-checkbox-option.is-checked .checkbox-icon {
+  background: var(--theme-primary, #86f1ff);
+  border-color: var(--theme-primary-dark, #4030ad);
+}
+
+.inline-coach-field-wrapper .select2-checkbox-option.is-checked .checkbox-icon::after {
+  content: '✓';
+}
+
+.inline-coach-field-wrapper .select2-checkbox-option .checkbox-label {
+  font-size: 0.8rem;
+  color: var(--theme-text-primary, #111827);
+}
+

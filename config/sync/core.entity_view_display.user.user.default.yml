@@ -1,0 +1,129 @@
+uuid: 5a3a0c2c-d37c-4a7d-9898-326f750d469e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.user.user.feeds_item
+    - field.field.user.user.field_address
+    - field.field.user.user.field_first_name
+    - field.field.user.user.field_full_name
+    - field.field.user.user.field_is_delete
+    - field.field.user.user.field_last_name
+    - field.field.user.user.field_middle_name
+    - field.field.user.user.field_phone_no
+    - field.field.user.user.field_website
+    - field.field.user.user.user_picture
+    - image.style.thumbnail
+  module:
+    - address
+    - image
+    - layout_builder
+    - link
+    - user
+third_party_settings:
+  layout_builder:
+    enabled: false
+    allow_custom: false
+_core:
+  default_config_hash: mZLyuWM9CQx2ZJVqFGSbzgFnHzudVbHBYmdU256A5Wk
+id: user.user.default
+targetEntityType: user
+bundle: user
+mode: default
+content:
+  field_address:
+    type: address_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 54
+    region: content
+  field_first_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 52
+    region: content
+  field_full_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 51
+    region: content
+  field_is_delete:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 58
+    region: content
+  field_last_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 53
+    region: content
+  field_middle_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 57
+    region: content
+  field_phone_no:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 55
+    region: content
+  field_website:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 56
+    region: content
+  masquerade:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 50
+    region: content
+  member_for:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  user_picture:
+    type: image
+    label: hidden
+    settings:
+      image_link: content
+      image_style: thumbnail
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  coach_profiles: true
+  company_profiles: true
+  employee_profiles: true
+  feeds_item: true
+  langcode: true

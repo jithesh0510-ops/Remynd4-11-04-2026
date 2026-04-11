@@ -1,0 +1,38 @@
+uuid: 0a9df4e2-ed04-4ea9-9630-7676f97c89dd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.knowledge_base.body
+    - field.field.node.knowledge_base.field_manual_type
+    - node.type.knowledge_base
+  module:
+    - options
+    - text
+    - user
+id: node.knowledge_base.default
+targetEntityType: node
+bundle: knowledge_base
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_manual_type:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  langcode: true

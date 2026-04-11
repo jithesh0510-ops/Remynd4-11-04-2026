@@ -1,0 +1,22 @@
+uuid: ce9daf6e-7f4d-4ccd-8173-a389df40e4dd
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - adminkit
+_core:
+  default_config_hash: 4lBtFn7FphDdzgelXqwibl5ejyu7tqrwZvVmf82MgRA
+id: adminkit_messages
+theme: adminkit
+region: content
+weight: -5
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: Messages
+  label_display: '0'
+  provider: system
+visibility: {  }

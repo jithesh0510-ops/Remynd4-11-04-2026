@@ -1,0 +1,23 @@
+uuid: 611a94e1-880a-43b8-a479-5bb6cc1d07c2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_login_required
+    - node.type.survey
+id: node.survey.field_login_required
+field_name: field_login_required
+entity_type: node
+bundle: survey
+label: 'Login required'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'Yes'
+  off_label: 'No'
+field_type: boolean

@@ -1,0 +1,43 @@
+uuid: 67e29aa0-68fc-4175-876d-800603be0c95
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.sub_category.field_question
+    - field.field.paragraph.sub_category.field_sub_sub_category
+    - field.field.paragraph.sub_category.field_title
+    - paragraphs.paragraphs_type.sub_category
+  module:
+    - entity_reference_revisions
+id: paragraph.sub_category.default
+targetEntityType: paragraph
+bundle: sub_category
+mode: default
+content:
+  field_question:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_sub_sub_category:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_title:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

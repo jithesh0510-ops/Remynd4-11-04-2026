@@ -1,0 +1,23 @@
+uuid: 16363734-8b3b-4d1e-9b25-1c87b6f65164
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.profile.field_no_of_coach
+    - profile.type.company
+id: profile.company.field_no_of_coach
+field_name: field_no_of_coach
+entity_type: profile
+bundle: company
+label: 'No. of Coach'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

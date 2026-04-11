@@ -1,0 +1,29 @@
+uuid: 70be35ef-4428-497e-8b72-4778e01f8888
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_job_position
+    - paragraphs.paragraphs_type.assign_questionnaire
+    - taxonomy.vocabulary.job_position
+id: paragraph.assign_questionnaire.field_job_position
+field_name: field_job_position
+entity_type: paragraph
+bundle: assign_questionnaire
+label: 'Job Position'
+description: ' Questionaire will be viewed by Coach & Employees by level of seniority (Select Coach as it is Mandatory) '
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      job_position: job_position
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * @file
+ * Install file for the Entity Reference Display module.
+ */
+
+/**
+ * Updates the "negate" field settings option from integer to boolean.
+ */
+function entity_reference_display_update_8001() {
+  $referenceDisplayFields = \Drupal::entityTypeManager()->getStorage('field_config')->loadByProperties(['field_type' => 'entity_reference_display']);
+
+  foreach ($referenceDisplayFields as $field) {
+    /** @var \Drupal\field\Entity\FieldConfig $field */
+    $negateValue = $field->getSetting('negate');
+    $field->setSetting('negate', !empty($negateValue));
+    $field->save();
+  }
+}

@@ -1,0 +1,17 @@
+uuid: 6d738de7-f41c-4263-a516-ab76f4183df7
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: 'API Document'
+type: api_document
+description: null
+help: null
+new_revision: false
+preview_mode: 0
+display_submitted: false

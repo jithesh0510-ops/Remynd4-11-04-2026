@@ -1,0 +1,100 @@
+uuid: 464e0a44-284e-4ca2-84a3-0d04d1679204
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_question
+    - paragraphs.paragraphs_type.multiple_choice_question
+    - paragraphs.paragraphs_type.question
+  module:
+    - entity_reference_revisions
+id: paragraph.multiple_choice_question.field_question
+field_name: field_question
+entity_type: paragraph
+bundle: multiple_choice_question
+label: Question
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      question: question
+    negate: 0
+    target_bundles_drag_drop:
+      action_plan:
+        weight: 25
+        enabled: false
+      assign_questionnaire:
+        weight: 26
+        enabled: false
+      category:
+        weight: 5
+        enabled: false
+      coaching_one_to_one_report:
+        weight: 28
+        enabled: false
+      coaching_one_to_one_report_field:
+        weight: 29
+        enabled: false
+      color_interaction_tool:
+        weight: 30
+        enabled: false
+      decision_making_unit:
+        weight: 31
+        enabled: false
+      fabs:
+        weight: 32
+        enabled: false
+      fabs_fields:
+        weight: 33
+        enabled: false
+      handle_objections:
+        weight: 34
+        enabled: false
+      kpi:
+        weight: 35
+        enabled: false
+      multiple_a:
+        weight: 36
+        enabled: false
+      multiple_choice_question:
+        weight: 37
+        enabled: false
+      options:
+        weight: 38
+        enabled: false
+      pipeline:
+        weight: 39
+        enabled: false
+      question:
+        weight: 6
+        enabled: true
+      questionnaire:
+        weight: 41
+        enabled: false
+      sub_category:
+        weight: 7
+        enabled: false
+      sub_sub_category:
+        weight: 8
+        enabled: false
+      survey:
+        weight: 44
+        enabled: false
+      survey_options:
+        weight: 45
+        enabled: false
+      survey_questions:
+        weight: 46
+        enabled: false
+      survey_top_section:
+        weight: 47
+        enabled: false
+      testimonial:
+        weight: 48
+        enabled: false
+field_type: entity_reference_revisions

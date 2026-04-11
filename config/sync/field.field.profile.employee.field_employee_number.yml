@@ -1,0 +1,19 @@
+uuid: ed800bd9-f2d0-4511-ab6f-d188b77926a7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.profile.field_employee_number
+    - profile.type.employee
+id: profile.employee.field_employee_number
+field_name: field_employee_number
+entity_type: profile
+bundle: employee
+label: 'Employee Number'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

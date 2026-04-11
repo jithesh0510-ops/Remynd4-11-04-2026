@@ -1,0 +1,210 @@
+uuid: bb7c4099-a0d8-4869-affa-340c68ba4308
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.user.user.feeds_item
+    - field.field.user.user.field_address
+    - field.field.user.user.field_first_name
+    - field.field.user.user.field_full_name
+    - field.field.user.user.field_is_delete
+    - field.field.user.user.field_last_name
+    - field.field.user.user.field_middle_name
+    - field.field.user.user.field_phone_no
+    - field.field.user.user.field_website
+    - field.field.user.user.user_picture
+    - image.style.thumbnail
+  module:
+    - address
+    - field_group
+    - image
+    - link
+    - profile
+    - user
+third_party_settings:
+  field_group:
+    group_personal_information:
+      children:
+        - field_full_name
+        - field_first_name
+        - field_last_name
+        - field_middle_name
+        - user_picture
+      label: 'Personal Information'
+      region: content
+      parent_name: ''
+      weight: 0
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        description: ''
+        required_fields: true
+        formatter: closed
+    group_contact_information:
+      children:
+        - field_address
+        - field_phone_no
+        - field_website
+      label: 'Contact Information'
+      region: content
+      parent_name: ''
+      weight: 2
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        description: ''
+        required_fields: true
+    group_account_information:
+      children:
+        - account
+      label: 'Account Information'
+      region: content
+      parent_name: ''
+      weight: 1
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        description: ''
+        required_fields: true
+        direction: vertical
+        width_breakpoint: 640
+_core:
+  default_config_hash: FaQ9Ptcpxpg30AtiqRDtl_8zbJArHP1LPfug_s59TOA
+id: user.user.default
+targetEntityType: user
+bundle: user
+mode: default
+content:
+  account:
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  coach_profiles:
+    type: profile_form
+    weight: 4
+    region: content
+    settings:
+      form_mode: default
+    third_party_settings:
+      conditional_fields:
+        3cd4a344-8b4c-4ac1-8c8a-880805365115:
+          entity_type: user
+          bundle: user
+          dependee: roles
+          settings:
+            state: visible
+            reset: false
+            condition: value
+            grouping: AND
+            values_set: 2
+            value: ''
+            values: coach
+            value_form: {  }
+            effect: show
+            effect_options: {  }
+            selector: ''
+  company_profiles:
+    type: profile_form
+    weight: 3
+    region: content
+    settings:
+      form_mode: default
+    third_party_settings: {  }
+  employee_profiles:
+    type: profile_form
+    weight: 5
+    region: content
+    settings:
+      form_mode: default
+    third_party_settings: {  }
+  field_address:
+    type: address_default
+    weight: 0
+    region: content
+    settings:
+      wrapper_type: container
+    third_party_settings: {  }
+  field_first_name:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_full_name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_last_name:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_middle_name:
+    type: string_textfield
+    weight: 3
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_phone_no:
+    type: string_textfield
+    weight: 25
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_website:
+    type: link_default
+    weight: 35
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  group_account_information:
+    weight: 24
+    region: content
+    settings: {  }
+    third_party_settings:
+      conditional_fields: {  }
+  timezone:
+    weight: 8
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  user_picture:
+    type: image_image
+    weight: 4
+    region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+hidden:
+  contact: true
+  feeds_item: true
+  field_is_delete: true
+  langcode: true
+  language: true
+  social_auth: true

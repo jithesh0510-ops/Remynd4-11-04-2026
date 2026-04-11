@@ -1,0 +1,23 @@
+uuid: 60bbef17-2eb3-4855-a5b7-c562fab2d168
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_option_value
+    - paragraphs.paragraphs_type.options
+id: paragraph.options.field_option_value
+field_name: field_option_value
+entity_type: paragraph
+bundle: options
+label: 'Score Value'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

@@ -1,0 +1,65 @@
+uuid: d0a028b7-1d41-4fc9-aa29-a12c26550dbb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.sub_category.field_question
+    - field.field.paragraph.sub_category.field_sub_sub_category
+    - field.field.paragraph.sub_category.field_title
+    - paragraphs.paragraphs_type.sub_category
+  module:
+    - paragraphs
+id: paragraph.sub_category.default
+targetEntityType: paragraph
+bundle: sub_category
+mode: default
+content:
+  field_question:
+    type: paragraphs
+    weight: 1
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: closed_expand_nested
+      closed_mode: summary
+      autocollapse: none
+      closed_mode_threshold: 0
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: _none
+      features:
+        add_above: '0'
+        collapse_edit_all: collapse_edit_all
+        convert: '0'
+        duplicate: duplicate
+    third_party_settings: {  }
+  field_sub_sub_category:
+    type: paragraphs
+    weight: 2
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      closed_mode: summary
+      autocollapse: none
+      closed_mode_threshold: 0
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+      features:
+        collapse_edit_all: collapse_edit_all
+        duplicate: duplicate
+    third_party_settings: {  }
+  field_title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

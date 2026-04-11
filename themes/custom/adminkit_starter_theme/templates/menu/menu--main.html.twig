@@ -1,0 +1,55 @@
+<ul class="sidebar-nav">
+  {% if items %}
+    {% for item in items %}
+      {% set is_active = item.in_active_trail ? ' active' : '' %}
+      {% set has_children = item.below ? ' has-submenu' : '' %}
+      {% set toggle_id = 'submenu-' ~ loop.index %}
+
+      <li class="sidebar-item{{ is_active }}">
+        {% if item.below %}
+          <a data-bs-target="#{{ toggle_id }}" data-bs-toggle="collapse" class="sidebar-link collapsed">
+            {% if item.icon %}
+              <i class="align-middle" data-feather="{{ item.icon }}"></i>
+            {% endif %}
+            <span class="align-middle">{{ item.title }}</span>
+          </a>
+          <ul id="{{ toggle_id }}" class="sidebar-dropdown list-unstyled collapse{% if is_active %} show{% endif %}" data-bs-parent="#sidebar">
+            {% for sub_item in item.below %}
+              {% set sub_is_active = sub_item.in_active_trail ? ' active' : '' %}
+              {% set sub_has_children = sub_item.below ? ' has-submenu' : '' %}
+              {% set sub_toggle_id = toggle_id ~ '-sub-' ~ loop.index %}
+
+              <li class="sidebar-item{{ sub_is_active }}">
+                {% if sub_item.below %}
+                  <a data-bs-target="#{{ sub_toggle_id }}" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                    <span class="align-middle">{{ sub_item.title }}</span>
+                  </a>
+                  <ul id="{{ sub_toggle_id }}" class="sidebar-dropdown list-unstyled collapse{% if sub_is_active %} show{% endif %}">
+                    {% for third_item in sub_item.below %}
+                      <li class="sidebar-item{% if third_item.in_active_trail %} active{% endif %}">
+                        <a class="sidebar-link" href="{{ third_item.url }}">
+                          {{ third_item.title }}
+                        </a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                {% else %}
+                  <a class="sidebar-link" href="{{ sub_item.url }}">
+                    <span class="align-middle">{{ sub_item.title }}</span>
+                  </a>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <a class="sidebar-link" href="{{ item.url }}">
+            {% if item.icon %}
+              <i class="align-middle" data-feather="{{ item.icon }}"></i>
+            {% endif %}
+            <span class="align-middle">{{ item.title }}</span>
+          </a>
+        {% endif %}
+      </li>
+    {% endfor %}
+  {% endif %}
+</ul>

@@ -1,0 +1,120 @@
+{#
+/**
+ * @file
+ * Theme override for the user edit form.
+ */
+#}
+<div class="user-edit-form-wrapper">
+  <form{{ attributes.addClass('user-edit-form') }}>
+    {{ form.form_build_id }}
+    {{ form.form_token }}
+    {{ form.form_id }}
+
+    {# Account Information Section #}
+    {% if form.group_account_information %}
+      <div class="form-section-card">
+        <div class="form-section-header">
+          <h3 class="form-section-title">{{ 'Account Information'|t }}</h3>
+          <p class="form-section-description">{{ 'Manage your account credentials and settings.'|t }}</p>
+        </div>
+        <div class="form-section-body">
+          {{ form.group_account_information }}
+        </div>
+      </div>
+    {% elseif form.account %}
+      <div class="form-section-card">
+        <div class="form-section-header">
+          <h3 class="form-section-title">{{ 'Account Information'|t }}</h3>
+          <p class="form-section-description">{{ 'Manage your account credentials and settings.'|t }}</p>
+        </div>
+        <div class="form-section-body">
+          {{ form.account }}
+        </div>
+      </div>
+    {% endif %}
+
+    {# Personal Information Section #}
+    {% if form.group_personal_information %}
+      <div class="form-section-card">
+        <div class="form-section-header">
+          <h3 class="form-section-title">{{ 'Personal Information'|t }}</h3>
+          <p class="form-section-description">{{ 'Update your personal details and profile picture.'|t }}</p>
+        </div>
+        <div class="form-section-body">
+          {{ form.group_personal_information }}
+        </div>
+      </div>
+    {% endif %}
+
+    {# Contact Information Section #}
+    {% if form.group_contact_information %}
+      <div class="form-section-card">
+        <div class="form-section-header">
+          <h3 class="form-section-title">{{ 'Contact Information'|t }}</h3>
+          <p class="form-section-description">{{ 'Your contact details and location information.'|t }}</p>
+        </div>
+        <div class="form-section-body">
+          {{ form.group_contact_information }}
+        </div>
+      </div>
+    {% endif %}
+
+    {# Company Profiles Section #}
+    {% if form.company_profiles %}
+      <div class="form-section-card">
+        <div class="form-section-header">
+          <h3 class="form-section-title">{{ 'Company Profile'|t }}</h3>
+          <p class="form-section-description">{{ 'Manage your company profile information.'|t }}</p>
+        </div>
+        <div class="form-section-body">
+          {{ form.company_profiles }}
+        </div>
+      </div>
+    {% endif %}
+
+    {# Coach Profiles Section #}
+    {% if form.coach_profiles %}
+      <div class="form-section-card">
+        <div class="form-section-header">
+          <h3 class="form-section-title">{{ 'Coach Profile'|t }}</h3>
+          <p class="form-section-description">{{ 'Manage your coach profile information.'|t }}</p>
+        </div>
+        <div class="form-section-body">
+          {{ form.coach_profiles }}
+        </div>
+      </div>
+    {% endif %}
+
+    {# Employee Profiles Section #}
+    {% if form.employee_profiles %}
+      <div class="form-section-card">
+        <div class="form-section-header">
+          <h3 class="form-section-title">{{ 'Employee Profile'|t }}</h3>
+          <p class="form-section-description">{{ 'Manage your employee profile information.'|t }}</p>
+        </div>
+        <div class="form-section-body">
+          {{ form.employee_profiles }}
+        </div>
+      </div>
+    {% endif %}
+
+    {# Other fields #}
+    {% for key, item in form|filter((value, key) => key|first != '#' and key not in ['form_build_id', 'form_token', 'form_id', 'account', 'group_account_information', 'group_personal_information', 'group_contact_information', 'company_profiles', 'coach_profiles', 'employee_profiles', 'actions']) %}
+      {% if item %}
+        <div class="form-section-card">
+          <div class="form-section-body">
+            {{ item }}
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+
+    {# Form Actions #}
+    {% if form.actions %}
+      <div class="form-actions-wrapper">
+        {{ form.actions }}
+      </div>
+    {% endif %}
+  </form>
+</div>
+

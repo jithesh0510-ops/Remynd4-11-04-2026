@@ -1,0 +1,1172 @@
+body, * {
+    font-family: 'Roboto', sans-serif;
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+	font-size: 1.2rem;
+	color: #86f1ff;
+}
+a, .link {
+	color: #86f1ff;
+}
+ul {
+	margin-inline: 0;
+}
+label {
+	display: block;
+}
+.nav-flag, .nav-icon {
+	color: #a7abb1;
+	font-size: 0.75rem;
+	line-height: 1.4;
+}
+/* =====================
+   BUTTONS & FORMS
+===================== */
+.btn-circle {
+  border-radius: 9999px;
+  background-color: #4030ad;
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+}
+
+.btn-primary {
+  background-color: #86f1ff;
+  color: #4030ad;
+  outline: auto 2px;
+}
+
+.btn-primary:hover {
+  background-color: #4030ad;
+  color: #86f1ff;
+  outline-color: #86f1ff !important;
+}
+
+form input, form select, form textarea {
+	/* width: 100% !important; */
+	padding: 0.45rem !important;
+	border-radius: 6px !important;
+	border: 1px solid #86f1ff;
+	font-size: 1rem !important;
+	background-color: #21304a69 !important;
+	color: #fff !important;
+	transition: border-color 0.2s !important;
+}
+
+form input:focus,
+form textarea:focus,
+form select:focus {
+  /*outline: none;
+  border-color: #4030ad;
+  background-color: #101723;*/
+}
+
+form .form-actions {
+	margin-top: 0;
+	display: flex;
+	gap: 1rem;
+	margin: 0;
+}
+
+form .form-actions input[type="submit"], form .form-actions .button, .views-exposed-form input[type="submit"] {
+	background-color: #86f1ff !important;
+	color: #4030ad !important;
+	border: none;
+	border-radius: 6px !important;
+	padding: 0.6rem 1.5rem !important;
+	font-size: 0.9rem !important;
+	cursor: pointer;
+	transition: background-color 0.2s ease !important;
+	margin: 0;
+	padding: 0.5rem !important;
+	font-weight: normal;
+	height: auto;
+	color: #4030ad !important;
+	padding: 10px 15px !important;
+}
+
+form .form-actions input[type="submit"]:hover,
+form .form-actions .button:hover,
+.views-exposed-form input[type="submit"]:hover {
+  background-color: #4030ad;
+  color: #86f1ff;
+}
+
+.views-exposed-form {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: end;
+	gap: 1rem;
+	vertical-align: bottom;
+}
+
+.views-exposed-form .form-item {
+  margin: 0;
+}
+
+/* =====================
+   TABLES - MOVED TO tables-professional.css
+   Professional table styling is now handled by the dedicated CSS file
+===================== */
+
+/* =====================
+   MISC UTILITIES
+===================== */
+.background-dark { background-color: #101723; }
+.card-bg { background: #21304a69; border-color: #86f1ff; }
+.textdark-color { color: #86f1ff !important; }
+.darkmode-border { border: 2px solid #86f1ff !important; }
+.blackbg-report { background: #21304a69; }
+
+#block-remyn4-page-title { display: none; }
+
+/* Dropbutton */
+.dropbutton, .dropbutton-wrapper, .dropbutton-widget {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.dropbutton-action a {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: #86f1ff;
+  color: #4030ad;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.dropbutton-action a:hover {
+  background-color: #4030ad;
+  color: #86f1ff;
+}
+
+.dropbutton-toggle { display: none; }
+
+/* Base style for all messages */
+.messages {
+  padding: 1rem 1.5rem;
+  margin: 1rem 0;
+  border-left: 6px solid;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Status (Success / Info) */
+.messages--status {
+  background-color: #e6f8f3;    /* light green background */
+  border-color: #2ecc71;        /* green border */
+  color: #1b5e20;               /* dark green text */
+}
+
+/* Warning */
+.messages--warning {
+  background-color: #fff4e5;    /* light orange background */
+  border-color: #f39c12;        /* orange border */
+  color: #7c4d00;               /* dark orange/brown text */
+}
+
+/* Error */
+.messages--error {
+  background-color: #fdecea;    /* light red background */
+  border-color: #e74c3c;        /* red border */
+  color: #a50000;               /* dark red text */
+}
+
+
+/* =====================
+   PAGINATION STYLING
+===================== */
+.pager {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0;
+  list-style: none;
+  gap: 0.5rem;
+}
+
+.pager__item a {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: #21304a69;
+  color: #86f1ff;
+  border: 1px solid #86f1ff;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.pager__item a:hover {
+  background-color: #86f1ff;
+  color: #4030ad;
+}
+
+.pager__item.is-active a,
+.pager__item a[aria-current="page"] {
+  background-color: #86f1ff;
+  color: #4030ad;
+  pointer-events: none;
+  font-weight: bold;
+}
+
+.pager__item--next a,
+.pager__item--last a {
+  background-color: #21304a69;
+  color: white;
+}
+
+.pager__item--next a:hover,
+.pager__item--last a:hover {
+  background-color: #86f1ff;
+  color: #4030ad;
+}
+
+.link-text {
+	margin: 0 10px;
+}
+
+
+/* Make all dropbutton actions display inline */
+.dropbutton-wrapper,
+.dropbutton-widget,
+.dropbutton {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+}
+
+/* Style individual buttons */
+
+
+.dropbutton-action a:hover {
+  background-color: #005f94;
+}
+
+/* Hide the dropdown toggle button */
+.dropbutton-toggle {
+  display: none !important;
+}
+
+/* Show secondary actions inline */
+.dropbutton .secondary-action {
+  display: inline-block !important;
+  position: static !important;
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+
+.js .dropbutton-wrapper, .js .dropbutton-widget {
+	position: relative !important;
+	display: block;
+	margin: 0;
+	padding: 0;
+}
+.js td .dropbutton-multiple {
+	max-width: 100%;
+	margin-right: 0;
+	padding-right: 0;
+}
+.js .dropbutton-multiple .dropbutton-widget {
+	padding-right: 0;
+}
+
+
+.views-form .js-form-wrapper.form-wrapper {
+	display: flex;
+	align-items: end;
+	gap: 1rem;
+}
+
+.views-form .form-text {
+	color: #fff;
+}
+
+.views-form .form-select {
+	color: #fff;
+	background-color: #21304a69;border: 1px solid #86f1ff;
+  padding: 0.75rem 1rem;
+}
+
+.views-form .js-form-item.form-item.form-type-select.js-form-type-select.form-item-action.js-form-item-action {
+	margin: 0;
+	padding: 0;
+	margin-top: 1.5rem;
+}
+tr.selected td {
+	background-color: unset;
+}
+
+.form-item__label--multiple-value-form, .field-multiple-table .field-label h4.label {
+	color: #000;
+}
+
+
+.sidebar-link, a.sidebar-link {
+	color: #fff;
+	cursor: pointer;
+	font-weight: 400;
+}
+
+.sidebar-nav > .sidebar-item.active > .sidebar-link, .sidebar-nav > .sidebar-item > .sidebar-link:hover, .sidebar-nav > .sidebar-item.active > .sidebar-link:hover {
+	background: #86f1ff;
+	color: #4030ad;
+	/* border-radius: 8px; */
+	border: 0;
+}
+.sidebar-dropdown .sidebar-item.active .sidebar-link {
+	color: #fff;
+}
+.sidebar-dropdown .sidebar-link {
+	color: #fff;
+}
+.sidebar-dropdown .sidebar-item.active > .sidebar-link, .sidebar-dropdown .sidebar-item .sidebar-link:hover {
+	color: #86f1ff;
+}
+
+
+#edit-header {
+	margin-bottom: 25px;
+}
+#edit-actions--2 {
+	margin-top: 25px;
+	margin-bottom: 25px;
+}
+.pager__items.js-pager__items {
+	display: flex;
+	list-style: none;
+	gap: 15px;
+}
+
+.report-title {
+  font-size: 1.8em;
+  color: #333;
+  margin-bottom: 10px;
+}
+.questionnaire-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.questionnaire-table th, .questionnaire-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+.questionnaire-table th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+  color: #495057;
+}
+.category-row td {
+  background-color: #e9f5ff;
+  font-size: 1.1em;
+  color: #212529;
+}
+.subcategory-row td {
+  background-color: #e9f5ff;
+  font-weight: 600;color: #45ad30;
+}
+.subsubcategory-row td {
+  background-color: #e9f5ff;
+  font-weight: normal;color: #4030ad;
+}
+.question-row td {
+	background-color: #fff;
+	color: #000;
+}
+
+.text-center{
+	text-align:center;
+}
+
+
+.view.view-edit_button {
+	position: relative;
+}
+
+.view.view-edit_button a {
+	background: #86f1ff;
+	padding: 0.5rem 1rem;
+	border-radius: 5px;
+	color: #000;
+	position: absolute;
+	right: 15px;
+	bottom: -100px;
+}
+
+label {
+	margin-right: 10px;
+}
+
+
+table.field-multiple-table {
+	border: 0;
+	margin: 0;
+}
+.field-multiple-table th {
+	padding-top: 0;
+	padding-bottom: 0;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+.field-multiple-table thead th {
+	height: auto;
+	background: #19222c;
+	margin: 0;
+	padding: 0;
+}
+
+.field-multiple-table .field-label h4.label {
+	color: #fff;
+	font-weight: normal;
+}
+
+.node-form .placeholder {
+	background: unset !important;
+	cursor: none !important;
+}
+
+.field-add-more-submit, .paragraphs-actions > .button, .form-submit {
+	background: #86f1ff !important;
+	font-weight: normal !important;
+	color: #4030ad !important;
+	font-size: 0.7rem !important;
+	padding: 0.5rem !important;
+	margin: 0;
+}
+
+
+.node-form .js-form-required.form-required {
+	display: block;
+}
+
+.js-form-item.form-item.form-type-vertical-tabs.js-form-type-vertical-tabs.form-item-.js-form-item-.form-no-label {
+	display: none;
+}
+
+@media (min-width: 992px) {
+  .content {
+    padding-top: 0;
+  }
+}
+
+.js .field--widget-paragraphs .field-multiple-drag {
+	min-width: auto;
+}
+
+.js .field--widget-paragraphs .tabledrag-handle .handle {
+	height: 22px;
+	width: 22px;
+}
+
+
+.field-multiple-table thead th {
+	display: none;
+}
+.tabledrag-toggle-weight-wrapper {
+	display: none;
+}
+
+
+.flex-grid {
+	display: flex;
+	vertical-align: baseline;
+	margin: 0;
+	padding: 0;
+	gap: 10px;
+}
+.form-text {
+	margin-top: 0;
+}
+
+
+/* Base tabs styling */
+.block-local-tasks-block ul {
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 2px solid #e2e8f0;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  overflow-x: auto;
+}
+
+.block-local-tasks-block ul li {
+  margin: 0;
+}
+
+/* Tab links */
+.block-local-tasks-block ul li a {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  text-decoration: none;
+  font-weight: 500;
+  color: #374151;
+  border-radius: 0.375rem 0.375rem 0 0;
+  background-color: #f9fafb;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover effect */
+.block-local-tasks-block ul li a:hover {
+  background-color: #e5e7eb;
+  color: #111827;
+}
+
+/* Active tab styling (Drupal adds .is-active to current tab link) */
+.block-local-tasks-block ul li a.is-active {
+  background-color: #86f1ff;
+  color: #1f2937;
+  border-bottom: 2px solid transparent;
+  font-weight: 600;
+  box-shadow: inset 0 -2px 0 #3b82f6;
+}
+
+/* Visually hidden heading but accessible to screen readers */
+.block-local-tasks-block h2.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Optional: Make it responsive with scroll */
+.block-local-tasks-block ul {
+  -webkit-overflow-scrolling: touch;
+}
+
+
+
+
+/* === FORM WRAPPER === */
+
+
+/* === FIELDSETS === */
+.user-form fieldset {
+  border: 1px solid #3b4c5a;
+  border-radius: 0.5rem;
+  margin-bottom: 2rem;
+  padding: 1rem 1.5rem;
+}
+
+.user-form legend {
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 0 0.5rem;
+  color: #ffffff;
+}
+
+/* === FORM ITEMS === */
+.user-form .form-item {
+  margin-bottom: 1.25rem;
+}
+
+.user-form legend {
+	font-weight: 600;
+	font-size: 1.1rem;
+	/* padding: 0 0.5rem; */
+	color: #86f1ff;
+	border-bottom: 1px solid;
+	margin-bottom: 20px;
+}
+
+.user-form fieldset fieldset {
+	border: 0;
+	padding: 0;
+}
+
+
+/* === INPUTS, SELECTS, TEXTAREAS === */
+.user-form input[type="text"],
+.user-form input[type="email"],
+.user-form input[type="password"],
+.user-form input[type="url"],
+.user-form input[type="file"],
+.user-form select,
+.user-form textarea {
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid #4b5563;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  background-color: #2c3a4b;
+  color: #f9fafb;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.user-form input:focus,
+.user-form select:focus,
+.user-form textarea:focus {
+  border-color: #86f1ff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(134, 241, 255, 0.5);
+}
+
+/* === GROUP WRAPPER FOR CHECKBOXES AND RADIOS === */
+
+
+/* Optional: Add a label or heading style for groups */
+.user-form .form-checkboxes legend,
+.user-form .form-radios legend {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #ffffff;
+}
+
+/* Space between each item */
+.user-form .form-checkboxes .form-item,
+.user-form .form-radios .form-item {
+  margin-bottom: 0.75rem;
+}
+
+/* Highlight on focus */
+.user-form .form-checkboxes input:focus,
+.user-form .form-radios input:focus {
+  outline: 2px solid #86f1ff;
+  outline-offset: 2px;
+}
+
+
+/* === INLINE RADIO BUTTONS === */
+
+#edit-status .form-type-radio {
+  display: inline-flex;
+  align-items: center;
+}
+
+#edit-status .form-type-radio label {
+  margin-left: 0.4rem;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+
+/* === INLINE CHECKBOXES === */
+
+#edit-roles .form-type-checkbox {
+  display: inline-flex;
+  align-items: center;
+}
+
+#edit-roles .form-type-checkbox label {
+  margin-left: 0.4rem;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+
+/* === DESCRIPTIONS === */
+.user-form .description {
+  font-size: 0.875rem;
+  color: #9ca3af;
+  margin-top: 0.25rem;
+}
+
+/* === ACTION BUTTONS === */
+.user-form .form-actions {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.user-form .form-actions .button {
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+}
+
+.user-form .form-actions .button--primary {
+  background-color: #0ea5e9;
+  color: #fff;
+}
+
+.user-form .form-actions .button--primary:hover {
+  background-color: #0284c7;
+}
+
+.user-form .form-actions .button--danger {
+  background-color: #ef4444;
+  color: #fff;
+}
+
+.user-form .form-actions .button--danger:hover {
+  background-color: #dc2626;
+}
+
+/* === PASSWORD STRENGTH / CONFIRM === */
+.user-form .password-strength,
+.user-form .password-confirm-message {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.user-form .password-strength__meter {
+  height: 6px;
+  border-radius: 3px;
+  background-color: #374151;
+  overflow: hidden;
+  margin-top: 0.25rem;
+}
+
+.user-form .password-strength__indicator {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+/* === SELECT2 OVERRIDE === */
+.user-form .select2-container {
+  width: 100% !important;
+  font-size: 1rem;
+}
+
+/* === MOBILE RESPONSIVENESS === */
+@media (max-width: 640px) {
+  .user-form {
+    padding: 1rem;
+  }
+
+  .user-form .form-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .user-form .form-actions .button {
+    width: 100%;
+  }
+}
+
+.placeholder {
+	background: unset;
+	cursor: auto;
+	opacity: 0.8;
+	min-height: auto;
+}
+
+body.simplelogin .settings.js-settings {
+	display: none;
+}
+
+.block.block-system.block-system-main-block {
+	background: #222e3c;
+	padding: 16px;
+}
+
+
+.select2-container .select2-search--inline .select2-search__field {
+	line-height: normal;
+	margin: 0;
+	height: auto;
+	max-height: 26px;
+	min-width: 37px;
+	background-color: unset !important;
+	color: #000 !important;
+	vertical-align: top;
+}
+
+.form-item.form-type-checkbox {
+	display: flex;
+	gap: 10px;
+	padding: 0 10px;
+	vertical-align: ;
+}
+
+details {
+	border: 1px solid #3b4c5a;
+	padding: 25px;
+	/* margin: 10px; */
+	border-radius: 5px;
+}
+
+summary {
+	color: #86f1ff;
+	font-size: 1.1rem;
+	border-bottom: 1px solid;
+	margin-bottom: 20px;
+}
+
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+	border: 1px solid #000;
+	color: #000;
+}
+.select2-results__option--selectable {
+	cursor: pointer;
+	color: #000;
+}
+
+
+/* ===============================
+   Coach Reporting — Professional UI
+   Targets <form class="coach-reporting-system-report-form">
+   =============================== */
+
+/* Design tokens (easy to tweak) */
+form.coach-reporting-system-report-form {
+  --gap: 24px;
+  --radius: 12px;
+  --height: 44px;
+
+  /* Neutral palette that works on light/dark pages */
+  --label:        #cbd5e1; /* slate-300 */
+  --text:         #e5e7eb; /* slate-200 */
+  --muted:        #94a3b8; /* slate-400 */
+  --border:       #334155; /* slate-700 */
+  --border-soft:  #475569; /* slate-600 */
+  --panel:        transparent; /* keep host bg */
+  --accent:       #22d3ee; /* cyan-400 */
+  --accent-strong:#06b6d4; /* cyan-500 */
+  --accent-ring:  rgba(34, 211, 238, 0.35);
+
+  /* If your site is light, uncomment these:
+  --label: #1f2937;
+  --text:  #111827;
+  --muted: #6b7280;
+  --border:#e5e7eb;
+  --border-soft:#d1d5db;
+  */
+}
+
+/* Root grid: 2 columns on desktop, stacks on small screens */
+form.coach-reporting-system-report-form {
+  max-width: 1200px;
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(280px, 1fr);
+  gap: var(--gap) calc(var(--gap) * 1.5);
+  /*align-items: end;*/
+  color: var(--text);
+}
+
+/* Let the dependent wrapper’s children participate in the root grid */
+form.coach-reporting-system-report-form #dependent-wrapper {
+  display: contents;
+}
+
+/* Column placement */
+form.coach-reporting-system-report-form .form-item-company  { grid-column: 1; }
+form.coach-reporting-system-report-form .form-item-program  { grid-column: 2; }
+form.coach-reporting-system-report-form .form-item-coach    { grid-column: 1; }
+form.coach-reporting-system-report-form .form-item-employee { grid-column: 2; }
+
+/* Employee Status under the right column */
+form.coach-reporting-system-report-form fieldset[data-drupal-selector="edit-employee-status"] {
+	/* grid-column: 2; */
+	/* margin-top: 2px; */
+	/* border: 1px solid var(--border); */
+	/* border-radius: var(--radius); */
+	/* padding: 12px 14px 8px; */
+	/* background: var(--panel); */
+	display: flex;
+}
+
+/* Full-width sections */
+form.coach-reporting-system-report-form fieldset[data-drupal-selector="edit-report-type"], form.coach-reporting-system-report-form fieldset[data-drupal-selector="edit-report-metrics"], form.coach-reporting-system-report-form #edit-date-range, form.coach-reporting-system-report-form #edit-actions {
+	grid-column: 1 / -1;
+	display: ;
+}
+/* Labels & descriptions */
+form.coach-reporting-system-report-form .form-item > label,
+form.coach-reporting-system-report-form .fieldset-legend {
+  color: var(--label);
+  font-weight: 700;
+  letter-spacing: .2px;
+}
+form.coach-reporting-system-report-form .description {
+  margin-top: 6px;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+/* Inputs */
+form.coach-reporting-system-report-form .form-select,
+form.coach-reporting-system-report-form .form-text,
+form.coach-reporting-system-report-form .form-date {
+  width: 100%;
+  height: var(--height);
+  /*line-height: var(--height);*/
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0 12px;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+form.coach-reporting-system-report-form .form-select:focus,
+form.coach-reporting-system-report-form .form-text:focus,
+form.coach-reporting-system-report-form .form-date:focus {
+  outline: none;
+  border-color: var(--accent-strong);
+  box-shadow: 0 0 0 3px var(--accent-ring);
+}
+
+/* Inline radios/checkboxes (clean + aligned) */
+form.coach-reporting-system-report-form fieldset .form-type-radio,
+form.coach-reporting-system-report-form #edit-report-metrics .form-type-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 18px 6px 0;
+}
+form.coach-reporting-system-report-form input.form-radio,
+form.coach-reporting-system-report-form input.form-checkbox {
+  inline-size: 16px;
+  block-size: 16px;
+  accent-color: var(--accent-strong); /* modern browsers */
+}
+
+/* Date range side-by-side */
+form.coach-reporting-system-report-form #edit-date-range {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 24px;
+  margin-top: 6px;
+}
+form.coach-reporting-system-report-form #edit-date-range .form-item > label {
+  font-weight: 600;
+}
+
+/* Fieldsets */
+form.coach-reporting-system-report-form fieldset {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px 6px;
+  background: var(--panel);
+}
+form.coach-reporting-system-report-form fieldset > legend {
+  padding: 0 6px;
+  font-size: 1.125rem;
+}
+
+/* Buttons */
+form.coach-reporting-system-report-form #edit-actions .button {
+  border-radius: 10px;
+  padding: 10px 16px;
+  margin-right: 12px;
+  border: 1px solid var(--border-soft);
+  color: var(--text);
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.06));
+  transition: transform .06s ease, box-shadow .18s ease, border-color .18s ease;
+}
+form.coach-reporting-system-report-form #edit-actions .button:hover {
+  border-color: var(--accent-strong);
+  box-shadow: 0 0 0 3px var(--accent-ring);
+}
+form.coach-reporting-system-report-form #edit-actions .button:active {
+  transform: translateY(1px);
+}
+form.coach-reporting-system-report-form #edit-actions .button[disabled] {
+  opacity: .55;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Help the selects’ caret sit nicely (optional) */
+form.coach-reporting-system-report-form .form-select {
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--muted) 50%),
+    linear-gradient(135deg, var(--muted) 50%, transparent 50%),
+    linear-gradient(to right, transparent, transparent);
+  background-position:
+    calc(100% - 18px) calc(1em + 2px),
+    calc(100% - 13px) calc(1em + 2px),
+    100% 0;
+  background-size: 5px 5px, 5px 5px, 2.5em 2.5em;
+  background-repeat: no-repeat;
+  padding-right: 2.6em;margin-top: 10px;
+}
+
+/* Compact the spacing a bit for a tighter, “tooling” feel */
+form.coach-reporting-system-report-form .form-item { margin-bottom: 6px; }
+
+/* Responsive: stack to one column on smaller screens */
+@media (max-width: 960px) {
+  form.coach-reporting-system-report-form {
+    grid-template-columns: 1fr;
+  }
+  form.coach-reporting-system-report-form fieldset[data-drupal-selector="edit-employee-status"] {
+    grid-column: 1;
+    margin-top: 0;
+  }
+  form.coach-reporting-system-report-form #edit-date-range {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ===========================
+   Drupal messages styling
+   =========================== */
+
+/* Tunable design tokens */
+:root {
+  --msg-radius: 10px;
+  --msg-shadow: 0 8px 24px rgba(2, 8, 23, .12);
+
+  /* Status (success) */
+  --msg-ok-bg:   #ecfdf5;
+  --msg-ok-fg:   #065f46;
+  --msg-ok-br:   #10b981;
+
+  /* Warning */
+  --msg-warn-bg: #fffbeb;
+  --msg-warn-fg: #854d0e;
+  --msg-warn-br: #f59e0b;
+
+  /* Error */
+  --msg-err-bg:  #fef2f2;
+  --msg-err-fg:  #7f1d1d;
+  --msg-err-br:  #ef4444;
+
+  /* Info */
+  --msg-info-bg: #eff6ff;
+  --msg-info-fg: #1e3a8a;
+  --msg-info-br: #3b82f6;
+}
+
+/* Optional: float messages as toasts in the top-right */
+[data-drupal-messages] {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: min(420px, calc(100% - 40px));
+  z-index: 10000;
+  pointer-events: none; /* lets clicks through unless on the box */
+}
+
+/* Base box */
+[data-drupal-messages] > [role="contentinfo"],
+.messages { /* fallback for themes using .messages markup */
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 10px;
+  align-items: start;
+  padding: 12px 14px;
+  margin: 0 0 10px 0;
+  border: 1px solid transparent;
+  border-radius: var(--msg-radius);
+  box-shadow: var(--msg-shadow);
+  background: var(--msg-info-bg);
+  color: var(--msg-info-fg);
+  pointer-events: auto; /* allow interaction with links/buttons in the box */
+  animation: msgIn .2s ease-out;
+}
+
+/* Hide the H2 but keep it accessible */
+[data-drupal-messages] .visually-hidden,
+.messages .visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0);
+  white-space: nowrap; border: 0;
+}
+
+/* Icon bubble via pseudo-element */
+[data-drupal-messages] > [role="contentinfo"]::before,
+.messages::before {
+  content: "ℹ";
+  font-weight: 700;
+  line-height: 1;
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: var(--msg-info-br);
+  color: #fff;
+  margin-top: 2px;
+}
+
+/* ---------------------------
+   Type detection (ARIA + classes)
+   --------------------------- */
+
+/* STATUS / SUCCESS */
+[data-drupal-messages] > [role="contentinfo"][aria-label*="Status"],
+.messages--status {
+  background: var(--msg-ok-bg);
+  color: var(--msg-ok-fg);
+  border-color: var(--msg-ok-br);
+}
+[data-drupal-messages] > [role="contentinfo"][aria-label*="Status"]::before,
+.messages--status::before { content: "✓"; background: var(--msg-ok-br); }
+
+/* WARNING */
+[data-drupal-messages] > [role="contentinfo"][aria-label*="Warning"],
+.messages--warning {
+  background: var(--msg-warn-bg);
+  color: var(--msg-warn-fg);
+  border-color: var(--msg-warn-br);
+}
+[data-drupal-messages] > [role="contentinfo"][aria-label*="Warning"]::before,
+.messages--warning::before { content: "⚠"; background: var(--msg-warn-br); }
+
+/* ERROR */
+[data-drupal-messages] > [role="contentinfo"][aria-label*="Error"],
+.messages--error {
+  background: var(--msg-err-bg);
+  color: var(--msg-err-fg);
+  border-color: var(--msg-err-br);
+}
+[data-drupal-messages] > [role="contentinfo"][aria-label*="Error"]::before,
+.messages--error::before { content: "⨉"; background: var(--msg-err-br); }
+
+/* INFORMATION (fallback) */
+[data-drupal-messages] > [role="contentinfo"][aria-label*="Information"],
+.messages--info {
+  background: var(--msg-info-bg);
+  color: var(--msg-info-fg);
+  border-color: var(--msg-info-br);
+}
+[data-drupal-messages] > [role="contentinfo"][aria-label*="Information"]::before,
+.messages--info::before { content: "ℹ"; background: var(--msg-info-br); }
+
+/* Content text inside the box (works with either markup) */
+[data-drupal-messages] > [role="contentinfo"] > :not(.visually-hidden),
+.messages__content { 
+  grid-column: 2 / -1;
+  font-size: 0.95rem;
+}
+
+/* Small fade/slide-in */
+@keyframes msgIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+
+.select2-container {
+	margin-bottom: 10px;
+	max-width: 100%;
+}
+.select2-container--default .select2-selection--single {
+	line-height: unset;
+	vertical-align: middle;
+	padding-top: 5px;
+	padding-bottom: 0;
+	height: auto;
+}
+
+.fieldset-wrapper > div {
+	display: flex;
+}

@@ -1,0 +1,7 @@
+name: Mobile OTP Login
+type: module
+description: Separate mobile OTP login module
+package: Custom
+core_version_requirement: ^10 || ^11
+dependencies:
+  - drupal:user

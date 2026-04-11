@@ -1,0 +1,5 @@
+name: History Page UI
+type: module
+description: Styles coach, company, and employee import history pages to match Remynd4 admin UI.
+core_version_requirement: ^10 || ^11
+package: Custom

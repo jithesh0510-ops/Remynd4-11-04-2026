@@ -1,0 +1,7 @@
+send simple notifications:
+  title: 'Send simple notifications'
+  description: 'Allows admin to send notifications to users.'
+
+view own simple notifications:
+  title: 'View own simple notifications'
+  description: 'Allows users to see their notifications.'

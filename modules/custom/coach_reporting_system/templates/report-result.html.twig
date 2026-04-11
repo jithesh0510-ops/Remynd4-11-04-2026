@@ -1,0 +1,40 @@
+{#
+/**
+ * @file
+ * Template for the report result page.
+ */
+#}
+
+<div class="report-result-page">
+  {{ employee_details }}
+  
+  {% if per_person_report %}
+    <div class="report-section">
+      {{ per_person_report }}
+    </div>
+  {% endif %}
+  
+  {% if competency_analysis %}
+    <div class="report-section">
+      {{ competency_analysis }}
+    </div>
+  {% endif %}
+  
+  {% if on_job_performance %}
+    <div class="report-section">
+      {{ on_job_performance }}
+    </div>
+  {% endif %}
+  
+  {% if coaching_impact %}
+    <div class="report-section">
+      {{ coaching_impact }}
+    </div>
+  {% endif %}
+  
+  {% if one_to_one_coaching %}
+    <div class="report-section">
+      {{ one_to_one_coaching }}
+    </div>
+  {% endif %}
+</div>

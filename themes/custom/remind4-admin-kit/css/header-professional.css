@@ -1,0 +1,759 @@
+/**
+ * @file
+ * Professional header styling for Remind4 Admin Kit theme.
+ * Styles for account menu, branding, and language switcher in the navbar.
+ */
+
+/* ==========================================================================
+   Header Container & Layout
+   ========================================================================== */
+
+.navbar {
+  position: relative;
+  padding: 0.75rem 1.5rem;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+}
+
+.sidebar-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  margin-right: 1rem;
+  color: #374151;
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+.sidebar-toggle:hover,
+.sidebar-toggle:focus {
+  color: #86f1ff;
+  text-decoration: none;
+}
+
+.navbar-collapse {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 1;
+}
+
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.navbar-align {
+  margin-left: auto;
+}
+
+.nav-item {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Nav Icons */
+.nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  color: #374151;
+  text-decoration: none;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease-in-out;
+  position: relative;
+}
+
+.nav-icon:hover,
+.nav-icon:focus {
+  color: #86f1ff;
+  background-color: #f3f4f6;
+  text-decoration: none;
+}
+
+.nav-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Notification Indicator */
+.nav-icon .position-relative {
+  position: relative;
+}
+
+.indicator {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding: 0 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+  color: #ffffff;
+  background-color: #ef4444;
+  border-radius: 0.625rem;
+  border: 2px solid #ffffff;
+}
+
+/* Nav Link (for user profile with name) */
+.nav-link {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  color: #374151;
+  text-decoration: none;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.nav-link:hover,
+.nav-link:focus {
+  color: #86f1ff;
+  background-color: #f3f4f6;
+  text-decoration: none;
+}
+
+.nav-link .text-dark {
+  color: #1f2937;
+  font-weight: 500;
+}
+
+.nav-link:hover .text-dark,
+.nav-link:focus .text-dark {
+  color: #86f1ff;
+}
+
+.nav-link.dropdown-toggle.active,
+.nav-link.dropdown-toggle.show {
+  color: #86f1ff;
+  background-color: #f3f4f6;
+}
+
+.nav-link.dropdown-toggle.active .text-dark,
+.nav-link.dropdown-toggle.show .text-dark {
+  color: #86f1ff;
+}
+
+/* Avatar */
+.avatar {
+  width: 2rem;
+  height: 2rem;
+  object-fit: cover;
+}
+
+.avatar.rounded {
+  border-radius: 0.375rem;
+}
+
+.avatar.rounded-circle {
+  border-radius: 50%;
+}
+
+/* Dropdown Menus */
+.dropdown-menu {
+  min-width: 20rem;
+  padding: 0;
+  margin-top: 0.5rem;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  display: none;
+  position: absolute;
+  z-index: 1000;
+  list-style: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.dropdown-menu.show {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-menu.dropdown-menu-end.show {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-menu-lg {
+  min-width: 24rem;
+}
+
+.dropdown-menu-end {
+  right: 0;
+  left: auto;
+}
+
+.dropdown-menu-header {
+  padding: 1rem 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  background-color: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+  border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.dropdown-menu-footer {
+  padding: 0.75rem 1.25rem;
+  text-align: center;
+  background-color: #f9fafb;
+  border-top: 1px solid #e5e7eb;
+  border-radius: 0 0 0.5rem 0.5rem;
+}
+
+.dropdown-menu-footer a {
+  color: #6b7280;
+  text-decoration: none;
+  font-size: 0.875rem;
+}
+
+.dropdown-menu-footer a:hover {
+  color: #86f1ff;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1.25rem;
+  color: #374151;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background-color: #f9fafb;
+  color: #86f1ff;
+  text-decoration: none;
+}
+
+.dropdown-item svg {
+  width: 18px;
+  height: 18px;
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+}
+
+.dropdown-divider {
+  height: 0;
+  margin: 0.5rem 0;
+  overflow: hidden;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* List Group Items */
+.list-group {
+  max-height: 20rem;
+  overflow-y: auto;
+}
+
+.list-group-item {
+  display: block;
+  padding: 1rem 1.25rem;
+  color: #374151;
+  text-decoration: none;
+  border-bottom: 1px solid #f3f4f6;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.list-group-item:last-child {
+  border-bottom: none;
+}
+
+.list-group-item:hover {
+  background-color: #f9fafb;
+  text-decoration: none;
+}
+
+.list-group-item .row {
+  margin: 0;
+}
+
+.list-group-item .col-2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: auto;
+  padding: 0;
+  margin-right: 0.75rem;
+}
+
+.list-group-item .col-10 {
+  flex: 1;
+  padding: 0;
+}
+
+.list-group-item .text-dark {
+  color: #1f2937;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.list-group-item .text-muted {
+  color: #6b7280;
+  font-size: 0.8125rem;
+}
+
+.list-group-item svg {
+  width: 24px;
+  height: 24px;
+}
+
+.text-danger {
+  color: #ef4444;
+}
+
+.text-warning {
+  color: #f59e0b;
+}
+
+.text-primary {
+  color: #86f1ff;
+}
+
+.text-success {
+  color: #10b981;
+}
+
+/* ==========================================================================
+   Account Menu Block
+   ========================================================================== */
+
+#block-remind4-admin-kit-account-menu {
+  margin: 0;
+  padding: 0;
+}
+
+#block-remind4-admin-kit-account-menu .navbar-nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+#block-remind4-admin-kit-account-menu .nav-item {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+#block-remind4-admin-kit-account-menu .nav-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  color: #374151;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease-in-out;
+  white-space: nowrap;
+  position: relative;
+  gap: 0.5rem;
+}
+
+#block-remind4-admin-kit-account-menu .nav-link:hover,
+#block-remind4-admin-kit-account-menu .nav-link:focus {
+  color: #86f1ff;
+  background-color: #f3f4f6;
+  text-decoration: none;
+}
+
+#block-remind4-admin-kit-account-menu .nav-link:active {
+  background-color: #e5e7eb;
+}
+
+/* Account menu link with icon support */
+#block-remind4-admin-kit-account-menu .nav-link::before {
+  content: '';
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 0.5rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.7;
+  transition: opacity 0.2s ease-in-out;
+}
+
+#block-remind4-admin-kit-account-menu .nav-link:hover::before,
+#block-remind4-admin-kit-account-menu .nav-link:focus::before {
+  opacity: 1;
+}
+
+/* Specific styling for "My account" link */
+#block-remind4-admin-kit-account-menu .nav-link[href*="/user"]:not([href*="logout"])::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23374151' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'%3E%3C/path%3E%3Ccircle cx='12' cy='7' r='4'%3E%3C/circle%3E%3C/svg%3E");
+}
+
+/* Specific styling for "Log out" link */
+#block-remind4-admin-kit-account-menu .nav-link[href*="logout"]::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23374151' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4'%3E%3C/path%3E%3Cpolyline points='16 17 21 12 16 7'%3E%3C/polyline%3E%3Cline x1='21' y1='12' x2='9' y2='12'%3E%3C/line%3E%3C/svg%3E");
+}
+
+#block-remind4-admin-kit-account-menu .nav-link[href*="logout"]:hover {
+  color: #dc2626;
+}
+
+#block-remind4-admin-kit-account-menu .nav-link[href*="logout"]:hover::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23dc2626' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4'%3E%3C/path%3E%3Cpolyline points='16 17 21 12 16 7'%3E%3C/polyline%3E%3Cline x1='21' y1='12' x2='9' y2='12'%3E%3C/line%3E%3C/svg%3E");
+}
+
+/* ==========================================================================
+   Branding Block
+   ========================================================================== */
+
+#block-remind4-admin-kit-branding {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+#block-remind4-admin-kit-branding a {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  transition: opacity 0.2s ease-in-out;
+}
+
+#block-remind4-admin-kit-branding a:hover,
+#block-remind4-admin-kit-branding a:focus {
+  opacity: 0.8;
+  text-decoration: none;
+}
+
+#block-remind4-admin-kit-branding img {
+  max-height: 40px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+/* ==========================================================================
+   Language Switcher Block
+   ========================================================================== */
+
+#block-remind4-admin-kit-languageswitcher {
+  margin: 0;
+  padding: 0;
+}
+
+#block-remind4-admin-kit-languageswitcher .links {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 0.25rem;
+}
+
+#block-remind4-admin-kit-languageswitcher .links li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+#block-remind4-admin-kit-languageswitcher .language-link {
+  display: inline-block;
+  padding: 0.375rem 0.75rem;
+  color: #6b7280;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease-in-out;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+#block-remind4-admin-kit-languageswitcher .language-link:hover,
+#block-remind4-admin-kit-languageswitcher .language-link:focus {
+  color: #86f1ff;
+  background-color: #ffffff;
+  text-decoration: none;
+}
+
+#block-remind4-admin-kit-languageswitcher .language-link.is-active,
+#block-remind4-admin-kit-languageswitcher .language-link[aria-current="page"] {
+  color: #ffffff;
+  background-color: #86f1ff;
+  font-weight: 600;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+#block-remind4-admin-kit-languageswitcher .language-link.is-active:hover,
+#block-remind4-admin-kit-languageswitcher .language-link[aria-current="page"]:hover {
+  background-color: #5de5f5;
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   Responsive Design
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0.5rem 1rem;
+  }
+
+  .sidebar-toggle {
+    margin-right: 0.5rem;
+  }
+
+  .nav-icon {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .nav-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .dropdown-menu {
+    min-width: 18rem;
+  }
+
+  .dropdown-menu-lg {
+    min-width: 20rem;
+  }
+
+  .avatar {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+}
+
+@media (max-width: 576px) {
+  #block-remind4-admin-kit-account-menu .navbar-nav {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.25rem;
+  }
+
+  #block-remind4-admin-kit-account-menu .nav-link {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  #block-remind4-admin-kit-languageswitcher .links {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  #block-remind4-admin-kit-languageswitcher .language-link {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* ==========================================================================
+   Contextual Links (Drupal Admin)
+   ========================================================================== */
+
+.contextual-region {
+  position: relative;
+}
+
+.contextual {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+/* Hide contextual links in header for cleaner look */
+.navbar .contextual {
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.navbar:hover .contextual,
+.navbar .contextual:focus-within {
+  opacity: 1;
+}
+
+/* ==========================================================================
+   Accessibility
+   ========================================================================== */
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border-width: 0 !important;
+}
+
+.visually-hidden:focus {
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  padding: inherit !important;
+  margin: inherit !important;
+  overflow: visible !important;
+  clip: auto !important;
+  white-space: normal !important;
+}
+
+/* Focus styles for keyboard navigation */
+#block-remind4-admin-kit-account-menu .nav-link:focus-visible,
+#block-remind4-admin-kit-languageswitcher .language-link:focus-visible {
+  outline: 2px solid #86f1ff;
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   Dark Mode Support (if needed)
+   ========================================================================== */
+
+@media (prefers-color-scheme: dark) {
+  .navbar {
+    background: #1f2937;
+    border-bottom-color: #374151;
+  }
+
+  #block-remind4-admin-kit-account-menu .nav-link {
+    color: #d1d5db;
+  }
+
+  #block-remind4-admin-kit-account-menu .nav-link:hover,
+  #block-remind4-admin-kit-account-menu .nav-link:focus {
+    color: #86f1ff;
+    background-color: #374151;
+  }
+
+  #block-remind4-admin-kit-languageswitcher .links {
+    background: #374151;
+    border-color: #4b5563;
+  }
+
+  #block-remind4-admin-kit-languageswitcher .language-link {
+    color: #9ca3af;
+  }
+
+  #block-remind4-admin-kit-languageswitcher .language-link:hover,
+  #block-remind4-admin-kit-languageswitcher .language-link:focus {
+    color: #86f1ff;
+    background-color: #4b5563;
+  }
+
+  #block-remind4-admin-kit-languageswitcher .language-link.is-active,
+  #block-remind4-admin-kit-languageswitcher .language-link[aria-current="page"] {
+    background-color: #86f1ff;
+    color: #ffffff;
+  }
+}
+
+/* ==========================================================================
+   Sidebar Toggle Functionality
+   ========================================================================== */
+
+/* Sidebar collapsed state */
+body.sidebar-collapsed .sidebar,
+.sidebar.collapsed {
+  width: 60px !important;
+}
+
+body.sidebar-collapsed .main,
+.main.sidebar-collapsed {
+  margin-left: 60px !important;
+}
+
+/* Sidebar overlay for mobile */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.sidebar-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Mobile sidebar */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  .sidebar.mobile-open {
+    transform: translateX(0);
+  }
+
+  body.sidebar-mobile-open {
+    overflow: hidden;
+  }
+}
+
+/* Hamburger animation when sidebar is collapsed */
+body.sidebar-collapsed .hamburger,
+.sidebar-collapsed .hamburger {
+  transform: rotate(45deg);
+}
+
+body.sidebar-collapsed .hamburger::before,
+.sidebar-collapsed .hamburger::before {
+  top: 0;
+  transform: rotate(90deg);
+}
+
+body.sidebar-collapsed .hamburger::after,
+.sidebar-collapsed .hamburger::after {
+  top: 0;
+  opacity: 0;
+}
+

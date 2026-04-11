@@ -1,0 +1,10 @@
+uuid: e6afe3e1-9ec9-4e53-a4e9-d4b4d2dff309
+langcode: en
+status: true
+dependencies: {  }
+id: questionnaire
+label: Questionnaire
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

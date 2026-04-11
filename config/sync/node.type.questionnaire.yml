@@ -1,0 +1,17 @@
+uuid: b5c2861e-2e54-41b8-9974-acac154adb17
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: Questionnaire
+type: questionnaire
+description: null
+help: null
+new_revision: false
+preview_mode: 0
+display_submitted: false

@@ -1,0 +1,7 @@
+services:
+  coach_reporting_system.csv_importer:
+    class: 'Drupal\coach_reporting_system\Service\CsvImporter'
+  
+  coach_reporting_system.file_upload_service:
+    class: 'Drupal\coach_reporting_system\Service\FileUploadService'
+    arguments: ['@file_system', '@logger.factory']

@@ -1,0 +1,6 @@
+#coach_reporting_system.add_company_action:
+#  route_name: coach_reporting_system.add_company
+#  title: 'Add Company'
+#  appears_on:
+#    - view.company.page_1
+#

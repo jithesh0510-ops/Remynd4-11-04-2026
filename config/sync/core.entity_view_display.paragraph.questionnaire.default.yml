@@ -1,0 +1,34 @@
+uuid: 6532aa7b-9e15-4ca2-892d-17aaefd387a6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.questionnaire.field_category
+    - field.field.paragraph.questionnaire.field_options
+    - paragraphs.paragraphs_type.questionnaire
+  module:
+    - entity_reference_revisions
+id: paragraph.questionnaire.default
+targetEntityType: paragraph
+bundle: questionnaire
+mode: default
+content:
+  field_category:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_options:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden: {  }

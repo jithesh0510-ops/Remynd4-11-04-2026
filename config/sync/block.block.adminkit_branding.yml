@@ -1,0 +1,25 @@
+uuid: e8ff48e7-556a-43ce-8f3d-c6e10b34d4df
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - adminkit
+_core:
+  default_config_hash: h3ged36UsT5cjmx2L-06ff_WwxhvqJpkyPChLHbf5vQ
+id: adminkit_branding
+theme: adminkit
+region: header
+weight: -6
+provider: null
+plugin: system_branding_block
+settings:
+  id: system_branding_block
+  label: 'Site branding'
+  label_display: '0'
+  provider: system
+  use_site_logo: true
+  use_site_name: false
+  use_site_slogan: false
+visibility: {  }

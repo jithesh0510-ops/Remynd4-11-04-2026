@@ -1,0 +1,34 @@
+uuid: 1c01165f-8a36-4045-a758-9140fc53d184
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.multiple_choice_question.field_options
+    - field.field.paragraph.multiple_choice_question.field_question
+    - paragraphs.paragraphs_type.multiple_choice_question
+  module:
+    - entity_reference_revisions
+id: paragraph.multiple_choice_question.default
+targetEntityType: paragraph
+bundle: multiple_choice_question
+mode: default
+content:
+  field_options:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_question:
+    type: entity_reference_revisions_entity_view
+    label: inline
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden: {  }

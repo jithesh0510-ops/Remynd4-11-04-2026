@@ -1,0 +1,10 @@
+uuid: 90d2224b-f085-4fc2-bda7-1fa64e891104
+langcode: en
+status: true
+dependencies: {  }
+id: assign_questionnaire
+label: 'Assign Questionnaire'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

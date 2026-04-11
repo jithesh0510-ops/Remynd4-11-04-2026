@@ -1,0 +1,85 @@
+<?php
+
+/**
+ * @file
+ * Mail handlers for coach import history.
+ */
+
+/**
+ * Implements hook_mail().
+ */
+function coach_import_history_mail($key, &$message, $params) {
+  switch ($key) {
+    case 'coach_import':
+      $message['subject'] = !empty($params['subject'])
+        ? $params['subject']
+        : 'Coach account created';
+
+      $body = '';
+      if (!empty($params['message']) && is_string($params['message'])) {
+        $body = trim($params['message']);
+      }
+      elseif (!empty($params['body']) && is_string($params['body'])) {
+        $body = trim($params['body']);
+      }
+      elseif (!empty($params['body']) && is_array($params['body'])) {
+        $body = trim(implode("\n", array_filter($params['body'])));
+      }
+
+      if ($body === '') {
+        $username = $params['username'] ?? ($params['name'] ?? '');
+        $email = $params['email'] ?? '';
+
+        $lines = [
+          'Hello,',
+          '',
+          'Your coach account has been created.',
+        ];
+
+        if ($username !== '') {
+          $lines[] = '';
+          $lines[] = 'Username: ' . $username;
+        }
+
+        if ($email !== '') {
+          $lines[] = '';
+          $lines[] = 'Email: ' . $email;
+        }
+
+        $body = implode("\n", $lines);
+      }
+
+      $message['body'] = [$body];
+
+      if (!empty($params['attachments']) && is_array($params['attachments'])) {
+        $message['params']['attachments'] = $params['attachments'];
+      }
+      break;
+
+    case 'admin_coach_import_mail':
+      $message['subject'] = !empty($params['subject'])
+        ? $params['subject']
+        : 'Coach import admin notification';
+
+      $body = '';
+      if (!empty($params['message']) && is_string($params['message'])) {
+        $body = trim($params['message']);
+      }
+      elseif (!empty($params['body']) && is_string($params['body'])) {
+        $body = trim($params['body']);
+      }
+      elseif (!empty($params['body']) && is_array($params['body'])) {
+        $body = trim(implode("\n", array_filter($params['body'])));
+      }
+      else {
+        $body = 'Coach import admin notification.';
+      }
+
+      $message['body'] = [$body];
+
+      if (!empty($params['attachments']) && is_array($params['attachments'])) {
+        $message['params']['attachments'] = $params['attachments'];
+      }
+      break;
+  }
+}

@@ -1,0 +1,22 @@
+uuid: 07f566ff-3288-4273-ab34-6958418ef9fa
+langcode: en
+status: true
+dependencies:
+  module:
+    - help
+  theme:
+    - remynd4_coach
+_core:
+  default_config_hash: LboS2JXy9W-E4MFKQksI6TctZCies42HjNrMo-L0jWE
+id: remynd4_coach_help
+theme: remynd4_coach
+region: content
+weight: -3
+provider: null
+plugin: help_block
+settings:
+  id: help_block
+  label: Help
+  label_display: '0'
+  provider: help
+visibility: {  }

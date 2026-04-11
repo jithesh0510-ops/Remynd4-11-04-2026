@@ -1,0 +1,22 @@
+uuid: 14dc0b63-45c0-4aa7-aed0-06a3b93584a0
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - remynd4_professional_theme
+_core:
+  default_config_hash: TalCR-kPomwZLXjW-BJ4C719R7gkIf-_QzNw4-k6EI8
+id: remynd4_professional_theme_powered_by_drupal
+theme: remynd4_professional_theme
+region: footer
+weight: 0
+provider: null
+plugin: system_powered_by_block
+settings:
+  id: system_powered_by_block
+  label: 'Powered by Drupal'
+  label_display: '0'
+  provider: system
+visibility: {  }

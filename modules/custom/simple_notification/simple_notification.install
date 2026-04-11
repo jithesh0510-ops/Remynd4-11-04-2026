@@ -1,0 +1,18 @@
+<?php
+
+function simple_notification_schema() {
+  $schema['simple_notification'] = [
+    'description' => 'Stores simple notifications for users.',
+    'fields' => [
+      'id' => ['type' => 'serial', 'not null' => TRUE],
+      'uid' => ['type' => 'int', 'not null' => TRUE],
+      'message' => ['type' => 'text', 'not null' => TRUE],
+      'link' => ['type' => 'varchar', 'length' => 255],
+      'status' => ['type' => 'int', 'size' => 'tiny', 'default' => 0, 'not null' => TRUE],
+      'created' => ['type' => 'int', 'not null' => TRUE],
+    ],
+    'primary key' => ['id'],
+    'indexes' => ['uid' => ['uid']],
+  ];
+  return $schema;
+}

@@ -1,0 +1,85 @@
+uuid: b8c79a7a-ad1a-41ab-b04d-7a4f8d4e68ba
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_fab_fields
+    - paragraphs.paragraphs_type.fabs
+    - paragraphs.paragraphs_type.fabs_fields
+  module:
+    - entity_reference_revisions
+id: paragraph.fabs.field_fab_fields
+field_name: field_fab_fields
+entity_type: paragraph
+bundle: fabs
+label: 'Fab Fields'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      fabs_fields: fabs_fields
+    negate: 0
+    target_bundles_drag_drop:
+      category:
+        weight: 20
+        enabled: false
+      coaching_one_to_one_report:
+        weight: 21
+        enabled: false
+      color_interaction_tool:
+        weight: 22
+        enabled: false
+      decision_making_unit:
+        weight: 23
+        enabled: false
+      fabs:
+        weight: 24
+        enabled: false
+      fabs_fields:
+        weight: 25
+        enabled: true
+      handle_objections:
+        weight: 26
+        enabled: false
+      kpi:
+        weight: 27
+        enabled: false
+      options:
+        weight: 28
+        enabled: false
+      pipeline:
+        weight: 29
+        enabled: false
+      question:
+        weight: 30
+        enabled: false
+      questionnaire:
+        weight: 31
+        enabled: false
+      sub_category:
+        weight: 32
+        enabled: false
+      sub_sub_category:
+        weight: 33
+        enabled: false
+      survey:
+        weight: 34
+        enabled: false
+      survey_options:
+        weight: 35
+        enabled: false
+      survey_questions:
+        weight: 36
+        enabled: false
+      survey_top_section:
+        weight: 37
+        enabled: false
+      testimonial:
+        weight: 38
+        enabled: false
+field_type: entity_reference_revisions

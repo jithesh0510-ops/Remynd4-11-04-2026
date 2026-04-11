@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * @file
+ * CRS Sync module.
+ */
+
+/**
+ * Implements hook_help().
+ */
+function crs_sync_help($route_name, \Drupal\Core\Routing\RouteMatchInterface $route_match) {
+  if ($route_name === 'help.page.crs_sync') {
+    return t('CRS Sync allows importing users and questionnaire content from a legacy MySQL database. Configure the legacy connection in settings.php as $databases["legacy"]["default"].');
+  }
+}

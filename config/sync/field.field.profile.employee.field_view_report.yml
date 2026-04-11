@@ -1,0 +1,21 @@
+uuid: eec85154-9cba-4ac0-8ae3-6da41210004e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.profile.field_view_report
+    - profile.type.employee
+id: profile.employee.field_view_report
+field_name: field_view_report
+entity_type: profile
+bundle: employee
+label: 'View Report'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

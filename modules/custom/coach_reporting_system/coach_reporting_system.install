@@ -1,0 +1,139 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the coach_reporting_system module.
+ */
+
+use Drupal\Core\Database\Database;
+
+/**
+ * Implements hook_schema().
+ */
+function coach_reporting_system_schema() {
+  $schema = [];
+
+  // Pre/Post training relation table
+  $schema['qs_employee_prepost_relation'] = [
+    'description' => 'Stores pre and post training data for employees',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary key',
+      ],
+      'employee_id' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Employee user ID',
+      ],
+      'pre' => [
+        'type' => 'float',
+        'description' => 'Pre-training grade',
+      ],
+      'post' => [
+        'type' => 'float',
+        'description' => 'Post-training grade',
+      ],
+      'company_id' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Company user ID',
+      ],
+      'questionnaire_id' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Questionnaire node ID',
+      ],
+      'created' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'description' => 'Created timestamp',
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'employee_company' => ['employee_id', 'company_id'],
+      'questionnaire' => ['questionnaire_id'],
+      'created' => ['created'],
+    ],
+  ];
+
+  // On-the-job progress table
+  $schema['qs_emp_lagard_starts'] = [
+    'description' => 'Stores on-the-job progress data for employees',
+    'fields' => [
+      'lagard_starts_id' => [
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary key',
+      ],
+      'employee_id' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Employee user ID',
+      ],
+      'target_forecasted' => [
+        'type' => 'float',
+        'description' => 'Target forecasted value',
+      ],
+      'target_achieved' => [
+        'type' => 'float',
+        'description' => 'Target achieved value',
+      ],
+      'created' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'description' => 'Month/period identifier',
+      ],
+      'company_id' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Company user ID',
+      ],
+      'questionnaire_id' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Questionnaire node ID',
+      ],
+    ],
+    'primary key' => ['lagard_starts_id'],
+    'indexes' => [
+      'employee_company' => ['employee_id', 'company_id'],
+      'questionnaire' => ['questionnaire_id'],
+      'created' => ['created'],
+    ],
+  ];
+
+  return $schema;
+}
+
+/**
+ * Create missing tables if they don't exist.
+ */
+function coach_reporting_system_update_8001() {
+  $db = Database::getConnection();
+  
+  // Check if qs_employee_prepost_relation table exists
+  if (!$db->schema()->tableExists('qs_employee_prepost_relation')) {
+    $schema = coach_reporting_system_schema();
+    $db->schema()->createTable('qs_employee_prepost_relation', $schema['qs_employee_prepost_relation']);
+    \Drupal::logger('coach_reporting_system')->info('Created qs_employee_prepost_relation table');
+  }
+  
+  // Check if qs_emp_lagard_starts table exists
+  if (!$db->schema()->tableExists('qs_emp_lagard_starts')) {
+    $schema = coach_reporting_system_schema();
+    $db->schema()->createTable('qs_emp_lagard_starts', $schema['qs_emp_lagard_starts']);
+    \Drupal::logger('coach_reporting_system')->info('Created qs_emp_lagard_starts table');
+  }
+  
+  return t('Created missing database tables for coach reporting system.');
+}

@@ -1,0 +1,20 @@
+uuid: f8a79236-6865-4da7-a867-a023316a1e73
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.questionnaire
+  module:
+    - path
+id: node.questionnaire.path
+field_name: path
+entity_type: node
+bundle: questionnaire
+label: 'URL alias'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: path

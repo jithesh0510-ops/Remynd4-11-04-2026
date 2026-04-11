@@ -1,0 +1,11 @@
+uuid: 887a1600-4d32-406b-b7c4-35d8b78013e3
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.api_document
+id: node.api_document
+target_entity_type_id: node
+target_bundle: api_document
+default_langcode: site_default
+language_alterable: false

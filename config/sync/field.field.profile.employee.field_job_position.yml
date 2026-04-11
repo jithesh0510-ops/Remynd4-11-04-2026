@@ -1,0 +1,29 @@
+uuid: da8b6b2c-cdf2-4726-86e1-2f2eff33f8cb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.profile.field_job_position
+    - profile.type.employee
+    - taxonomy.vocabulary.job_position
+id: profile.employee.field_job_position
+field_name: field_job_position
+entity_type: profile
+bundle: employee
+label: 'Job Position'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      job_position: job_position
+    sort:
+      field: name
+      direction: asc
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference

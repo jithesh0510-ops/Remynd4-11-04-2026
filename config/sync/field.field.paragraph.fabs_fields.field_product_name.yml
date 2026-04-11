@@ -1,0 +1,19 @@
+uuid: 7f7cca31-7df3-49d4-9b39-acb14e62864a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_product_name
+    - paragraphs.paragraphs_type.fabs_fields
+id: paragraph.fabs_fields.field_product_name
+field_name: field_product_name
+entity_type: paragraph
+bundle: fabs_fields
+label: 'Product Name'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

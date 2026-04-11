@@ -1,0 +1,21 @@
+uuid: b9d20017-34e5-467c-8d1a-533227079e90
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_hide
+    - paragraphs.paragraphs_type.assign_questionnaire
+id: paragraph.assign_questionnaire.field_hide
+field_name: field_hide
+entity_type: paragraph
+bundle: assign_questionnaire
+label: Hide
+description: 'By Choosing this option ,the coach will not able to view this Report'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

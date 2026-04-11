@@ -1,0 +1,20 @@
+uuid: 9bdb9b89-514d-4768-bdee-c371163380b7
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.survey
+id: node.survey.uid
+field_name: uid
+entity_type: node
+bundle: survey
+label: 'Authored by'
+description: 'The username of the content author.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: 'Drupal\node\Entity\Node::getDefaultEntityOwner'
+settings:
+  handler: default
+  handler_settings: {  }
+field_type: entity_reference

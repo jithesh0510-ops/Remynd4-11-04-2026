@@ -1,0 +1,676 @@
+/* Employee Details - Clean Layout */
+.employee-details {
+  margin-bottom: 20px;
+}
+
+.employee-details-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.details-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.coaching-button {
+  text-decoration: none;
+  padding: 8px 16px;
+  display: inline-block;
+  background: #86f1ff;
+  color: #000;
+  border-radius: 5px;
+}
+
+/* Google Charts styling */
+.apex-charts {
+  min-height: 305px;
+  width: 100%;
+}
+
+/* Ensure chart containers have proper dimensions */
+#behavioral_progress_chart_*,
+#On_The_Job_Progress_chart_* {
+  min-height: 305px;
+  width: 100%;
+  display: block;
+}
+
+/* Tabs Layout */
+.report-result-tabs {
+  margin: 20px 0;
+}
+
+.nav-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-tabs .nav-link {
+  padding: 10px 22px;
+  margin: 0;
+  text-decoration: none;
+  cursor: pointer;
+  display: block;
+  border-radius: 11px !important;
+  overflow: hidden;
+  margin-right: 5px;
+  background: #000;
+  color: #fff;
+  margin-bottom: 10px !important;
+}
+
+.nav-tabs .nav-link:hover {
+  background: #86f1ff !important;
+  color: #000 !important;
+}
+
+.nav-link.active {
+  background: #86f1ff !important;
+  color: #000 !important;
+}
+
+.tab-content {
+  padding: 20px 0;
+}
+
+.tab-pane {
+  display: none;
+}
+
+.tab-pane.show.active {
+  display: block;
+}
+
+.no-tabs-message {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+/* Responsive tabs */
+@media (max-width: 768px) {
+  .nav-tabs {
+    flex-direction: column;
+  }
+  
+  .nav-tabs .nav-link {
+    padding: 12px 16px;
+  }
+  
+  .tab-content {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-tabs .nav-link {
+    padding: 10px 12px;
+  }
+  
+  .tab-content {
+    padding: 12px;
+  }
+}
+
+/* Coaching Impact Table Layout */
+.report-result-tabs .coaching-impact-table-container {
+  overflow-x: auto;
+  margin: 20px 0;
+}
+
+.report-result-tabs .coaching_table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+  background: transparent;
+  table-layout: fixed;
+}
+
+.report-result-tabs .coaching_table tr {
+  /* display: flex; */
+  /* align-items: stretch; */
+}
+
+.report-result-tabs .coaching_table th,
+.report-result-tabs .coaching_table td {
+  /* flex: 1; */
+  /* display: flex; */
+  /* align-items: stretch; */
+  /* padding: 0; */
+  /* text-align: center; */
+  /* vertical-align: top; */
+  /* background: transparent; */
+  /* border: none; */
+  /* height: 100%; */
+}
+
+.report-result-tabs .coaching_table .w-250 {
+  width: 250px;
+  min-width: 250px;
+}
+
+/* Base styling for ALL divs inside table cells */
+.report-result-tabs table td > div,
+.report-result-tabs table th > div {
+  border: solid 1px #40124e;
+  border-radius: 15px;
+  padding: 0.7em;
+  color: #40124e;
+  min-height: 49px;
+  vertical-align: middle;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  text-align: center;
+  background: #fff;
+  flex: 1;
+}
+
+/* Individual overrides for specific content types - only background and text color */
+.report-result-tabs .category {
+  background: #40124e !important;
+  color: #fff !important;
+}
+
+.report-result-tabs .subcategory {
+  background: #40124e !important;
+  color: #fff !important;
+}
+
+.report-result-tabs .subsubcategory {
+  background: #f2f2f2 !important;
+  color: #212529 !important;
+}
+
+.report-result-tabs .heading {
+  background: #f2f2f2 !important;
+  color: #212529 !important;
+}
+
+.report-result-tabs .subheading {
+  background: #f2f2f2 !important;
+  color: #212529 !important;
+}
+
+.report-result-tabs .question {
+  text-align: left !important;
+  justify-content: flex-start !important;
+}
+
+/* Context-specific overrides (if needed) */
+.report-result-tabs .coaching_thead td > div,
+.report-result-tabs .coaching_thead th > div {
+  background: #f2f2f2 !important;
+  color: #212529 !important;
+}
+
+.report-result-tabs .subcat_bg td > div,
+.report-result-tabs .subcat_bg th > div {
+  background: #40124e !important;
+  color: #fff !important;
+}
+
+.report-result-tabs .cat_bg td > div,
+.report-result-tabs .cat_bg th > div {
+  background: #40124e !important;
+  color: #fff !important;
+}
+
+/* Remove all styling for empty cells */
+.report-result-tabs .remove_all td > div,
+.report-result-tabs .remove_all th > div {
+  background: #fff !important;
+  border: none !important;
+  height: 3.7em;
+}
+
+/* Per-Person Table Styling with scrollbar */
+.report-result-tabs .per-person-table-container {
+  overflow-x: auto;
+  overflow-y: visible;
+  margin: 20px 0;
+  width: 100%;
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 8px;
+}
+
+/* Custom scrollbar for per-person table */
+.report-result-tabs .per-person-table-container::-webkit-scrollbar {
+  height: 12px;
+}
+
+.report-result-tabs .per-person-table-container::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 6px;
+}
+
+.report-result-tabs .per-person-table-container::-webkit-scrollbar-thumb {
+  background: #86f1ff;
+  border-radius: 6px;
+}
+
+.report-result-tabs .per-person-table-container::-webkit-scrollbar-thumb:hover {
+  background: #4030ad;
+}
+
+.report-result-tabs .competency-table {
+	width: 100%;
+	border-collapse: collapse;
+	margin: 0;
+	background: #fff;
+	table-layout: fixed;
+	border: 0;
+	padding: 0;
+}
+
+.report-result-tabs .competency-table tr , .report-result-tabs .competency-table tr:hover {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1px solid #f4f4f4;
+}
+
+.report-result-tabs .competency-table th, .report-result-tabs .competency-table td {
+	flex: 1;
+	/* display: flex; */
+	/* align-items: stretch; */
+  padding: 0.7rem;
+	/* text-align: center; */
+	/* vertical-align: top; */
+  /* background: #222e3c; */
+	/* border: none; */
+	border: 0;
+}
+
+.report-tabs .category-row td {
+  background-color: #40124e;
+  /* font-size: 1.1em; */
+  /* color: #212529; */
+}
+
+
+/* Category row styling - Darkest purple (main level) */
+.report-result-tabs .category-row td > div, .report-result-tabs .category-row th > div {
+  background: #fff !important;
+  color: #000 !important;
+  text-align: center !important;
+  justify-content: center !important;
+  font-weight: bold !important;
+  /* font-size: 1 !important; */
+  /* padding: 10px !important; */
+}
+
+/* Subcategory row styling - Medium purple (lighter shade) */
+.report-result-tabs .subcategory-row td > div,
+.report-result-tabs .subcategory-row th > div {
+  background: #fff !important;
+  color: #000 !important;
+  text-align: center !important;
+  justify-content: center !important;
+  font-weight: 600 !important;
+  /* font-size: 1 !important; */
+  /* padding: 10px !important; */
+}
+
+/* Sub-subcategory row styling - Light purple (even lighter) */
+.report-result-tabs .sub-subcategory-row td > div,
+.report-result-tabs .sub-subcategory-row th > div {
+  background: #fff !important;
+  color: #000 !important;
+  text-align: center !important;
+  justify-content: center !important;
+  font-weight: 500 !important;
+  /* font-size: 1 !important; */
+  /* padding: 10px !important; */
+}
+
+/* Question row styling - Lightest purple (most visible difference) */
+.report-result-tabs .question-row td > div,
+.report-result-tabs .question-row th > div {
+  background: #fff !important;
+  color: #000 !important;
+  text-align: center !important;
+  justify-content: center !important;
+  font-weight: normal !important;
+  /* font-size: 1 !important; */
+  /* padding: 10px !important; */
+}
+
+/* === PERFORMANCE-BASED COLOR CODING FOR VALUE COLUMNS === */
+
+/* Stars: 100%+ performance - Green */
+.report-result-tabs .score-green > div,
+.report-result-tabs .score-cell.score-green > div,
+.report-result-tabs .average-cell.score-green > div,
+.report-result-tabs .avg-full-cell.score-green > div,
+.report-result-tabs .avg-last3-cell.score-green > div,
+.report-result-tabs .avg-latest-cell.score-green > div {
+  background: rgb(179, 226, 199) !important;
+  color: #000 !important;
+  font-weight: normal !important;
+}
+
+/* Core Performers: 60-99% performance - Yellow */
+.report-result-tabs .score-yellow > div,
+.report-result-tabs .score-cell.score-yellow > div,
+.report-result-tabs .average-cell.score-yellow > div,
+.report-result-tabs .avg-full-cell.score-yellow > div,
+.report-result-tabs .avg-last3-cell.score-yellow > div,
+.report-result-tabs .avg-latest-cell.score-yellow > div {
+  background: rgb(255, 221, 125) !important;
+  color: #000 !important;
+  font-weight: normal !important;
+}
+
+/* Laggards: Less than 60% performance - Red */
+.report-result-tabs .score-red > div,
+.report-result-tabs .score-cell.score-red > div,
+.report-result-tabs .average-cell.score-red > div,
+.report-result-tabs .avg-full-cell.score-red > div,
+.report-result-tabs .avg-last3-cell.score-red > div,
+.report-result-tabs .avg-latest-cell.score-red > div {
+  background: rgb(249, 89, 89) !important;
+  color: #fff !important;
+  font-weight: normal !important;
+}
+
+/* === COACHING IMPACT TABLE STYLING === */
+
+/* Coaching Impact table container with horizontal scrollbar */
+.coaching-impact-table-container {
+  overflow-x: auto;
+  overflow-y: visible;
+  margin: 20px 0;
+  width: 100%;
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
+  border-radius: 8px;
+}
+
+/* Ensure table doesn't collapse */
+.coaching-impact-table-container::-webkit-scrollbar {
+  height: 12px;
+}
+
+.coaching-impact-table-container::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 6px;
+}
+
+.coaching-impact-table-container::-webkit-scrollbar-thumb {
+  background: #86f1ff;
+  border-radius: 6px;
+}
+
+.coaching-impact-table-container::-webkit-scrollbar-thumb:hover {
+  background: #4030ad;
+}
+
+.coaching-impact-table-container table.coaching_table {
+  width: auto;
+  min-width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  /* margin: 0; */
+  background: #fff;
+  table-layout: auto;
+}
+
+.coaching-impact-table-container table.coaching_table th, .coaching-impact-table-container table.coaching_table td {
+  /* min-width: 150px; */
+  /* max-width: 250px; */
+  /* white-space: normal; */
+  /* word-wrap: break-word; */
+  /* padding: 10px; */
+  /* padding: 0; */
+  /* min-width: 400px; */
+  border: 1px solid #f4f4f4;
+  min-width: 150px;
+  padding: 10px;
+}
+/* First column (Surname) - No sticky positioning */
+.coaching-impact-table-container table.coaching_table th:first-child,
+.coaching-impact-table-container table.coaching_table td:first-child {
+  min-width: 120px;
+  /* position: sticky; */
+  /* left: 0; */
+  /* z-index: 10; */
+  /* background: #fff; */
+  /* box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); */
+}
+
+/* Second column (First Name) - No sticky positioning */
+.coaching-impact-table-container table.coaching_table th:nth-child(2),
+.coaching-impact-table-container table.coaching_table td:nth-child(2) {
+  min-width: 120px;
+  /* position: sticky; */
+  /* left: 120px; */
+  /* z-index: 10; */
+  /* background: #fff; */
+  /* box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); */
+}
+
+/* Header row z-index - Disabled */
+.coaching-impact-table-container table.coaching_table thead th:first-child,
+.coaching-impact-table-container table.coaching_table thead th:nth-child(2) {
+  /* z-index: 11; */
+}
+
+/* Category row styling needs background color for sticky columns */
+.coaching-impact-table-container tbody tr.subcat_bg th:first-child,
+.coaching-impact-table-container tbody tr.subcat_bg th:nth-child(2) {
+  background: #fff !important;
+}
+
+.coaching-impact-table-container tbody tr.subcat_bg th:first-child > div,
+.coaching-impact-table-container tbody tr.subcat_bg th:nth-child(2) > div {
+  background: #5a1d6e !important;
+}
+
+/* Coaching Impact table headers - Category style */
+.coaching-impact-table-container .coaching_thead th > div.category {
+  background: #f2f2f2 !important;
+  color: #000 !important;
+  /* text-align: center !important; */
+  /* justify-content: center !important; */
+  /* font-weight: bold !important; */
+  /* font-size: 1.1em !important; */
+  /* padding: 10px !important; */
+}
+
+/* Coaching Impact table sub-headers - Subcategory style */
+
+
+/* Coaching Impact table data cells */
+.coaching-impact-table-container .coaching_impact_field {
+  text-align: center !important;
+  padding: 10px !important;
+  font-weight: bold !important;
+}
+
+/* Apply performance color coding to Coaching Impact table */
+
+/* === COACHING IMPACT CHARTS CONTAINER === */
+.coaching-impact-charts-container {
+  margin-top: 30px;
+  padding: 20px 0;
+}
+
+.coaching-impact-charts-container .card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.coaching-impact-charts-container .card-header {
+  background: #40124e;
+  color: #fff;
+  padding: 15px 20px;
+  border-bottom: 1px solid #e5e7eb;
+  border-radius: 8px 8px 0 0;
+}
+
+.coaching-impact-charts-container .card-header h5 {
+  margin: 0;
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
+.coaching-impact-charts-container .card-body {
+  padding: 20px;
+}
+
+.coaching-impact-charts-container .apex-charts {
+  min-height: 350px;
+  width: 100%;
+}
+
+/* === INLINE CHARTS IN COACHING IMPACT TABLE (SAME ROW) === */
+.coaching-impact-table-container td.chart-cell {
+  padding: 10px !important;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  vertical-align: middle;
+}
+
+.coaching-impact-table-container .inline-chart-container {
+  padding: 10px;
+  background: #fff;
+  min-height: 230px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.coaching-impact-table-container .chart-header {
+  background: #40124e;
+  color: #fff;
+  padding: 8px 12px;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 6px 6px 0 0;
+  margin-bottom: 8px;
+  font-size: 0.95em;
+}
+
+.coaching-impact-table-container .inline-chart {
+  flex: 1;
+  min-height: 200px;
+  width: 100%;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0 0 6px 6px;
+  padding: 5px;
+}
+
+/* Header styling for competency table */
+.report-result-tabs .competency-header td > div,
+.report-result-tabs .competency-header th > div,
+.report-result-tabs .score-header td > div,
+.report-result-tabs .score-header th > div,
+.report-result-tabs .average-header td > div,
+.report-result-tabs .average-header th > div {
+  background: #f2f2f2 !important;
+  color: #212529 !important;
+}
+
+/* Competency Analysis Table Styling */
+.report-result-tabs .competency-analysis-table-container {
+  overflow-x: auto;
+  overflow-y: visible;
+  margin: 20px 0;
+  width: 100%;
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+/* Custom scrollbar for competency-analysis table */
+.report-result-tabs .competency-analysis-table-container::-webkit-scrollbar {
+  height: 12px;
+}
+
+.report-result-tabs .competency-analysis-table-container::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 6px;
+}
+
+.report-result-tabs .competency-analysis-table-container::-webkit-scrollbar-thumb {
+  background: #86f1ff;
+  border-radius: 6px;
+}
+
+.report-result-tabs .competency-analysis-table-container::-webkit-scrollbar-thumb:hover {
+  background: #4030ad;
+}
+
+.report-result-tabs .competency-analysis-table-container .competency-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+  background: transparent;
+  table-layout: fixed;
+}
+
+.report-result-tabs .competency-analysis-table-container .competency-table tr {
+  display: flex;
+  align-items: stretch;
+}
+
+
+/* Header styling for competency analysis table */
+.report-result-tabs .avg-full td > div,
+.report-result-tabs .avg-full th > div,
+.report-result-tabs .avg-last3 td > div,
+.report-result-tabs .avg-last3 th > div,
+.report-result-tabs .avg-latest td > div,
+.report-result-tabs .avg-latest th > div {
+  background: #f2f2f2 !important;
+  color: #212529 !important;
+}
+
+/* Chart containers */
+.apex-charts {
+  width: 100%;
+  height: 305px;
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+  .coaching_table th,
+  .coaching_table td {
+    padding: 8px 4px;
+  }
+  
+  .coaching_table .w-250 {
+    width: 200px;
+    min-width: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .coaching_table th,
+  .coaching_table td {
+    padding: 6px 2px;
+  }
+  
+  .coaching_table .w-250 {
+    width: 150px;
+    min-width: 150px;
+  }
+  
+  .apex-charts {
+    height: 250px;
+  }
+}

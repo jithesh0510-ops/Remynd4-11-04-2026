@@ -1,0 +1,20 @@
+uuid: 215c329d-e70b-4daa-87f3-15804ee16b88
+langcode: en
+status: true
+dependencies:
+  theme:
+    - remind4_admin_kit
+_core:
+  default_config_hash: CTIl2YfuH-oGtxHw-nmyJaFfBEntQNtjSbXfkLVe-M4
+id: remind4_admin_kit_local_actions
+theme: remind4_admin_kit
+region: content
+weight: -2
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  label_display: '0'
+  provider: core
+visibility: {  }

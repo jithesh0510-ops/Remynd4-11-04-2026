@@ -1,0 +1,258 @@
+{# templates/page.html.twig #}
+<!DOCTYPE html>
+<html lang="{{ language.getId() }}" dir="{{ language.getDirection() }}">
+<head>
+  <head-placeholder token="{{ placeholder_token }}">
+  <title>{{ head_title|render|striptags }}</title>
+
+  {# Dynamic favicon from theme settings #}
+  {% if theme_settings.favicon %}
+    <link rel="icon" href="{{ theme_settings.favicon }}" type="image/png">
+  {% endif %}
+
+  <css-placeholder token="{{ placeholder_token }}">
+  <js-placeholder token="{{ placeholder_token }}">
+</head>
+<body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-layout="default">
+  <a href="#main-content" class="visually-hidden focusable skip-link">
+    {{ 'Skip to main content'|t }}
+  </a>
+  
+  
+  <div class="wrapper">
+		<nav id="sidebar" class="sidebar js-sidebar">
+			<div class="sidebar-content js-simplebar">
+				<a class="sidebar-brand" href="{{ path('<front>') }}">
+					{% if theme_settings.logo %}
+						<img src="{{ theme_settings.logo }}" alt="Logo" />
+					{% else %}
+						<img src="/{{ directory }}/logo.svg" alt="Default Logo" />
+					{% endif %}
+				</a>
+
+				{% if logged_in and sidebar_user %}
+				  <div class="sidebar-user">
+					<div class="d-flex justify-content-center">
+					  <div class="flex-shrink-0">
+						{% if sidebar_user.picture_url %}
+						  <img src="{{ sidebar_user.picture_url }}" class="avatar img-fluid rounded me-1" alt="{{ sidebar_user.name }}" />
+						{% else %}
+						  <img src="/{{ directory }}/img/user5-128x128.jpg" class="avatar img-fluid rounded me-1" alt="{{ sidebar_user.name }}" />
+						{% endif %}
+					  </div>
+					  <div class="flex-grow-1 ps-2">
+						<a class="sidebar-user-title dropdown-toggle" href="#" data-bs-toggle="dropdown">
+						  {{ sidebar_user.name }}
+						</a>
+						<div class="dropdown-menu dropdown-menu-start">
+						  <a class="dropdown-item" href="{{ path('entity.user.canonical', {'user': sidebar_user.id}) }}">
+							<i class="align-middle me-1" data-feather="user"></i> {{ 'Profile'|t }}
+						  </a>
+						  <a class="dropdown-item" href="#">
+							<i class="align-middle me-1" data-feather="pie-chart"></i> {{ 'Analytics'|t }}
+						  </a>
+						  <div class="dropdown-divider"></div>
+						  <a class="dropdown-item" href="/user/{{ sidebar_user.id }}/edit">
+							<i class="align-middle me-1" data-feather="settings"></i> {{ 'Settings & Privacy'|t }}
+						  </a>
+						  <a class="dropdown-item" href="#">
+							<i class="align-middle me-1" data-feather="help-circle"></i> {{ 'Help Center'|t }}
+						  </a>
+						  <div class="dropdown-divider"></div>
+						  <a class="dropdown-item" href="{{ path('user.logout') }}">
+							<i class="align-middle me-1" data-feather="log-out"></i> {{ 'Log out'|t }}
+						  </a>
+						</div>
+
+						{% if sidebar_user.mail %}
+						  <div class="sidebar-user-subtitle">
+							{{ sidebar_user.mail }}
+						  </div>
+						{% endif %}
+					  </div>
+					</div>
+				  </div>
+				{% endif %}
+
+
+				
+				{% if page.primary_menu %}
+					{{ page.primary_menu }}
+				{% endif %}
+				
+				<div class="sidebar-cta">
+					<div class="sidebar-cta-content">
+						<strong class="d-inline-block mb-2">Weekly Sales Report</strong>
+						<div class="mb-3 text-sm">
+							Your weekly sales report is ready for download!
+						</div>
+
+						<div class="d-grid">
+							<a href="https://adminkit.io/" class="btn btn-outline-primary" target="_blank">Download</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</nav>
+
+		<div class="main">
+			<nav class="navbar navbar-expand navbar-light navbar-bg">
+			  <a class="sidebar-toggle js-sidebar-toggle">
+				<i class="hamburger align-self-center"></i>
+			  </a>
+
+			  <form class="d-none d-sm-inline-block" method="get" action="{{ path('search.view') }}">
+				<div class="input-group input-group-navbar">
+				  <input type="text" class="form-control" name="keys" placeholder="{{ 'Search…'|t }}" aria-label="Search">
+				  <button class="btn" type="submit">
+					<i class="align-middle" data-feather="search"></i>
+				  </button>
+				</div>
+			  </form>
+
+			  <ul class="navbar-nav d-none d-lg-flex">
+				<li class="nav-item dropdown">
+				  <a class="nav-link dropdown-toggle" href="#" id="resourcesDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Resources
+				  </a>
+				  <div class="dropdown-menu" aria-labelledby="resourcesDropdown">
+					<a class="dropdown-item" href="https://www.drupal.org" target="_blank"><i class="align-middle me-1" data-feather="home"></i> Drupal.org</a>
+					<a class="dropdown-item" href="https://www.drupal.org/docs" target="_blank"><i class="align-middle me-1" data-feather="book-open"></i> Docs</a>
+					<a class="dropdown-item" href="https://www.drupal.org/project/issues/drupal" target="_blank"><i class="align-middle me-1" data-feather="edit"></i> Issues</a>
+				  </div>
+				</li>
+			  </ul>
+
+			  <div class="navbar-collapse collapse">
+				<ul class="navbar-nav navbar-align">
+				  <li class="nav-item dropdown">
+					<a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-bs-toggle="dropdown">
+					  <div class="position-relative">
+						<i class="align-middle" data-feather="bell"></i>
+						<span class="indicator">0</span>
+					  </div>
+					</a>
+					<div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="alertsDropdown">
+					  <div class="dropdown-menu-header">No New Notifications</div>
+					  <div class="dropdown-menu-footer">
+						<a href="#" class="text-muted">{{ 'Show all notifications'|t }}</a>
+					  </div>
+					</div>
+				  </li>
+
+				  {% if languages %}
+				  <li class="nav-item dropdown">
+					<a class="nav-icon dropdown-toggle" href="#" id="languageDropdown" data-bs-toggle="dropdown">
+					  {% set current_lang = languages[language_interface.id] %}
+					  <img src="/{{ directory }}/img/flags/{{ current_lang.id }}.png" alt="{{ current_lang.name }}" />
+					</a>
+					<div class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+					  {% for lang in languages %}
+						{% if lang.id != language_interface.id %}
+						  <a class="dropdown-item" href="{{ path('<current>', {}, {'language': lang }) }}">
+							<img src="/{{ directory }}/img/flags/{{ lang.id }}.png" width="20" class="me-1" />
+							<span class="align-middle">{{ lang.name }}</span>
+						  </a>
+						{% endif %}
+					  {% endfor %}
+					</div>
+				  </li>
+				{% endif %}
+
+
+				  {% if logged_in %}
+					<li class="nav-item dropdown">
+					  <a class="nav-icon pe-md-0 dropdown-toggle" href="#" data-bs-toggle="dropdown">
+						{% if user.picture %}
+						  <img src="{{ file_url(user.picture.entity.fileuri) }}" class="avatar img-fluid rounded" alt="{{ user.name }}" />
+						{% else %}
+						  <img src="/{{ directory }}/img/user5-128x128.jpg" class="avatar img-fluid rounded me-1" alt="{{ user.name }}" />
+						{% endif %}
+					  </a>
+					  <div class="dropdown-menu dropdown-menu-end">
+						<a class="dropdown-item" href="{{ path('entity.user.canonical', {'user': user.id}) }}"><i class="align-middle me-1" data-feather="user"></i> {{ 'Profile'|t }}</a>
+						<a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="pie-chart"></i> {{ 'Analytics'|t }}</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="/user/{{ user.id }}/edit"><i class="align-middle me-1" data-feather="settings"></i> {{ 'Settings & Privacy'|t }}</a>
+						<a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="help-circle"></i> {{ 'Help Center'|t }}</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="{{ path('user.logout') }}"><i class="align-middle me-1" data-feather="log-out"></i> {{ 'Log out'|t }}</a>
+					  </div>
+					</li>
+				  {% endif %}
+				</ul>
+			  </div>
+			</nav>
+			
+			<main class="content">
+			  <div class="container-fluid p-0">
+
+				{% if page.breadcrumb %}
+				  <div class="row mb-3">
+					<div class="col">
+					  {{ page.breadcrumb }}
+					</div>
+				  </div>
+				{% endif %}
+
+				{% if page.title %}				
+					<div class="col-auto d-none d-sm-block">
+						<h3><strong>{{ page.title }}</strong></h3>
+					</div>
+				{% endif %}
+
+				{% if page.highlighted %}
+				  <div class="row mb-3">
+					<div class="col">
+					  {{ page.highlighted }}
+					</div>
+				  </div>
+				{% endif %}
+
+				<div class="row">
+				  <div class="col-xl-12">
+					{{ page.content }}
+				  </div>
+				</div>
+
+				{% if page.help %}
+				  <div class="row mt-3">
+					<div class="col">
+					  {{ page.help }}
+					</div>
+				  </div>
+				{% endif %}
+
+			  </div>
+			</main>
+			
+
+			<footer class="footer">
+			  <div class="container-fluid">
+				<div class="row text-muted">
+
+				  <div class="col-6 text-start">
+					{% if page.footer_left %}
+					  {{ page.footer_left }}
+					{% else %}
+					  <p class="mb-0">
+						<a href="{{ path('<front>') }}" class="text-muted"><strong>{{ site_name }}</strong></a> &copy;
+					  </p>
+					{% endif %}
+				  </div>
+
+				  <div class="col-6 text-end">
+					{% if page.footer_right %}
+					  {{ page.footer_right }}					
+					{% endif %}
+				  </div>
+
+				</div>
+			  </div>
+			</footer>
+
+		</div>
+	</div>
+  <js-bottom-placeholder token="{{ placeholder_token }}">
+</body>
+</html>

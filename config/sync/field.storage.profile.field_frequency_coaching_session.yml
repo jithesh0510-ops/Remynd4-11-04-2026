@@ -1,0 +1,20 @@
+uuid: 85ba5008-2e6a-4ed7-bab4-5be31a4eddf2
+langcode: en
+status: true
+dependencies:
+  module:
+    - profile
+id: profile.field_frequency_coaching_session
+field_name: field_frequency_coaching_session
+entity_type: profile
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

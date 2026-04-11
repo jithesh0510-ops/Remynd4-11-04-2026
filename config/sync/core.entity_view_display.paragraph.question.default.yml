@@ -1,0 +1,42 @@
+uuid: 5635dbfd-44ef-407d-bae3-495861f5c202
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.question.field_competencies_action_plan
+    - field.field.paragraph.question.field_hint
+    - field.field.paragraph.question.field_title
+    - paragraphs.paragraphs_type.question
+  module:
+    - entity_reference_revisions
+id: paragraph.question.default
+targetEntityType: paragraph
+bundle: question
+mode: default
+content:
+  field_competencies_action_plan:
+    type: entity_reference_revisions_entity_view
+    label: inline
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_hint:
+    type: string
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_title:
+    type: string
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden: {  }

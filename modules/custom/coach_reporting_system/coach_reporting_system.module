@@ -1,0 +1,224 @@
+<?php
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Entity\EntityInterface;
+
+ 
+
+
+/**
+ * Implements hook_entity_operation_alter().
+ */
+function coach_reporting_system_entity_operation_alter(array &$operations, EntityInterface $entity) {
+  if ($entity->getEntityTypeId() === 'user') {
+    if (isset($operations['masquerade'])) {
+      $operations['masquerade']['title'] = t('Login');
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for user_register_form.
+ * Locks role/profile for both custom add-user pages:
+ *  - coach_reporting_system.add_coach   => role: coach,   field: coach_profiles
+ *  - coach_reporting_system.add_company => role: company, field: company_profiles
+ */
+ 
+ 
+function coach_reporting_system_form_user_register_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
+  $route = \Drupal::routeMatch()->getRouteName();
+
+  // Map route -> (role, profile field, submit label, validate cb, submit cb).
+  $configs = [
+    'coach_reporting_system.add_coach' => [
+      'role'          => 'coach',
+      'keep_field'    => 'coach_profiles',
+      'submit_label'  => t('Create Coach'),
+      'validate_cb'   => 'coach_reporting_system_only_coach_profiles_validate',
+      'submit_cb'     => 'coach_reporting_system_force_coach_role_and_profile_submit',
+    ],
+    'coach_reporting_system.add_company' => [
+      'role'          => 'company',
+      'keep_field'    => 'company_profiles',
+      'submit_label'  => t('Create Company'),
+      'validate_cb'   => 'coach_reporting_system_only_company_profiles_validate',
+      'submit_cb'     => 'coach_reporting_system_force_company_role_submit',
+    ],
+  ];
+
+  if (!isset($configs[$route])) {
+    return; // Not our custom add user routes.
+  }
+
+  $role_id          = $configs[$route]['role'];
+  $keep_profile     = $configs[$route]['keep_field'];
+  $submit_label     = $configs[$route]['submit_label'];
+  $validate_cb      = $configs[$route]['validate_cb'];
+  $submit_cb        = $configs[$route]['submit_cb'];
+
+  // 1) ROLE: preselect & lock to the intended role.
+  if (isset($form['account']['roles'])) {
+    $form['account']['roles']['#default_value'] = [$role_id];
+    if (!empty($form['account']['roles']['#options'])) {
+      foreach (array_keys($form['account']['roles']['#options']) as $rid) {
+        if ($rid !== $role_id) {
+          unset($form['account']['roles']['#options'][$rid]);
+        }
+      }
+    }
+  }
+
+  // 2) PROFILES: hide all *_profiles fields except the intended one.
+  foreach ($form as $key => &$element) {
+    if (!is_array($element)) {
+      continue;
+    }
+    $field_name = $element['#field_name'] ?? $key;
+    if (is_string($field_name)
+      && str_ends_with($field_name, '_profiles')
+      && $field_name !== $keep_profile
+    ) {
+      $element['#access'] = FALSE;
+      $form_state->unsetValue($key);
+    }
+  }
+
+  // 3) Safety nets: route-specific validate/submit handlers.
+  $form['#validate'][] = $validate_cb;
+  $form['#submit'][]   = $submit_cb;
+
+  // Optional: nicer submit label.
+  if (isset($form['actions']['submit'])) {
+    $form['actions']['submit']['#value'] = $submit_label;
+  }
+}
+
+/**
+ * Validate: keep only coach_profiles values on the Add Coach page.
+ */
+function coach_reporting_system_only_coach_profiles_validate(array &$form, FormStateInterface $form_state) {
+  if (\Drupal::routeMatch()->getRouteName() !== 'coach_reporting_system.add_coach') {
+    return;
+  }
+  $keep_profile_field = 'coach_profiles';
+  $values = $form_state->getValues();
+  foreach (array_keys($values) as $key) {
+    if (is_string($key) && str_ends_with($key, '_profiles') && $key !== $keep_profile_field) {
+      $form_state->unsetValue($key);
+    }
+  }
+}
+
+/**
+ * Submit: enforce only the Coach role.
+ */
+function coach_reporting_system_force_coach_role_and_profile_submit(array $form, FormStateInterface $form_state) {
+  if (\Drupal::routeMatch()->getRouteName() !== 'coach_reporting_system.add_coach') {
+    return;
+  }
+  $role_id = 'coach';
+  $account = $form_state->getFormObject()->getEntity();
+  foreach ($account->getRoles(TRUE) as $rid) {
+    if ($rid !== $role_id) {
+      $account->removeRole($rid);
+    }
+  }
+  if (!$account->hasRole($role_id)) {
+    $account->addRole($role_id);
+  }
+}
+
+/**
+ * Validate: keep only company_profiles values on the Add Company page.
+ */
+function coach_reporting_system_only_company_profiles_validate(array &$form, FormStateInterface $form_state) {
+  if (\Drupal::routeMatch()->getRouteName() !== 'coach_reporting_system.add_company') {
+    return;
+  }
+  $keep_profile_field = 'company_profiles';
+  $values = $form_state->getValues();
+  foreach (array_keys($values) as $key) {
+    if (is_string($key) && str_ends_with($key, '_profiles') && $key !== $keep_profile_field) {
+      $form_state->unsetValue($key);
+    }
+  }
+}
+
+/**
+ * Submit: enforce only the Company role.
+ */
+function coach_reporting_system_force_company_role_submit(array $form, FormStateInterface $form_state) {
+  if (\Drupal::routeMatch()->getRouteName() !== 'coach_reporting_system.add_company') {
+    return;
+  }
+  $role_id = 'company';
+  $account = $form_state->getFormObject()->getEntity();
+  foreach ($account->getRoles(TRUE) as $rid) {
+    if ($rid !== $role_id) {
+      $account->removeRole($rid);
+    }
+  }
+  if (!$account->hasRole($role_id)) {
+    $account->addRole($role_id);
+  }
+}
+
+
+/**
+ * Implements hook_theme().
+ */
+function coach_reporting_system_theme() {
+  return [
+    'report_result_tabs' => [
+      'variables' => [
+        'employee_details' => NULL,
+        'tabs' => NULL,
+        'no_tabs' => NULL,
+      ],
+      'template' => 'report-result-tabs',
+    ],
+    'report_result' => [
+      'variables' => [
+        'employee_details' => NULL,
+        'per_person_report' => NULL,
+        'competency_analysis' => NULL,
+        'on_job_performance' => NULL,
+        'coaching_impact' => NULL,
+        'one_to_one_coaching' => NULL,
+      ],
+      'template' => 'report-result',
+    ],
+    'per_person_report' => [
+      'variables' => [
+        'table' => NULL,
+      ],
+      'template' => 'per-person-report',
+    ],
+    'performance_dashboard' => [
+      'variables' => [
+        'metrics' => NULL,
+        'chart_data' => NULL,
+        'action_report' => NULL,
+        'users_report' => NULL,
+      ],
+      'template' => 'performance-dashboard',
+    ],
+    'performance_dashboard_accordion' => [
+      'variables' => [
+        'companies' => NULL,
+        'coaches' => NULL,
+        'selected_company' => NULL,
+        'selected_coach' => NULL,
+        'is_company' => FALSE,
+        'company_name' => NULL,
+        'coach_name' => NULL,
+        'report_type' => NULL,
+        'from_date' => NULL,
+        'to_date' => NULL,
+        'show_results' => FALSE,
+        'accordion_items' => NULL,
+      ],
+      'template' => 'performance-dashboard-accordion',
+    ],
+  ];
+}

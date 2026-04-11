@@ -1,0 +1,25 @@
+uuid: ab2c50df-484f-4809-a9ea-eaa099fbf876
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.profile.field_company
+    - profile.type.coach
+id: profile.coach.field_company
+field_name: field_company
+entity_type: profile
+bundle: coach
+label: Company
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: views
+  handler_settings:
+    view:
+      view_name: users
+      display_name: entity_reference_1
+      arguments: {  }
+field_type: entity_reference

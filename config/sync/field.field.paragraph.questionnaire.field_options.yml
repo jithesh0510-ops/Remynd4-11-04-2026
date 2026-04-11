@@ -1,0 +1,82 @@
+uuid: f284e8b1-c3b9-451d-bc6f-8a04390c6d0f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_options
+    - paragraphs.paragraphs_type.options
+    - paragraphs.paragraphs_type.questionnaire
+  module:
+    - entity_reference_revisions
+id: paragraph.questionnaire.field_options
+field_name: field_options
+entity_type: paragraph
+bundle: questionnaire
+label: Options
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      options: options
+    negate: 0
+    target_bundles_drag_drop:
+      category:
+        weight: 19
+        enabled: false
+      coaching_one_to_one_report:
+        weight: 20
+        enabled: false
+      color_interaction_tool:
+        weight: 21
+        enabled: false
+      decision_making_unit:
+        weight: 22
+        enabled: false
+      fabs:
+        weight: 23
+        enabled: false
+      handle_objections:
+        weight: 24
+        enabled: false
+      kpi:
+        weight: 25
+        enabled: false
+      options:
+        weight: 26
+        enabled: true
+      pipeline:
+        weight: 27
+        enabled: false
+      question:
+        weight: 28
+        enabled: false
+      questionnaire:
+        weight: 29
+        enabled: false
+      sub_category:
+        weight: 30
+        enabled: false
+      sub_sub_category:
+        weight: 31
+        enabled: false
+      survey:
+        weight: 32
+        enabled: false
+      survey_options:
+        weight: 33
+        enabled: false
+      survey_questions:
+        weight: 34
+        enabled: false
+      survey_top_section:
+        weight: 35
+        enabled: false
+      testimonial:
+        weight: 36
+        enabled: false
+field_type: entity_reference_revisions

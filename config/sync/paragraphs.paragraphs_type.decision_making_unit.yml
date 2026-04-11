@@ -1,0 +1,10 @@
+uuid: 7042f1e7-93e7-4934-8ef8-a1553883ca19
+langcode: en
+status: true
+dependencies: {  }
+id: decision_making_unit
+label: 'Decision Making Unit'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

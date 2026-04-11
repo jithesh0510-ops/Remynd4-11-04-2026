@@ -1,0 +1,21 @@
+uuid: 8e9effed-0eee-4c18-8cc6-1bd7141bcac7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.profile.field_see_previous_date
+    - profile.type.coach
+id: profile.coach.field_see_previous_date
+field_name: field_see_previous_date
+entity_type: profile
+bundle: coach
+label: 'See Previous Date'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

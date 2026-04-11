@@ -1,0 +1,5 @@
+services:
+  email_otp_login.route_subscriber:
+    class: Drupal\email_otp_login\Routing\RouteSubscriber
+    tags:
+      - { name: event_subscriber }

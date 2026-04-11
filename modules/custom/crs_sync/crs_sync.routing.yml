@@ -1,0 +1,7 @@
+crs_sync.dashboard:
+  path: '/crs-sync/dashboard'
+  defaults:
+    _controller: '\Drupal\crs_sync\Controller\SyncController::dashboard'
+    _title: 'CRS Sync Dashboard'
+  requirements:
+    _permission: 'access content'

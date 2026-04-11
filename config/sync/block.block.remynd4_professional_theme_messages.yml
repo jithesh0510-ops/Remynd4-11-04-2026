@@ -1,0 +1,22 @@
+uuid: 99143d59-44ad-47c7-84e5-5d301fb7bf60
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - remynd4_professional_theme
+_core:
+  default_config_hash: 4lBtFn7FphDdzgelXqwibl5ejyu7tqrwZvVmf82MgRA
+id: remynd4_professional_theme_messages
+theme: remynd4_professional_theme
+region: content
+weight: -5
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: Messages
+  label_display: '0'
+  provider: system
+visibility: {  }

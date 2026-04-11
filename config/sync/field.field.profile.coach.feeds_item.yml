@@ -1,0 +1,23 @@
+uuid: 999131c5-f7fb-4e46-a7ff-bd34b9855b49
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.profile.feeds_item
+    - profile.type.coach
+  module:
+    - feeds
+id: profile.coach.feeds_item
+field_name: feeds_item
+entity_type: profile
+bundle: coach
+label: 'Feeds item'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:feeds_feed'
+  handler_settings: {  }
+field_type: feeds_item

@@ -1,0 +1,23 @@
+uuid: a7d64c92-51b5-4b79-b4cf-562a5f0ab72b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.fabs_fields.field_product_name
+    - paragraphs.paragraphs_type.fabs_fields
+id: paragraph.fabs_fields.default
+targetEntityType: paragraph
+bundle: fabs_fields
+mode: default
+content:
+  field_product_name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

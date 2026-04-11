@@ -1,0 +1,18 @@
+uuid: 5211af36-6b5b-4df3-a16a-00ecc8598cc4
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.survey
+id: node.survey.created
+field_name: created
+entity_type: node
+bundle: survey
+label: 'Authored on'
+description: 'The date and time that the content was created.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

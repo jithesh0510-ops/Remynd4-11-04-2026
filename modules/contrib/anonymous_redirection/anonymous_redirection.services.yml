@@ -1,0 +1,6 @@
+services:
+  anonymous_redirection.event_subscriber:
+    class: Drupal\anonymous_redirection\EventSubscriber\AnonymousRedirectionSubscriber
+    arguments: ['@current_user', '@request_stack']
+    tags:
+      - { name: event_subscriber }

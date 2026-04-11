@@ -1,0 +1,21 @@
+uuid: 2115a75a-5221-402a-992f-91a932ae581a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_testimonial
+    - paragraphs.paragraphs_type.testimonial
+id: paragraph.testimonial.field_testimonial
+field_name: field_testimonial
+entity_type: paragraph
+bundle: testimonial
+label: Testimonial
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: 'Kindly write down a testimonial'
+default_value_callback: ''
+settings: {  }
+field_type: string_long

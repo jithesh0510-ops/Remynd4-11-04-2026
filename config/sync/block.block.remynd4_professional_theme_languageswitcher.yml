@@ -1,0 +1,20 @@
+uuid: 56646f20-afe2-4ee5-999f-14b71e3dafc1
+langcode: en
+status: true
+dependencies:
+  module:
+    - language
+  theme:
+    - remynd4_professional_theme
+id: remynd4_professional_theme_languageswitcher
+theme: remynd4_professional_theme
+region: header
+weight: 0
+provider: null
+plugin: 'language_block:language_interface'
+settings:
+  id: 'language_block:language_interface'
+  label: 'Language switcher'
+  label_display: '0'
+  provider: language
+visibility: {  }

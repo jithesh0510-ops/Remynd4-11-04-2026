@@ -1,0 +1,78 @@
+uuid: cc0b2e44-0e44-4b96-b364-f5040d682ff4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.profile.employee.feeds_item
+    - field.field.profile.employee.field_branch
+    - field.field.profile.employee.field_coach
+    - field.field.profile.employee.field_company
+    - field.field.profile.employee.field_employee_number
+    - field.field.profile.employee.field_job_position
+    - field.field.profile.employee.field_view_report
+    - profile.type.employee
+  module:
+    - select2
+id: profile.employee.default
+targetEntityType: profile
+bundle: employee
+mode: default
+content:
+  field_branch:
+    type: entity_reference_autocomplete
+    weight: 27
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_coach:
+    type: select2_entity_reference
+    weight: 2
+    region: content
+    settings:
+      width: 100%
+      autocomplete: false
+      match_operator: CONTAINS
+      match_limit: 10
+    third_party_settings: {  }
+  field_company:
+    type: select2_entity_reference
+    weight: 1
+    region: content
+    settings:
+      width: 100%
+      autocomplete: false
+      match_operator: CONTAINS
+      match_limit: 10
+    third_party_settings: {  }
+  field_employee_number:
+    type: string_textfield
+    weight: 29
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_job_position:
+    type: entity_reference_autocomplete
+    weight: 28
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_view_report:
+    type: boolean_checkbox
+    weight: 26
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+hidden:
+  feeds_item: true
+  is_default: true

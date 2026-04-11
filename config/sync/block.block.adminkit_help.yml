@@ -1,0 +1,22 @@
+uuid: ca8349e2-9867-4428-a6c3-6caab3fdcc6e
+langcode: en
+status: true
+dependencies:
+  module:
+    - help
+  theme:
+    - adminkit
+_core:
+  default_config_hash: LboS2JXy9W-E4MFKQksI6TctZCies42HjNrMo-L0jWE
+id: adminkit_help
+theme: adminkit
+region: content
+weight: -3
+provider: null
+plugin: help_block
+settings:
+  id: help_block
+  label: Help
+  label_display: '0'
+  provider: help
+visibility: {  }

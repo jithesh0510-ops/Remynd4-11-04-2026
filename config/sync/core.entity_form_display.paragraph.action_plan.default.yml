@@ -1,0 +1,39 @@
+uuid: d8496baf-e276-4d6e-86a1-d6836d987b9b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.action_plan.field_excercise
+    - field.field.paragraph.action_plan.field_form
+    - field.field.paragraph.action_plan.field_to
+    - paragraphs.paragraphs_type.action_plan
+id: paragraph.action_plan.default
+targetEntityType: paragraph
+bundle: action_plan
+mode: default
+content:
+  field_excercise:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_form:
+    type: number
+    weight: 0
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_to:
+    type: number
+    weight: 1
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

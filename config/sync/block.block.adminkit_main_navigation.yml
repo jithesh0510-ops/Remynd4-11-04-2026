@@ -1,0 +1,27 @@
+uuid: 4af196fb-6cef-463d-8924-8cd751938e35
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.main
+  module:
+    - system
+  theme:
+    - adminkit
+_core:
+  default_config_hash: KLMbdngczHd0RpmyzrandtC1jyXEv80Jtj7ofIVIKu8
+id: adminkit_main_navigation
+theme: adminkit
+region: primary_menu
+weight: -5
+provider: null
+plugin: 'system_menu_block:main'
+settings:
+  id: 'system_menu_block:main'
+  label: 'Main navigation'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 0
+  expand_all_items: true
+visibility: {  }

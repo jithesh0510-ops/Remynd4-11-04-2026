@@ -1,0 +1,14 @@
+uuid: 1d821287-5762-4a57-a87c-081451b03fb5
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.company
+  module:
+    - user
+id: user_remove_role_action.company
+label: 'Remove the Company role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: company

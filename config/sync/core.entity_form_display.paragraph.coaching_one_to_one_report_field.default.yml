@@ -1,0 +1,23 @@
+uuid: afce8113-d445-40af-bfbf-b8f9115e0af3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.coaching_one_to_one_report_field.field_product_name
+    - paragraphs.paragraphs_type.coaching_one_to_one_report_field
+id: paragraph.coaching_one_to_one_report_field.default
+targetEntityType: paragraph
+bundle: coaching_one_to_one_report_field
+mode: default
+content:
+  field_product_name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

@@ -1,0 +1,11 @@
+uuid: 7c645bca-6e32-4e06-a81b-eeae2a96ce88
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+id: user.company
+label: Company
+description: ''
+targetEntityType: user
+cache: true

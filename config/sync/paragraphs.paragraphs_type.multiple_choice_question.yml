@@ -1,0 +1,10 @@
+uuid: c5835418-e3d7-42dd-a061-2655470be997
+langcode: en
+status: true
+dependencies: {  }
+id: multiple_choice_question
+label: 'Multiple choice question'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

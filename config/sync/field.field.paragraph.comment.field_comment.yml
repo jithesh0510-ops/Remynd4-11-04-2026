@@ -1,0 +1,21 @@
+uuid: f6b00916-9300-4b85-889e-e321a98a3742
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_comment
+    - paragraphs.paragraphs_type.comment
+id: paragraph.comment.field_comment
+field_name: field_comment
+entity_type: paragraph
+bundle: comment
+label: Comment
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: 'Write your Comment'
+default_value_callback: ''
+settings: {  }
+field_type: string_long

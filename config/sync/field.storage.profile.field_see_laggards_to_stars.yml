@@ -1,0 +1,18 @@
+uuid: 035589a5-45e6-4cbb-b969-aefe58a01913
+langcode: en
+status: true
+dependencies:
+  module:
+    - profile
+id: profile.field_see_laggards_to_stars
+field_name: field_see_laggards_to_stars
+entity_type: profile
+type: boolean
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

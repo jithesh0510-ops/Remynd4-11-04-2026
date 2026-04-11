@@ -1,0 +1,13 @@
+{#
+/**
+ * @file
+ * Theme override for search input field.
+ */
+#}
+<div class="input-group input-group-navbar">
+  <input{{ attributes.addClass('form-control').setAttribute('placeholder', 'Search…'|t).setAttribute('aria-label', 'Search') }} />
+  <button class="btn" type="submit">
+    <i class="align-middle" data-feather="search"></i>
+  </button>
+</div>
+

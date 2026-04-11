@@ -1,0 +1,22 @@
+uuid: d60f991c-130b-46d1-8044-05f21c5c922c
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - remynd4_professional_theme
+_core:
+  default_config_hash: 9_NqR6dIAo-kjTURrM5eAWQG7YEY0sYKOp1sfzBWXvs
+id: remynd4_professional_theme_content
+theme: remynd4_professional_theme
+region: content
+weight: -1
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  label_display: '0'
+  provider: system
+visibility: {  }

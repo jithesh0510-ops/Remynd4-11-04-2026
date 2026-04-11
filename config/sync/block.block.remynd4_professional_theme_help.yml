@@ -1,0 +1,22 @@
+uuid: a1312b54-9837-4f4c-a923-e09187d204dc
+langcode: en
+status: true
+dependencies:
+  module:
+    - help
+  theme:
+    - remynd4_professional_theme
+_core:
+  default_config_hash: LboS2JXy9W-E4MFKQksI6TctZCies42HjNrMo-L0jWE
+id: remynd4_professional_theme_help
+theme: remynd4_professional_theme
+region: content
+weight: -3
+provider: null
+plugin: help_block
+settings:
+  id: help_block
+  label: Help
+  label_display: '0'
+  provider: help
+visibility: {  }

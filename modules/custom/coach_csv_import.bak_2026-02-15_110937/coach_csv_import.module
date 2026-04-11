@@ -1,0 +1,11 @@
+<?php
+
+/**
+ * Implements hook_mail().
+ */
+function coach_csv_import_mail($key, &$message, $params) {
+  if ($key === 'coach_import') {
+    $message['subject'] = $params['subject'] ?? 'Coach account updated';
+    $message['body'][] = $params['message'] ?? '';
+  }
+}

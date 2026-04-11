@@ -1,0 +1,21 @@
+uuid: 27ad4117-54c7-4e1c-9bdd-e43be1b0d159
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_collect_name
+    - node.type.survey
+id: node.survey.field_collect_name
+field_name: field_collect_name
+entity_type: node
+bundle: survey
+label: 'Collect Name'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

@@ -1,0 +1,3 @@
+administer crs sync:
+  title: 'Administer CRS Sync'
+  description: 'Run CRS sync operations and view dashboard.'

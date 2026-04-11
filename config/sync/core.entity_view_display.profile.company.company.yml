@@ -1,0 +1,42 @@
+uuid: 042c56b6-1aaa-4c56-8929-313c8d26f007
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.profile.company
+    - field.field.profile.company.feeds_item
+    - field.field.profile.company.field_company_id
+    - field.field.profile.company.field_company_name
+    - field.field.profile.company.field_frequency_coaching_session
+    - field.field.profile.company.field_no_of_coach
+    - field.field.profile.company.field_no_of_employees
+    - field.field.profile.company.field_no_of_password_generated
+    - field.field.profile.company.field_select_questionnaire
+    - profile.type.company
+  module:
+    - layout_builder
+third_party_settings:
+  layout_builder:
+    enabled: false
+    allow_custom: false
+id: profile.company.company
+targetEntityType: profile
+bundle: company
+mode: company
+content:
+  field_company_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  feeds_item: true
+  field_company_id: true
+  field_frequency_coaching_session: true
+  field_no_of_coach: true
+  field_no_of_employees: true
+  field_no_of_password_generated: true
+  field_select_questionnaire: true

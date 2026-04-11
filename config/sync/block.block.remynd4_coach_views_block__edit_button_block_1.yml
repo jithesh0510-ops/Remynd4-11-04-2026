@@ -1,0 +1,34 @@
+uuid: be42473e-1dbc-4bf2-a30d-91aa591515b6
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.edit_button
+  module:
+    - node
+    - views
+  theme:
+    - remynd4_coach
+id: remynd4_coach_views_block__edit_button_block_1
+theme: remynd4_coach
+region: breadcrumb
+weight: 0
+provider: null
+plugin: 'views_block:edit_button-block_1'
+settings:
+  id: 'views_block:edit_button-block_1'
+  label: ''
+  label_display: '0'
+  provider: views
+  context_mapping: {  }
+  views_label: ''
+  items_per_page: '1'
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      questionnaire: questionnaire
+      survey: survey

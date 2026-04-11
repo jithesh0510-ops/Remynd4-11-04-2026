@@ -1,0 +1,129 @@
+<?php
+
+use Drupal\user\Entity\Role;
+
+/**
+ * Implements hook_install().
+ */
+function crs_sync_install() {
+  $schema = \Drupal::database()->schema();
+
+  // === OLD TABLE (unchanged): user legacy → uid map ==========================
+  if (!$schema->tableExists('crs_sync_legacy_map')) {
+    $schema->createTable('crs_sync_legacy_map', [
+      'fields' => [
+        'type' => ['type' => 'varchar', 'length' => 32, 'not null' => TRUE],
+        'legacy_id' => ['type' => 'varchar', 'length' => 128, 'not null' => TRUE],
+        'uid' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+        'created' => ['type' => 'int', 'not null' => TRUE, 'default' => 0],
+        'changed' => ['type' => 'int', 'not null' => TRUE, 'default' => 0],
+      ],
+      'primary key' => ['type', 'legacy_id'],
+      'indexes' => [
+        'uid' => ['uid'],
+      ],
+    ]);
+  }
+
+  // === NEW TABLE: content legacy → Drupal entity map =========================
+  if (!$schema->tableExists('crs_sync_content_map')) {
+    $schema->createTable('crs_sync_content_map', [
+      'fields' => [
+        'type' => [
+          'type' => 'varchar',
+          'length' => 32,
+          'not null' => TRUE,
+        ],
+        'legacy_id' => [
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+        ],
+        'target_type' => [
+          'type' => 'varchar',
+          'length' => 32,
+          'not null' => TRUE,
+        ],
+        'target_id' => [
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+        ],
+        'bundle' => [
+          'type' => 'varchar',
+          'length' => 64,
+          'not null' => TRUE,
+        ],
+        'notes' => [
+          'type' => 'varchar',
+          'length' => 255,
+        ],
+        'created' => [
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+          'default' => 0,
+        ],
+        'changed' => [
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+          'default' => 0,
+        ],
+      ],
+      'primary key' => ['type', 'legacy_id'],
+      'indexes' => [
+        'target_lookup' => ['target_type', 'target_id'],
+        'bundle_type'   => ['bundle'],
+      ],
+    ]);
+  }
+
+  // Ensure roles exist.
+  foreach (['company', 'coach', 'employee'] as $rid) {
+    if (!Role::load($rid)) {
+      $role = Role::create(['id' => $rid, 'label' => ucfirst($rid)]);
+      $role->grantPermission('access content');
+      $role->save();
+    }
+  }
+}
+
+/**
+ * Update hook: add the content map table for existing installs.
+ */
+function crs_sync_update_11003() {
+  $schema = \Drupal::database()->schema();
+  if (!$schema->tableExists('crs_sync_content_map')) {
+    $schema->createTable('crs_sync_content_map', [
+      'fields' => [
+        'type' => ['type' => 'varchar', 'length' => 32, 'not null' => TRUE],
+        'legacy_id' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE],
+        'target_type' => ['type' => 'varchar', 'length' => 32, 'not null' => TRUE],
+        'target_id' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE],
+        'bundle' => ['type' => 'varchar', 'length' => 64, 'not null' => TRUE],
+        'notes' => ['type' => 'varchar', 'length' => 255],
+        'created' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+        'changed' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 0],
+      ],
+      'primary key' => ['type', 'legacy_id'],
+      'indexes' => [
+        'target_lookup' => ['target_type', 'target_id'],
+        'bundle_type'   => ['bundle'],
+      ],
+    ]);
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function crs_sync_uninstall() {
+  $schema = \Drupal::database()->schema();
+  if ($schema->tableExists('crs_sync_legacy_map')) {
+    $schema->dropTable('crs_sync_legacy_map');
+  }
+  if ($schema->tableExists('crs_sync_content_map')) {
+    $schema->dropTable('crs_sync_content_map');
+  }
+}

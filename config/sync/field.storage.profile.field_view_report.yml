@@ -1,0 +1,18 @@
+uuid: f574f10c-0789-4ab6-a66f-70a0e8ebd64b
+langcode: en
+status: true
+dependencies:
+  module:
+    - profile
+id: profile.field_view_report
+field_name: field_view_report
+entity_type: profile
+type: boolean
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

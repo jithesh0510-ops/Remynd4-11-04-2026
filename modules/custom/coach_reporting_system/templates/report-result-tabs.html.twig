@@ -1,0 +1,16 @@
+{#
+/**
+ * @file
+ * Template for displaying report results with tabs.
+ */
+#}
+
+<div class="report-result-tabs">
+  {{ employee_details }}
+  
+  {% if no_tabs %}
+    {{ no_tabs }}
+  {% else %}
+    {{ tabs }}
+  {% endif %}
+</div>

@@ -1,0 +1,869 @@
+/**
+ * @file
+ * Professional styling for the user edit form.
+ */
+
+/* ==========================================================================
+   Form Wrapper
+   ========================================================================== */
+
+.user-edit-form-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.user-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* ==========================================================================
+   Form Section Cards
+   ========================================================================== */
+
+.form-section-card {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.form-section-card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-section-header {
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #f9fafb 0%, #ffffff 100%);
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.form-section-title {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  line-height: 1.4;
+}
+
+.form-section-description {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.form-section-body {
+  padding: 1.5rem;
+}
+
+/* ==========================================================================
+   Field Groups (Fieldsets)
+   ========================================================================== */
+
+.form-section-body .fieldset-wrapper,
+.form-section-body fieldset {
+  border: none;
+  padding: 0;
+  margin: 0 0 1.5rem 0;
+}
+
+.form-section-body .fieldset-wrapper:last-child,
+.form-section-body fieldset:last-child {
+  margin-bottom: 0;
+}
+
+.form-section-body .fieldset-wrapper legend,
+.form-section-body fieldset legend {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 1rem;
+  padding: 0;
+  border: none;
+  width: 100%;
+  display: block;
+}
+
+.form-section-body .fieldset-wrapper .fieldset-wrapper,
+.form-section-body fieldset .fieldset-wrapper {
+  margin-bottom: 1rem;
+}
+
+/* Collapsed fieldsets */
+.form-section-body .fieldset-wrapper.collapsed,
+.form-section-body fieldset.collapsed {
+  margin-bottom: 0.5rem;
+}
+
+.form-section-body .fieldset-wrapper.collapsed .fieldset-wrapper,
+.form-section-body fieldset.collapsed .fieldset-wrapper {
+  display: none;
+}
+
+/* Fieldset toggle button */
+.form-section-body .fieldset-wrapper .fieldset-title,
+.form-section-body fieldset .fieldset-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 0.75rem;
+  background-color: #f9fafb;
+  border-radius: 0.375rem;
+  margin-bottom: 1rem;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.form-section-body .fieldset-wrapper .fieldset-title:hover,
+.form-section-body fieldset .fieldset-title:hover {
+  background-color: #f3f4f6;
+}
+
+/* ==========================================================================
+   Form Fields
+   ========================================================================== */
+
+.form-section-body .form-item {
+  margin-bottom: 1.5rem;
+}
+
+.form-section-body .form-item:last-child {
+  margin-bottom: 0;
+}
+
+/* ==========================================================================
+   Column Layouts for Related Fields
+   ========================================================================== */
+
+/* Personal Information - Name fields in columns */
+#edit-group-personal-information .fieldset-wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+#edit-group-personal-information .field--name-field-full-name {
+  grid-column: 1 / -1;
+}
+
+#edit-group-personal-information .field--name-user-picture {
+  grid-column: 1 / -1;
+}
+
+/* Contact Information - Phone and Website side by side */
+#edit-group-contact-information .fieldset-wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+#edit-group-contact-information .field--name-field-address {
+  grid-column: 1 / -1;
+}
+
+/* Account Information - Status and Roles side by side */
+#edit-group-account-information .fieldset-wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+#edit-group-account-information #edit-account {
+  grid-column: 1 / -1;
+}
+
+#edit-group-account-information #edit-pass {
+  grid-column: 1 / -1;
+}
+
+/* Password fields side by side */
+#edit-pass {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+#edit-pass .password-parent,
+#edit-pass .confirm-parent {
+  margin-bottom: 0;
+}
+
+/* Roles checkboxes in columns */
+#edit-roles.form-checkboxes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+/* Status radios side by side */
+#edit-status {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+}
+
+/* Employee Profile fields in columns */
+.field--name-employee-profiles details .fieldset-wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.field--name-employee-profiles .field--name-field-company,
+.field--name-employee-profiles .field--name-field-coach {
+  grid-column: 1 / -1;
+}
+
+.field--name-employee-profiles .field--name-field-view-report {
+  grid-column: 1 / -1;
+}
+
+.form-section-body .form-item label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  line-height: 1.5;
+}
+
+.form-section-body .form-item label.option {
+  display: inline;
+  margin-left: 0.5rem;
+  font-weight: 400;
+}
+
+.form-section-body .form-item .description {
+  margin-top: 0.375rem;
+  font-size: 0.8125rem;
+  color: #6b7280;
+  line-height: 1.4;
+}
+
+.form-section-body .form-item .form-text,
+.form-section-body .form-item .form-email,
+.form-section-body .form-item .form-tel,
+.form-section-body .form-item .form-url,
+.form-section-body .form-item .form-textarea,
+.form-section-body .form-item .form-select,
+.form-section-body .form-item input[type="text"],
+.form-section-body .form-item input[type="email"],
+.form-section-body .form-item input[type="tel"],
+.form-section-body .form-item input[type="url"],
+.form-section-body .form-item input[type="password"],
+.form-section-body .form-item textarea,
+.form-section-body .form-item select {
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #1f2937;
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-section-body .form-item .form-text:focus,
+.form-section-body .form-item .form-email:focus,
+.form-section-body .form-item .form-tel:focus,
+.form-section-body .form-item .form-url:focus,
+.form-section-body .form-item .form-textarea:focus,
+.form-section-body .form-item .form-select:focus,
+.form-section-body .form-item input[type="text"]:focus,
+.form-section-body .form-item input[type="email"]:focus,
+.form-section-body .form-item input[type="tel"]:focus,
+.form-section-body .form-item input[type="url"]:focus,
+.form-section-body .form-item input[type="password"]:focus,
+.form-section-body .form-item textarea:focus,
+.form-section-body .form-item select:focus {
+  border-color: #86f1ff;
+  outline: 0;
+  box-shadow: 0 0 0 3px rgba(134, 241, 255, 0.1);
+}
+
+/* ==========================================================================
+   Image Upload Field
+   ========================================================================== */
+
+.form-section-body .form-item--user-picture {
+  padding: 1rem;
+  background-color: #f9fafb;
+  border: 1px dashed #d1d5db;
+  border-radius: 0.5rem;
+}
+
+.form-section-body .form-item--user-picture .image-preview {
+  margin-top: 1rem;
+}
+
+.form-section-body .form-item--user-picture .image-preview img {
+  max-width: 200px;
+  height: auto;
+  border-radius: 0.5rem;
+  border: 2px solid #e5e7eb;
+}
+
+/* ==========================================================================
+   Address Field
+   ========================================================================== */
+
+.form-section-body .address-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.form-section-body .address-container .form-item {
+  margin-bottom: 0;
+}
+
+/* ==========================================================================
+   Checkboxes and Radio Buttons
+   ========================================================================== */
+
+.form-section-body .form-checkboxes,
+.form-section-body .form-radios {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.form-section-body .form-checkbox,
+.form-section-body .form-radio {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+  cursor: pointer;
+}
+
+.form-section-body .form-type-checkbox,
+.form-section-body .form-type-radio {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
+}
+
+/* ==========================================================================
+   Profile Forms
+   ========================================================================== */
+
+.form-section-body .profile-form-wrapper {
+  padding: 1rem;
+  background-color: #f9fafb;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+}
+
+.form-section-body .profile-form-wrapper .form-item {
+  margin-bottom: 1rem;
+}
+
+.form-section-body .profile-form-wrapper .form-item:last-child {
+  margin-bottom: 0;
+}
+
+/* ==========================================================================
+   Form Actions
+   ========================================================================== */
+
+.form-actions-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 1.5rem;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  margin-top: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.form-actions-wrapper .form-actions {
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+}
+
+.form-actions-wrapper .button,
+.form-actions-wrapper .form-submit {
+  padding: 0.625rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.5;
+  border-radius: 0.375rem;
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.form-actions-wrapper .button--primary,
+.form-actions-wrapper .form-submit {
+  background-color: #86f1ff;
+  color: #1f2937;
+  border-color: #86f1ff;
+}
+
+.form-actions-wrapper .button--primary:hover,
+.form-actions-wrapper .form-submit:hover {
+  background-color: #5de5f5;
+  border-color: #5de5f5;
+}
+
+.form-actions-wrapper .button--secondary {
+  background-color: #ffffff;
+  color: #374151;
+  border-color: #d1d5db;
+}
+
+.form-actions-wrapper .button--secondary:hover {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+}
+
+/* ==========================================================================
+   Required Field Indicators
+   ========================================================================== */
+
+.form-section-body .form-required {
+  color: #ef4444;
+  margin-left: 0.25rem;
+}
+
+/* ==========================================================================
+   Error Messages
+   ========================================================================== */
+
+.form-section-body .form-item--error-message {
+  color: #ef4444;
+  font-size: 0.8125rem;
+  margin-top: 0.375rem;
+}
+
+.form-section-body .form-item--error .form-text,
+.form-section-body .form-item--error .form-email,
+.form-section-body .form-item--error .form-tel,
+.form-section-body .form-item--error .form-url,
+.form-section-body .form-item--error .form-textarea,
+.form-section-body .form-item--error .form-select {
+  border-color: #ef4444;
+}
+
+.form-section-body .form-item--error .form-text:focus,
+.form-section-body .form-item--error .form-email:focus,
+.form-section-body .form-item--error .form-tel:focus,
+.form-section-body .form-item--error .form-url:focus,
+.form-section-body .form-item--error .form-textarea:focus,
+.form-section-body .form-item--error .form-select:focus {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+/* ==========================================================================
+   Form Wrapper (Direct form styling)
+   ========================================================================== */
+
+.user-form {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.user-form fieldset {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.user-form fieldset legend {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  padding: 0 0.75rem;
+  margin-bottom: 1rem;
+  border: none;
+  width: auto;
+}
+
+.user-form fieldset .fieldset-wrapper {
+  margin-top: 1rem;
+}
+
+/* Personal Information - Name fields in columns */
+.user-form #edit-group-personal-information .fieldset-wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.user-form #edit-group-personal-information .field--name-field-full-name {
+  grid-column: 1 / -1;
+}
+
+.user-form #edit-group-personal-information .field--name-user-picture {
+  grid-column: 1 / -1;
+}
+
+/* Contact Information - Phone and Website side by side */
+.user-form #edit-group-contact-information .fieldset-wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.user-form #edit-group-contact-information .field--name-field-address {
+  grid-column: 1 / -1;
+}
+
+/* Account Information - Status and Roles side by side */
+.user-form #edit-group-account-information .fieldset-wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.user-form #edit-group-account-information #edit-account {
+  grid-column: 1 / -1;
+}
+
+.user-form #edit-group-account-information #edit-pass {
+  grid-column: 1 / -1;
+}
+
+/* Password fields side by side */
+.user-form #edit-pass {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.user-form #edit-pass .password-parent,
+.user-form #edit-pass .confirm-parent {
+  margin-bottom: 0;
+}
+
+/* Roles checkboxes in columns */
+.user-form #edit-roles.form-checkboxes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+/* Status radios side by side */
+.user-form #edit-status {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+}
+
+/* Employee Profile fields in columns */
+.user-form .field--name-employee-profiles details .fieldset-wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.user-form .field--name-employee-profiles .field--name-field-company,
+.user-form .field--name-employee-profiles .field--name-field-coach {
+  grid-column: 1 / -1;
+}
+
+.user-form .field--name-employee-profiles .field--name-field-view-report {
+  grid-column: 1 / -1;
+}
+
+/* Employee Profile details styling */
+.user-form .field--name-employee-profiles details {
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.user-form .field--name-employee-profiles details summary {
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
+  padding: 0.75rem 1rem;
+  margin: -1rem -1rem 1rem -1rem;
+  border-radius: 0.5rem 0.5rem 0 0;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  transition: background-color 0.15s ease-in-out;
+  list-style: none;
+}
+
+.user-form .field--name-employee-profiles details summary::-webkit-details-marker {
+  display: none;
+}
+
+.user-form .field--name-employee-profiles details summary:hover {
+  background-color: #f9fafb;
+}
+
+.user-form .field--name-employee-profiles details[open] summary {
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 1rem;
+}
+
+/* Select2 styling within form */
+.user-form .select2-container {
+  width: 100% !important;
+}
+
+.user-form .select2-selection {
+  border: 1px solid #d1d5db !important;
+  border-radius: 0.5rem !important;
+  min-height: 2.75rem !important;
+}
+
+.user-form .select2-selection:focus,
+.user-form .select2-selection--multiple:focus {
+  border-color: #86f1ff !important;
+  outline: 0 !important;
+  box-shadow: 0 0 0 3px rgba(134, 241, 255, 0.1) !important;
+}
+
+/* Select2 choice chips in user form */
+.user-form .select2-selection--multiple .select2-selection__choice {
+  background-color: #86f1ff !important;
+  border: 1px solid #86f1ff !important;
+  border-radius: 0.5rem !important;
+  padding: 0.375rem 0.625rem !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  color: #1f2937 !important;
+  margin: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+}
+
+.user-form .select2-selection--multiple .select2-selection__choice__remove {
+  color: #374151 !important;
+  font-size: 1.25rem !important;
+  font-weight: 400 !important;
+  opacity: 0.8 !important;
+  margin-left: 0.25rem !important;
+}
+
+.user-form .select2-selection--multiple .select2-selection__choice__remove:hover {
+  opacity: 1 !important;
+  color: #1f2937 !important;
+  background-color: rgba(31, 41, 55, 0.1) !important;
+}
+
+/* Improved form item spacing */
+.user-form .form-item {
+  margin-bottom: 1.5rem;
+}
+
+.user-form .form-item:last-child {
+  margin-bottom: 0;
+}
+
+/* File upload styling */
+.user-form .form-managed-file {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.user-form .form-managed-file .form-file {
+  padding: 0.5rem;
+  border: 1px dashed #d1d5db;
+  border-radius: 0.375rem;
+  background-color: #f9fafb;
+  transition: border-color 0.15s ease-in-out;
+}
+
+.user-form .form-managed-file .form-file:hover {
+  border-color: #86f1ff;
+}
+
+.user-form .form-managed-file .button {
+  align-self: flex-start;
+}
+
+/* Image preview styling */
+.user-form .image-preview {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  display: inline-block;
+}
+
+.user-form .image-preview img {
+  max-width: 200px;
+  height: auto;
+  border-radius: 0.375rem;
+  border: 2px solid #e5e7eb;
+}
+
+/* Password strength indicator */
+.user-form .password-strength {
+  margin-top: 0.5rem;
+}
+
+.user-form .password-strength__meter {
+  height: 4px;
+  background-color: #e5e7eb;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.user-form .password-strength__indicator {
+  height: 100%;
+  transition: width 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.user-form .password-strength__text {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+/* Autocomplete styling */
+.user-form .ui-autocomplete-input {
+  width: 100%;
+}
+
+.user-form .ui-autocomplete-input:focus {
+  border-color: #86f1ff;
+  outline: 0;
+  box-shadow: 0 0 0 3px rgba(134, 241, 255, 0.1);
+}
+
+/* Form Actions */
+.user-form .form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 1.5rem;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  margin-top: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.user-form .form-actions .button {
+  padding: 0.625rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.5;
+  border-radius: 0.375rem;
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+  border: 1px solid transparent;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.user-form .form-actions .button--primary {
+  background-color: #86f1ff;
+  color: #1f2937;
+  border-color: #86f1ff;
+}
+
+.user-form .form-actions .button--primary:hover {
+  background-color: #5de5f5;
+  border-color: #5de5f5;
+}
+
+.user-form .form-actions .button--danger {
+  background-color: #ffffff;
+  color: #ef4444;
+  border-color: #ef4444;
+}
+
+.user-form .form-actions .button--danger:hover {
+  background-color: #fee2e2;
+  border-color: #dc2626;
+}
+
+/* ==========================================================================
+   Responsive Design
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .user-edit-form-wrapper {
+    padding: 1rem 0.5rem;
+  }
+
+  .form-section-header,
+  .form-section-body {
+    padding: 1rem;
+  }
+
+  .form-actions-wrapper {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .form-actions-wrapper .form-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .form-actions-wrapper .button,
+  .form-actions-wrapper .form-submit {
+    width: 100%;
+  }
+
+  .form-section-body .address-container {
+    grid-template-columns: 1fr;
+  }
+
+  /* Stack columns on mobile */
+  .user-form #edit-group-personal-information .fieldset-wrapper,
+  .user-form #edit-group-contact-information .fieldset-wrapper,
+  .user-form #edit-group-account-information .fieldset-wrapper,
+  .user-form #edit-pass,
+  .user-form #edit-roles.form-checkboxes,
+  .user-form .field--name-employee-profiles details .fieldset-wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .user-form #edit-status {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .user-form .form-actions {
+    flex-direction: column;
+  }
+
+  .user-form .form-actions .button {
+    width: 100%;
+  }
+}
+
+/* ==========================================================================
+   Hidden Fields
+   ========================================================================== */
+
+.user-edit-form .form-item--hidden,
+.user-edit-form .visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+

@@ -1,0 +1,58 @@
+uuid: a35391d7-1f48-4101-ab87-d54fc6eee976
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.user.compact
+    - field.field.user.user.feeds_item
+    - field.field.user.user.field_address
+    - field.field.user.user.field_first_name
+    - field.field.user.user.field_full_name
+    - field.field.user.user.field_is_delete
+    - field.field.user.user.field_last_name
+    - field.field.user.user.field_middle_name
+    - field.field.user.user.field_phone_no
+    - field.field.user.user.field_website
+    - field.field.user.user.user_picture
+    - image.style.thumbnail
+  module:
+    - image
+    - user
+_core:
+  default_config_hash: 00zr_RBdTjPjBGITD3h4c1ESQZimjdVCcHGt1trLqIY
+id: user.user.compact
+targetEntityType: user
+bundle: user
+mode: compact
+content:
+  masquerade:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 50
+    region: content
+  user_picture:
+    type: image
+    label: hidden
+    settings:
+      image_link: content
+      image_style: thumbnail
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  coach_profiles: true
+  company_profiles: true
+  employee_profiles: true
+  feeds_item: true
+  field_address: true
+  field_first_name: true
+  field_full_name: true
+  field_is_delete: true
+  field_last_name: true
+  field_middle_name: true
+  field_phone_no: true
+  field_website: true
+  langcode: true
+  member_for: true

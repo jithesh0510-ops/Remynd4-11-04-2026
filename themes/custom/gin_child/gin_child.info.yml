@@ -1,0 +1,12 @@
+name: Gin Child
+type: theme
+base theme: gin
+core_version_requirement: ^10
+description: 'Custom Gin-based theme'
+libraries:
+  - gin_child/global-styling
+regions:
+  sidebar: Sidebar
+  content: Content
+  header: Header
+  footer: Footer

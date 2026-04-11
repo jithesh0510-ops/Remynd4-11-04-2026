@@ -1,0 +1,21 @@
+uuid: 542af7f5-0e17-415c-9c2a-3eea8d3cd16e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.profile.field_see_skills_assessment
+    - profile.type.coach
+id: profile.coach.field_see_skills_assessment
+field_name: field_see_skills_assessment
+entity_type: profile
+bundle: coach
+label: 'See Skills Assessment'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

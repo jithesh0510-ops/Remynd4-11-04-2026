@@ -1,0 +1,24 @@
+uuid: 1d84616e-36ca-4f92-80f1-6208a053e3b8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.coaching_one_to_one_report.field_coaching_one_to_one_report
+    - paragraphs.paragraphs_type.coaching_one_to_one_report
+  module:
+    - entity_reference_revisions
+id: paragraph.coaching_one_to_one_report.default
+targetEntityType: paragraph
+bundle: coaching_one_to_one_report
+mode: default
+content:
+  field_coaching_one_to_one_report:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

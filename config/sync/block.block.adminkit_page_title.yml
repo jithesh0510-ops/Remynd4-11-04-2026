@@ -1,0 +1,26 @@
+uuid: 7e2c4eb0-8c9b-4276-8787-2ceffc29b03d
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - adminkit
+_core:
+  default_config_hash: O7B3JszRMFVYAbojw_YydZMTMwyFJpYuxnyyPyi7l3g
+id: adminkit_page_title
+theme: adminkit
+region: content
+weight: -4
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  label_display: '0'
+  provider: core
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    pages: "<front>\r\n/user/*"

@@ -1,0 +1,22 @@
+uuid: ebf8fa4b-7716-495f-9a2a-f10da340df62
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - adminkit
+_core:
+  default_config_hash: TalCR-kPomwZLXjW-BJ4C719R7gkIf-_QzNw4-k6EI8
+id: adminkit_powered_by_drupal
+theme: adminkit
+region: footer
+weight: 0
+provider: null
+plugin: system_powered_by_block
+settings:
+  id: system_powered_by_block
+  label: 'Powered by Drupal'
+  label_display: '0'
+  provider: system
+visibility: {  }

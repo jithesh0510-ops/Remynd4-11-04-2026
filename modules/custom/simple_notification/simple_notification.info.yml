@@ -1,0 +1,7 @@
+name: 'Simple Notification'
+type: module
+description: 'Admin sends notifications to users, roles, or all users, with optional email and resend. Users can delete notifications.'
+core_version_requirement: ^10
+package: Custom
+dependencies:
+  - drupal:user

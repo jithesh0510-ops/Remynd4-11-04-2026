@@ -1,0 +1,10 @@
+uuid: 1ca88689-26d0-45fe-8c67-1f55b8d0ee20
+langcode: en
+status: true
+dependencies: {  }
+id: comment
+label: Comment
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

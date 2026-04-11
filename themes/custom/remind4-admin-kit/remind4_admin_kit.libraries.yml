@@ -1,0 +1,32 @@
+global-styling:
+  version: 2.6
+  css:
+    theme:
+      "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap": { type: external }
+      css/app.css: {}
+      css/main-content-global.css: {}
+      css/header-professional.css: {}
+      css/select2-professional.css: {}
+      css/user-edit-form.css: {}
+      css/views-admin-professional.css: {}
+  # Use empty js when all script entries are commented out (YAML would otherwise set js: null and break LibraryDiscoveryParser).
+  js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/drupalSettings
+    - core/once
+
+admin-kit-core:
+  version: 1.0
+  css:
+    theme:
+      css/app.css: {}
+      css/login-page.css: {}
+  js:
+    js/app.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/once
+

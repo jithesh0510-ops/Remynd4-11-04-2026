@@ -1,0 +1,13 @@
+uuid: 539c9d35-1a54-4e77-a4a1-7f8836a4ed5c
+langcode: en
+status: true
+dependencies: {  }
+id: coach
+label: Coach
+display_label: Coach
+multiple: false
+registration: false
+roles:
+  coach: coach
+allow_revisions: false
+new_revision: false

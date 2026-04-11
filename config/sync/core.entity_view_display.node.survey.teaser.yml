@@ -1,0 +1,43 @@
+uuid: eb92f467-a587-47c4-a0f8-1a28e6533d47
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.survey.body
+    - field.field.node.survey.field_category
+    - field.field.node.survey.field_collect_name
+    - field.field.node.survey.field_is_survey
+    - field.field.node.survey.field_login_required
+    - field.field.node.survey.field_options
+    - field.field.node.survey.field_survey
+    - node.type.survey
+  module:
+    - text
+    - user
+id: node.survey.teaser
+targetEntityType: node
+bundle: survey
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_category: true
+  field_collect_name: true
+  field_is_survey: true
+  field_login_required: true
+  field_options: true
+  field_survey: true
+  langcode: true

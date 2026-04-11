@@ -1,0 +1,16 @@
+uuid: 9ab52468-6d9e-4e84-b9cb-cfd2432c4c1e
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.survey
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: node.survey
+target_entity_type_id: node
+target_bundle: survey
+default_langcode: site_default
+language_alterable: true

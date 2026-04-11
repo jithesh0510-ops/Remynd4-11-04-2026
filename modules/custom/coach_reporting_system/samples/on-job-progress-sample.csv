@@ -1,0 +1,6 @@
+employee_id,first_name,last_name,JOB position,target_forecasted,target_achieved
+1001,John,Smith,Sales Manager,100000,95000
+1002,Sarah,Johnson,Sales Representative,75000,82000
+1003,Mike,Douglas,Sales Director,150000,145000
+1004,Lisa,Anderson,Account Manager,90000,88000
+1005,David,Brown,Sales Executive,80000,85000

@@ -1,0 +1,23 @@
+uuid: 53c7345a-8439-4cc6-ac87-bbb6603de051
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.profile.field_frequency_coaching_session
+    - profile.type.company
+id: profile.company.field_frequency_coaching_session
+field_name: field_frequency_coaching_session
+entity_type: profile
+bundle: company
+label: frequency_coaching_session_per_person
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

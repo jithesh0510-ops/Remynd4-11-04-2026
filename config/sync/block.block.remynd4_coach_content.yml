@@ -1,0 +1,22 @@
+uuid: b81adcd1-4836-4cd2-ae5f-3c53075a4143
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - remynd4_coach
+_core:
+  default_config_hash: 9_NqR6dIAo-kjTURrM5eAWQG7YEY0sYKOp1sfzBWXvs
+id: remynd4_coach_content
+theme: remynd4_coach
+region: content
+weight: -1
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  label_display: '0'
+  provider: system
+visibility: {  }

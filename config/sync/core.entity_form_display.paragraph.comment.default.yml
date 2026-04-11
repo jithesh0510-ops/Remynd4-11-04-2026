@@ -1,0 +1,23 @@
+uuid: 48c2f49d-03f1-47e2-ba26-b4c918cbaf12
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.comment.field_comment
+    - paragraphs.paragraphs_type.comment
+id: paragraph.comment.default
+targetEntityType: paragraph
+bundle: comment
+mode: default
+content:
+  field_comment:
+    type: string_textarea
+    weight: 0
+    region: content
+    settings:
+      rows: 1
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

@@ -1,0 +1,18 @@
+uuid: e5352cc1-5bc1-4a47-a07c-695ab141b6c0
+langcode: en
+status: true
+dependencies:
+  module:
+    - profile
+id: profile.field_enable_the_coach_will_see
+field_name: field_enable_the_coach_will_see
+entity_type: profile
+type: boolean
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

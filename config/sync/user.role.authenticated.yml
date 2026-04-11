@@ -1,0 +1,30 @@
+uuid: d0c0c727-9ab4-45ae-8679-ffce68b54156
+langcode: en
+status: true
+dependencies:
+  config:
+    - filter.format.basic_html
+  module:
+    - comment
+    - contact
+    - file
+    - filter
+    - fontawesome
+    - search
+    - shortcut
+_core:
+  default_config_hash: cFrlqjtkTfvY3RGccjJkPf1SGIfJ942IrxTLWAO4mgA
+id: authenticated
+label: 'Authenticated user'
+weight: 1
+is_admin: false
+permissions:
+  - 'access comments'
+  - 'access fontawesome additional settings'
+  - 'access shortcuts'
+  - 'access site-wide contact form'
+  - 'delete own files'
+  - 'post comments'
+  - 'search content'
+  - 'skip comment approval'
+  - 'use text format basic_html'

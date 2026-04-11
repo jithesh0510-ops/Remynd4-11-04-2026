@@ -1,0 +1,31 @@
+uuid: ca8cde20-445e-4a10-ac89-c79766a8b2a0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.options.field_option_title
+    - field.field.paragraph.options.field_option_value
+    - paragraphs.paragraphs_type.options
+id: paragraph.options.default
+targetEntityType: paragraph
+bundle: options
+mode: default
+content:
+  field_option_title:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_option_value:
+    type: number_integer
+    label: hidden
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden: {  }

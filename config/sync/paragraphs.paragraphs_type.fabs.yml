@@ -1,0 +1,10 @@
+uuid: 8140fe58-53a0-400a-933d-0fc9bf392f7d
+langcode: en
+status: true
+dependencies: {  }
+id: fabs
+label: Fabs
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

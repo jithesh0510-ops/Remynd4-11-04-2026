@@ -1,0 +1,23 @@
+uuid: aa972a8f-b024-49b8-aae6-b687612f0f2a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.profile.field_no_of_employees
+    - profile.type.company
+id: profile.company.field_no_of_employees
+field_name: field_no_of_employees
+entity_type: profile
+bundle: company
+label: 'No. of Employees'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

@@ -1,0 +1,497 @@
+/**
+ * Global Consistency CSS
+ * Version: 1.0
+ * Purpose: Ensure consistent design across entire website
+ * - Dropdown functionality fixes
+ * - Consistent buttons
+ * - Consistent form fields
+ * - Consistent colors
+ * - Consistent fonts
+ * - Flag sizes
+ */
+
+/* ========================================
+   CSS VARIABLES - Global Design System
+   ======================================== */
+:root {
+  /* Primary Colors */
+  --theme-primary: #86f1ff;
+  --theme-primary-dark: #4030ad;
+  --theme-primary-hover: #9ef5ff;
+  
+  /* Background Colors */
+  --theme-bg-dark: #101723;
+  --theme-bg-medium: #21304a69;
+  --theme-bg-light: #1a1f2e;
+  
+  /* Text Colors */
+  --theme-text-primary: #ffffff;
+  --theme-text-secondary: #a7abb1;
+  --theme-text-dark: #000000;
+  
+  /* Border */
+  --theme-border: #86f1ff;
+  --theme-border-radius: 6px;
+  
+  /* Spacing */
+  --theme-spacing-sm: 0.5rem;
+  --theme-spacing-md: 1rem;
+  --theme-spacing-lg: 1.5rem;
+  
+  /* Font Sizes - Standardized */
+  --theme-font-xs: 0.75rem;
+  --theme-font-sm: 0.875rem;
+  --theme-font-base: 1rem;
+  --theme-font-lg: 1.125rem;
+  --theme-font-xl: 1.25rem;
+  --theme-font-2xl: 1.5rem;
+  
+  /* Font Family */
+  --theme-font-family: 'Roboto', 'Inter', sans-serif;
+  
+  /* Transitions */
+  --theme-transition: all 0.2s ease;
+  
+  /* Z-index layers */
+  --z-dropdown: 1050;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1055;
+  --z-popover: 1070;
+  --z-tooltip: 1080;
+}
+
+/* ========================================
+   DRUPAL ADMIN TOOLBAR CUSTOMIZATION
+   ======================================== */
+
+/* Toolbar bar links - black color, small font */
+#toolbar-bar a {
+  color: #000 !important;
+  font-size: small;
+}
+
+/* ========================================
+   TYPOGRAPHY - Consistent Font Sizes
+   ======================================== */
+body, * {
+  font-family: var(--theme-font-family) !important;
+  font-size: var(--theme-font-base);
+}
+
+h1 { font-size: var(--theme-font-2xl) !important; }
+h2 { font-size: var(--theme-font-xl) !important; }
+h3 { font-size: var(--theme-font-lg) !important; }
+h4 { font-size: var(--theme-font-base) !important; }
+h5 { font-size: var(--theme-font-sm) !important; }
+h6 { font-size: var(--theme-font-xs) !important; }
+
+/* ========================================
+   LINKS - Consistent Colors
+   ======================================== */
+a,
+.link,
+a.nav-link,
+.dropdown-item {
+  /*color: var(--theme-primary) !important;*/
+  text-decoration: none;
+  transition: var(--theme-transition);
+}
+
+a:hover,
+.link:hover,
+a.nav-link:hover,
+.dropdown-item:hover {
+  /*color: var(--theme-primary-hover) !important;*/
+  text-decoration: none;
+}
+
+/* ========================================
+   BUTTONS - Consistent Design
+   ======================================== */
+
+/* Primary Button */
+.btn,
+.btn-primary,
+button[type="submit"],
+input[type="submit"],
+.form-actions input[type="submit"],
+.form-actions .button,
+.views-exposed-form input[type="submit"] {
+  background-color: var(--theme-primary) !important;
+  color: var(--theme-primary-dark) !important;
+  border-radius: var(--theme-border-radius) !important;
+  padding: 0.4rem 1rem !important;
+  font-size: var(--theme-font-base) !important;
+  font-weight: 500 !important;
+  cursor: pointer;
+  transition: var(--theme-transition) !important;
+  text-transform: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.btn:hover,
+.btn-primary:hover,
+button[type="submit"]:hover,
+input[type="submit"]:hover,
+.form-actions input[type="submit"]:hover,
+.form-actions .button:hover,
+.views-exposed-form input[type="submit"]:hover {
+  background-color: var(--theme-primary-dark) !important;
+  color: var(--theme-primary) !important;
+  border-color: var(--theme-primary) !important;
+}
+
+/* Secondary Button */
+.btn-secondary {
+  background-color: transparent !important;
+  color: var(--theme-primary) !important;
+  border: 2px solid var(--theme-primary) !important;
+}
+
+.btn-secondary:hover {
+  background-color: var(--theme-primary) !important;
+  color: var(--theme-primary-dark) !important;
+}
+
+/* ========================================
+   FORM FIELDS - Consistent Design
+   ======================================== */
+
+/* All Input Fields */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="tel"],
+input[type="url"],
+input[type="search"],
+input[type="date"],
+input[type="time"],
+input[type="datetime-local"],
+textarea,
+select,
+.form-control,
+.form-select {
+  width: 100%;
+  padding: 0.6rem 1rem !important;
+  border-radius: var(--theme-border-radius) !important;
+  font-size: var(--theme-font-base) !important;
+  font-family: var(--theme-font-family) !important;
+  transition: var(--theme-transition) !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus,
+.form-control:focus,
+.form-select:focus {
+  /* Focus styles handled by theme */
+}
+
+/* Labels */
+label,
+.form-label {
+  color: var(--theme-text-primary) !important;
+  font-size: var(--theme-font-base) !important;
+  font-weight: 500;
+  margin-bottom: var(--theme-spacing-sm);
+}
+
+/* ========================================
+   DROPDOWN FIXES - Bootstrap Dropdowns
+   ======================================== */
+
+/* Ensure dropdowns are visible and clickable */
+.dropdown-menu {
+  z-index: var(--z-dropdown) !important;
+  background-color: var(--theme-bg-light) !important;
+  border: 1px solid var(--theme-border) !important;
+  border-radius: var(--theme-border-radius) !important;
+  padding: 0.5rem 0 !important;
+  margin-top: 0.5rem !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+  position: absolute;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+/* Hide state - explicitly hidden */
+.dropdown-menu.hide,
+.collapse.hide {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Show dropdown when active */
+.dropdown-menu.show,
+.dropdown.show .dropdown-menu,
+.nav-item.show .dropdown-menu {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+/* Collapse show/hide */
+.collapse.show {
+  display: block !important;
+}
+
+/* Dropdown items */
+.dropdown-item {
+  padding: 0.5rem 1.5rem !important;
+  color: var(--theme-text-primary) !important;
+  background-color: transparent !important;
+  transition: var(--theme-transition) !important;
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: none;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background-color: var(--theme-primary-dark) !important;
+  color: var(--theme-primary) !important;
+}
+
+/* Dropdown toggle */
+.dropdown-toggle {
+  cursor: pointer !important;
+  position: relative;
+}
+
+.dropdown-toggle::after {
+  display: inline-block;
+  margin-left: 0.255em;
+  vertical-align: 0.255em;
+  content: "";
+  border-top: 0.3em solid;
+  border-right: 0.3em solid transparent;
+  border-bottom: 0;
+  border-left: 0.3em solid transparent;
+}
+
+/* Nav dropdowns */
+.nav-item.dropdown {
+  position: relative;
+}
+
+.nav-item.dropdown .dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: auto;
+}
+
+/* Dropdown menu header/footer */
+.dropdown-menu-header {
+  padding: 0.75rem 1.5rem !important;
+  background-color: var(--theme-primary-dark) !important;
+  color: var(--theme-text-primary) !important;
+  font-weight: 600;
+  border-bottom: 1px solid var(--theme-border);
+}
+
+.dropdown-menu-footer {
+  padding: 0.75rem 1.5rem !important;
+  background-color: var(--theme-bg-dark) !important;
+  border-top: 1px solid var(--theme-border);
+}
+
+.dropdown-menu-footer a {
+  color: var(--theme-primary) !important;
+  font-size: var(--theme-font-sm) !important;
+}
+
+/* ========================================
+   FLAG IMAGES - Consistent Size
+   ======================================== */
+
+/* All flag images */
+img[src*="/flags/"],
+img[alt*="flag" i],
+img[alt*="language" i],
+.nav-flag img,
+.dropdown-item img[src*="/flags/"] {
+  width: 20px !important;
+  height: 20px !important;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+/* Language dropdown specific */
+#languageDropdown img {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+/* ========================================
+   NAVBAR ADJUSTMENTS
+   ======================================== */
+
+.navbar-nav {
+  align-items: center;
+}
+
+.nav-item {
+  position: relative;
+}
+
+.nav-icon,
+.nav-flag {
+  color: var(--theme-text-secondary) !important;
+  padding: 0.5rem;
+  transition: var(--theme-transition);
+}
+
+.nav-icon:hover,
+.nav-flag:hover {
+  color: var(--theme-primary) !important;
+}
+
+/* User avatar in navbar */
+.navbar-nav .avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--theme-border);
+}
+
+/* Notification indicator */
+.indicator {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.625rem;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 10rem;
+  background-color: var(--theme-primary);
+  color: var(--theme-primary-dark);
+}
+
+/* ========================================
+   DROPDOWN DIVIDER
+   ======================================== */
+
+.dropdown-divider {
+  height: 0;
+  margin: 0.5rem 0;
+  overflow: hidden;
+  border-top: 1px solid var(--theme-border);
+}
+
+/* ========================================
+   ICONS IN DROPDOWNS
+   ======================================== */
+
+.dropdown-item i,
+.dropdown-item svg,
+.dropdown-item [data-feather] {
+  margin-right: 0.5rem;
+  color: var(--theme-primary) !important;
+}
+
+/* ========================================
+   FIX POINTER EVENTS & VISIBILITY
+   ======================================== */
+
+/* Ensure dropdowns are not blocked */
+.dropdown,
+.dropdown-menu,
+.dropdown-toggle,
+.dropdown-item {
+  pointer-events: auto !important;
+}
+
+/* Remove any conflicting transforms */
+.dropdown-menu {
+  transform: none !important;
+}
+
+/* ========================================
+   RESPONSIVE ADJUSTMENTS
+   ======================================== */
+
+@media (max-width: 768px) {
+  .dropdown-menu {
+    min-width: 200px;
+  }
+  
+  .navbar-nav .dropdown-menu {
+    position: absolute;
+    right: 0;
+    left: auto;
+  }
+}
+
+/* ========================================
+   ACCESSIBILITY
+   ======================================== */
+
+/* Focus states */
+.dropdown-toggle:focus,
+.dropdown-item:focus,
+button:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  /* Focus styles handled by theme */
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+
+@media print {
+  .dropdown-menu {
+    display: none !important;
+  }
+}
+
+/* ========================================
+   FEATHER ICONS COLOR
+   ======================================== */
+
+[data-feather] {
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+/* ========================================
+   OVERRIDE ANY CONFLICTING STYLES
+   ======================================== */
+
+/* Ensure dropdown visibility */
+.show > .dropdown-menu {
+  display: block !important;
+}
+
+.dropdown-menu[aria-hidden="false"] {
+  display: block !important;
+}
+
+/* Force pointer events */
+.navbar-nav,
+.navbar-nav .nav-item,
+.navbar-nav .dropdown {
+  pointer-events: auto !important;
+}
+
+/* ========================================
+   END OF GLOBAL CONSISTENCY STYLES
+   ======================================== */
+

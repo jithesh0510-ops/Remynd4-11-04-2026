@@ -1,0 +1,23 @@
+{#
+/**
+ * @file
+ * Template for the per person report section.
+ */
+#}
+
+<div class="per-person-report">
+  <h3>{{ 'Per Person Report'|t }}</h3>
+  
+  {% if table %}
+    {{ table }}
+  {% else %}
+    <div class="no-results">
+      <h4 class="text-center mt-50">{{ 'No results found.'|t }}</h4>
+    </div>
+  {% endif %}
+  
+  <small style="font-size: small;">
+    * {{ 'Nbr. of sessions per person.'|t }}<br>
+    ** {{ 'Zero-valued skills signify job irrelevance.'|t }}
+  </small>
+</div>

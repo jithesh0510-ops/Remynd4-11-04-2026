@@ -1,0 +1,68 @@
+uuid: 9f715160-f8b2-4f3b-9d6c-f8ee293f8ec4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.profile.coach.feeds_item
+    - field.field.profile.coach.field_company
+    - field.field.profile.coach.field_enable_the_coach_will_see
+    - field.field.profile.coach.field_see_laggards_to_stars
+    - field.field.profile.coach.field_see_previous_date
+    - field.field.profile.coach.field_see_questionnaire_result
+    - field.field.profile.coach.field_see_skills_assessment
+    - profile.type.coach
+  module:
+    - select2
+id: profile.coach.default
+targetEntityType: profile
+bundle: coach
+mode: default
+content:
+  field_company:
+    type: select2_entity_reference
+    weight: 0
+    region: content
+    settings:
+      width: 100%
+      autocomplete: false
+      match_operator: CONTAINS
+      match_limit: 10
+    third_party_settings: {  }
+  field_enable_the_coach_will_see:
+    type: boolean_checkbox
+    weight: 5
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_see_laggards_to_stars:
+    type: boolean_checkbox
+    weight: 3
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_see_previous_date:
+    type: boolean_checkbox
+    weight: 4
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_see_questionnaire_result:
+    type: boolean_checkbox
+    weight: 1
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_see_skills_assessment:
+    type: boolean_checkbox
+    weight: 2
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+hidden:
+  feeds_item: true
+  is_default: true

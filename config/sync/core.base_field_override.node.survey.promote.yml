@@ -1,0 +1,22 @@
+uuid: b0205ac1-2bbc-474d-bedd-fbd8189c4c21
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.survey
+id: node.survey.promote
+field_name: promote
+entity_type: node
+bundle: survey
+label: 'Promoted to front page'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

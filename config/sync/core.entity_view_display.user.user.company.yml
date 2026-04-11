@@ -1,0 +1,54 @@
+uuid: 2980e751-b66a-4ec8-996c-080b79e28504
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.user.company
+    - field.field.user.user.feeds_item
+    - field.field.user.user.field_address
+    - field.field.user.user.field_first_name
+    - field.field.user.user.field_full_name
+    - field.field.user.user.field_is_delete
+    - field.field.user.user.field_last_name
+    - field.field.user.user.field_middle_name
+    - field.field.user.user.field_phone_no
+    - field.field.user.user.field_website
+    - field.field.user.user.user_picture
+  module:
+    - layout_builder
+    - user
+third_party_settings:
+  layout_builder:
+    enabled: false
+    allow_custom: false
+_core:
+  default_config_hash: mZLyuWM9CQx2ZJVqFGSbzgFnHzudVbHBYmdU256A5Wk
+id: user.user.company
+targetEntityType: user
+bundle: user
+mode: company
+content:
+  field_full_name:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  coach_profiles: true
+  company_profiles: true
+  employee_profiles: true
+  feeds_item: true
+  field_address: true
+  field_first_name: true
+  field_is_delete: true
+  field_last_name: true
+  field_middle_name: true
+  field_phone_no: true
+  field_website: true
+  langcode: true
+  masquerade: true
+  member_for: true
+  user_picture: true

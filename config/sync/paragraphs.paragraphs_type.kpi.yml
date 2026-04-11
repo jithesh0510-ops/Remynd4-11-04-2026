@@ -1,0 +1,10 @@
+uuid: 28ff1e9e-292c-4271-a173-2a7f96c20641
+langcode: en
+status: true
+dependencies: {  }
+id: kpi
+label: KPI
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

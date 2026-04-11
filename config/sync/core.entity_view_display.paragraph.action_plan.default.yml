@@ -1,0 +1,41 @@
+uuid: 04b539e0-4e31-4a7b-8ccc-e15f231510db
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.action_plan.field_excercise
+    - field.field.paragraph.action_plan.field_form
+    - field.field.paragraph.action_plan.field_to
+    - paragraphs.paragraphs_type.action_plan
+id: paragraph.action_plan.default
+targetEntityType: paragraph
+bundle: action_plan
+mode: default
+content:
+  field_excercise:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_form:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_to:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden: {  }

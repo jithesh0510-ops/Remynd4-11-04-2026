@@ -1,0 +1,238 @@
+uuid: a0da2ac0-204d-4443-a510-53674e5059a6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.user.user.field_address
+    - field.field.user.user.field_first_name
+    - field.field.user.user.field_full_name
+    - field.field.user.user.field_is_delete
+    - field.field.user.user.field_last_name
+    - field.field.user.user.field_phone_no
+    - field.field.user.user.field_website
+  module:
+    - address
+    - user
+label: 'Import Companies'
+id: import_companies
+description: ''
+help: ''
+import_period: -1
+fetcher: upload
+fetcher_configuration:
+  allowed_extensions: 'txt csv tsv xml opml'
+  directory: 'public://feeds'
+parser: csv
+parser_configuration:
+  delimiter: ','
+  no_headers: false
+  line_limit: 100
+processor: 'entity:user'
+processor_configuration:
+  values: {  }
+  langcode: en
+  insert_new: 1
+  update_existing: 2
+  update_non_existent: _keep
+  skip_hash_check: false
+  skip_validation: false
+  skip_validation_types: {  }
+  authorize: false
+  revision: false
+  expire: -1
+  owner_feed_author: false
+  owner_id: 0
+custom_sources:
+  '':
+    value: company_addressss
+    label: company_addressss
+    machine_name: ''
+    type: csv
+  company_name:
+    value: company_name
+    label: company_name
+    machine_name: company_name
+    type: csv
+  contact_person:
+    value: contact_person
+    label: contact_person
+    machine_name: contact_person
+    type: blank
+  company_address:
+    value: company_address
+    label: company_address
+    machine_name: company_address
+    type: csv
+  company_email:
+    value: company_email
+    label: company_email
+    machine_name: company_email
+    type: csv
+  phone_no:
+    value: phone_no
+    label: phone_no
+    machine_name: phone_no
+    type: csv
+  company_password:
+    value: company_password
+    label: company_password
+    machine_name: company_password
+    type: csv
+  website:
+    value: website
+    label: website
+    machine_name: website
+    type: csv
+  first_name:
+    value: company_name
+    label: company_name
+    machine_name: first_name
+    type: csv
+  websites:
+    value: website
+    label: website
+    machine_name: websites
+    type: csv
+  role:
+    value: role
+    label: role
+    machine_name: role
+    type: csv
+  status:
+    value: status
+    label: status
+    machine_name: status
+    type: csv
+  is_delete:
+    value: is_delete
+    label: is_delete
+    machine_name: is_delete
+    type: csv
+  timezone:
+    value: timezone
+    label: timezone
+    machine_name: timezone
+    type: csv
+  full_name:
+    value: company_name
+    label: company_name
+    machine_name: full_name
+    type: csv
+  last_name:
+    value: last_name
+    label: last_name
+    machine_name: last_name
+    type: csv
+mappings:
+  -
+    target: mail
+    map:
+      value: company_email
+    settings:
+      defuse: 0
+    unique:
+      value: 1
+  -
+    target: field_full_name
+    map:
+      value: full_name
+    settings:
+      language: ''
+    unique: {  }
+  -
+    target: field_last_name
+    map:
+      value: last_name
+    settings:
+      language: null
+    unique: {  }
+  -
+    target: field_first_name
+    map:
+      value: first_name
+    settings:
+      language: null
+    unique: {  }
+  -
+    target: field_address
+    map:
+      langcode: ''
+      country_code: ''
+      administrative_area: ''
+      locality: ''
+      dependent_locality: ''
+      postal_code: ''
+      sorting_code: ''
+      address_line1: company_address
+      address_line2: ''
+      address_line3: ''
+      organization: ''
+      given_name: ''
+      additional_name: ''
+      family_name: ''
+    settings:
+      language: null
+  -
+    target: field_phone_no
+    map:
+      value: phone_no
+    settings:
+      language: null
+    unique: {  }
+  -
+    target: pass
+    map:
+      value: company_password
+    settings:
+      pass_encryption: plain
+  -
+    target: field_website
+    map:
+      uri: website
+      title: websites
+    settings:
+      language: null
+  -
+    target: roles
+    map:
+      target_id: role
+    settings:
+      reference_by: id
+      allowed_roles:
+        administrator: administrator
+        content_editor: content_editor
+        company: company
+        coach: coach
+        employee: employee
+      autocreate: false
+      revoke_roles: false
+  -
+    target: status
+    map:
+      value: status
+    settings: {  }
+  -
+    target: init
+    map:
+      value: company_email
+    settings:
+      defuse: false
+    unique: {  }
+  -
+    target: field_is_delete
+    map:
+      value: is_delete
+    settings:
+      language: null
+  -
+    target: name
+    map:
+      value: company_email
+    settings: {  }
+    unique: {  }
+  -
+    target: timezone
+    map:
+      value: timezone
+    settings: {  }
+    unique: {  }

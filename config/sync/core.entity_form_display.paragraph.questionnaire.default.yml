@@ -1,0 +1,42 @@
+uuid: c7bc8808-7c90-43f3-b8a9-1872da3bcd3c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.questionnaire.field_category
+    - field.field.paragraph.questionnaire.field_options
+    - paragraphs.paragraphs_type.questionnaire
+  module:
+    - paragraphs
+id: paragraph.questionnaire.default
+targetEntityType: paragraph
+bundle: questionnaire
+mode: default
+content:
+  field_category:
+    type: entity_reference_paragraphs
+    weight: 2
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: preview
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: _none
+    third_party_settings: {  }
+  field_options:
+    type: entity_reference_paragraphs
+    weight: 1
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: preview
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: _none
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

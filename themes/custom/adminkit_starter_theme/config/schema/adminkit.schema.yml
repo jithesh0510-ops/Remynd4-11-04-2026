@@ -1,0 +1,25 @@
+adminkit.settings:
+  type: config_object
+  label: 'AdminKit theme settings'
+  mapping:
+    theme_color:
+      type: string
+      label: 'Theme color'
+    sidebar_collapsed:
+      type: boolean
+      label: 'Sidebar collapsed'
+    dark_mode:
+      type: boolean
+      label: 'Dark mode'
+    font_family:
+      type: string
+      label: 'Font family'
+    font_size:
+      type: string
+      label: 'Font size'
+    border_radius:
+      type: string
+      label: 'Border radius'
+
+
+

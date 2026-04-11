@@ -1,0 +1,39 @@
+uuid: 0bc11894-c75e-4554-840d-2357a7c95d28
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_address
+    - taxonomy.vocabulary.branch
+  module:
+    - address
+id: taxonomy_term.branch.field_address
+field_name: field_address
+entity_type: taxonomy_term
+bundle: branch
+label: Address
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  available_countries: {  }
+  langcode_override: ''
+  field_overrides:
+    givenName:
+      override: hidden
+    additionalName:
+      override: hidden
+    familyName:
+      override: hidden
+    addressLine2:
+      override: optional
+    addressLine3:
+      override: optional
+    sortingCode:
+      override: hidden
+    dependentLocality:
+      override: hidden
+  fields: {  }
+field_type: address

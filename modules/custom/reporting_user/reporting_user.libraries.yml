@@ -1,0 +1,28 @@
+inline_coach:
+  version: 1.x
+  css:
+    theme:
+      css/inline-coach.css: {}
+  js:
+    js/inline-coach.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/drupal.ajax
+    - core/once
+    - select2/select2
+
+inline_job_position:
+  version: 1.x
+  css:
+    theme:
+      css/inline-job-position.css: {}
+  js:
+    js/inline-job-position.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/drupal.ajax
+    - core/once
+    - select2/select2
+

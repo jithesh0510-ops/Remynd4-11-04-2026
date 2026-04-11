@@ -1,0 +1,36 @@
+{
+  "name": "drupal/remove_username",
+  "description": "This simple module is removing the 'name' field from the user management forms by making the 'email' field required and copying the email address into the username field.",
+  "type": "drupal-module",
+  "license": "GPL-2.0-or-later",
+  "keywords": ["Drupal"],
+  "homepage": "https://www.drupal.org/project/remove_username",
+  "authors": [
+    {
+      "name": "Cristian Romanescu (cristiroma)",
+      "homepage": "https://www.drupal.org/u/cristiroma",
+      "role": "Maintainer"
+    },
+    {
+      "name": "Octavian Belu (tavib47)",
+      "homepage": "https://www.drupal.org/u/tavib47",
+      "role": "Maintainer"
+    },
+    {
+      "name": "Sadashiv Dalvi (sadashiv)",
+      "homepage": "https://www.drupal.org/u/sadashiv",
+      "role": "Maintainer"
+    },
+    {
+      "name": "Viktor Holovachek (AstonVictor)",
+      "homepage": "https://www.drupal.org/u/astonvictor",
+      "role": "Maintainer"
+    }
+  ],
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/remove_username",
+    "source": "https://git.drupalcode.org/project/remove_username"
+  },
+  "require": { }
+}

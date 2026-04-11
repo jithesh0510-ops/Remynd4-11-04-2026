@@ -1,0 +1,27 @@
+uuid: 40ba5424-5a6d-4b7d-8b8d-4f86ce112b91
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.main
+  module:
+    - system
+  theme:
+    - remynd4_coach
+_core:
+  default_config_hash: KLMbdngczHd0RpmyzrandtC1jyXEv80Jtj7ofIVIKu8
+id: remynd4_coach_main_navigation
+theme: remynd4_coach
+region: primary_menu
+weight: -5
+provider: null
+plugin: 'system_menu_block:main'
+settings:
+  id: 'system_menu_block:main'
+  label: 'Main navigation'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 0
+  expand_all_items: true
+visibility: {  }

@@ -1,0 +1,123 @@
+uuid: b7e09a3e-9250-49d8-add1-6a0a7a1aca99
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_create_questionnaire
+    - node.type.questionnaire
+    - paragraphs.paragraphs_type.coaching_one_to_one_report
+    - paragraphs.paragraphs_type.color_interaction_tool
+    - paragraphs.paragraphs_type.comment
+    - paragraphs.paragraphs_type.decision_making_unit
+    - paragraphs.paragraphs_type.fabs
+    - paragraphs.paragraphs_type.handle_objections
+    - paragraphs.paragraphs_type.kpi
+    - paragraphs.paragraphs_type.multiple_a
+    - paragraphs.paragraphs_type.pipeline
+    - paragraphs.paragraphs_type.questionnaire
+    - paragraphs.paragraphs_type.testimonial
+  module:
+    - entity_reference_revisions
+id: node.questionnaire.field_create_questionnaire
+field_name: field_create_questionnaire
+entity_type: node
+bundle: questionnaire
+label: 'Create Questionnaire'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      coaching_one_to_one_report: coaching_one_to_one_report
+      color_interaction_tool: color_interaction_tool
+      decision_making_unit: decision_making_unit
+      fabs: fabs
+      handle_objections: handle_objections
+      kpi: kpi
+      pipeline: pipeline
+      questionnaire: questionnaire
+      comment: comment
+      multiple_a: multiple_a
+      testimonial: testimonial
+    negate: 0
+    target_bundles_drag_drop:
+      action_plan:
+        weight: 24
+        enabled: false
+      assign_questionnaire:
+        weight: 25
+        enabled: false
+      category:
+        weight: 19
+        enabled: false
+      coaching_one_to_one_report:
+        weight: 20
+        enabled: true
+      coaching_one_to_one_report_field:
+        weight: 28
+        enabled: false
+      color_interaction_tool:
+        weight: 21
+        enabled: true
+      comment:
+        weight: 32
+        enabled: true
+      decision_making_unit:
+        weight: 22
+        enabled: true
+      fabs:
+        weight: 23
+        enabled: true
+      fabs_fields:
+        weight: 32
+        enabled: false
+      handle_objections:
+        weight: 24
+        enabled: true
+      kpi:
+        weight: 25
+        enabled: true
+      multiple_a:
+        weight: 35
+        enabled: true
+      multiple_choice_question:
+        weight: 39
+        enabled: false
+      options:
+        weight: 26
+        enabled: false
+      pipeline:
+        weight: 27
+        enabled: true
+      question:
+        weight: 28
+        enabled: false
+      questionnaire:
+        weight: 29
+        enabled: true
+      sub_category:
+        weight: 30
+        enabled: false
+      sub_sub_category:
+        weight: 31
+        enabled: false
+      survey:
+        weight: 33
+        enabled: false
+      survey_options:
+        weight: 34
+        enabled: false
+      survey_questions:
+        weight: 35
+        enabled: false
+      survey_top_section:
+        weight: 36
+        enabled: false
+      testimonial:
+        weight: 37
+        enabled: true
+field_type: entity_reference_revisions

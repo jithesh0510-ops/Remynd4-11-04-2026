@@ -1,0 +1,10 @@
+uuid: 26dfd1b2-1174-4e50-a4ed-e8bb40c0237b
+langcode: en
+status: true
+dependencies: {  }
+id: survey_top_section
+label: 'Survey top section'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

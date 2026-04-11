@@ -1,0 +1,24 @@
+uuid: 7bd6e3d1-f0da-415b-99e2-6c7dbc2fbfb2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.survey.field_survey_questions
+    - paragraphs.paragraphs_type.survey
+  module:
+    - entity_reference_revisions
+id: paragraph.survey.default
+targetEntityType: paragraph
+bundle: survey
+mode: default
+content:
+  field_survey_questions:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

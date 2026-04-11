@@ -1,0 +1,21 @@
+uuid: 00c6ce29-6462-42ec-8622-293b2483db62
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_manual_type
+    - node.type.knowledge_base
+  module:
+    - options
+id: node.knowledge_base.field_manual_type
+field_name: field_manual_type
+entity_type: node
+bundle: knowledge_base
+label: 'Manual Type'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

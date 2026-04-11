@@ -1,0 +1,9 @@
+name: 'Reporting User'
+type: module
+description: 'Provides frontend role-based add/edit user forms for Company, Coach, and Employee roles.'
+core_version_requirement: ^10
+package: Custom
+dependencies:
+  - user
+  - profile
+  - views

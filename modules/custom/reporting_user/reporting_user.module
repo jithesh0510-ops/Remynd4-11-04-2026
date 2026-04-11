@@ -1,0 +1,209 @@
+<?php
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_entity_presave().
+ * 
+ * Note: Registration routes have been removed. This hook is kept
+ * for potential future use or if form modes are used elsewhere.
+ */
+function reporting_user_entity_presave(EntityInterface $entity) {
+  // Registration functionality removed - routes no longer exist
+  // This hook is kept for potential future use
+}
+
+/**
+ * Implements hook_views_data_alter().
+ */
+function reporting_user_views_data_alter(array &$data) {
+  // Add our custom views field plugin.
+  $data['views']['inline_coach_field'] = [
+    'title' => t('Inline Coach Field'),
+    'help' => t('Provides an inline editable multi-select coach field.'),
+    'field' => [
+      'id' => 'inline_coach_field',
+    ],
+  ];
+  
+  // Add inline job position field plugin.
+  $data['views']['inline_job_position_field'] = [
+    'title' => t('Inline Job Position Field'),
+    'help' => t('Provides an inline editable job position dropdown field.'),
+    'field' => [
+      'id' => 'inline_job_position_field',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function reporting_user_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // Only alter employee profile forms.
+  $is_employee_profile = FALSE;
+  
+  // Check various ways the form might be identified.
+  if (isset($form['#entity_type']) && $form['#entity_type'] === 'profile') {
+    if (isset($form['#bundle']) && $form['#bundle'] === 'employee') {
+      $is_employee_profile = TRUE;
+    }
+    elseif (isset($form['#form_id']) && strpos($form['#form_id'], 'employee') !== FALSE) {
+      $is_employee_profile = TRUE;
+    }
+  }
+  
+  if ($is_employee_profile && isset($form['field_company']) && isset($form['field_coach'])) {
+    
+    // Add AJAX to company field to update coach options.
+    if (isset($form['field_company']['widget'][0]['target_id'])) {
+      $form['field_company']['widget'][0]['target_id']['#ajax'] = [
+        'callback' => 'reporting_user_update_coach_options',
+        'event' => 'change',
+        'wrapper' => 'coach-field-wrapper',
+        'progress' => [
+          'type' => 'throbber',
+          'message' => t('Loading coaches...'),
+        ],
+      ];
+    }
+    
+    // Get selected company value.
+    $selected_company = NULL;
+    if ($form_state->hasValue(['field_company', 0, 'target_id'])) {
+      $selected_company = $form_state->getValue(['field_company', 0, 'target_id']);
+    }
+    elseif (isset($form['field_company']['widget'][0]['target_id']['#default_value'])) {
+      $selected_company = $form['field_company']['widget'][0]['target_id']['#default_value'];
+    }
+    elseif (isset($form['#entity']) && $form['#entity']->hasField('field_company') && !$form['#entity']->get('field_company')->isEmpty()) {
+      $company_entity = $form['#entity']->get('field_company')->entity;
+      if ($company_entity) {
+        $selected_company = $company_entity->id();
+      }
+    }
+    
+    // Filter coach options based on company.
+    if ($selected_company) {
+      $coach_options = reporting_user_get_coaches_by_company($selected_company);
+      if (isset($form['field_coach']['widget'][0]['target_id']['#options'])) {
+        $form['field_coach']['widget'][0]['target_id']['#options'] = $coach_options;
+      }
+    }
+    else {
+      // Clear options if no company.
+      if (isset($form['field_coach']['widget'][0]['target_id']['#options'])) {
+        $form['field_coach']['widget'][0]['target_id']['#options'] = ['' => t('- Select a company first -')];
+      }
+    }
+    
+    // Make coach field depend on company selection using #states.
+    if (isset($form['field_coach']['widget'][0]['target_id'])) {
+      $form['field_coach']['widget'][0]['target_id']['#states'] = [
+        'disabled' => [
+          ':input[name="field_company[0][target_id]"]' => ['value' => ''],
+        ],
+      ];
+    }
+    
+    // Add wrapper ID for AJAX updates.
+    if (!isset($form['field_coach']['#prefix'])) {
+      $form['field_coach']['#prefix'] = '<div id="coach-field-wrapper">';
+    }
+    if (!isset($form['field_coach']['#suffix'])) {
+      $form['field_coach']['#suffix'] = '</div>';
+    }
+  }
+}
+
+/**
+ * AJAX callback to update coach field options based on company.
+ */
+function reporting_user_update_coach_options(array &$form, FormStateInterface $form_state) {
+  $selected_company = $form_state->getValue(['field_company', 0, 'target_id']);
+  
+  if ($selected_company) {
+    $coach_options = reporting_user_get_coaches_by_company($selected_company);
+    $form['field_coach']['widget'][0]['target_id']['#options'] = $coach_options;
+  }
+  else {
+    $form['field_coach']['widget'][0]['target_id']['#options'] = ['' => t('- Select a company first -')];
+  }
+  
+  return $form['field_coach'];
+}
+
+/**
+ * Get coaches filtered by company.
+ *
+ * @param int $company_id
+ *   The company user ID.
+ *
+ * @return array
+ *   Array of coach options (uid => name).
+ */
+function reporting_user_get_coaches_by_company($company_id) {
+  $options = ['' => t('- Select Coach -')];
+  
+  if (empty($company_id)) {
+    return $options;
+  }
+  
+  $entity_type_manager = \Drupal::entityTypeManager();
+  $profile_storage = $entity_type_manager->getStorage('profile');
+  
+  // Get coach profiles linked to this company.
+  $profile_ids = $profile_storage->getQuery()
+    ->condition('type', 'coach')
+    ->condition('status', 1)
+    ->condition('field_company.target_id', $company_id)
+    ->accessCheck(FALSE)
+    ->execute();
+  
+  if (empty($profile_ids)) {
+    return $options;
+  }
+  
+  // Load coach profiles and get their user IDs.
+  $coach_profiles = $profile_storage->loadMultiple($profile_ids);
+  $coach_uids = [];
+  
+  foreach ($coach_profiles as $coach_profile) {
+    $uid = $coach_profile->getOwnerId();
+    if ($uid) {
+      $coach_uids[] = $uid;
+    }
+  }
+  
+  if (empty($coach_uids)) {
+    return $options;
+  }
+  
+  // Load coach users and format names.
+  $user_storage = $entity_type_manager->getStorage('user');
+  $coaches = $user_storage->loadMultiple($coach_uids);
+  
+  foreach ($coaches as $coach) {
+    if ($coach->isActive() && $coach->hasRole('coach')) {
+      $first_name = $coach->hasField('field_first_name') && !$coach->get('field_first_name')->isEmpty()
+        ? $coach->get('field_first_name')->value
+        : '';
+      $last_name = $coach->hasField('field_last_name') && !$coach->get('field_last_name')->isEmpty()
+        ? $coach->get('field_last_name')->value
+        : '';
+      
+      $name = trim($first_name . ' ' . $last_name);
+      if (empty($name)) {
+        $name = $coach->getAccountName();
+      }
+      
+      $options[$coach->id()] = $name;
+    }
+  }
+  
+  // Sort alphabetically.
+  asort($options, SORT_NATURAL | SORT_FLAG_CASE);
+  
+  return $options;
+}

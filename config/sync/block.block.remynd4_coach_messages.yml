@@ -1,0 +1,22 @@
+uuid: 44041b40-e76f-4b63-9992-4e85f906c833
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - remynd4_coach
+_core:
+  default_config_hash: 4lBtFn7FphDdzgelXqwibl5ejyu7tqrwZvVmf82MgRA
+id: remynd4_coach_messages
+theme: remynd4_coach
+region: content
+weight: -5
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: Messages
+  label_display: '0'
+  provider: system
+visibility: {  }

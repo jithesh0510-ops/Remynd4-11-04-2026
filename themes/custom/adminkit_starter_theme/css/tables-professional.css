@@ -1,0 +1,838 @@
+/* ===========================================
+   PROFESSIONAL TABLE STYLING SYSTEM
+   Uniform, modern, and accessible table design
+   =========================================== */
+
+/* === CSS CUSTOM PROPERTIES (DESIGN TOKENS) === */
+:root {
+  /* Table Colors */
+  --table-primary: #86f1ff;
+  --table-primary-dark: #4030ad;
+  --table-secondary: #6b7280;
+  --table-success: #10b981;
+  --table-warning: #f59e0b;
+  --table-error: #ef4444;
+  --table-info: #3b82f6;
+  
+  /* Table Backgrounds */
+  --table-bg-primary: #ffffff;
+  --table-bg-secondary: #f9fafb;
+  --table-bg-dark: #1f2937;
+  --table-bg-header: #f8fafc;
+  --table-bg-stripe: #f1f5f9;
+  
+  /* Table Text Colors */
+  --table-text-primary: #111827;
+  --table-text-secondary: #6b7280;
+  --table-text-muted: #9ca3af;
+  --table-text-white: #ffffff;
+  
+  /* Table Borders */
+  --table-border: #e5e7eb;
+  --table-border-light: #f3f4f6;
+  --table-border-dark: #374151;
+  
+  /* Table Spacing */
+  --table-spacing-xs: 0.25rem;
+  --table-spacing-sm: 0.5rem;
+  --table-spacing-md: 0.75rem;
+  --table-spacing-lg: 1rem;
+  --table-spacing-xl: 1.5rem;
+  
+  /* Table Typography */
+  --table-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --table-font-size-sm: 0.875rem;
+  --table-font-size-base: 1rem;
+  --table-font-size-lg: 1.125rem;
+  --table-font-weight-normal: 400;
+  --table-font-weight-medium: 500;
+  --table-font-weight-semibold: 600;
+  --table-font-weight-bold: 700;
+  
+  /* Table Sizing */
+  --table-radius-sm: 0.25rem;
+  --table-radius-base: 0.5rem;
+  --table-radius-lg: 0.75rem;
+  
+  /* Table Shadows */
+  --table-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --table-shadow-base: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --table-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  
+  /* Table Transitions */
+  --table-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* === DARK MODE VARIABLES === */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --table-bg-primary: #1f2937;
+    --table-bg-secondary: #111827;
+    --table-bg-header: #374151;
+    --table-bg-stripe: #2d3748;
+    --table-text-primary: #f9fafb;
+    --table-text-secondary: #d1d5db;
+    --table-text-muted: #9ca3af;
+    --table-border: #4b5563;
+    --table-border-light: #374151;
+  }
+}
+
+/* === BASE TABLE STYLES === */
+table,
+.table {
+  width: 100%;
+  margin-bottom: var(--table-spacing-xl);
+  color: var(--table-text-primary);
+  background-color: var(--table-bg-primary);
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-family: var(--table-font-family);
+  font-size: var(--table-font-size-base);
+  line-height: 1.5;
+  box-shadow: var(--table-shadow-base);
+  border-radius: var(--table-radius-base);
+  overflow: hidden;
+}
+
+/* === TABLE CAPTION === */
+table caption,
+.table caption {
+  padding: var(--table-spacing-lg);
+  font-size: var(--table-font-size-lg);
+  font-weight: var(--table-font-weight-semibold);
+  color: var(--table-text-primary);
+  text-align: left;
+  background-color: var(--table-bg-header);
+  border-bottom: 1px solid var(--table-border);
+}
+
+/* === TABLE HEADER === */
+table thead,
+.table thead {
+  background-color: var(--table-bg-header);
+  border-bottom: 2px solid var(--table-primary);
+}
+
+table thead th,
+.table thead th {
+  padding: var(--table-spacing-lg) var(--table-spacing-md);
+  font-weight: var(--table-font-weight-semibold);
+  font-size: var(--table-font-size-base);
+  color: var(--table-text-primary);
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 2px solid var(--table-primary);
+  background-color: var(--table-bg-header);
+  position: relative;
+}
+
+table thead th:first-child,
+.table thead th:first-child {
+  border-top-left-radius: var(--table-radius-base);
+}
+
+table thead th:last-child,
+.table thead th:last-child {
+  border-top-right-radius: var(--table-radius-base);
+}
+
+/* === TABLE BODY === */
+table tbody,
+.table tbody {
+  background-color: var(--table-bg-primary);
+}
+
+table tbody tr,
+.table tbody tr {
+  border-bottom: 1px solid var(--table-border-light);
+  transition: var(--table-transition);
+}
+
+table tbody tr:hover,
+.table tbody tr:hover {
+  background-color: var(--table-bg-stripe);
+  /* transform: translateY(-1px); */
+  box-shadow: var(--table-shadow-sm);
+}
+
+table tbody tr:last-child,
+.table tbody tr:last-child {
+  border-bottom: none;
+}
+
+/* === TABLE CELLS === */
+table td,
+table th,
+.table td,
+.table th {
+  padding: var(--table-spacing-md);
+  vertical-align: middle;
+  border: none;
+  position: relative;
+}
+
+table td,
+.table td {
+  color: var(--table-text-primary);
+  background-color: transparent;
+  transition: var(--table-transition);
+}
+
+table th,
+.table th {
+  font-weight: var(--table-font-weight-semibold);
+  color: var(--table-text-primary);
+  background-color: var(--table-bg-header);
+}
+
+/* === TABLE FOOTER === */
+table tfoot,
+.table tfoot {
+  background-color: var(--table-bg-secondary);
+  border-top: 2px solid var(--table-border);
+}
+
+table tfoot td,
+table tfoot th,
+.table tfoot td,
+.table tfoot th {
+  padding: var(--table-spacing-lg) var(--table-spacing-md);
+  font-weight: var(--table-font-weight-medium);
+  color: var(--table-text-secondary);
+  background-color: var(--table-bg-secondary);
+}
+
+/* === TABLE VARIANTS === */
+
+/* Striped Tables */
+table.table-striped tbody tr:nth-child(odd),
+.table-striped tbody tr:nth-child(odd) {
+  background-color: var(--table-bg-stripe);
+}
+
+table.table-striped tbody tr:nth-child(even),
+.table-striped tbody tr:nth-child(even) {
+  background-color: var(--table-bg-primary);
+}
+
+/* Bordered Tables */
+table.table-bordered,
+.table-bordered {
+  border: 1px solid var(--table-border);
+}
+
+table.table-bordered td,
+table.table-bordered th,
+.table-bordered td,
+.table-bordered th {
+  border: 1px solid var(--table-border);
+}
+
+/* Borderless Tables */
+table.table-borderless,
+.table-borderless {
+  border: none;
+}
+
+table.table-borderless td,
+table.table-borderless th,
+.table-borderless td,
+.table-borderless th {
+  border: none;
+}
+
+/* Hover Tables */
+table.table-hover tbody tr:hover,
+.table-hover tbody tr:hover {
+  background-color: var(--table-bg-stripe);
+  color: var(--table-text-primary);
+}
+
+/* === TABLE SIZES === */
+
+/* Small Tables */
+table.table-sm,
+.table-sm {
+  font-size: var(--table-font-size-sm);
+}
+
+table.table-sm td,
+table.table-sm th,
+.table-sm td,
+.table-sm th {
+  padding: var(--table-spacing-sm) var(--table-spacing-md);
+}
+
+/* Large Tables */
+table.table-lg,
+.table-lg {
+  font-size: var(--table-font-size-lg);
+}
+
+table.table-lg td,
+table.table-lg th,
+.table-lg td,
+.table-lg th {
+  padding: var(--table-spacing-lg) var(--table-spacing-xl);
+}
+
+/* === TABLE COLORS === */
+
+/* Primary Table */
+table.table-primary,
+.table-primary {
+  --table-bg-header: var(--table-primary);
+  --table-text-header: var(--table-primary-dark);
+}
+
+table.table-primary thead th,
+.table-primary thead th {
+  background-color: var(--table-primary);
+  color: var(--table-primary-dark);
+}
+
+/* Success Table */
+table.table-success,
+.table-success {
+  --table-bg-header: var(--table-success);
+  --table-text-header: white;
+}
+
+table.table-success thead th,
+.table-success thead th {
+  background-color: var(--table-success);
+  color: white;
+}
+
+/* Warning Table */
+table.table-warning,
+.table-warning {
+  --table-bg-header: var(--table-warning);
+  --table-text-header: white;
+}
+
+table.table-warning thead th,
+.table-warning thead th {
+  background-color: var(--table-warning);
+  color: white;
+}
+
+/* Error Table */
+table.table-error,
+.table-error {
+  --table-bg-header: var(--table-error);
+  --table-text-header: white;
+}
+
+table.table-error thead th,
+.table-error thead th {
+  background-color: var(--table-error);
+  color: white;
+}
+
+/* Info Table */
+table.table-info,
+.table-info {
+  --table-bg-header: var(--table-info);
+  --table-text-header: white;
+}
+
+table.table-info thead th,
+.table-info thead th {
+  background-color: var(--table-info);
+  color: white;
+}
+
+/* Dark Table */
+table.table-dark,
+.table-dark {
+  --table-bg-primary: var(--table-bg-dark);
+  --table-bg-header: #374151;
+  --table-bg-stripe: #2d3748;
+  --table-text-primary: var(--table-text-white);
+  --table-text-secondary: #d1d5db;
+  --table-border: #4b5563;
+}
+
+/* === TABLE RESPONSIVE === */
+.table-responsive {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table-responsive table,
+.table-responsive .table {
+  margin-bottom: 0;
+}
+
+/* === TABLE ACTIONS === */
+table .table-actions,
+.table .table-actions {
+  white-space: nowrap;
+  text-align: right;
+}
+
+table .table-actions .btn,
+.table .table-actions .btn {
+  margin-left: var(--table-spacing-xs);
+}
+
+/* === TABLE LINKS === */
+table a,
+.table a {
+  /* color: var(--table-primary); */
+  color: #4030ad;
+  text-decoration: none;
+  transition: var(--table-transition);
+}
+
+table a:hover,
+.table a:hover {
+  color: var(--table-primary-dark);
+  text-decoration: underline;
+}
+
+table thead a,
+.table thead a {
+  color: inherit;
+}
+
+table thead a:hover,
+.table thead a:hover {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* === TABLE SORTING === */
+table .sortable,
+.table .sortable {
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+}
+
+table .sortable::after,
+.table .sortable::after {
+  content: '↕';
+  position: absolute;
+  right: var(--table-spacing-sm);
+  opacity: 0.5;
+  font-size: 0.75rem;
+}
+
+table .sortable.sort-asc::after,
+.table .sortable.sort-asc::after {
+  content: '↑';
+  opacity: 1;
+}
+
+table .sortable.sort-desc::after,
+.table .sortable.sort-desc::after {
+  content: '↓';
+  opacity: 1;
+}
+
+/* === TABLE PAGINATION === */
+.table-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--table-spacing-lg);
+  background-color: var(--table-bg-secondary);
+  border-top: 1px solid var(--table-border);
+}
+
+.table-pagination-info {
+  color: var(--table-text-secondary);
+  font-size: var(--table-font-size-sm);
+}
+
+.table-pagination-links {
+  display: flex;
+  gap: var(--table-spacing-xs);
+}
+
+.table-pagination-links a,
+.table-pagination-links button {
+  padding: var(--table-spacing-sm) var(--table-spacing-md);
+  border: 1px solid var(--table-border);
+  border-radius: var(--table-radius-sm);
+  background-color: var(--table-bg-primary);
+  color: var(--table-text-primary);
+  text-decoration: none;
+  transition: var(--table-transition);
+}
+
+.table-pagination-links a:hover,
+.table-pagination-links button:hover {
+  background-color: var(--table-primary);
+  color: var(--table-primary-dark);
+  border-color: var(--table-primary);
+}
+
+.table-pagination-links .active {
+  background-color: var(--table-primary);
+  color: var(--table-primary-dark);
+  border-color: var(--table-primary);
+}
+
+/* === TABLE FILTERS === */
+.table-filters {
+  display: flex;
+  gap: var(--table-spacing-md);
+  padding: var(--table-spacing-lg);
+  background-color: var(--table-bg-secondary);
+  border-bottom: 1px solid var(--table-border);
+  flex-wrap: wrap;
+}
+
+.table-filters .filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--table-spacing-xs);
+}
+
+.table-filters label {
+  font-size: var(--table-font-size-sm);
+  font-weight: var(--table-font-weight-medium);
+  color: var(--table-text-secondary);
+}
+
+.table-filters input,
+.table-filters select {
+  padding: var(--table-spacing-sm) var(--table-spacing-md);
+  border: 1px solid var(--table-border);
+  border-radius: var(--table-radius-sm);
+  background-color: var(--table-bg-primary);
+  color: var(--table-text-primary);
+  font-size: var(--table-font-size-sm);
+}
+
+/* === TABLE LOADING STATES === */
+.table-loading {
+  position: relative;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.table-loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid var(--table-border);
+  border-top-color: var(--table-primary);
+  border-radius: 50%;
+  animation: table-spin 1s linear infinite;
+}
+
+@keyframes table-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* === TABLE EMPTY STATES === */
+.table-empty {
+  text-align: center;
+  padding: var(--table-spacing-2xl);
+  color: var(--table-text-muted);
+  font-style: italic;
+}
+
+.table-empty-icon {
+  font-size: 2rem;
+  margin-bottom: var(--table-spacing-md);
+  opacity: 0.5;
+}
+
+/* === TABLE ACCESSIBILITY === */
+table[role="table"],
+.table[role="table"] {
+  /* Enhanced accessibility for screen readers */
+}
+
+table caption,
+.table caption {
+  /* Caption provides context for screen readers */
+}
+
+table th[scope="col"],
+.table th[scope="col"] {
+  /* Column headers for screen readers */
+}
+
+table th[scope="row"],
+.table th[scope="row"] {
+  /* Row headers for screen readers */
+}
+
+/* === TABLE PRINT STYLES === */
+@media print {
+  table,
+  .table {
+    box-shadow: none;
+    border: 1px solid #000;
+  }
+  
+  table thead th,
+  .table thead th {
+    background-color: #f0f0f0 !important;
+    color: #000 !important;
+  }
+  
+  table tbody tr,
+  .table tbody tr {
+    background-color: transparent !important;
+  }
+  
+  table tbody tr:nth-child(odd),
+  .table tbody tr:nth-child(odd) {
+    background-color: #f9f9f9 !important;
+  }
+}
+
+/* === RESPONSIVE DESIGN === */
+@media (max-width: 768px) {
+  table,
+  .table {
+    font-size: var(--table-font-size-sm);
+  }
+  
+  table td,
+  table th,
+  .table td,
+  .table th {
+    padding: var(--table-spacing-sm);
+  }
+  
+  .table-filters {
+    flex-direction: column;
+  }
+  
+  .table-pagination {
+    flex-direction: column;
+    gap: var(--table-spacing-md);
+  }
+}
+
+@media (max-width: 480px) {
+  table,
+  .table {
+    font-size: 0.75rem;
+  }
+  
+  table td,
+  table th,
+  .table td,
+  .table th {
+    padding: var(--table-spacing-xs);
+  }
+  
+  .table-responsive {
+    border: none;
+  }
+  
+  .table-responsive table,
+  .table-responsive .table {
+    border: 1px solid var(--table-border);
+  }
+}
+
+/* === HIGH CONTRAST MODE === */
+@media (prefers-contrast: high) {
+  table,
+  .table {
+    border: 2px solid #000;
+  }
+  
+  table td,
+  table th,
+  .table td,
+  .table th {
+    border: 1px solid #000;
+  }
+  
+  table thead th,
+  .table thead th {
+    background-color: #000;
+    color: #fff;
+  }
+}
+
+/* === REDUCED MOTION === */
+@media (prefers-reduced-motion: reduce) {
+  table tbody tr,
+  .table tbody tr,
+  table td,
+  .table td,
+  table a,
+  .table a {
+    transition: none;
+  }
+  
+  .table-loading::after {
+    animation: none;
+  }
+}
+
+/* ===========================================
+   DRUPAL VIEWS TABLE STYLES
+   All elements use 0.8rem font size
+   =========================================== */
+
+/* Views table base - Force 0.8rem on all elements */
+table.views-table,
+.views-table {
+  font-size: 0.8rem !important;
+}
+
+/* Force 0.8rem font size on ALL elements within views table */
+table.views-table *,
+.views-table * {
+  font-size: 0.8rem !important;
+}
+
+/* Views table headers */
+table.views-table thead th,
+.views-table thead th {
+  font-size: 0.8rem !important;
+  padding: 0.6rem 0.75rem !important;
+  vertical-align: middle !important;
+  text-align: left !important;
+}
+
+/* Views table cells */
+table.views-table td,
+.views-table td {
+  font-size: 0.8rem !important;
+  padding: 0.6rem 0.75rem !important;
+  vertical-align: middle !important;
+  text-align: left !important;
+}
+
+/* All text elements in views table cells */
+table.views-table td span,
+table.views-table td div,
+table.views-table td p,
+table.views-table td label,
+table.views-table td button,
+.views-table td span,
+.views-table td div,
+.views-table td p,
+.views-table td label,
+.views-table td button {
+  font-size: 0.8rem !important;
+}
+
+/* Form elements in views table */
+table.views-table td input,
+table.views-table td select,
+table.views-table td textarea,
+.views-table td input,
+.views-table td select,
+.views-table td textarea {
+  font-size: 0.8rem !important;
+}
+
+/* Links in views table */
+table.views-table a,
+.views-table a {
+  font-size: 0.8rem !important;
+}
+
+/* Buttons in views table */
+table.views-table .button,
+table.views-table .btn,
+table.views-table input[type="button"],
+table.views-table input[type="submit"],
+.views-table .button,
+.views-table .btn,
+.views-table input[type="button"],
+.views-table input[type="submit"] {
+  font-size: 0.8rem !important;
+}
+
+/* Dropdown menus in views table */
+table.views-table .dropbutton,
+table.views-table .dropbutton-wrapper,
+table.views-table .dropbutton a,
+.views-table .dropbutton,
+.views-table .dropbutton-wrapper,
+.views-table .dropbutton a {
+  font-size: 0.8rem !important;
+}
+
+/* Views exposed form (filters) */
+.views-exposed-form {
+  font-size: 0.8rem !important;
+}
+
+.views-exposed-form * {
+  font-size: 0.8rem !important;
+}
+
+.views-exposed-form .form-item label {
+  font-size: 0.8rem !important;
+}
+
+.views-exposed-form .form-item input,
+.views-exposed-form .form-item select {
+  font-size: 0.8rem !important;
+}
+
+.views-exposed-form .form-actions input[type="submit"],
+.views-exposed-form .form-actions button {
+  font-size: 0.8rem !important;
+}
+
+/* Pager */
+.pager,
+.pager * {
+  font-size: 0.8rem !important;
+}
+
+.pager__item a,
+.pager__item span {
+  font-size: 0.8rem !important;
+}
+
+/* Bulk operations */
+.views-form .form-item-action select,
+.views-form .form-item-action .button {
+  font-size: 0.8rem !important;
+}
+
+/* Select2 in views table */
+table.views-table .select2-container,
+table.views-table .select2-container *,
+.views-table .select2-container,
+.views-table .select2-container * {
+  font-size: 0.8rem !important;
+}
+
+/* Inline coach field */
+table.views-table .inline-coach-field-wrapper,
+table.views-table .inline-coach-field-wrapper *,
+.views-table .inline-coach-field-wrapper,
+.views-table .inline-coach-field-wrapper * {
+  font-size: 0.8rem !important;
+}
+
+/* View content wrapper */
+.view-content {
+  font-size: 0.8rem !important;
+}
+
+.view-content * {
+  font-size: 0.8rem !important;
+}
+
+
+

@@ -1,0 +1,22 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Logs / temp
+*.log
+/tmp/
+
+# Drupal uploaded files
+/sites/default/files/
+
+# Local-only settings
+/sites/*/settings.local.php
+
+# DB dumps / backups
+*.sql
+*.sql.gz
+*.tar
+*.tar.gz
+*.zip

@@ -1,0 +1,11 @@
+uuid: 55fe0a6f-4123-4497-89ba-e6f8a5f3d13f
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+id: user.add_new_coach
+label: 'Add New Coach'
+description: ''
+targetEntityType: user
+cache: true

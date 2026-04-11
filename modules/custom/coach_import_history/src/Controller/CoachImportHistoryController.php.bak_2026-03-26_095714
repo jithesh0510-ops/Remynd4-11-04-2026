@@ -1,0 +1,231 @@
+<?php
+
+namespace Drupal\coach_import_history\Controller;
+
+use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Link;
+use Drupal\Core\Url;
+use Symfony\Component\HttpFoundation\Response;
+use Drupal\user\Entity\User;
+use Drupal\coach_import_history\CompanyHelper;
+
+class CoachImportHistoryController extends ControllerBase {
+
+  public function listing() {
+    $header = [
+      'id' => 'ID',
+      'company_name' => 'Company',
+      'filename' => 'File Name',
+      'created_count' => 'Created',
+      'updated_count' => 'Updated',
+      'error_count' => 'Errors',
+      'created' => 'Imported On',
+      'file' => 'File',
+      'details' => 'Details',
+    ];
+
+    $rows = [];
+    $query = \Drupal::database()->select('coach_import_history', 'c')
+      ->fields('c')
+      ->orderBy('id', 'DESC');
+    $data = $query->execute()->fetchAllAssoc('id');
+
+    foreach ($data as $row) {
+      $file_link = '-';
+      if (!empty($row->file_uri)) {
+        try {
+          $url = \Drupal::service('file_url_generator')->generateAbsoluteString($row->file_uri);
+          $file_link = Link::fromTextAndUrl('Download', Url::fromUri($url))->toString();
+        }
+        catch (\Throwable $e) {
+          $file_link = '-';
+        }
+      }
+
+      $details = [];
+      $json = json_decode($row->result_json ?? '[]', TRUE);
+      if (is_array($json)) {
+        foreach ($json as $item) {
+          $details[] = 'Row ' . ($item['row'] ?? '') . ' | ' . ($item['email'] ?? '') . ' | ' . ($item['result'] ?? '') . ' | ' . ($item['message'] ?? '');
+        }
+      }
+
+      $rows[] = [
+        'id' => $row->id,
+        'company_name' => $row->company_name,
+        'filename' => $row->filename,
+        'created_count' => $row->created_count,
+        'updated_count' => $row->updated_count,
+        'error_count' => $row->error_count,
+        'created' => date('Y-m-d H:i:s', $row->created),
+        'file' => ['data' => ['#markup' => $file_link]],
+        'details' => ['data' => ['#markup' => '<details><summary>View</summary><div style="max-height:300px;overflow:auto;white-space:pre-wrap;">' . implode("<br>", array_map('htmlspecialchars', $details)) . '</div></details>']],
+      ];
+    }
+
+    $build['top_links'] = [
+      '#type' => 'markup',
+      '#markup' => '<p><a class="button button--primary" href="/coach/import-history-upload">New Import</a></p>',
+    ];
+
+    $build['table'] = [
+      '#type' => 'table',
+      '#header' => $header,
+      '#rows' => $rows,
+      '#empty' => 'No import history found.',
+    ];
+
+    return $build;
+  }
+
+  public function downloadSample() {
+    $csv = "email,first_name,last_name,name\njohn@example.com,John,Doe,John Doe\n";
+    $response = new Response($csv);
+    $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
+    $response->headers->set('Content-Disposition', 'attachment; filename="coach_import_sample.csv"');
+    return $response;
+  }
+
+  public function downloadKey($company_uid = 0) {
+    $company_uid = (int) $company_uid;
+
+    $filename = 'coach_key.csv';
+    $rows = [];
+    $rows[] = ['company_id', 'company_name', 'first_name', 'last_name', 'email'];
+
+    $selected_company_name = '';
+    if ($company_uid > 0) {
+      $company = User::load($company_uid);
+      $selected_company_name = $company ? trim((string) CompanyHelper::getCompanyDisplayName($company)) : '';
+      $filename = 'coach_key_company_' . $company_uid . '.csv';
+    }
+
+    $uids = \Drupal::entityQuery('user')
+      ->accessCheck(FALSE)
+      ->condition('status', 1)
+      ->condition('roles', 'coach')
+      ->execute();
+
+    if (!empty($uids)) {
+      $users = User::loadMultiple($uids);
+
+      foreach ($users as $user) {
+        $coach_company_name = $this->getCoachCompanyName($user);
+
+        if ($selected_company_name !== '') {
+          if ($coach_company_name === '' || strcasecmp(trim($coach_company_name), trim($selected_company_name)) !== 0) {
+            continue;
+          }
+        }
+
+        $first_name = $this->getUserFieldValue($user, 'field_first_name');
+        $last_name = $this->getUserFieldValue($user, 'field_last_name');
+
+        if ($first_name === '' || $last_name === '') {
+          $profile = $this->getPrimaryProfile($user);
+          if ($profile) {
+            if ($first_name === '' && $profile->hasField('field_first_name') && !$profile->get('field_first_name')->isEmpty()) {
+              $first_name = (string) $profile->get('field_first_name')->value;
+            }
+            if ($last_name === '' && $profile->hasField('field_last_name') && !$profile->get('field_last_name')->isEmpty()) {
+              $last_name = (string) $profile->get('field_last_name')->value;
+            }
+          }
+        }
+
+        $rows[] = [
+          $company_uid,
+          $coach_company_name,
+          $first_name,
+          $last_name,
+          (string) $user->getEmail(),
+        ];
+      }
+    }
+
+    $output = fopen('php://temp', 'r+');
+    foreach ($rows as $row) {
+      fputcsv($output, $row);
+    }
+    rewind($output);
+    $csv = stream_get_contents($output);
+    fclose($output);
+
+    $response = new Response($csv);
+    $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
+    $response->headers->set('Content-Disposition', 'attachment; filename="' . $filename . '"');
+    return $response;
+  }
+
+  protected function getUserFieldValue(User $user, string $field_name): string {
+    if ($user->hasField($field_name) && !$user->get($field_name)->isEmpty()) {
+      return trim((string) $user->get($field_name)->value);
+    }
+    return '';
+  }
+
+  protected function getPrimaryProfile(User $user) {
+    $profiles = \Drupal::entityTypeManager()
+      ->getStorage('profile')
+      ->loadByProperties(['uid' => $user->id()]);
+
+    if (!$profiles) {
+      return NULL;
+    }
+
+    foreach ($profiles as $profile) {
+      return $profile;
+    }
+
+    return NULL;
+  }
+
+  protected function getCoachCompanyName(User $user): string {
+    if ($user->hasField('field_company') && !$user->get('field_company')->isEmpty()) {
+      $val = trim((string) $user->get('field_company')->value);
+      if ($val !== '') {
+        return $val;
+      }
+    }
+
+    $profile = $this->getPrimaryProfile($user);
+    if (!$profile) {
+      return '';
+    }
+
+    $candidate_fields = [
+      'field_company_name',
+      'field_company',
+      'field_business_name',
+      'field_organization',
+      'field_org_name',
+      'field_org',
+    ];
+
+    foreach ($candidate_fields as $field_name) {
+      if (!$profile->hasField($field_name) || $profile->get($field_name)->isEmpty()) {
+        continue;
+      }
+
+      $item = $profile->get($field_name);
+
+      if (method_exists($item, 'referencedEntities')) {
+        $entities = $item->referencedEntities();
+        if (!empty($entities) && method_exists($entities[0], 'label')) {
+          $label = trim((string) $entities[0]->label());
+          if ($label !== '') {
+            return $label;
+          }
+        }
+      }
+
+      $value = trim((string) ($item->value ?? ''));
+      if ($value !== '') {
+        return $value;
+      }
+    }
+
+    return '';
+  }
+
+}

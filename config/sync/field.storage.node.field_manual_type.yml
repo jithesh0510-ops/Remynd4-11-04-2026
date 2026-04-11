@@ -1,0 +1,30 @@
+uuid: 9845a3ea-16ae-4b63-8a26-097eaf7541e0
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_manual_type
+field_name: field_manual_type
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: coach
+      label: Coach
+    -
+      value: company
+      label: Company
+    -
+      value: employee
+      label: Employee
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

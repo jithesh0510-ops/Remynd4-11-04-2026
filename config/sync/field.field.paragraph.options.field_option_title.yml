@@ -1,0 +1,19 @@
+uuid: fbb64dbe-f486-4c50-b31d-c8b9dee85184
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_option_title
+    - paragraphs.paragraphs_type.options
+id: paragraph.options.field_option_title
+field_name: field_option_title
+entity_type: paragraph
+bundle: options
+label: 'Score Title'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

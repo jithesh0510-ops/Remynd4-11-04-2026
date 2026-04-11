@@ -1,0 +1,70 @@
+uuid: 0acafd66-b15d-4645-9175-9d47a5b78cdb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.profile.employee.feeds_item
+    - field.field.profile.employee.field_branch
+    - field.field.profile.employee.field_coach
+    - field.field.profile.employee.field_company
+    - field.field.profile.employee.field_employee_number
+    - field.field.profile.employee.field_job_position
+    - field.field.profile.employee.field_view_report
+    - profile.type.employee
+id: profile.employee.default
+targetEntityType: profile
+bundle: employee
+mode: default
+content:
+  field_branch:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 9
+    region: content
+  field_coach:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_company:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_employee_number:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 11
+    region: content
+  field_job_position:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 10
+    region: content
+  field_view_report:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 8
+    region: content
+hidden:
+  feeds_item: true

@@ -1,0 +1,78 @@
+uuid: 2d7ab7f5-0cb1-49fd-9516-3899ea8eecc4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.profile.coach.feeds_item
+    - field.field.profile.coach.field_company
+    - field.field.profile.coach.field_enable_the_coach_will_see
+    - field.field.profile.coach.field_see_laggards_to_stars
+    - field.field.profile.coach.field_see_previous_date
+    - field.field.profile.coach.field_see_questionnaire_result
+    - field.field.profile.coach.field_see_skills_assessment
+    - profile.type.coach
+id: profile.coach.default
+targetEntityType: profile
+bundle: coach
+mode: default
+content:
+  field_company:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_enable_the_coach_will_see:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_see_laggards_to_stars:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_see_previous_date:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_see_questionnaire_result:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_see_skills_assessment:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  feeds_item: true

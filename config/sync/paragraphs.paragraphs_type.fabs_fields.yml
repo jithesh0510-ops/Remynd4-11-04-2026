@@ -1,0 +1,10 @@
+uuid: ee2f7e4d-f356-4d11-a269-627bdf539138
+langcode: en
+status: true
+dependencies: {  }
+id: fabs_fields
+label: ' Fabs Fields'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

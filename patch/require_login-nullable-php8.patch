@@ -1,0 +1,27 @@
+diff --git a/src/LoginRequirementsManagerInterface.php b/src/LoginRequirementsManagerInterface.php
+index 1234567..abcdef0 100644
+--- a/src/LoginRequirementsManagerInterface.php
++++ b/src/LoginRequirementsManagerInterface.php
+@@
+   /**
+    * Evaluate login requirement for a request.
+    *
+    * @param \Symfony\Component\HttpKernel\Exception\HttpExceptionInterface|null $exception
+    *   The throwable request exception.
+    *
+    * @return \Drupal\Core\Url|false
+    *   Returns login URL if authentication is required. Otherwise, FALSE.
+    */
+-  public function evaluate(HttpExceptionInterface $exception = NULL);
++  public function evaluate(?HttpExceptionInterface $exception = NULL);
+diff --git a/src/LoginRequirementsManager.php b/src/LoginRequirementsManager.php
+index 7654321..fedcba9 100644
+--- a/src/LoginRequirementsManager.php
++++ b/src/LoginRequirementsManager.php
+@@
+   /**
+    * {@inheritdoc}
+    */
+-  public function evaluate(HttpExceptionInterface $exception = NULL) {
++  public function evaluate(?HttpExceptionInterface $exception = NULL) {
+     // Existing method logic remains unchanged.

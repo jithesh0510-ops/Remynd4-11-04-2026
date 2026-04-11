@@ -1,0 +1,74 @@
+{#
+/**
+ * @file
+ * Theme override for the main menu.
+ *
+ * Available variables:
+ * - menu_name: The machine name of the menu.
+ * - items: A nested list of menu items. Each menu item contains:
+ *   - attributes: HTML attributes for the menu item.
+ *   - below: The menu item child items.
+ *   - title: The menu link title.
+ *   - url: The menu link url, instance of \Drupal\Core\Url
+ *   - localized_options: Menu link localized options.
+ *   - is_expanded: TRUE if the link has children within the current menu tree.
+ *   - is_collapsed: TRUE if the link has children within the current menu tree but the current menu tree is equal to the maximum menu depth and that children are not displayed.
+ *   - in_active_trail: TRUE if the link is in the active trail.
+ */
+#}
+<ul class="sidebar-nav">
+  {% if items %}
+    {% for item in items %}
+      {% set is_active = item.in_active_trail ? ' active' : '' %}
+      {% set has_children = item.below ? ' has-submenu' : '' %}
+      {% set toggle_id = 'submenu-' ~ loop.index %}
+
+      <li class="sidebar-item{{ is_active }}{{ has_children }}">
+        {% if item.below %}
+          <a data-bs-target="#{{ toggle_id }}" data-bs-toggle="collapse" class="sidebar-link collapsed{{ is_active ? ' active' : '' }}">
+            {% if item.icon %}
+              <i class="align-middle" data-feather="{{ item.icon }}"></i>
+            {% endif %}
+            <span class="align-middle">{{ item.title }}</span>
+          </a>
+          <ul id="{{ toggle_id }}" class="sidebar-dropdown list-unstyled collapse{{ is_active ? ' show' : '' }}" data-bs-parent="#sidebar">
+            {% for sub_item in item.below %}
+              {% set sub_is_active = sub_item.in_active_trail ? ' active' : '' %}
+              {% set sub_has_children = sub_item.below ? ' has-submenu' : '' %}
+              {% set sub_toggle_id = toggle_id ~ '-sub-' ~ loop.index %}
+
+              <li class="sidebar-item{{ sub_is_active }}{{ sub_has_children }}">
+                {% if sub_item.below %}
+                  <a data-bs-target="#{{ sub_toggle_id }}" data-bs-toggle="collapse" class="sidebar-link collapsed{{ sub_is_active ? ' active' : '' }}">
+                    <span class="align-middle">{{ sub_item.title }}</span>
+                  </a>
+                  <ul id="{{ sub_toggle_id }}" class="sidebar-dropdown list-unstyled collapse{{ sub_is_active ? ' show' : '' }}">
+                    {% for third_item in sub_item.below %}
+                      <li class="sidebar-item{{ third_item.in_active_trail ? ' active' : '' }}">
+                        <a class="sidebar-link{{ third_item.in_active_trail ? ' active' : '' }}" href="{{ third_item.url }}">
+                          <span class="align-middle">{{ third_item.title }}</span>
+                        </a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                {% else %}
+                  <a class="sidebar-link{{ sub_is_active ? ' active' : '' }}" href="{{ sub_item.url }}">
+                    <span class="align-middle">{{ sub_item.title }}</span>
+                  </a>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <a class="sidebar-link{{ is_active ? ' active' : '' }}" href="{{ item.url }}">
+            {% if item.icon %}
+              <i class="align-middle" data-feather="{{ item.icon }}"></i>
+            {% endif %}
+            <span class="align-middle">{{ item.title }}</span>
+          </a>
+        {% endif %}
+      </li>
+    {% endfor %}
+  {% endif %}
+</ul>
+

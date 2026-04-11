@@ -1,0 +1,12 @@
+uuid: 6002ac7d-a811-41cb-9296-d8a8447421e0
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - mymodule
+id: administrator
+label: Administrator
+weight: 2
+is_admin: true
+permissions: {  }

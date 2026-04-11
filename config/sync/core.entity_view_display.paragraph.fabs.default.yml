@@ -1,0 +1,24 @@
+uuid: 5a553324-e767-448f-9d4e-aaf63552d6e8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.fabs.field_fab_fields
+    - paragraphs.paragraphs_type.fabs
+  module:
+    - entity_reference_revisions
+id: paragraph.fabs.default
+targetEntityType: paragraph
+bundle: fabs
+mode: default
+content:
+  field_fab_fields:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden: {  }

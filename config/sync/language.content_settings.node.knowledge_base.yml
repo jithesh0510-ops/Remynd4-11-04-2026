@@ -1,0 +1,11 @@
+uuid: 75c7ab54-5755-4606-a247-769a717c7c65
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.knowledge_base
+id: node.knowledge_base
+target_entity_type_id: node
+target_bundle: knowledge_base
+default_langcode: site_default
+language_alterable: false

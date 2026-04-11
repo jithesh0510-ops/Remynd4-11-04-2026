@@ -1,0 +1,18 @@
+uuid: f609a99e-8bf0-4973-806d-1c5d2099ef1e
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.survey
+id: node.survey.changed
+field_name: changed
+entity_type: node
+bundle: survey
+label: Changed
+description: 'The time that the node was last edited.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

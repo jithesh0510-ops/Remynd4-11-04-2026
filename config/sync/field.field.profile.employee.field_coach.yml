@@ -1,0 +1,35 @@
+uuid: 7911e6ee-2d9a-4f2b-be17-08178a906406
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.profile.field_coach
+    - profile.type.employee
+id: profile.employee.field_coach
+field_name: field_coach
+entity_type: profile
+bundle: employee
+label: Coach
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    filter:
+      type: role
+      role:
+        coach: coach
+        content_editor: '0'
+        administrator: '0'
+        company: '0'
+        employee: '0'
+    include_anonymous: true
+field_type: entity_reference

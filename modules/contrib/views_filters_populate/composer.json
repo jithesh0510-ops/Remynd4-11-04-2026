@@ -1,0 +1,15 @@
+{
+    "name": "drupal/views_filters_populate",
+    "type": "drupal-module",
+    "description": "Allows one filter to populate other filters value.",
+    "keywords": ["Drupal"],
+    "license": "GPL-2.0+",
+    "homepage": "https://www.drupal.org/project/views_filters_populate",
+    "support": {
+        "issues": "https://www.drupal.org/project/issues/views_filters_populate",
+        "source": "https://cgit.drupalcode.org/views_filters_populate"
+    },
+    "require": {
+        "drupal/core": "^10 || ^11"
+    }
+}

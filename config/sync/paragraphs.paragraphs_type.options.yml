@@ -1,0 +1,10 @@
+uuid: 9e72580a-e98e-42c7-b745-32efde866b5d
+langcode: en
+status: true
+dependencies: {  }
+id: options
+label: Score
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

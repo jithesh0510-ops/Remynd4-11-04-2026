@@ -1,0 +1,13 @@
+<?php
+
+function simple_notification_mail($key, &$message, $params) {
+  switch ($key) {
+    case 'send_notification':
+      $message['subject'] = $params['subject'];
+      $message['body'][] = $params['body'];
+      if (!empty($params['link'])) {
+        $message['body'][] = 'View here: ' . $params['link'];
+      }
+      break;
+  }
+}

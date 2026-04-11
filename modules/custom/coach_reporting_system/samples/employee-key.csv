@@ -1,0 +1,11 @@
+employee_id,first_name,last_name,email,department
+1001,John,Smith,john.smith@company.com,Sales
+1002,Sarah,Johnson,sarah.johnson@company.com,Sales
+1003,Mike,Douglas,mike.douglas@company.com,Sales
+1004,Lisa,Anderson,lisa.anderson@company.com,Sales
+1005,David,Brown,david.brown@company.com,Sales
+1006,Emily,Davis,emily.davis@company.com,Marketing
+1007,Robert,Wilson,robert.wilson@company.com,Marketing
+1008,Jennifer,Garcia,jennifer.garcia@company.com,Marketing
+1009,Michael,Martinez,michael.martinez@company.com,Operations
+1010,Amanda,Taylor,amanda.taylor@company.com,Operations

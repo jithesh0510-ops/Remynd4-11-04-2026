@@ -1,0 +1,40 @@
+uuid: 6911b7e1-552f-4bd5-a43e-5c7bffdf855a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_question
+    - paragraphs.paragraphs_type.question
+    - paragraphs.paragraphs_type.sub_sub_category
+  module:
+    - entity_reference_revisions
+id: paragraph.sub_sub_category.field_question
+field_name: field_question
+entity_type: paragraph
+bundle: sub_sub_category
+label: Question
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      question: question
+    negate: 0
+    target_bundles_drag_drop:
+      category:
+        weight: 5
+        enabled: false
+      question:
+        weight: 6
+        enabled: true
+      sub_category:
+        weight: 7
+        enabled: false
+      sub_sub_category:
+        weight: 8
+        enabled: false
+field_type: entity_reference_revisions

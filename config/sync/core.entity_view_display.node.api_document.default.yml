@@ -1,0 +1,29 @@
+uuid: f89d6560-fa15-4f70-ad5a-237ca63e8b2c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.api_document.body
+    - node.type.api_document
+  module:
+    - text
+    - user
+id: node.api_document.default
+targetEntityType: node
+bundle: api_document
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  langcode: true

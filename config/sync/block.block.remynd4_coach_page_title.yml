@@ -1,0 +1,26 @@
+uuid: eb5602aa-fa1c-4662-af51-159d34d100fb
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - remynd4_coach
+_core:
+  default_config_hash: O7B3JszRMFVYAbojw_YydZMTMwyFJpYuxnyyPyi7l3g
+id: remynd4_coach_page_title
+theme: remynd4_coach
+region: content
+weight: -4
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  label_display: '0'
+  provider: core
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    pages: "<front>\r\n/user/*"

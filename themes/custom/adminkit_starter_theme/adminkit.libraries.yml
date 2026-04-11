@@ -1,0 +1,44 @@
+global-styling:
+  version: 2.5
+  css:
+    theme:
+      "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap": { type: external }
+      css/global-consistency.css: {}
+      css/dark.css: {}
+      css/style.css: {}
+      css/select2-custom.css: {}
+      css/sidebar-toggle.css: {}
+      css/tables-professional.css: {}
+      css/views-table.css: {}
+      css/employee-view.css: {}
+  js:
+    #js/app.js: {}
+    js/theme-toggle.js: {}
+    js/sidebar-toggle.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/drupalSettings
+    - core/once
+    - select2/select2
+
+employee-view:
+  version: 1.0
+  css:
+    theme:
+      css/employee-view.css: {}
+  dependencies:
+    - adminkit/global-styling
+    - select2/select2
+
+select2-enhanced:
+  css:
+    theme:
+      css/select2-custom.css: {}
+  js:
+    js/select2-init.js: {}
+  dependencies:
+    - select2/select2
+    - core/drupal
+    - core/jquery
+    - core/once

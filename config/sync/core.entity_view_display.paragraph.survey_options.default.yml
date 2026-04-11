@@ -1,0 +1,21 @@
+uuid: 6f5ee0da-aea7-42c2-8929-02a2d4bdf34c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.survey_options.field_survey_option
+    - paragraphs.paragraphs_type.survey_options
+id: paragraph.survey_options.default
+targetEntityType: paragraph
+bundle: survey_options
+mode: default
+content:
+  field_survey_option:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

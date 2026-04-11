@@ -1,0 +1,48 @@
+{#
+  user.html.twig
+  Custom user profile page for theme remyn4
+#}
+
+<div class="profile-container">
+  <div class="profile-card">
+    <!-- Profile Header -->
+    <div class="profile-header">
+      {% if user.picture.entity %}
+        <img class="profile-avatar" src="{{ file_url(user.picture.entity.uri.value) }}" alt="{{ user.display_name }} profile picture">
+      {% else %}
+        <div class="profile-avatar placeholder">
+          <span>{{ user.display_name|slice(0,1) }}</span>
+        </div>
+      {% endif %}
+      <h1 class="profile-name">{{ user.display_name }}</h1>
+      {% if user.mail.value %}
+        <p class="profile-email">{{ user.mail.value }}</p>
+      {% endif %}
+    </div>
+
+    <!-- Account Details -->
+    <div class="profile-details">
+      <h2>Account Details</h2>
+      <ul>
+        <li><strong>Username:</strong> {{ user.name.value }}</li>
+        <li><strong>Email:</strong> {{ user.mail.value }}</li>
+        <li><strong>Joined:</strong> {{ user.created.value|date('F j, Y') }}</li>
+
+        {% if user.field_company.entity %}
+          <li><strong>Company:</strong> {{ user.field_company.entity.label }}</li>
+        {% endif %}
+
+        {% if user.field_coach.entity %}
+          <li><strong>Coach:</strong> {{ user.field_coach.entity.label }}</li>
+        {% endif %}
+      </ul>
+    </div>
+
+    <!-- Render Additional Fields (Fallback) -->
+    {% if content %}
+      <div class="profile-content">
+        {{ content }}
+      </div>
+    {% endif %}
+  </div>
+</div>

@@ -1,0 +1,20 @@
+uuid: 75eef2e7-769a-480d-9994-d55cb8cd0beb
+langcode: en
+status: true
+dependencies:
+  theme:
+    - remynd4_professional_theme
+_core:
+  default_config_hash: CTIl2YfuH-oGtxHw-nmyJaFfBEntQNtjSbXfkLVe-M4
+id: remynd4_professional_theme_local_actions
+theme: remynd4_professional_theme
+region: content
+weight: -2
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  label_display: '0'
+  provider: core
+visibility: {  }

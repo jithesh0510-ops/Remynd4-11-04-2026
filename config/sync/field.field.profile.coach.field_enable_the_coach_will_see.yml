@@ -1,0 +1,21 @@
+uuid: b4603eeb-e911-43cb-9424-62b86247dc05
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.profile.field_enable_the_coach_will_see
+    - profile.type.coach
+id: profile.coach.field_enable_the_coach_will_see
+field_name: field_enable_the_coach_will_see
+entity_type: profile
+bundle: coach
+label: 'Enable (The Coach will see the list of employees on their account)'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * Implements hook_mail().
+ */
+function employee_import_history_mail($key, &$message, $params) {
+  switch ($key) {
+    case 'admin_employee_import_mail':
+      $message['subject'] = !empty($params['subject']) ? $params['subject'] : 'Employee Import Notification';
+      $message['body'][] = !empty($params['message']) ? $params['message'] : 'Employee import completed.';
+      break;
+  }
+}

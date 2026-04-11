@@ -1,0 +1,25 @@
+name: 'Remynd4 Professional'
+type: theme
+description: 'Remynd4 professional dashboard theme'
+core_version_requirement: ^10
+base theme: stable9
+package: Custom
+
+regions:
+  logo: 'Logo'
+  site_name: 'Site name'
+  site_slogan: 'Site slogan'
+  header: 'Header'
+  primary_menu: 'Primary menu'
+  secondary_menu: 'Secondary menu'
+  account_menu: 'Account menu'
+  breadcrumb: 'Breadcrumb'
+  highlighted: 'Highlighted'
+  content: 'Content'
+  sidebar_first: 'Sidebar first'
+  sidebar_second: 'Sidebar second'
+  footer_first: 'Footer First'
+  footer_second: 'Footer Second'
+  footer_third: 'Footer Third'
+  footer_fourth: 'Footer Fourth'
+  footer: 'Footer'

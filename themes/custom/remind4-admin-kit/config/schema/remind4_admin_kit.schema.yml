@@ -1,0 +1,14 @@
+remind4_admin_kit.settings:
+  type: theme_settings
+  label: 'Remind4 Admin Kit theme settings'
+  mapping:
+    logo_path:
+      type: string
+      label: 'Logo path'
+    logo_alt:
+      type: string
+      label: 'Logo alt text'
+    favicon_path:
+      type: string
+      label: 'Favicon path'
+

@@ -1,0 +1,20 @@
+uuid: 5e8ed19a-f603-4f2e-829a-00c71471e4e7
+langcode: en
+status: true
+dependencies:
+  module:
+    - language
+  theme:
+    - remind4_admin_kit
+id: remind4_admin_kit_languageswitcher
+theme: remind4_admin_kit
+region: header
+weight: 0
+provider: null
+plugin: 'language_block:language_interface'
+settings:
+  id: 'language_block:language_interface'
+  label: 'Language switcher'
+  label_display: '0'
+  provider: language
+visibility: {  }

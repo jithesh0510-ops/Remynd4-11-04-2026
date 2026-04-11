@@ -1,0 +1,850 @@
+/**
+ * @file
+ * Professional styling for Drupal Views Admin Interface
+ * Styles all popups, dialogs, buttons, and table fields in a professional way
+ */
+
+/* ==========================================================================
+   Views Admin Container
+   ========================================================================== */
+
+.views-admin {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ==========================================================================
+   Views UI Dialogs and Popups
+   ========================================================================== */
+
+/* Main dialog container */
+.ui-dialog.views-ui-dialog,
+.views-ui-dialog {
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+}
+
+.ui-dialog.views-ui-dialog .ui-dialog-titlebar,
+.views-ui-dialog .ui-dialog-titlebar {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+  padding: 1rem 1.5rem;
+  border: none;
+  border-radius: 0.75rem 0.75rem 0 0;
+  font-weight: 600;
+  font-size: 1.125rem;
+}
+
+.ui-dialog.views-ui-dialog .ui-dialog-titlebar .ui-dialog-title,
+.views-ui-dialog .ui-dialog-titlebar .ui-dialog-title {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.ui-dialog.views-ui-dialog .ui-dialog-titlebar .ui-button,
+.views-ui-dialog .ui-dialog-titlebar .ui-button {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 0.375rem;
+  color: #ffffff;
+  padding: 0.375rem 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.ui-dialog.views-ui-dialog .ui-dialog-titlebar .ui-button:hover,
+.views-ui-dialog .ui-dialog-titlebar .ui-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.ui-dialog.views-ui-dialog .ui-dialog-content,
+.views-ui-dialog .ui-dialog-content {
+  padding: 1.5rem;
+  background: #ffffff;
+}
+
+/* Dialog form elements */
+.views-ui-dialog .form-item {
+  margin-bottom: 1.25rem;
+}
+
+.views-ui-dialog .form-item label {
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+  display: block;
+  font-size: 0.875rem;
+}
+
+.views-ui-dialog .form-item input[type="text"],
+.views-ui-dialog .form-item input[type="email"],
+.views-ui-dialog .form-item input[type="number"],
+.views-ui-dialog .form-item select,
+.views-ui-dialog .form-item textarea {
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  background: #ffffff;
+}
+
+.views-ui-dialog .form-item input[type="text"]:focus,
+.views-ui-dialog .form-item input[type="email"]:focus,
+.views-ui-dialog .form-item input[type="number"]:focus,
+.views-ui-dialog .form-item select:focus,
+.views-ui-dialog .form-item textarea:focus {
+  outline: none;
+  border-color: #86f1ff;
+  box-shadow: 0 0 0 3px rgba(134, 241, 255, 0.1);
+}
+
+/* ==========================================================================
+   Views Displays Tabs
+   ========================================================================== */
+
+.views-displays {
+  background: #ffffff;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
+}
+
+.views-displays .tabs {
+  background: #f9fafb;
+  border-bottom: 2px solid #e5e7eb;
+  border-radius: 0.75rem 0.75rem 0 0;
+  padding: 0.5rem 1rem 0;
+  margin: 0;
+}
+
+.views-displays .tabs > li {
+  margin-right: 0.5rem;
+  margin-bottom: 0;
+}
+
+.views-displays .tabs > li > a {
+  display: block;
+  padding: 0.75rem 1.25rem;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-bottom: none;
+  border-radius: 0.5rem 0.5rem 0 0;
+  color: #6b7280;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  position: relative;
+  top: 1px;
+}
+
+.views-displays .tabs > li > a:hover {
+  background: #f3f4f6;
+  color: #374151;
+  border-color: #d1d5db;
+}
+
+.views-displays .tabs > li.open > a,
+.views-displays .tabs > li.active > a {
+  background: #ffffff;
+  color: #86f1ff;
+  border-color: #86f1ff;
+  border-bottom-color: #ffffff;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   Views Display Tab Buckets (Fields, Filters, etc.)
+   ========================================================================== */
+
+.views-ui-display-tab-bucket {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  margin: 1rem;
+  padding: 1rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.views-ui-display-tab-bucket .views-ui-display-tab-bucket-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #f3f4f6;
+}
+
+.views-ui-display-tab-bucket .views-ui-display-tab-bucket-header-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.views-ui-display-tab-bucket .views-ui-display-tab-bucket-header-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* ==========================================================================
+   Views Buttons - Professional Styling
+   ========================================================================== */
+
+/* Add/Add field buttons */
+.views-ui-display-tab-bucket .add,
+.views-ui-display-tab-bucket .views-add,
+.views-ui-display-tab-bucket a.icon.add,
+.views-ui-display-tab-bucket .button--primary,
+.views-ui-display-tab-bucket .form-submit--primary {
+  background: linear-gradient(135deg, #86f1ff 0%, #5de5f5 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(134, 241, 255, 0.3);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.views-ui-display-tab-bucket .add:hover,
+.views-ui-display-tab-bucket .views-add:hover,
+.views-ui-display-tab-bucket a.icon.add:hover,
+.views-ui-display-tab-bucket .button--primary:hover,
+.views-ui-display-tab-bucket .form-submit--primary:hover {
+  background: linear-gradient(135deg, #5de5f5 0%, #86f1ff 100%);
+  box-shadow: 0 4px 8px rgba(134, 241, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+.views-ui-display-tab-bucket .add:active,
+.views-ui-display-tab-bucket .views-add:active,
+.views-ui-display-tab-bucket a.icon.add:active,
+.views-ui-display-tab-bucket .button--primary:active,
+.views-ui-display-tab-bucket .form-submit--primary:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(134, 241, 255, 0.3);
+}
+
+/* Delete/Remove buttons */
+.views-ui-display-tab-bucket .delete,
+.views-ui-display-tab-bucket .views-remove,
+.views-ui-display-tab-bucket a.icon.delete,
+.views-ui-display-tab-bucket .button--danger,
+.views-ui-display-tab-bucket .form-submit--danger {
+  background: #ef4444;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.views-ui-display-tab-bucket .delete:hover,
+.views-ui-display-tab-bucket .views-remove:hover,
+.views-ui-display-tab-bucket a.icon.delete:hover,
+.views-ui-display-tab-bucket .button--danger:hover,
+.views-ui-display-tab-bucket .form-submit--danger:hover {
+  background: #dc2626;
+  box-shadow: 0 4px 8px rgba(239, 68, 68, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Secondary buttons */
+.views-ui-display-tab-bucket .button,
+.views-ui-display-tab-bucket .form-submit,
+.views-ui-display-tab-bucket button {
+  background: #ffffff;
+  color: #374151;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.views-ui-display-tab-bucket .button:hover,
+.views-ui-display-tab-bucket .form-submit:hover,
+.views-ui-display-tab-bucket button:hover {
+  background: #f9fafb;
+  border-color: #86f1ff;
+  color: #86f1ff;
+}
+
+/* ==========================================================================
+   Views Field List Items
+   ========================================================================== */
+
+.views-ui-display-tab-bucket .views-display-setting,
+.views-ui-display-tab-bucket .views-display-setting-item {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 0.875rem 1rem;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s ease;
+}
+
+.views-ui-display-tab-bucket .views-display-setting:hover,
+.views-ui-display-tab-bucket .views-display-setting-item:hover {
+  background: #ffffff;
+  border-color: #86f1ff;
+  box-shadow: 0 2px 4px rgba(134, 241, 255, 0.1);
+}
+
+.views-ui-display-tab-bucket .views-display-setting .views-display-setting-label,
+.views-ui-display-tab-bucket .views-display-setting-item .views-display-setting-label {
+  font-weight: 500;
+  color: #111827;
+  font-size: 0.875rem;
+  flex: 1;
+}
+
+.views-ui-display-tab-bucket .views-display-setting .views-display-setting-actions,
+.views-ui-display-tab-bucket .views-display-setting-item .views-display-setting-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* ==========================================================================
+   Views Table Fields Button (Rearrange Fields)
+   ========================================================================== */
+
+.views-ui-display-tab-bucket .views-rearrange,
+.views-ui-display-tab-bucket .views-rearrange-fields,
+.views-ui-display-tab-bucket .views-table-fields-button,
+.views-ui-display-tab-bucket a[href*="rearrange"],
+.views-ui-display-tab-bucket .views-button-group {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.views-ui-display-tab-bucket .views-rearrange:hover,
+.views-ui-display-tab-bucket .views-rearrange-fields:hover,
+.views-ui-display-tab-bucket .views-table-fields-button:hover,
+.views-ui-display-tab-bucket a[href*="rearrange"]:hover,
+.views-ui-display-tab-bucket .views-button-group:hover {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  box-shadow: 0 4px 8px rgba(102, 126, 234, 0.4);
+  transform: translateY(-1px);
+}
+
+.views-ui-display-tab-bucket .views-rearrange:active,
+.views-ui-display-tab-bucket .views-rearrange-fields:active,
+.views-ui-display-tab-bucket .views-table-fields-button:active,
+.views-ui-display-tab-bucket a[href*="rearrange"]:active,
+.views-ui-display-tab-bucket .views-button-group:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(102, 126, 234, 0.3);
+}
+
+/* ==========================================================================
+   Views Rearrange Dialog/Modal
+   ========================================================================== */
+
+.views-ui-rearrange-dialog,
+.views-rearrange-dialog {
+  border-radius: 0.75rem;
+}
+
+.views-ui-rearrange-dialog .views-rearrange-list,
+.views-rearrange-dialog .views-rearrange-list {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1rem 0;
+  min-height: 200px;
+}
+
+.views-ui-rearrange-dialog .views-rearrange-item,
+.views-rearrange-dialog .views-rearrange-item {
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  padding: 0.875rem 1rem;
+  margin-bottom: 0.5rem;
+  cursor: move;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.views-ui-rearrange-dialog .views-rearrange-item:hover,
+.views-rearrange-dialog .views-rearrange-item:hover {
+  border-color: #86f1ff;
+  box-shadow: 0 2px 4px rgba(134, 241, 255, 0.2);
+  transform: translateX(4px);
+}
+
+.views-ui-rearrange-dialog .views-rearrange-item.ui-sortable-helper,
+.views-rearrange-dialog .views-rearrange-item.ui-sortable-helper {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-color: #86f1ff;
+  background: #f0fdfe;
+}
+
+.views-ui-rearrange-dialog .views-rearrange-item .views-rearrange-item-label,
+.views-rearrange-dialog .views-rearrange-item .views-rearrange-item-label {
+  font-weight: 500;
+  color: #111827;
+  font-size: 0.875rem;
+  flex: 1;
+}
+
+.views-ui-rearrange-dialog .views-rearrange-item .views-rearrange-item-handle,
+.views-rearrange-dialog .views-rearrange-item .views-rearrange-item-handle {
+  color: #9ca3af;
+  cursor: grab;
+  font-size: 1.25rem;
+  margin-right: 0.75rem;
+}
+
+.views-ui-rearrange-dialog .views-rearrange-item .views-rearrange-item-handle:active,
+.views-rearrange-dialog .views-rearrange-item .views-rearrange-item-handle:active {
+  cursor: grabbing;
+}
+
+/* Rearrange table (for fields, filters, etc.) */
+.views-ui-dialog table.arrange,
+.views-ui-dialog table[id*="rearrange"],
+.views-ui-dialog table[id*="arrange"] {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #ffffff;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.views-ui-dialog table.arrange thead th,
+.views-ui-dialog table[id*="rearrange"] thead th,
+.views-ui-dialog table[id*="arrange"] thead th {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+  padding: 0.875rem 1rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-align: left;
+  border: none;
+}
+
+.views-ui-dialog table.arrange tbody tr,
+.views-ui-dialog table[id*="rearrange"] tbody tr,
+.views-ui-dialog table[id*="arrange"] tbody tr {
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+.views-ui-dialog table.arrange tbody tr:hover,
+.views-ui-dialog table[id*="rearrange"] tbody tr:hover,
+.views-ui-dialog table[id*="arrange"] tbody tr:hover {
+  background: #f9fafb;
+}
+
+.views-ui-dialog table.arrange tbody tr.drag,
+.views-ui-dialog table[id*="rearrange"] tbody tr.drag,
+.views-ui-dialog table[id*="arrange"] tbody tr.drag {
+  background: #f0fdfe;
+  border-color: #86f1ff;
+  box-shadow: 0 2px 4px rgba(134, 241, 255, 0.2);
+}
+
+.views-ui-dialog table.arrange tbody tr.drag-previous,
+.views-ui-dialog table[id*="rearrange"] tbody tr.drag-previous,
+.views-ui-dialog table[id*="arrange"] tbody tr.drag-previous {
+  background: #f9fafb;
+}
+
+.views-ui-dialog table.arrange tbody td,
+.views-ui-dialog table[id*="rearrange"] tbody td,
+.views-ui-dialog table[id*="arrange"] tbody td {
+  padding: 0.875rem 1rem;
+  vertical-align: middle;
+}
+
+.views-ui-dialog table.arrange .tabledrag-handle,
+.views-ui-dialog table[id*="rearrange"] .tabledrag-handle,
+.views-ui-dialog table[id*="arrange"] .tabledrag-handle {
+  cursor: grab;
+  color: #9ca3af;
+  padding: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.views-ui-dialog table.arrange .tabledrag-handle:hover,
+.views-ui-dialog table[id*="rearrange"] .tabledrag-handle:hover,
+.views-ui-dialog table[id*="arrange"] .tabledrag-handle:hover {
+  color: #86f1ff;
+  transform: scale(1.1);
+}
+
+.views-ui-dialog table.arrange .tabledrag-handle:active,
+.views-ui-dialog table[id*="rearrange"] .tabledrag-handle:active,
+.views-ui-dialog table[id*="arrange"] .tabledrag-handle:active {
+  cursor: grabbing;
+}
+
+.views-ui-dialog table.arrange .form-item-weight,
+.views-ui-dialog table[id*="rearrange"] .form-item-weight,
+.views-ui-dialog table[id*="arrange"] .form-item-weight {
+  margin: 0;
+}
+
+.views-ui-dialog table.arrange .form-item-weight input,
+.views-ui-dialog table[id*="rearrange"] .form-item-weight input,
+.views-ui-dialog table[id*="arrange"] .form-item-weight input {
+  width: 4rem;
+  padding: 0.5rem;
+  text-align: center;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-weight: 600;
+}
+
+.views-ui-dialog table.arrange .form-item-weight input:focus,
+.views-ui-dialog table[id*="rearrange"] .form-item-weight input:focus,
+.views-ui-dialog table[id*="arrange"] .form-item-weight input:focus {
+  border-color: #86f1ff;
+  box-shadow: 0 0 0 3px rgba(134, 241, 255, 0.1);
+}
+
+.views-ui-dialog table.arrange .form-item-remove input[type="checkbox"],
+.views-ui-dialog table[id*="rearrange"] .form-item-remove input[type="checkbox"],
+.views-ui-dialog table[id*="arrange"] .form-item-remove input[type="checkbox"] {
+  width: 1.125rem;
+  height: 1.125rem;
+  cursor: pointer;
+}
+
+/* Scroll container for rearrange table */
+.views-ui-dialog .scroll[data-drupal-views-scroll],
+.views-ui-dialog div[data-drupal-views-scroll] {
+  max-height: 500px;
+  overflow-y: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  background: #f9fafb;
+}
+
+.views-ui-dialog .scroll[data-drupal-views-scroll]::-webkit-scrollbar,
+.views-ui-dialog div[data-drupal-views-scroll]::-webkit-scrollbar {
+  width: 8px;
+}
+
+.views-ui-dialog .scroll[data-drupal-views-scroll]::-webkit-scrollbar-track,
+.views-ui-dialog div[data-drupal-views-scroll]::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+.views-ui-dialog .scroll[data-drupal-views-scroll]::-webkit-scrollbar-thumb,
+.views-ui-dialog div[data-drupal-views-scroll]::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.views-ui-dialog .scroll[data-drupal-views-scroll]::-webkit-scrollbar-thumb:hover,
+.views-ui-dialog div[data-drupal-views-scroll]::-webkit-scrollbar-thumb:hover {
+  background: #86f1ff;
+}
+
+/* ==========================================================================
+   Views Form Elements
+   ========================================================================== */
+
+.views-admin .form-item {
+  margin-bottom: 1.25rem;
+}
+
+.views-admin .form-item label {
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+  display: block;
+  font-size: 0.875rem;
+}
+
+.views-admin .form-item input[type="text"],
+.views-admin .form-item input[type="email"],
+.views-admin .form-item input[type="number"],
+.views-admin .form-item select,
+.views-admin .form-item textarea {
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  background: #ffffff;
+}
+
+.views-admin .form-item input[type="text"]:focus,
+.views-admin .form-item input[type="email"]:focus,
+.views-admin .form-item input[type="number"]:focus,
+.views-admin .form-item select:focus,
+.views-admin .form-item textarea:focus {
+  outline: none;
+  border-color: #86f1ff;
+  box-shadow: 0 0 0 3px rgba(134, 241, 255, 0.1);
+}
+
+.views-admin .form-item .description {
+  margin-top: 0.5rem;
+  font-size: 0.8125rem;
+  color: #6b7280;
+}
+
+/* ==========================================================================
+   Views Checkboxes and Radio Buttons
+   ========================================================================== */
+
+.views-admin .form-checkbox,
+.views-admin .form-radio {
+  width: 1.125rem;
+  height: 1.125rem;
+  border: 2px solid #d1d5db;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.views-admin .form-checkbox:checked,
+.views-admin .form-radio:checked {
+  background: #86f1ff;
+  border-color: #86f1ff;
+}
+
+.views-admin .form-radio {
+  border-radius: 50%;
+}
+
+/* ==========================================================================
+   Views Icons and Links
+   ========================================================================== */
+
+.views-admin a.icon {
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.views-admin a.icon:hover {
+  background: #f3f4f6;
+  transform: scale(1.05);
+}
+
+.views-admin a.icon.add {
+  background: linear-gradient(135deg, #86f1ff 0%, #5de5f5 100%);
+  color: #ffffff;
+}
+
+.views-admin a.icon.add:hover {
+  background: linear-gradient(135deg, #5de5f5 0%, #86f1ff 100%);
+}
+
+.views-admin a.icon.delete {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+.views-admin a.icon.delete:hover {
+  background: #dc2626;
+}
+
+/* ==========================================================================
+   Views Action Links
+   ========================================================================== */
+
+.views-admin .action-links {
+  margin: 1rem 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.views-admin .action-links li {
+  margin: 0;
+}
+
+.views-admin .action-links a {
+  background: linear-gradient(135deg, #86f1ff 0%, #5de5f5 100%);
+  color: #ffffff;
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(134, 241, 255, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.views-admin .action-links a:hover {
+  background: linear-gradient(135deg, #5de5f5 0%, #86f1ff 100%);
+  box-shadow: 0 4px 8px rgba(134, 241, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   Views Messages and Alerts
+   ========================================================================== */
+
+.views-admin .messages {
+  border-radius: 0.5rem;
+  padding: 1rem 1.25rem;
+  margin: 1rem 0;
+  border-left: 4px solid;
+}
+
+.views-admin .messages--status {
+  background: #f0fdf4;
+  border-color: #22c55e;
+  color: #166534;
+}
+
+.views-admin .messages--warning {
+  background: #fffbeb;
+  border-color: #f59e0b;
+  color: #92400e;
+}
+
+.views-admin .messages--error {
+  background: #fef2f2;
+  border-color: #ef4444;
+  color: #991b1b;
+}
+
+/* ==========================================================================
+   Views Dropdowns and Selects
+   ========================================================================== */
+
+.views-admin .form-select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+}
+
+/* ==========================================================================
+   Responsive Design
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .views-displays .tabs {
+    flex-wrap: wrap;
+  }
+
+  .views-displays .tabs > li {
+    flex: 1 1 auto;
+    min-width: 120px;
+  }
+
+  .views-ui-display-tab-bucket {
+    margin: 0.5rem;
+    padding: 0.75rem;
+  }
+
+  .views-ui-display-tab-bucket .views-display-setting,
+  .views-ui-display-tab-bucket .views-display-setting-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .views-ui-display-tab-bucket .views-display-setting .views-display-setting-actions,
+  .views-ui-display-tab-bucket .views-display-setting-item .views-display-setting-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+/* ==========================================================================
+   Additional Professional Touches
+   ========================================================================== */
+
+/* Smooth transitions for all interactive elements */
+.views-admin * {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Focus states for accessibility */
+.views-admin *:focus-visible {
+  outline: 2px solid #86f1ff;
+  outline-offset: 2px;
+}
+
+/* Loading states */
+.views-admin .ajax-progress {
+  display: inline-block;
+  padding: 0.5rem;
+}
+
+.views-admin .ajax-progress-throbber {
+  border: 2px solid #86f1ff;
+  border-top-color: transparent;
+  border-radius: 50%;
+  width: 1.25rem;
+  height: 1.25rem;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+

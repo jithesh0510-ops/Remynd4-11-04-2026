@@ -1,0 +1,602 @@
+/**
+ * Global Professional Views Table Styling
+ * Applied to all Drupal Views tables across the site
+ * Version: 1.0
+ */
+
+/* ===========================================
+   CSS CUSTOM PROPERTIES
+   =========================================== */
+:root {
+  --views-table-font-size: 0.8rem;
+  --views-table-font-family: 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --views-table-primary: #86f1ff;
+  --views-table-primary-dark: #4030ad;
+  --views-table-bg: #ffffff;
+  --views-table-bg-stripe: #f9fafb;
+  --views-table-bg-hover: #f8fafc;
+  --views-table-border: #e5e7eb;
+  --views-table-text: #111827;
+  --views-table-text-secondary: #6b7280;
+  --views-table-padding-x: 0.75rem;
+  --views-table-padding-y: 0.6rem;
+  --views-table-border-radius: 8px;
+}
+
+/* ===========================================
+   VIEWS TABLE CONTAINER
+   =========================================== */
+
+/* View content wrapper with scroll */
+.view-content {
+  width: 100%;
+  overflow-x: auto;
+  /* overflow-y: visible; */
+  /* -webkit-overflow-scrolling: touch; */
+  /* border: 1px solid var(--views-table-border); */
+  /* border-radius: var(--views-table-border-radius); */
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+  /* background: var(--views-table-bg); */
+  margin: 1rem 0;
+}
+
+/* Custom scrollbar */
+.view-content::-webkit-scrollbar {
+  height: 12px;
+}
+
+.view-content::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 6px;
+}
+
+.view-content::-webkit-scrollbar-thumb {
+  background: var(--views-table-primary);
+  border-radius: 6px;
+}
+
+.view-content::-webkit-scrollbar-thumb:hover {
+  background: var(--views-table-primary-dark);
+}
+
+/* ===========================================
+   BASE VIEWS TABLE STYLES
+   =========================================== */
+
+/* All views tables */
+table.views-table,
+.views-table {
+  width: 100% !important;
+  min-width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: var(--views-table-font-size) !important;
+  font-family: var(--views-table-font-family);
+  background: var(--views-table-bg);
+  margin: 0;
+  table-layout: auto;
+}
+
+/* Force 0.8rem font size on ALL elements within views table */
+table.views-table *,
+.views-table * {
+  font-size: var(--views-table-font-size) !important;
+}
+
+/* ===========================================
+   TABLE HEADERS
+   =========================================== */
+
+table.views-table thead,
+.views-table thead {
+  background: var(--views-table-primary);
+  border-bottom: 2px solid var(--views-table-primary-dark);
+}
+
+table.views-table thead th,
+.views-table thead th {
+  background: var(--views-table-primary) !important;
+  color: var(--views-table-primary-dark) !important;
+  font-weight: 600 !important;
+  font-size: var(--views-table-font-size) !important;
+  padding: var(--views-table-padding-y) var(--views-table-padding-x) !important;
+  text-align: left !important;
+  vertical-align: middle !important;
+  border-bottom: 2px solid var(--views-table-primary-dark);
+  border-right: 1px solid rgba(64, 48, 173, 0.2);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  white-space: nowrap;
+}
+
+table.views-table thead th:last-child,
+.views-table thead th:last-child {
+  border-right: none;
+}
+
+/* Header links */
+table.views-table thead th a,
+.views-table thead th a {
+  color: var(--views-table-primary-dark) !important;
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-block;
+  width: 100%;
+}
+
+table.views-table thead th a:hover,
+.views-table thead th a:hover {
+  text-decoration: underline;
+}
+
+/* Sortable headers */
+table.views-table thead th.views-field a,
+.views-table thead th.views-field a {
+  position: relative;
+  padding-right: 1.5rem;
+}
+
+table.views-table thead th.views-field a::after,
+.views-table thead th.views-field a::after {
+  content: '↕';
+  position: absolute;
+  right: 0;
+  opacity: 0.5;
+  font-size: var(--views-table-font-size) !important;
+}
+
+table.views-table thead th.views-field a.is-active::after,
+.views-table thead th.views-field a.is-active::after {
+  opacity: 1;
+}
+
+/* ===========================================
+   TABLE BODY
+   =========================================== */
+
+table.views-table tbody,
+.views-table tbody {
+  background: var(--views-table-bg);
+}
+
+table.views-table tbody tr,
+.views-table tbody tr {
+  border-bottom: 1px solid var(--views-table-border);
+  transition: background-color 0.2s ease;
+}
+
+table.views-table tbody tr:hover,
+.views-table tbody tr:hover {
+  background-color: var(--views-table-bg-hover) !important;
+}
+
+table.views-table tbody tr:nth-child(even),
+.views-table tbody tr:nth-child(even) {
+  background-color: var(--views-table-bg-stripe);
+}
+
+table.views-table tbody tr:last-child td,
+.views-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ===========================================
+   TABLE CELLS
+   =========================================== */
+
+table.views-table td,
+.views-table td {
+  padding: var(--views-table-padding-y) var(--views-table-padding-x) !important;
+  font-size: var(--views-table-font-size) !important;
+  border-bottom: 1px solid var(--views-table-border);
+  border-right: 1px solid var(--views-table-border);
+  vertical-align: middle !important;
+  text-align: left !important;
+  color: var(--views-table-text);
+  line-height: 1.5;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Ensure proper alignment for all cell content */
+table.views-table td > *,
+.views-table td > * {
+  vertical-align: middle;
+  font-size: var(--views-table-font-size) !important;
+}
+
+/* Fix alignment for inline elements */
+table.views-table td .inline-coach-field-wrapper,
+.views-table td .inline-coach-field-wrapper {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+table.views-table td .select2-container,
+.views-table td .select2-container {
+  vertical-align: middle;
+  display: inline-block;
+  font-size: var(--views-table-font-size) !important;
+}
+
+/* All text elements in table cells */
+table.views-table td span,
+table.views-table td div,
+table.views-table td p,
+table.views-table td label,
+table.views-table td button,
+.views-table td span,
+.views-table td div,
+.views-table td p,
+.views-table td label,
+.views-table td button {
+  font-size: var(--views-table-font-size) !important;
+}
+
+/* Form elements in table */
+table.views-table td input,
+table.views-table td select,
+table.views-table td textarea,
+.views-table td input,
+.views-table td select,
+.views-table td textarea {
+  font-size: var(--views-table-font-size) !important;
+}
+
+table.views-table td:last-child,
+.views-table td:last-child {
+  border-right: none;
+}
+
+/* Checkbox cells - center aligned */
+table.views-table td.checkbox,
+table.views-table th.checkbox,
+.views-table td.checkbox,
+.views-table th.checkbox {
+  text-align: center !important;
+  width: 40px;
+  padding: var(--views-table-padding-y) 0.5rem !important;
+}
+
+table.views-table td.checkbox input[type="checkbox"],
+.views-table td.checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  margin: 0;
+}
+
+/* Action cells - right aligned */
+table.views-table td.views-field-operations,
+.views-table td.views-field-operations {
+  text-align: right !important;
+  white-space: nowrap;
+}
+
+/* Operations column minimum width */
+#view-operations-table-column {
+  min-width: 160px;
+}
+
+/* Numeric cells - right aligned */
+table.views-table td.views-field-numeric,
+.views-table td.views-field-numeric {
+  text-align: right !important;
+}
+
+/* ===========================================
+   TABLE LINKS
+   =========================================== */
+
+table.views-table a,
+.views-table a {
+  color: var(--views-table-primary);
+  text-decoration: none;
+  font-size: var(--views-table-font-size);
+  transition: color 0.2s ease;
+}
+
+table.views-table a:hover,
+.views-table a:hover {
+  color: var(--views-table-primary-dark);
+  text-decoration: underline;
+}
+
+/* ===========================================
+   VIEWS EXPOSED FORM (FILTERS)
+   =========================================== */
+
+.views-exposed-form {
+  /* margin-bottom: 1.5rem; */
+  /* padding: 1.25rem; */
+  /* background: #f8fafc; */
+  /* border: 1px solid var(--views-table-border); */
+  /* border-radius: var(--views-table-border-radius); */
+  /* font-size: var(--views-table-font-size); */
+  /* display: flex; */
+  /* flex-wrap: wrap; */
+  /* gap: 1rem; */
+  /* align-items: flex-end; */
+}
+
+.views-exposed-form .form-item {
+  /* margin: 0; */
+  /* flex: 1 1 auto; */
+  vertical-align: unset;
+  min-width: 150px;
+}
+
+.views-exposed-form .form-item label {
+  font-size: var(--views-table-font-size) !important;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  display: block;
+  color: var(--views-table-text);
+}
+
+.views-exposed-form .form-item input[type="text"],
+.views-exposed-form .form-item input[type="number"],
+.views-exposed-form .form-item input[type="date"],
+.views-exposed-form .form-item input[type="email"],
+.views-exposed-form .form-item select {
+  font-size: var(--views-table-font-size) !important;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--views-table-border);
+  border-radius: 6px;
+  background: var(--views-table-bg);
+  color: var(--views-table-text);
+  width: 100%;
+  min-height: 38px;
+}
+
+.views-exposed-form .form-item input:focus,
+.views-exposed-form .form-item select:focus {
+  outline: none;
+  border-color: var(--views-table-primary);
+  box-shadow: 0 0 0 3px rgba(134, 241, 255, 0.1);
+}
+
+.views-exposed-form .form-actions {
+  margin: 0;
+  flex: 0 0 auto;
+}
+
+.views-exposed-form .form-actions input[type="submit"],
+.views-exposed-form .form-actions button {
+  background: var(--views-table-primary);
+  color: var(--views-table-primary-dark);
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1.25rem;
+  font-size: var(--views-table-font-size);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 38px;
+}
+
+.views-exposed-form .form-actions input[type="submit"]:hover,
+.views-exposed-form .form-actions button:hover {
+  background: var(--views-table-primary-dark);
+  color: var(--views-table-primary);
+}
+
+/* ===========================================
+   PAGER
+   =========================================== */
+
+.pager {
+  margin: 1.5rem 0;
+  font-size: var(--views-table-font-size);
+  display: flex;
+  /* justify-content: space-between; */
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.pager__items {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.pager__item {
+  margin: 0;
+}
+
+.pager__item a,
+.pager__item span {
+  /* display: inline-block; */
+  /* padding: 0.5rem 0.75rem; */
+  /* border: 1px solid var(--views-table-border); */
+  /* border-radius: 6px; */
+  background: var(--views-table-bg);
+  color: var(--views-table-text);
+  text-decoration: none;
+  font-size: var(--views-table-font-size);
+  transition: all 0.2s ease;
+  min-width: 38px;
+  /* text-align: center; */
+}
+
+.pager__item a:hover {
+  background: var(--views-table-primary);
+  color: var(--views-table-primary-dark);
+  border-color: var(--views-table-primary);
+}
+
+.pager__item.is-active span {
+  background: var(--views-table-primary);
+  color: var(--views-table-primary-dark);
+  border-color: var(--views-table-primary);
+  font-weight: 600;
+}
+
+/* ===========================================
+   BULK OPERATIONS
+   =========================================== */
+
+.views-form {
+  margin-top: 1rem;
+}
+
+.views-form .form-item-action {
+  margin: 0 0 1rem 0;
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.views-form .form-item-action select {
+  font-size: var(--views-table-font-size);
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--views-table-border);
+  border-radius: 6px;
+  background: var(--views-table-bg);
+  color: var(--views-table-text);
+  min-height: 38px;
+}
+
+.views-form .form-item-action .button {
+  background: var(--views-table-primary);
+  color: var(--views-table-primary-dark);
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1.25rem;
+  font-size: var(--views-table-font-size);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 38px;
+}
+
+.views-form .form-item-action .button:hover {
+  background: var(--views-table-primary-dark);
+  color: var(--views-table-primary);
+}
+
+/* Selected rows */
+table.views-table tbody tr.selected td,
+.views-table tbody tr.selected td {
+  background-color: rgba(134, 241, 255, 0.1) !important;
+}
+
+/* All buttons and action elements */
+table.views-table .button,
+table.views-table .btn,
+table.views-table input[type="button"],
+table.views-table input[type="submit"],
+.views-table .button,
+.views-table .btn,
+.views-table input[type="button"],
+.views-table input[type="submit"] {
+  font-size: var(--views-table-font-size) !important;
+}
+
+/* Dropdown menus and select elements */
+table.views-table .dropbutton,
+table.views-table .dropbutton-wrapper,
+.views-table .dropbutton,
+.views-table .dropbutton-wrapper {
+  font-size: var(--views-table-font-size) !important;
+}
+
+table.views-table .dropbutton a,
+.views-table .dropbutton a {
+  font-size: var(--views-table-font-size) !important;
+}
+
+/* Icons and symbols */
+table.views-table .icon,
+table.views-table .fa,
+table.views-table .material-icons,
+.views-table .icon,
+.views-table .fa,
+.views-table .material-icons {
+  font-size: var(--views-table-font-size) !important;
+}
+
+/* ===========================================
+   RESPONSIVE DESIGN
+   =========================================== */
+
+@media (max-width: 768px) {
+  .view-content {
+    margin: 0.5rem 0;
+  }
+  
+  table.views-table,
+  .views-table,
+  table.views-table *,
+  .views-table * {
+    font-size: var(--views-table-font-size) !important;
+  }
+  
+  table.views-table td,
+  table.views-table th,
+  .views-table td,
+  .views-table th {
+    padding: 0.5rem 0.4rem !important;
+  }
+  
+  .views-exposed-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .views-exposed-form .form-item {
+    min-width: 100%;
+  }
+  
+  .pager {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .pager__items {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  table.views-table,
+  .views-table,
+  table.views-table *,
+  .views-table * {
+    font-size: var(--views-table-font-size) !important;
+  }
+  
+  table.views-table td,
+  table.views-table th,
+  .views-table td,
+  .views-table th {
+    padding: 0.4rem 0.3rem !important;
+  }
+}
+
+/* ===========================================
+   DARK MODE SUPPORT (if needed)
+   =========================================== */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --views-table-bg: #1f2937;
+    --views-table-bg-stripe: #2d3748;
+    --views-table-bg-hover: #374151;
+    --views-table-border: #4b5563;
+    --views-table-text: #f9fafb;
+    --views-table-text-secondary: #d1d5db;
+  }
+  
+  .views-exposed-form {
+    background: #2d3748;
+    border-color: #4b5563;
+  }
+}
+

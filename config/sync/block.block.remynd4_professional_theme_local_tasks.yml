@@ -1,0 +1,22 @@
+uuid: a4c292aa-7b68-415d-9bab-e925b4f504f7
+langcode: en
+status: true
+dependencies:
+  theme:
+    - remynd4_professional_theme
+_core:
+  default_config_hash: yukt8rHM0BMQj7AxGhb_4BRgUwLFIU_L1yXM7hE3Hl0
+id: remynd4_professional_theme_local_tasks
+theme: remynd4_professional_theme
+region: breadcrumb
+weight: -5
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: Tabs
+  label_display: '0'
+  provider: core
+  primary: true
+  secondary: true
+visibility: {  }

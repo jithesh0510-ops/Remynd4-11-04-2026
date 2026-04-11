@@ -1,0 +1,7 @@
+mobile_otp_login.form:
+  path: '/mobile-otp-login-page'
+  defaults:
+    _title: 'Login with Mobile OTP'
+    _form: '\Drupal\mobile_otp_login\Form\MobileOtpLoginForm'
+  requirements:
+    _access: 'TRUE'

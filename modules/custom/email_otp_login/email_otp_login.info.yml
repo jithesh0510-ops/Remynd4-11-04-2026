@@ -1,0 +1,7 @@
+name: Email OTP Login
+type: module
+description: Custom email OTP login for Drupal 10
+package: Custom
+core_version_requirement: ^10 || ^11
+dependencies:
+  - drupal:user

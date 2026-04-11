@@ -1,0 +1,357 @@
+<?php
+
+/**
+ * @file
+ * Theme functions for Remind4 Admin Kit theme.
+ */
+
+use Drupal\Core\Render\Element;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_preprocess_html().
+ */
+function remind4_admin_kit_preprocess_html(array &$variables) {
+  // Attach global styling library.
+  $variables['#attached']['library'][] = 'remind4_admin_kit/global-styling';
+  
+  // Add body classes for AdminKit wrapper.
+  $variables['attributes']['class'][] = 'remind4-admin-kit';
+}
+
+/**
+ * Implements hook_preprocess_page().
+ */
+function remind4_admin_kit_preprocess_page(array &$variables) {
+  $variables['is_front'] = \Drupal::service('path.matcher')->isFrontPage();
+  $variables['languages'] = \Drupal::languageManager()->getLanguages();
+  $variables['language_interface'] = \Drupal::languageManager()->getCurrentLanguage();
+  
+  // Get current user.
+  $current_user = \Drupal::currentUser();
+  $variables['logged_in'] = $current_user->isAuthenticated();
+  $variables['is_admin'] = $current_user->hasPermission('access administration pages');
+  
+  // Get site name and logo dynamically.
+  $config = \Drupal::config('system.site');
+  $variables['site_name'] = $config->get('name');
+  $theme_config = \Drupal::config('system.theme');
+  $default_theme = $theme_config->get('default');
+  $theme_handler = \Drupal::service('theme_handler');
+  $theme_path = $theme_handler->getTheme($default_theme)->getPath();
+  
+  // Get logo from theme settings or default.
+  $theme_settings = \Drupal::config($default_theme . '.settings');
+  $logo_path = $theme_settings->get('logo.path');
+  if ($logo_path) {
+    $file_url_generator = \Drupal::service('file_url_generator');
+    $variables['site_logo'] = $file_url_generator->generateAbsoluteString($logo_path);
+  } else {
+    $variables['site_logo'] = '/' . $theme_path . '/logo.svg';
+  }
+  
+  // Get user data if logged in.
+  if ($variables['logged_in']) {
+    $account = \Drupal\user\Entity\User::load($current_user->id());
+    $variables['user'] = $account;
+    $variables['user_name'] = $account->getDisplayName();
+    $variables['user_email'] = $account->getEmail();
+    $variables['user_id'] = $account->id();
+    
+    // Get user picture.
+    if ($account->hasField('user_picture') && !$account->get('user_picture')->isEmpty()) {
+      $picture_entity = $account->get('user_picture')->entity;
+      if ($picture_entity) {
+        $variables['user_picture'] = $picture_entity;
+        $file_url_generator = \Drupal::service('file_url_generator');
+        $variables['user_picture_url'] = $file_url_generator->generateAbsoluteString($picture_entity->getFileUri());
+      }
+    }
+  }
+  
+  // Get notification count (from system messages or custom).
+  $variables['notification_count'] = remind4_admin_kit_get_notification_count();
+  
+  // Hide the generic page title on user profile pages; the profile template
+  // provides its own \"Profile\" heading.
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  if ($route_name === 'entity.user.canonical') {
+    $variables['hide_page_title'] = TRUE;
+  }
+  
+  // Add wrapper class for AdminKit layout.
+  if (!isset($variables['attributes']['class'])) {
+    $variables['attributes']['class'] = [];
+  }
+  $variables['attributes']['class'][] = 'wrapper';
+}
+
+/**
+ * Get notification count for the user.
+ */
+function remind4_admin_kit_get_notification_count() {
+  $count = 0;
+  
+  // Get system messages count using messenger service (Drupal 8+).
+  $messenger = \Drupal::messenger();
+  $messages = $messenger->all();
+  
+  if (!empty($messages)) {
+    foreach ($messages as $type => $message_list) {
+      if (is_array($message_list)) {
+        $count += count($message_list);
+      }
+    }
+  }
+  
+  // Allow other modules to alter the count.
+  \Drupal::moduleHandler()->alter('remind4_admin_kit_notification_count', $count);
+  
+  return $count;
+}
+
+/**
+ * Implements hook_preprocess_block().
+ */
+function remind4_admin_kit_preprocess_block(array &$variables) {
+  // Add AdminKit specific classes to blocks.
+  // Check if block entity exists in variables.
+  $block = NULL;
+  if (isset($variables['elements']['#block'])) {
+    $block = $variables['elements']['#block'];
+  }
+  elseif (isset($variables['#block'])) {
+    $block = $variables['#block'];
+  }
+  elseif (isset($variables['content']['#block'])) {
+    $block = $variables['content']['#block'];
+  }
+  
+  if ($block) {
+    $region = $block->getRegion();
+    $plugin_id = $block->getPluginId();
+    
+    // Add region-specific classes.
+    if ($region === 'sidebar_first') {
+      if (!isset($variables['attributes']['class'])) {
+        $variables['attributes']['class'] = [];
+      }
+      $variables['attributes']['class'][] = 'sidebar-block';
+    }
+    
+    if ($region === 'header') {
+      if (!isset($variables['attributes']['class'])) {
+        $variables['attributes']['class'] = [];
+      }
+      $variables['attributes']['class'][] = 'navbar-block';
+    }
+    
+    // Handle search block.
+    if ($plugin_id === 'search_form_block' || $plugin_id === 'views_exposed_filter_block:search') {
+      if (!isset($variables['attributes']['class'])) {
+        $variables['attributes']['class'] = [];
+      }
+      $variables['attributes']['class'][] = 'd-none';
+      $variables['attributes']['class'][] = 'd-sm-inline-block';
+    }
+  }
+  
+  // Also check plugin_id directly from variables if block entity not available.
+  if (!$block && isset($variables['plugin_id'])) {
+    $plugin_id = $variables['plugin_id'];
+    
+    // Handle search block.
+    if ($plugin_id === 'search_form_block' || $plugin_id === 'views_exposed_filter_block:search') {
+      if (!isset($variables['attributes']['class'])) {
+        $variables['attributes']['class'] = [];
+      }
+      $variables['attributes']['class'][] = 'd-none';
+      $variables['attributes']['class'][] = 'd-sm-inline-block';
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_menu().
+ */
+function remind4_admin_kit_preprocess_menu(array &$variables) {
+  $menu_name = $variables['menu_name'] ?? '';
+  
+  // Add AdminKit sidebar menu classes.
+  if ($menu_name === 'main' || $menu_name === 'sidebar') {
+    if (!isset($variables['attributes']['class'])) {
+      $variables['attributes']['class'] = [];
+    }
+    $variables['attributes']['class'][] = 'sidebar-nav';
+  }
+  
+  // Add AdminKit navbar classes for account menu.
+  if ($menu_name === 'account') {
+    if (!isset($variables['attributes']['class'])) {
+      $variables['attributes']['class'] = [];
+    }
+    $variables['attributes']['class'][] = 'navbar-nav';
+    $variables['attributes']['class'][] = 'navbar-align';
+  }
+}
+
+/**
+ * Implements hook_preprocess_menu_link().
+ */
+function remind4_admin_kit_preprocess_menu_link(array &$variables) {
+  $element = $variables['element'];
+  $menu_name = $element['#menu_name'] ?? '';
+  
+  // Add AdminKit sidebar link classes for main menu.
+  if ($menu_name === 'main' || $menu_name === 'sidebar') {
+    if (!isset($variables['attributes']['class'])) {
+      $variables['attributes']['class'] = [];
+    }
+    
+    $variables['attributes']['class'][] = 'sidebar-item';
+    
+    // Add active class if in active trail.
+    if (!empty($element['#in_active_trail'])) {
+      $variables['attributes']['class'][] = 'active';
+    }
+    
+    // Add icon if available from menu link attributes.
+    if (isset($element['#attributes']['data-icon'])) {
+      $variables['icon'] = $element['#attributes']['data-icon'];
+    }
+  }
+  
+  // Add AdminKit navbar classes for account menu.
+  if ($menu_name === 'account') {
+    if (!isset($variables['attributes']['class'])) {
+      $variables['attributes']['class'] = [];
+    }
+    $variables['attributes']['class'][] = 'nav-item';
+  }
+}
+
+
+/**
+ * Implements hook_preprocess_form().
+ */
+function remind4_admin_kit_preprocess_form(array &$variables) {
+  $form_id = $variables['element']['#form_id'] ?? '';
+  
+  // Style search form for AdminKit navbar.
+  if ($form_id === 'search_form' || $form_id === 'search_block_form') {
+    if (!isset($variables['attributes']['class'])) {
+      $variables['attributes']['class'] = [];
+    }
+    $variables['attributes']['class'][] = 'd-none';
+    $variables['attributes']['class'][] = 'd-sm-inline-block';
+  }
+}
+
+/**
+ * Implements hook_preprocess_form_element().
+ */
+function remind4_admin_kit_preprocess_form_element(array &$variables) {
+  $element = $variables['element'];
+  $form_id = $element['#form_id'] ?? '';
+  
+  // Style search input for AdminKit.
+  if ($form_id === 'search_form' || $form_id === 'search_block_form') {
+    if (isset($element['#type']) && $element['#type'] === 'search') {
+      if (!isset($variables['attributes']['class'])) {
+        $variables['attributes']['class'] = [];
+      }
+      $variables['attributes']['class'][] = 'form-control';
+      $variables['attributes']['placeholder'] = t('Search…');
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_user().
+ *
+ * Adds assigned profile information (company/coach/employee) for use in
+ * user.html.twig. Only applies to canonical user route (full view mode).
+ */
+function remind4_admin_kit_preprocess_user(array &$variables) {
+  // Only apply custom processing for canonical user route (full view mode).
+  // Views should use the standard entity view display configuration.
+  $view_mode = $variables['elements']['#view_mode'] ?? $variables['view_mode'] ?? 'default';
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  
+  // Pass route_name and view_mode to template for conditional rendering.
+  $variables['route_name'] = $route_name;
+  $variables['view_mode'] = $view_mode;
+  
+  // Only apply custom template logic for canonical route with 'full' view mode.
+  if ($route_name !== 'entity.user.canonical' || $view_mode !== 'full') {
+    return;
+  }
+
+  // Ensure we have a user entity and the Profile module is enabled.
+  if (empty($variables['user']) || !\Drupal::moduleHandler()->moduleExists('profile')) {
+    return;
+  }
+
+  /** @var \Drupal\user\UserInterface $account */
+  $account = $variables['user'];
+  $profile_storage = \Drupal::entityTypeManager()->getStorage('profile');
+  $profile_view_builder = \Drupal::entityTypeManager()->getViewBuilder('profile');
+
+  $assigned_profiles = [];
+  $types = [
+    'company' => t('Company profile'),
+    'coach' => t('Coach profile'),
+    'employee' => t('Employee profile'),
+  ];
+
+  // For each profile type, load the primary profile (if any) and expose it.
+  foreach ($types as $type_id => $label) {
+    /** @var \Drupal\profile\Entity\ProfileInterface|null $profile */
+    $profile = $profile_storage->loadByUser($account, $type_id);
+    if ($profile) {
+      $assigned_profiles[] = [
+        'type' => $label,
+        // Rendered profile using its default view mode, so fields and values
+        // follow the configured display.
+        'view' => $profile_view_builder->view($profile, 'default'),
+      ];
+    }
+  }
+
+  $variables['assigned_profiles'] = $assigned_profiles;
+
+  // Get company user information from coach/employee profiles for display.
+  $company_user_info = NULL;
+  foreach (['coach', 'employee'] as $profile_type) {
+    $profile = $profile_storage->loadByUser($account, $profile_type);
+    if ($profile && $profile->hasField('field_company') && !$profile->get('field_company')->isEmpty()) {
+      $company_users = $profile->get('field_company')->referencedEntities();
+      if (!empty($company_users)) {
+        $company_user = reset($company_users);
+        // Get company user's name and email.
+        $company_name = '';
+        if ($company_user->hasField('field_full_name') && !$company_user->get('field_full_name')->isEmpty()) {
+          $company_name = $company_user->get('field_full_name')->value;
+        } elseif ($company_user->hasField('field_first_name') && !$company_user->get('field_first_name')->isEmpty()) {
+          $first = $company_user->get('field_first_name')->value;
+          $last = '';
+          if ($company_user->hasField('field_last_name') && !$company_user->get('field_last_name')->isEmpty()) {
+            $last = $company_user->get('field_last_name')->value;
+          }
+          $company_name = trim($first . ' ' . $last);
+        } else {
+          $company_name = $company_user->getDisplayName();
+        }
+        $company_email = $company_user->getEmail();
+        $company_user_info = [
+          'name' => $company_name,
+          'email' => $company_email,
+          'entity' => $company_user,
+        ];
+        break; // Use first company found.
+      }
+    }
+  }
+  $variables['company_user_info'] = $company_user_info;
+}
+

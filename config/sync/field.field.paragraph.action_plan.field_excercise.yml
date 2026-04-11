@@ -1,0 +1,19 @@
+uuid: 85e96edf-f1bf-4848-8dc1-394531b790ce
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_excercise
+    - paragraphs.paragraphs_type.action_plan
+id: paragraph.action_plan.field_excercise
+field_name: field_excercise
+entity_type: paragraph
+bundle: action_plan
+label: Excercise
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

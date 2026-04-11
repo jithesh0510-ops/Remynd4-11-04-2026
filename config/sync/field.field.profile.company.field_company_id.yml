@@ -1,0 +1,19 @@
+uuid: 6e04f8e0-dd59-4fc1-8fce-b4d1d19f46a9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.profile.field_company_id
+    - profile.type.company
+id: profile.company.field_company_id
+field_name: field_company_id
+entity_type: profile
+bundle: company
+label: 'Company Id'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

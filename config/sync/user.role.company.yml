@@ -1,0 +1,18 @@
+uuid: ee9bd281-051a-4039-84e3-e31f62e3b119
+langcode: en
+status: true
+dependencies:
+  module:
+    - coach_reporting_system
+    - profile
+    - system
+id: company
+label: Company
+weight: 4
+is_admin: null
+permissions:
+  - 'access coach reporting'
+  - 'access content'
+  - 'view any coach profile'
+  - 'view any company profile'
+  - 'view any employee profile'

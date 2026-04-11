@@ -1,0 +1,432 @@
+/* ===========================================
+   ON-THE-JOB PERFORMANCE TABLE STYLING
+   Professional table for performance tracking
+   =========================================== */
+
+/* === HEADER SECTION === */
+.on-job-performance-header {
+  margin-bottom: 20px;
+}
+
+.on-job-performance-header h3 {
+  color: #40124e;
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+/* Performance Legend */
+.performance-legend {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 15px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.performance-legend .legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95em;
+}
+
+.performance-legend .legend-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.performance-legend .legend-color.score-green {
+  background: #10b981;
+}
+
+.performance-legend .legend-color.score-yellow {
+  background: #f59e0b;
+}
+
+.performance-legend .legend-color.score-red {
+  background: #ef4444;
+}
+
+/* === TABLE CONTAINER WITH SCROLLBAR === */
+.on-job-performance-table-container {
+  overflow-x: auto;
+  overflow-y: visible;
+  margin: 20px 0;
+  width: 100%;
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+/* Custom scrollbar for on-job table */
+.on-job-performance-table-container::-webkit-scrollbar {
+  height: 12px;
+}
+
+.on-job-performance-table-container::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 6px;
+}
+
+.on-job-performance-table-container::-webkit-scrollbar-thumb {
+  background: #86f1ff;
+  border-radius: 6px;
+}
+
+.on-job-performance-table-container::-webkit-scrollbar-thumb:hover {
+  background: #4030ad;
+}
+
+/* === TABLE BASE STYLES === */
+.on-job-performance-table-container table.on-job-table {
+  width: auto;
+  min-width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #fff;
+  table-layout: auto;
+}
+
+.on-job-performance-table-container table.on-job-table th,
+.on-job-performance-table-container table.on-job-table td {
+  min-width: 120px;
+  padding: 12px;
+  border: 1px solid #e5e7eb;
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Sticky employee name column */
+.on-job-performance-table-container table.on-job-table th:first-child,
+.on-job-performance-table-container table.on-job-table td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 10;
+  background: #fff;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  min-width: 150px;
+}
+
+/* Ensure header has higher z-index */
+.on-job-performance-table-container table.on-job-table thead th:first-child {
+  z-index: 11;
+}
+
+/* === TABLE HEADERS === */
+
+/* Main category headers */
+.on-job-performance-table-container table.on-job-table thead tr.cat_bg th > div.category {
+  background: #40124e !important;
+  color: #fff !important;
+  text-align: center !important;
+  justify-content: center !important;
+  font-weight: bold !important;
+  font-size: 1.1em !important;
+  padding: 15px 10px !important;
+  border-radius: 4px;
+}
+
+/* Sub-header columns */
+.on-job-performance-table-container table.on-job-table thead tr.subcat_bg th > div.subheading {
+  background: #5a1d6e !important;
+  color: #fff !important;
+  text-align: center !important;
+  justify-content: center !important;
+  font-weight: bold !important;
+  font-size: 0.95em !important;
+  padding: 10px !important;
+  border-radius: 4px;
+}
+
+/* === DATA CELLS === */
+.on-job-performance-table-container .employee-name {
+  background: #8e33ae !important;
+  color: #fff !important;
+  text-align: center !important;
+  font-weight: bold !important;
+  padding: 10px !important;
+  border-radius: 4px;
+}
+
+.on-job-performance-table-container .on-job-field {
+  padding: 10px !important;
+  text-align: center !important;
+  font-weight: 600 !important;
+  border-radius: 4px;
+}
+
+/* === PERFORMANCE COLOR CODING === */
+
+/* Stars: 100%+ performance - Green */
+.on-job-performance-table-container .score-green > div {
+  background: #10b981 !important;
+  color: #fff !important;
+}
+
+/* Core Performers: 60-99% performance - Yellow */
+.on-job-performance-table-container .score-yellow > div {
+  background: #f59e0b !important;
+  color: #fff !important;
+}
+
+/* Laggards: Less than 60% performance - Red */
+.on-job-performance-table-container .score-red > div {
+  background: #ef4444 !important;
+  color: #fff !important;
+}
+
+/* === RESPONSIVE DESIGN === */
+@media (max-width: 768px) {
+  .performance-legend {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .on-job-performance-table-container table.on-job-table th,
+  .on-job-performance-table-container table.on-job-table td {
+    min-width: 100px;
+    padding: 8px;
+    font-size: 0.9em;
+  }
+}
+
+/* === CATEGORY TABLES (Stars, Core, Laggards) === */
+
+/* General table styling */
+.table.mt-20 {
+  width: 100%;
+  margin-top: 20px !important;
+  margin-bottom: 0;
+  border-collapse: collapse;
+}
+
+.table.mt-20 tr {
+  border: none;
+}
+
+.table.mt-20 th {
+  padding: 15px;
+  font-weight: bold;
+  font-size: 1.1em;
+  border: none;
+}
+
+/* Stars category header - Green background */
+.table.mt-20.category-stars {
+  background: #b3e2c7 !important;
+}
+
+.table.mt-20.category-stars tr {
+  background: #b3e2c7 !important;
+}
+
+.table.mt-20.category-stars th {
+  background: #b3e2c7 !important;
+  color: #000 !important;
+}
+
+/* Core Performers category header - Yellow background */
+.table.mt-20.category-core {
+  background: #FFDD7D !important;
+}
+
+.table.mt-20.category-core tr {
+  background: #FFDD7D !important;
+}
+
+.table.mt-20.category-core th {
+  background: #FFDD7D !important;
+  color: #000 !important;
+}
+
+/* Laggards category header - Red background */
+.table.mt-20.category-laggards {
+  background: #F95959 !important;
+}
+
+.table.mt-20.category-laggards tr {
+  background: #F95959 !important;
+}
+
+.table.mt-20.category-laggards th {
+  background: #F95959 !important;
+  color: #fff !important;
+}
+
+/* No-more-tables responsive wrapper with scrollbar */
+.no-more-tables {
+  margin-bottom: 30px;
+  overflow-x: auto;
+  overflow-y: visible;
+  width: 100%;
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 8px;
+}
+
+/* Custom scrollbar for no-more-tables */
+.no-more-tables::-webkit-scrollbar {
+  height: 12px;
+}
+
+.no-more-tables::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 6px;
+}
+
+.no-more-tables::-webkit-scrollbar-thumb {
+  background: #86f1ff;
+  border-radius: 6px;
+}
+
+.no-more-tables::-webkit-scrollbar-thumb:hover {
+  background: #4030ad;
+}
+
+.start_legard_table {
+  width: 100%;
+  min-width: 800px; /* Minimum width to trigger scrollbar if needed */
+  border-collapse: collapse;
+  margin-top: 0 !important;
+}
+
+.start_legard_table thead tr {
+  background: #f8fafc;
+}
+
+.start_legard_table thead th {
+  padding: 12px;
+  font-weight: bold;
+  text-align: center;
+  border: 1px solid #e5e7eb;
+  background: #f1f5f9;
+  color: #1f2937;
+}
+
+.start_legard_table tbody tr {
+  border: 1px solid #e5e7eb;
+}
+
+.start_legard_table tbody td {
+  padding: 12px;
+  text-align: center;
+  border: 1px solid #e5e7eb;
+}
+
+/* === ROW COLOR CODING BY PERFORMANCE === */
+
+/* Stars rows - Green background */
+.start_legard_table tbody tr.performance-stars {
+  background: #b3e2c7 !important;
+}
+
+.start_legard_table tbody tr.performance-stars td {
+  background: #b3e2c7 !important;
+  color: #000 !important;
+  font-weight: 600;
+}
+
+/* Core Performers rows - Yellow background */
+.start_legard_table tbody tr.performance-core {
+  background: #FFDD7D !important;
+}
+
+.start_legard_table tbody tr.performance-core td {
+  background: #FFDD7D !important;
+  color: #000 !important;
+  font-weight: 600;
+}
+
+/* Laggards rows - Red background */
+.start_legard_table tbody tr.performance-laggards {
+  background: #F95959 !important;
+}
+
+.start_legard_table tbody tr.performance-laggards td {
+  background: #F95959 !important;
+  color: #fff !important;
+  font-weight: 600;
+}
+
+/* Percentage cell with detect_color class - darker shading */
+.start_legard_table tbody tr.performance-stars td.detect_color {
+  background: #10b981 !important;
+  color: #fff !important;
+  font-weight: bold;
+}
+
+.start_legard_table tbody tr.performance-core td.detect_color {
+  background: #f59e0b !important;
+  color: #fff !important;
+  font-weight: bold;
+}
+
+.start_legard_table tbody tr.performance-laggards td.detect_color {
+  background: #dc2626 !important;
+  color: #fff !important;
+  font-weight: bold;
+}
+
+/* === RESPONSIVE FOR CATEGORY TABLES === */
+@media (max-width: 768px) {
+  .start_legard_table thead {
+    display: none;
+  }
+  
+  .start_legard_table tbody tr {
+    display: block;
+    margin-bottom: 15px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+  }
+  
+  .start_legard_table tbody td {
+    display: block;
+    text-align: right;
+    padding: 10px;
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+  }
+  
+  .start_legard_table tbody td:last-child {
+    border-bottom: none;
+  }
+  
+  .start_legard_table tbody td:before {
+    content: attr(data-title);
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.85em;
+  }
+}
+
+/* === PRINT STYLES === */
+@media print {
+  .on-job-performance-table-container {
+    overflow: visible;
+    border: none;
+  }
+  
+  .performance-legend {
+    page-break-before: avoid;
+  }
+  
+  .on-job-performance-table-container table.on-job-table {
+    page-break-inside: avoid;
+  }
+  
+  .start_legard_table {
+    page-break-inside: avoid;
+  }
+  
+  .no-more-tables {
+    page-break-inside: avoid;
+  }
+}

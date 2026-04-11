@@ -1,0 +1,22 @@
+uuid: e178d27f-8766-40ba-bf13-7715a8dded28
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - remynd4_coach
+_core:
+  default_config_hash: TalCR-kPomwZLXjW-BJ4C719R7gkIf-_QzNw4-k6EI8
+id: remynd4_coach_powered_by_drupal
+theme: remynd4_coach
+region: footer
+weight: 0
+provider: null
+plugin: system_powered_by_block
+settings:
+  id: system_powered_by_block
+  label: 'Powered by Drupal'
+  label_display: '0'
+  provider: system
+visibility: {  }

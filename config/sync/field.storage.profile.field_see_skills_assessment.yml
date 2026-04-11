@@ -1,0 +1,18 @@
+uuid: 7309c952-762b-4824-a760-a6e72e378183
+langcode: en
+status: true
+dependencies:
+  module:
+    - profile
+id: profile.field_see_skills_assessment
+field_name: field_see_skills_assessment
+entity_type: profile
+type: boolean
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,10 @@
+uuid: 18bb1fe6-2214-46e5-a013-078cfab53634
+langcode: en
+status: true
+dependencies: {  }
+id: pipeline
+label: PipeLine
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

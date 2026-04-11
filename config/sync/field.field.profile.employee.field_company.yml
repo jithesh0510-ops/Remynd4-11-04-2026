@@ -1,0 +1,35 @@
+uuid: 2fe498f8-9afe-4210-a1cc-ffd6face2793
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.profile.field_company
+    - profile.type.employee
+id: profile.employee.field_company
+field_name: field_company
+entity_type: profile
+bundle: employee
+label: Company
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    filter:
+      type: role
+      role:
+        company: company
+        content_editor: '0'
+        administrator: '0'
+        coach: '0'
+        employee: '0'
+    include_anonymous: true
+field_type: entity_reference

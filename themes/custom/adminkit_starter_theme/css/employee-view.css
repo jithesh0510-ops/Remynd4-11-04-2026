@@ -1,0 +1,140 @@
+/**
+ * Employee View Page - Select2 and Inline Coach Field Styling Only
+ * Table styling is handled by views-table.css globally
+ */
+
+/* ===========================================
+   SELECT2 MULTI-SELECT WITH CHECKBOXES
+   =========================================== */
+
+/* Select2 container styling */
+.employee-view-container .select2-container--default .select2-selection--multiple,
+.path-employee .select2-container--default .select2-selection--multiple {
+  min-height: 38px;
+  border: 1px solid var(--theme-border, #e5e7eb) !important;
+  border-radius: var(--theme-border-radius, 6px) !important;
+  background: var(--theme-bg-light, #ffffff) !important;
+  font-size: 0.8rem !important;
+  padding: 2px 4px;
+}
+
+.employee-view-container .select2-container--default .select2-selection--multiple .select2-selection__choice,
+.path-employee .select2-container--default .select2-selection--multiple .select2-selection__choice {
+  background-color: var(--theme-primary, #86f1ff) !important;
+  border: 1px solid var(--theme-primary-dark, #4030ad) !important;
+  color: var(--theme-primary-dark, #4030ad) !important;
+  padding: 4px 8px 4px 24px !important;
+  margin: 2px !important;
+  border-radius: 4px !important;
+  font-size: 0.8rem !important;
+  font-weight: 500;
+  position: relative;
+}
+
+.employee-view-container .select2-container--default .select2-selection--multiple .select2-selection__choice__remove,
+.path-employee .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+  color: var(--theme-primary-dark, #4030ad) !important;
+  font-weight: bold;
+  margin-right: 4px;
+  padding: 0 4px;
+}
+
+.employee-view-container .select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover,
+.path-employee .select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
+  color: var(--theme-error, #dc3545) !important;
+}
+
+/* Select2 dropdown with checkboxes */
+.employee-view-container .select2-container--default .select2-results__option,
+.path-employee .select2-container--default .select2-results__option {
+  padding: 8px 12px 8px 36px !important;
+  font-size: 0.8rem !important;
+  position: relative;
+  cursor: pointer;
+}
+
+/* Checkbox styling in Select2 dropdown - All options */
+.employee-view-container .select2-container--default .select2-results__option::before,
+.path-employee .select2-container--default .select2-results__option::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--theme-border, #d1d5db);
+  border-radius: 3px;
+  background: var(--theme-bg-light, #ffffff);
+  transition: all 0.2s ease;
+  z-index: 1;
+}
+
+/* Checked state - checkbox checked */
+.employee-view-container .select2-container--default .select2-results__option[aria-selected="true"]::before,
+.path-employee .select2-container--default .select2-results__option[aria-selected="true"]::before {
+  background: var(--theme-primary, #86f1ff);
+  border-color: var(--theme-primary-dark, #4030ad);
+}
+
+.employee-view-container .select2-container--default .select2-results__option[aria-selected="true"]::after,
+.path-employee .select2-container--default .select2-results__option[aria-selected="true"]::after {
+  content: '✓';
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--theme-primary-dark, #4030ad);
+  font-weight: bold;
+  font-size: 11px;
+  z-index: 2;
+  line-height: 1;
+}
+
+/* Hover state */
+.employee-view-container .select2-container--default .select2-results__option--highlighted,
+.path-employee .select2-container--default .select2-results__option--highlighted {
+  background: var(--theme-bg-secondary, #f8fafc) !important;
+  color: var(--theme-text-primary, #111827) !important;
+}
+
+/* Highlighted + Selected */
+.employee-view-container .select2-container--default .select2-results__option--highlighted[aria-selected="true"],
+.path-employee .select2-container--default .select2-results__option--highlighted[aria-selected="true"] {
+  background: var(--theme-primary, #86f1ff) !important;
+  color: var(--theme-primary-dark, #4030ad) !important;
+}
+
+/* Select2 search box */
+.select2-container--default .select2-search--inline .select2-search__field {
+  font-size: 0.8rem !important;
+  padding: 4px !important;
+  margin: 2px !important;
+  min-width: 100px;
+}
+
+/* Select2 dropdown */
+.select2-dropdown {
+  border: 1px solid var(--theme-border, #e5e7eb) !important;
+  border-radius: var(--theme-border-radius, 6px) !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+  font-size: 0.8rem !important;
+}
+
+/* ===========================================
+   INLINE COACH FIELD STYLING
+   =========================================== */
+
+/* Coach multi-select in table */
+.employee-view-table-wrapper .inline-coach-field-wrapper {
+  min-width: 200px;
+  max-width: 300px;
+}
+
+.employee-view-table-wrapper .coach-multiselect {
+  font-size: 0.8rem !important;
+  padding: 0.4rem !important;
+  min-height: 32px;
+}
+
+

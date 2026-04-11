@@ -1,0 +1,160 @@
+<?php
+
+namespace Drupal\remynd4_user_actions\Controller;
+
+use Drupal\Core\Controller\ControllerBase;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+/**
+ * Coach CSV download endpoints.
+ */
+final class CoachImportDownloadController extends ControllerBase {
+
+  /**
+   * Download CSV sample for coach import.
+   */
+  public function sample(): Response {
+    $out = fopen('php://temp', 'w+');
+    $headers = [
+      'coach_id','first_name','last_name','address1','address2','email','phone_no',
+      'see_quest','see_action','status','skills_asse','lagard_to','see_previous_date',
+    ];
+    fputcsv($out, $headers);
+    fputcsv($out, [0,'John','Doe','Addr line 1','Addr line 2','john@example.com','9999999999','Yes','No','Yes','No','No','No']);
+    rewind($out);
+    $csv = stream_get_contents($out);
+    fclose($out);
+
+    $res = new Response($csv);
+    $res->headers->set('Content-Type', 'text/csv; charset=UTF-8');
+    $res->headers->set('Content-Disposition', 'attachment; filename="coach_import_sample.csv"');
+    $res->headers->set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+    $res->headers->set('Pragma', 'no-cache');
+    return $res;
+  }
+
+  /**
+   * URL: /coach/importcsv/coach-key?company=2584
+   * Downloads coaches linked to the company's profile(s).
+   */
+  public function coachKey(Request $request): Response {
+    $company_uid = (int) $request->query->get('company');
+    if ($company_uid <= 0) {
+      return new Response("Missing/invalid company parameter.\n", 400);
+    }
+
+    // 1) Get profile IDs owned by the company user.
+    $profile_ids = $this->getCompanyProfileIdsSql($company_uid);
+
+    // 2) Get coach UIDs linked to those profiles via user reference field table.
+    $coach_uids = $this->getCoachUidsByProfileIdsSql($profile_ids);
+
+    // 3) Build CSV.
+    $out = fopen('php://temp', 'w+');
+    $headers = [
+      'coach_id','first_name','last_name','address1','address2','email','phone_no',
+      'see_quest','see_action','status','skills_asse','lagard_to','see_previous_date',
+    ];
+    fputcsv($out, $headers);
+
+    if (empty($coach_uids)) {
+      // Always return a valid CSV, never blank.
+      fputcsv($out, ['NO_COACHES', 'No coaches mapped to this company']);
+    }
+    else {
+      $db = \Drupal::database();
+      $placeholders = implode(',', array_fill(0, count($coach_uids), '?'));
+      $rows = $db->query(
+        "SELECT uid, mail FROM {users_field_data} WHERE uid IN ($placeholders) ORDER BY uid",
+        array_values($coach_uids)
+      )->fetchAll();
+
+      foreach ($rows as $r) {
+        // Fill only what we know safely. Other columns stay empty.
+        fputcsv($out, [(int) $r->uid, '', '', '', '', (string) $r->mail, '', '', '', '', '', '', '']);
+      }
+    }
+
+    rewind($out);
+    $csv = stream_get_contents($out);
+    fclose($out);
+
+    $res = new Response($csv);
+    $res->headers->set('Content-Type', 'text/csv; charset=UTF-8');
+    $res->headers->set('Content-Disposition', 'attachment; filename="coach_key_company_'.$company_uid.'.csv"');
+    $res->headers->set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+    $res->headers->set('Pragma', 'no-cache');
+    return $res;
+  }
+
+  /**
+   * Get profile IDs owned by company user (SQL only).
+   */
+  private function getCompanyProfileIdsSql(int $company_uid): array {
+    $db = \Drupal::database();
+    $schema = $db->schema();
+
+    // Try common profile tables.
+    if ($schema->tableExists('profile')) {
+      // Usually: profile(profile_id, type, uid, ...)
+      $ids = $db->query("SELECT profile_id FROM {profile} WHERE uid = :uid", [':uid' => $company_uid])
+        ->fetchCol();
+      return array_values(array_unique(array_map('intval', $ids)));
+    }
+
+    if ($schema->tableExists('profile_field_data')) {
+      // Sometimes: profile_field_data(id, uid, ...)
+      $ids = $db->query("SELECT id FROM {profile_field_data} WHERE uid = :uid", [':uid' => $company_uid])
+        ->fetchCol();
+      return array_values(array_unique(array_map('intval', $ids)));
+    }
+
+    return [];
+  }
+
+  /**
+   * Get coach UIDs linked to company profiles (SQL only, no entityQuery).
+   */
+  private function getCoachUidsByProfileIdsSql(array $profile_ids): array {
+    if (empty($profile_ids)) {
+      return [];
+    }
+
+    $db = \Drupal::database();
+    $schema = $db->schema();
+
+    // Detect which user field table exists for the coach->company profile reference.
+    $field_table = NULL;
+    $field_col   = NULL;
+
+    if ($schema->tableExists('user__company_profiles')) {
+      $field_table = 'user__company_profiles';
+      $field_col   = 'company_profiles_target_id';
+    }
+    elseif ($schema->tableExists('user__field_company_profiles')) {
+      $field_table = 'user__field_company_profiles';
+      $field_col   = 'field_company_profiles_target_id';
+    }
+    else {
+      // No mapping field table exists in DB.
+      return [];
+    }
+
+    $in = implode(',', array_fill(0, count($profile_ids), '?'));
+    $sql = "
+      SELECT DISTINCT ufd.uid
+      FROM {users_field_data} ufd
+      JOIN {user__roles} ur
+        ON ur.entity_id = ufd.uid AND ur.roles_target_id = 'coach'
+      JOIN {{$field_table}} up
+        ON up.entity_id = ufd.uid
+      WHERE ufd.status = 1
+        AND up.$field_col IN ($in)
+    ";
+
+    $uids = $db->query($sql, array_values($profile_ids))->fetchCol();
+    return array_values(array_unique(array_map('intval', $uids)));
+  }
+
+}

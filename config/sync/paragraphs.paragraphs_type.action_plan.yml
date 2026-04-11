@@ -1,0 +1,10 @@
+uuid: 7eb11c1c-3186-4f7b-8960-4dda779d4724
+langcode: en
+status: true
+dependencies: {  }
+id: action_plan
+label: 'Action Plan'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

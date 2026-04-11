@@ -1,0 +1,23 @@
+uuid: 84fc6f72-3676-4dc9-9f46-d02fd55bf7fe
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.profile.feeds_item
+    - profile.type.company
+  module:
+    - feeds
+id: profile.company.feeds_item
+field_name: feeds_item
+entity_type: profile
+bundle: company
+label: 'Feeds item'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:feeds_feed'
+  handler_settings: {  }
+field_type: feeds_item

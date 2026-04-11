@@ -1,0 +1,50 @@
+uuid: bf9d6d2f-f5c7-4c61-bba5-d75b850f000e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.multiple_choice_question.field_options
+    - field.field.paragraph.multiple_choice_question.field_question
+    - paragraphs.paragraphs_type.multiple_choice_question
+  module:
+    - paragraphs
+id: paragraph.multiple_choice_question.default
+targetEntityType: paragraph
+bundle: multiple_choice_question
+mode: default
+content:
+  field_options:
+    type: entity_reference_paragraphs
+    weight: 1
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: closed
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: _none
+    third_party_settings: {  }
+  field_question:
+    type: paragraphs
+    weight: 0
+    region: content
+    settings:
+      title: Question
+      title_plural: Questions
+      edit_mode: closed_expand_nested
+      closed_mode: preview
+      autocollapse: none
+      closed_mode_threshold: 0
+      add_mode: button
+      form_display_mode: default
+      default_paragraph_type: _none
+      features:
+        add_above: '0'
+        collapse_edit_all: collapse_edit_all
+        convert: '0'
+        duplicate: duplicate
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

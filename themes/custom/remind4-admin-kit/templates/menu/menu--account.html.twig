@@ -1,0 +1,35 @@
+{#
+/**
+ * @file
+ * Theme override for the account menu.
+ */
+#}
+<ul class="navbar-nav navbar-align">
+  {% if items %}
+    {% for item in items %}
+      <li class="nav-item{{ item.below ? ' dropdown' : '' }}">
+        {% if item.below %}
+          <a class="nav-link dropdown-toggle" href="#" id="accountDropdown{{ loop.index }}" data-bs-toggle="dropdown" aria-expanded="false">
+            {{ item.title }}
+          </a>
+          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown{{ loop.index }}">
+            {% for sub_item in item.below %}
+              <a class="dropdown-item" href="{{ sub_item.url }}">
+                {% if sub_item.icon %}
+                  <i class="align-middle me-1" data-feather="{{ sub_item.icon }}"></i>
+                {% endif %}
+                {{ sub_item.title }}
+              </a>
+              {% if sub_item.divider %}
+                <div class="dropdown-divider"></div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% else %}
+          <a class="nav-link" href="{{ item.url }}">{{ item.title }}</a>
+        {% endif %}
+      </li>
+    {% endfor %}
+  {% endif %}
+</ul>
+

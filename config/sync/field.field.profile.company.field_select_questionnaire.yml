@@ -1,0 +1,94 @@
+uuid: 60d64c0e-7aff-4160-99e4-30b4de5f304b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.profile.field_select_questionnaire
+    - paragraphs.paragraphs_type.assign_questionnaire
+    - profile.type.company
+  module:
+    - entity_reference_revisions
+id: profile.company.field_select_questionnaire
+field_name: field_select_questionnaire
+entity_type: profile
+bundle: company
+label: 'Select Questionnaire'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      assign_questionnaire: assign_questionnaire
+    negate: 0
+    target_bundles_drag_drop:
+      action_plan:
+        weight: 23
+        enabled: false
+      assign_questionnaire:
+        weight: 24
+        enabled: true
+      category:
+        weight: 25
+        enabled: false
+      coaching_one_to_one_report:
+        weight: 26
+        enabled: false
+      coaching_one_to_one_report_field:
+        weight: 27
+        enabled: false
+      color_interaction_tool:
+        weight: 28
+        enabled: false
+      decision_making_unit:
+        weight: 29
+        enabled: false
+      fabs:
+        weight: 30
+        enabled: false
+      fabs_fields:
+        weight: 31
+        enabled: false
+      handle_objections:
+        weight: 32
+        enabled: false
+      kpi:
+        weight: 33
+        enabled: false
+      options:
+        weight: 34
+        enabled: false
+      pipeline:
+        weight: 35
+        enabled: false
+      question:
+        weight: 36
+        enabled: false
+      questionnaire:
+        weight: 37
+        enabled: false
+      sub_category:
+        weight: 38
+        enabled: false
+      sub_sub_category:
+        weight: 39
+        enabled: false
+      survey:
+        weight: 40
+        enabled: false
+      survey_options:
+        weight: 41
+        enabled: false
+      survey_questions:
+        weight: 42
+        enabled: false
+      survey_top_section:
+        weight: 43
+        enabled: false
+      testimonial:
+        weight: 44
+        enabled: false
+field_type: entity_reference_revisions

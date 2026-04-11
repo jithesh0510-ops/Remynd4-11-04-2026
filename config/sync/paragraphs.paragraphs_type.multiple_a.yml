@@ -1,0 +1,10 @@
+uuid: 9774959f-a562-4b9c-b121-61380b17bfae
+langcode: en
+status: true
+dependencies: {  }
+id: multiple_a
+label: 'Multiple Answer Questionnaire'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

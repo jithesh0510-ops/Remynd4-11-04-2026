@@ -1,0 +1,42 @@
+access coach reporting system:
+  title: 'Access Coach Reporting System page'
+  description: 'Allow users to view the Coach Reporting System forms page.'
+
+access pre post analysis form:
+  title: 'Access Pre and Post Training Analysis form'
+  description: 'Allow users to view and submit the Pre and Post Training Analysis form.'
+
+access pre post results form:
+  title: 'Access Pre & Post Training Results form'
+  description: 'Allow users to view and submit the Pre & Post Training Results form.'
+
+access on job progress form:
+  title: 'Access On the Job Progress form'
+  description: 'Allow users to view and submit the On the Job Progress Results form.'
+
+register users as company:
+  title: 'Register users as Company'
+  description: 'Allows this role to register users as Company'
+
+register users as coach:
+  title: 'Register users as Coach'
+  description: 'Allows this role to register users as Coach'
+
+register users as employee:
+  title: 'Register users as Employee'
+  description: 'Allows this role to register users as Employee'
+
+administer companies:
+  title: 'Administer company users'
+  description: 'Create, edit, and delete company users.'
+  restrict access: TRUE
+
+administer coach reporting:
+  title: 'Administer Coach Reporting'
+  description: 'Access prepost import, uploads, sample download, company/coach/employee management, and language import/export.'
+  restrict access: TRUE
+
+access coach reporting:
+  title: 'Access Coach Reporting (Report form)'
+  description: 'View the Coach Reporting report form.'
+  restrict access: true

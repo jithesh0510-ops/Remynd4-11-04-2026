@@ -1,0 +1,18 @@
+uuid: 2e516193-b852-4a7b-8b43-b038e73d6ed7
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.questionnaire
+id: node.questionnaire.created
+field_name: created
+entity_type: node
+bundle: questionnaire
+label: 'Authored on'
+description: 'The date and time that the content was created.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * @file
+ * Install hooks for CRS Migrate.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function crs_migrate_install() {
+  // Nothing required at install-time. Migrations are config-based (migrate_plus).
+}

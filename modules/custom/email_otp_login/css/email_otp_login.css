@@ -1,0 +1,150 @@
+body.path-user-login {
+  background: #f4f4f4 !important;
+  margin: 0 !important;
+}
+
+body.path-user-login .tabs,
+body.path-user-login .page-title,
+body.path-user-login .breadcrumb {
+  display: none !important;
+}
+
+body.path-user-login .dialog-off-canvas-main-canvas,
+body.path-user-login .layout-container,
+body.path-user-login .main-content,
+body.path-user-login .region-content {
+  min-height: 100vh !important;
+}
+
+body.path-user-login .messages {
+  display: block !important;
+  border-radius: 10px !important;
+  margin-bottom: 14px !important;
+  padding: 12px 14px !important;
+}
+
+body.path-user-login .messages--status {
+  background: #eef9fb !important;
+  border: 1px solid #c8ebf1 !important;
+  color: #335b66 !important;
+}
+
+body.path-user-login .messages--error {
+  background: #fff4f4 !important;
+  border: 1px solid #f1c9c9 !important;
+  color: #8b2f2f !important;
+}
+
+body.path-user-login .otp-current-email {
+  background: #f2fbfb !important;
+  border: 1px solid #d2ecec !important;
+  border-radius: 8px !important;
+  padding: 12px 14px !important;
+  color: #18485d !important;
+  margin-bottom: 16px !important;
+  font-size: 14px !important;
+}
+
+body.path-user-login input[type="email"],
+body.path-user-login input[type="password"],
+body.path-user-login input[type="text"] {
+  width: 100% !important;
+  height: 48px !important;
+  border: 1px solid #d7dee4 !important;
+  border-radius: 8px !important;
+  background: #ffffff !important;
+  padding: 0 14px !important;
+  font-size: 15px !important;
+  box-sizing: border-box !important;
+}
+
+body.path-user-login input::placeholder {
+  color: #90a08c !important;
+  opacity: 1 !important;
+}
+
+body.path-user-login input:focus {
+  outline: none !important;
+  border-color: #7ad7e7 !important;
+  box-shadow: 0 0 0 3px rgba(122,215,231,.14) !important;
+}
+
+body.path-user-login .form-actions input:first-child {
+  background: #7ad7e7 !important;
+  color: #ffffff !important;
+  min-width: 110px !important;
+  border: 1px solid #6fd0e2 !important;
+}
+
+body.path-user-login .form-actions input:not(:first-child) {
+  background: #8a949e !important;
+  color: #ffffff !important;
+}
+
+.remynd-login-left {
+  
+  border: 1px solid #d8d8d8 !important;
+  border-radius: 18px !important;
+  box-shadow: 0 2px 10px rgba(0,0,0,.04) !important;
+}
+
+.remynd-login-left-head {
+  background: #7ad7e7 !important;
+  color: #ffffff !important;
+}
+
+.remynd-login-card {
+  background: #ffffff !important;
+  border: 1px solid #d8d8d8 !important;
+  border-radius: 18px !important;
+  box-shadow: 0 2px 10px rgba(0,0,0,.05) !important;
+}
+
+.remynd-login-card::before {
+  border: 2px solid #2aa3a3 !important;
+}
+
+.email-otp-login-card-title,
+.remynd-login-title {
+  color: #0c7f88 !important;
+}
+
+.remynd-login-title span {
+  color: #d3751f !important;
+}
+
+.remynd-login-help,
+.remynd-login-help a,
+body.path-user-login a {
+  color: #4d7fe0 !important;
+  text-decoration: none !important;
+}
+
+body.path-user-login a:hover {
+  text-decoration: underline !important;
+}
+
+/* FORCE Continue button color */
+body.path-user-login .remynd-login-card .form-actions input[type="submit"],
+body.path-user-login .remynd-login-card .form-actions button,
+body.path-user-login .remynd-login-card .form-submit,
+body.path-user-login form .form-actions input[type="submit"],
+body.path-user-login form .form-actions .button,
+body.path-user-login form .form-submit {
+  background: #7ad7e7 !important;
+  background-image: none !important;
+  border: 1px solid #6fd0e2 !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+
+body.path-user-login .remynd-login-card .form-actions input[type="submit"]:hover,
+body.path-user-login .remynd-login-card .form-actions button:hover,
+body.path-user-login .remynd-login-card .form-submit:hover,
+body.path-user-login form .form-actions input[type="submit"]:hover,
+body.path-user-login form .form-actions .button:hover,
+body.path-user-login form .form-submit:hover {
+  background: #6fd0e2 !important;
+  border-color: #63c6d8 !important;
+  color: #ffffff !important;
+}

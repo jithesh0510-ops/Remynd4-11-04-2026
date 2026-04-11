@@ -1,0 +1,22 @@
+uuid: e856b9d0-c85c-404e-9187-a7c8f7713548
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - adminkit
+_core:
+  default_config_hash: 9_NqR6dIAo-kjTURrM5eAWQG7YEY0sYKOp1sfzBWXvs
+id: adminkit_content
+theme: adminkit
+region: content
+weight: -1
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  label_display: '0'
+  provider: system
+visibility: {  }

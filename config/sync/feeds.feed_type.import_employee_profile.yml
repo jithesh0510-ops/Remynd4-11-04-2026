@@ -1,0 +1,195 @@
+uuid: f7c54ecc-cc10-4bc8-b7ec-88115c62bd75
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.profile.employee.field_branch
+    - field.field.profile.employee.field_coach
+    - field.field.profile.employee.field_company
+    - field.field.profile.employee.field_employee_number
+    - field.field.profile.employee.field_job_position
+    - field.field.profile.employee.field_view_report
+    - profile.type.employee
+  module:
+    - feeds_tamper
+    - profile
+third_party_settings:
+  feeds_tamper:
+    tampers:
+      a93d1bf6-e8e1-4e1e-baed-05ef871208a0:
+        separator: ;
+        limit: null
+        uuid: a93d1bf6-e8e1-4e1e-baed-05ef871208a0
+        plugin: explode
+        source: company
+        weight: 0
+        label: Explode
+      3657f497-d4e2-4d07-8a9f-d4e422f93610:
+        separator: ;
+        limit: null
+        uuid: 3657f497-d4e2-4d07-8a9f-d4e422f93610
+        plugin: explode
+        source: coach_email
+        weight: 0
+        label: Explode
+label: 'Import Employee Profile'
+id: import_employee_profile
+description: ''
+help: ''
+import_period: -1
+fetcher: upload
+fetcher_configuration:
+  allowed_extensions: 'txt csv tsv xml opml'
+  directory: 'public://feeds'
+parser: csv
+parser_configuration:
+  delimiter: ','
+  no_headers: false
+  line_limit: 100
+processor: 'entity:profile'
+processor_configuration:
+  values:
+    type: employee
+  insert_new: 1
+  update_existing: 1
+  update_non_existent: _delete
+  skip_hash_check: false
+  skip_validation: false
+  skip_validation_types: {  }
+  authorize: false
+  revision: false
+  expire: -1
+  owner_feed_author: false
+  owner_id: 0
+custom_sources:
+  email:
+    value: email
+    label: email
+    machine_name: email
+    type: csv
+  company:
+    value: company_emails
+    label: company_emails
+    machine_name: company
+    type: csv
+  see_actionreport_result:
+    value: see_actionreport_result
+    label: see_actionreport_result
+    machine_name: see_actionreport_result
+    type: csv
+  lagard_to_stars:
+    value: lagard_to_stars
+    label: lagard_to_stars
+    machine_name: lagard_to_stars
+    type: csv
+  see_previous_date:
+    value: see_previous_date
+    label: see_previous_date
+    machine_name: see_previous_date
+    type: csv
+  see_questionnaire_result:
+    value: see_questionnaire_result
+    label: see_questionnaire_result
+    machine_name: see_questionnaire_result
+    type: csv
+  skills_assessment:
+    value: skills_assessment
+    label: skills_assessment
+    machine_name: skills_assessment
+    type: csv
+  coach_email:
+    value: coach_email
+    label: coach_email
+    machine_name: coach_email
+    type: csv
+  job_position:
+    value: job_position
+    label: job_position
+    machine_name: job_position
+    type: csv
+  job_position_name:
+    value: job_position_name
+    label: job_position_name
+    machine_name: job_position_name
+    type: csv
+  branch_name:
+    value: branch_name
+    label: branch_name
+    machine_name: branch_name
+    type: blank
+  view_report:
+    value: view_report
+    label: view_report
+    machine_name: view_report
+    type: csv
+  employee_number:
+    value: employee_number
+    label: employee_number
+    machine_name: employee_number
+    type: csv
+  branch_names:
+    value: branch_name
+    label: branch_name
+    machine_name: branch_names
+    type: csv
+mappings:
+  -
+    target: field_company
+    map:
+      target_id: company
+    settings:
+      language: ''
+      reference_by: init
+      feeds_item: guid
+      autocreate: 0
+      autocreate_bundle: false
+  -
+    target: uid
+    map:
+      target_id: email
+    settings:
+      reference_by: mail
+      feeds_item: guid
+      autocreate: 0
+      autocreate_bundle: false
+  -
+    target: field_coach
+    map:
+      target_id: coach_email
+    settings:
+      language: ''
+      reference_by: init
+      feeds_item: guid
+      autocreate: 0
+      autocreate_bundle: false
+  -
+    target: field_job_position
+    map:
+      target_id: job_position_name
+    settings:
+      language: ''
+      reference_by: name
+      autocreate: 1
+      autocreate_bundle: job_position
+  -
+    target: field_branch
+    map:
+      target_id: branch_names
+    settings:
+      language: ''
+      reference_by: name
+      autocreate: 1
+      autocreate_bundle: branch
+  -
+    target: field_view_report
+    map:
+      value: view_report
+    settings:
+      language: null
+  -
+    target: field_employee_number
+    map:
+      value: employee_number
+    settings:
+      language: null
+    unique: {  }

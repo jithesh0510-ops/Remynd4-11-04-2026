@@ -1,0 +1,8 @@
+name: CRS Sync
+type: module
+description: Sync users and profiles from a legacy PHP database into Drupal 10.
+core_version_requirement: ^10 || ^11
+package: Custom
+dependencies:
+  - user
+  - profile

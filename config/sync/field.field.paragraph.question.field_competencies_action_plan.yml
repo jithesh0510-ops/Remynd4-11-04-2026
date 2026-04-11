@@ -1,0 +1,91 @@
+uuid: dc2a5fa7-bbf9-4862-888c-446f87e61b00
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_competencies_action_plan
+    - paragraphs.paragraphs_type.action_plan
+    - paragraphs.paragraphs_type.question
+  module:
+    - entity_reference_revisions
+id: paragraph.question.field_competencies_action_plan
+field_name: field_competencies_action_plan
+entity_type: paragraph
+bundle: question
+label: 'Competencies action plan'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      action_plan: action_plan
+    negate: 0
+    target_bundles_drag_drop:
+      action_plan:
+        weight: 22
+        enabled: true
+      category:
+        weight: 23
+        enabled: false
+      coaching_one_to_one_report:
+        weight: 24
+        enabled: false
+      coaching_one_to_one_report_field:
+        weight: 25
+        enabled: false
+      color_interaction_tool:
+        weight: 26
+        enabled: false
+      decision_making_unit:
+        weight: 27
+        enabled: false
+      fabs:
+        weight: 28
+        enabled: false
+      fabs_fields:
+        weight: 29
+        enabled: false
+      handle_objections:
+        weight: 30
+        enabled: false
+      kpi:
+        weight: 31
+        enabled: false
+      options:
+        weight: 32
+        enabled: false
+      pipeline:
+        weight: 33
+        enabled: false
+      question:
+        weight: 34
+        enabled: false
+      questionnaire:
+        weight: 35
+        enabled: false
+      sub_category:
+        weight: 36
+        enabled: false
+      sub_sub_category:
+        weight: 37
+        enabled: false
+      survey:
+        weight: 38
+        enabled: false
+      survey_options:
+        weight: 39
+        enabled: false
+      survey_questions:
+        weight: 40
+        enabled: false
+      survey_top_section:
+        weight: 41
+        enabled: false
+      testimonial:
+        weight: 42
+        enabled: false
+field_type: entity_reference_revisions

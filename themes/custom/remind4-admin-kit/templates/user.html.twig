@@ -1,0 +1,271 @@
+{#
+/**
+ * @file
+ * User profile page override for Remind4 Admin Kit.
+ *
+ * Route: /user/{user} (canonical route only)
+ * View Mode: full
+ *
+ * This template only applies to the canonical user profile page.
+ * Views will use the standard entity view display configuration.
+ *
+ * Available variables (core):
+ * - user: The user entity.
+ * - content: Render array of user fields.
+ * - view_mode: The view mode (should be 'full' for canonical route).
+ */
+#}
+
+{# Only render custom template for canonical route with full view mode #}
+{% if view_mode == 'full' and route_name == 'entity.user.canonical' %}
+
+{# Compute a nice display name in Twig #}
+{% set display_name = user.display_name %}
+{% if user.field_full_name is defined and user.field_full_name.value %}
+  {% set display_name = user.field_full_name.value %}
+{% elseif user.field_first_name is defined and user.field_first_name.value %}
+  {% set display_name = user.field_first_name.value ~
+    (user.field_last_name is defined and user.field_last_name.value ? ' ' ~ user.field_last_name.value : '') %}
+{% endif %}
+
+{% set email = user.mail.value ?? '' %}
+
+<div class="container-fluid p-0">
+  <div class="mb-3">
+    <h1 class="h3 d-inline align-middle">{{ 'Profile'|t }}</h1>
+  </div>
+
+  <div class="row">
+    {# Left column – profile summary card #}
+    <div class="col-md-4 col-xl-3">
+      <div class="card mb-3">
+        <div class="card-header">
+          <h5 class="card-title mb-0">{{ 'Profile Details'|t }}</h5>
+        </div>
+        <div class="card-body text-center">
+          {# Avatar or initial placeholder #}
+          {% if user.user_picture.entity and user.user_picture.entity.uri.value %}
+            <img
+              src="{{ file_url(user.user_picture.entity.uri.value) }}"
+              alt="{{ display_name }}"
+              class="img-fluid rounded-circle mb-2"
+              width="128"
+              height="128"
+            />
+          {% else %}
+            <div
+              class="rounded-circle mb-2 d-inline-flex align-items-center justify-content-center"
+              style="width: 128px; height: 128px; background-color: #e5e7eb; color: #6b7280; font-size: 3rem; font-weight: 600;"
+            >
+              {{ display_name|slice(0, 1)|upper }}
+            </div>
+          {% endif %}
+
+          <h5 class="card-title mb-0">{{ display_name }}</h5>
+
+          {% if email %}
+            <div class="text-muted mb-2">{{ email }}</div>
+          {% endif %}
+
+          {# Quick action – edit own account if allowed #}
+          {% if logged_in and user.id == user_id %}
+            <div>
+              <a class="btn btn-primary btn-sm" href="{{ path('entity.user.edit_form', {'user': user.id}) }}">
+                {{ 'Edit profile'|t }}
+              </a>
+            </div>
+          {% endif %}
+        </div>
+
+        {# Skills & Roles section #}
+        <hr class="my-0" />
+        <div class="card-body">
+          <h5 class="h6 card-title mb-2">{{ 'Skills & roles'|t }}</h5>
+
+          <div class="d-flex flex-wrap gap-1">
+            {# Skills placeholder – can be wired to a real field later #}
+            <span class="badge bg-primary">{{ display_name }}</span>
+
+            {# Roles as subtle secondary badges #}
+            {% if user.roles is defined and user.roles|length %}
+              {% for role_item in user.roles %}
+                {% if role_item.entity %}
+                  <span class="badge bg-secondary">{{ role_item.entity.label }}</span>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+
+        {# About section: location / company if available #}
+        <hr class="my-0" />
+        <div class="card-body">
+          <h5 class="h6 card-title">{{ 'About'|t }}</h5>
+          <ul class="list-unstyled mb-0">
+            {# Lives in – from address field if present #}
+            {% if user.field_address is defined and user.field_address.0 is not empty %}
+              {% set addr = user.field_address.0 %}
+              {% set locality = addr.locality ?? '' %}
+              {% set region = addr.administrative_area ?? '' %}
+              {% set country = addr.country_code ?? '' %}
+              {% set location_parts = [] %}
+              {% if locality %}{% set location_parts = location_parts|merge([locality]) %}{% endif %}
+              {% if region %}{% set location_parts = location_parts|merge([region]) %}{% endif %}
+              {% if country %}{% set location_parts = location_parts|merge([country]) %}{% endif %}
+              {% if location_parts %}
+                <li class="mb-1">
+                  <span class="feather-sm me-1" data-feather="home"></span>
+                  {{ 'Lives in'|t }} {{ location_parts|join(', ') }}
+                </li>
+              {% endif %}
+            {% endif %}
+
+            {# Works at – from company reference if available #}
+            {% if user.field_company is defined and user.field_company.entity %}
+              <li class="mb-1">
+                <span class="feather-sm me-1" data-feather="briefcase"></span>
+                {{ 'Works at'|t }} {{ user.field_company.entity.label }}
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+
+        {# Elsewhere / website links #}
+        <hr class="my-0" />
+        <div class="card-body">
+          <h5 class="h6 card-title">{{ 'Elsewhere'|t }}</h5>
+          <ul class="list-unstyled mb-0">
+            {% if user.field_website is defined and user.field_website.0 is not empty %}
+              {% set website_item = user.field_website.0 %}
+              {% if website_item.uri %}
+                <li class="mb-1">
+                  <a href="{{ website_item.uri }}" target="_blank" rel="noopener noreferrer">
+                    {{ website_item.title ?: website_item.uri }}
+                  </a>
+                </li>
+              {% endif %}
+            {% else %}
+              <li class="mb-1 text-muted">{{ 'No external links added'|t }}</li>
+            {% endif %}
+          </ul>
+        </div>
+
+        {# Profile information (moved from right card) #}
+        <hr class="my-0" />
+        <div class="card-body">
+          <h5 class="h6 card-title">{{ 'Profile information'|t }}</h5>
+
+          <div class="mb-3">
+            <div class="text-muted text-uppercase small mb-1">{{ 'Member for'|t }}</div>
+            <div class="fw-semibold">
+              {% if content.member_for is defined %}
+                {{ content.member_for }}
+              {% else %}
+                {{ 'n/a'|t }}
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-6 mb-3">
+              <div class="text-muted small">{{ 'Full Name'|t }}</div>
+              <div class="fw-semibold">
+                {{ user.field_full_name.value ?? display_name }}
+              </div>
+            </div>
+
+            <div class="col-sm-6 mb-3">
+              <div class="text-muted small">{{ 'First Name'|t }}</div>
+              <div class="fw-semibold">
+                {{ user.field_first_name.value ?? '-' }}
+              </div>
+            </div>
+
+            <div class="col-sm-6 mb-3">
+              <div class="text-muted small">{{ 'Last Name'|t }}</div>
+              <div class="fw-semibold">
+                {{ user.field_last_name.value ?? '-' }}
+              </div>
+            </div>
+
+            <div class="col-sm-6 mb-3">
+              <div class="text-muted small">{{ 'Phone No'|t }}</div>
+              <div class="fw-semibold">
+                {{ user.field_phone_no.value ?? '-' }}
+              </div>
+            </div>
+
+            <div class="col-sm-6 mb-0">
+              <div class="text-muted small">{{ 'Is Delete'|t }}</div>
+              {% set is_delete = user.field_is_delete.value ?? 0 %}
+              <div class="fw-semibold">
+                {{ is_delete ? 'On'|t : 'Off'|t }}
+              </div>
+            </div>
+          </div>
+
+          {# Masquerade link (if provided by module) #}
+          {% if content.masquerade is defined %}
+            <hr class="my-3" />
+            <div class="small">
+              {{ content.masquerade }}
+            </div>
+          {% endif %}
+
+          {# Assigned profiles (company / coach / employee) #}
+          {% if assigned_profiles is defined and assigned_profiles %}
+            <hr class="my-3" />
+            <h5 class="h6 card-title">{{ 'Assigned profiles'|t }}</h5>
+            {% for item in assigned_profiles %}
+              <div class="assigned-profile-item border rounded-3 p-3 mb-2 bg-light">
+                <div class="text-muted text-uppercase small mb-2">{{ item.type }}</div>
+                <div class="assigned-profile-view small">
+                  {{ item.view }}
+                </div>
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    {# Right column – recent activity / submission history #}
+    <div class="col-md-8 col-xl-9">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">{{ 'Recent activity'|t }}</h5>
+        </div>
+        <div class="card-body">
+          {# Render any extra fields/blocks (e.g. submission views) placed on the user display
+             Exclude core profile fields we already show on the left card. #}
+          {% set extra = content|without(
+            'user_picture',
+            'member_for',
+            'masquerade',
+            'field_full_name',
+            'field_first_name',
+            'field_last_name',
+            'field_phone_no',
+            'field_is_delete'
+          ) %}
+
+          {% if extra|render %}
+            {{ extra }}
+          {% else %}
+            <div class="text-muted small">
+              {{ 'No submissions found.'|t }}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% else %}
+  {# Fallback to default user template for Views and other contexts #}
+  <article{{ attributes.addClass('profile') }}>
+    {% if content %}
+      {{- content -}}
+    {% endif %}
+  </article>
+{% endif %}

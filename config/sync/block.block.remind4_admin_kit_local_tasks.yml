@@ -1,0 +1,22 @@
+uuid: 563ec735-1fa4-4095-ae52-b236b8aedda6
+langcode: en
+status: true
+dependencies:
+  theme:
+    - remind4_admin_kit
+_core:
+  default_config_hash: yukt8rHM0BMQj7AxGhb_4BRgUwLFIU_L1yXM7hE3Hl0
+id: remind4_admin_kit_local_tasks
+theme: remind4_admin_kit
+region: breadcrumb
+weight: -5
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: Tabs
+  label_display: '0'
+  provider: core
+  primary: true
+  secondary: true
+visibility: {  }

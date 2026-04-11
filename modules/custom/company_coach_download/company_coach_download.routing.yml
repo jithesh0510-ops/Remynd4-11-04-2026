@@ -1,0 +1,7 @@
+company_coach_download.export:
+  path: '/download-coach-key'
+  defaults:
+    _controller: '\Drupal\company_coach_download\Controller\CoachDownloadController::download'
+    _title: 'Download Coach Key'
+  requirements:
+    _permission: 'access content'

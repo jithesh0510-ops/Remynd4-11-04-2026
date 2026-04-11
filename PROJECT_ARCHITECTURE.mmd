@@ -1,0 +1,63 @@
+graph TB
+    subgraph "Development Environment - ddev"
+        DDEV[DDEV Container]
+        DDEV -->|Hosts| DRUPAL["Drupal 10.4<br/>CMS Platform"]
+        DDEV -->|Database| MYSQL["MySQL Database<br/>Data Storage"]
+        DDEV -->|Web Server| NGINX["Nginx<br/>Web Server"]
+    end
+
+    subgraph "Drupal Core System"
+        DRUPAL -->|Uses| CORE["Core Modules<br/>• Node<br/>• User<br/>• Field<br/>• Profile<br/>• Views"]
+        DRUPAL -->|Uses| CONTRIB["Contrib Modules<br/>• Paragraphs<br/>• Feeds<br/>• FullCalendar<br/>• Admin Toolbar<br/>• Select2<br/>• Bootstrap 5"]
+    end
+
+    subgraph "Custom Modules"
+        CUSTOM["Custom Modules"]
+        CUSTOM --> CRS["coach_reporting_system<br/>📊 Main Module<br/>• Sessions<br/>• Reports<br/>• Dashboard<br/>• Imports"]
+        CUSTOM --> RU["reporting_user<br/>👥 User Management<br/>• Registration<br/>• Profiles<br/>• Inline Edit"]
+        CUSTOM --> SYNC["crs_sync<br/>🔄 Legacy Sync<br/>• Import Users<br/>• Sync Data"]
+        CUSTOM --> MIGRATE["crs_migrate<br/>📦 Data Migration<br/>• Migrate API<br/>• User Migration"]
+        CUSTOM --> LOGIN["simplelogin<br/>🔐 Auth UI<br/>• Custom Login<br/>• Social Auth"]
+    end
+
+    subgraph "User Roles & Access"
+        ROLES["User Roles"]
+        ROLES --> COMPANY["🏢 Company<br/>• View Reports<br/>• Manage Employees"]
+        ROLES --> COACH["👨‍🏫 Coach<br/>• Create Sessions<br/>• View Dashboard<br/>• Access Reports"]
+        ROLES --> EMPLOYEE["👤 Employee<br/>• View Own Data<br/>• Limited Access"]
+        ROLES --> ADMIN["⚙️ Administrator<br/>• Full Access<br/>• System Admin"]
+    end
+
+    subgraph "Data Storage"
+        MYSQL -->|Stores| SESSIONS["coach_reporting_session<br/>Session Data"]
+        MYSQL -->|Stores| PREPOST["qs_employee_prepost_relation<br/>Pre/Post Training"]
+        MYSQL -->|Stores| ONJOB["qs_emp_lagard_starts<br/>On-Job Progress"]
+        MYSQL -->|Stores| USERS["Drupal Users<br/>User Accounts"]
+        MYSQL -->|Stores| PROFILES["Profile Entities<br/>Company/Coach/Employee"]
+        MYSQL -->|Stores| NODES["Content Nodes<br/>Questionnaires/Programs"]
+    end
+
+    subgraph "Key Features"
+        FEATURES["System Features"]
+        FEATURES --> SESSION_MGMT["Session Management<br/>/coach/session/*"]
+        FEATURES --> REPORTING["Reporting System<br/>/reports"]
+        FEATURES --> DASHBOARD["Performance Dashboard<br/>/reports/performance-dashboard"]
+        FEATURES --> IMPORTS["Data Imports<br/>CSV Upload"]
+        FEATURES --> CHARTS["Google Charts<br/>Visualizations"]
+    end
+
+    DRUPAL --> CUSTOM
+    CRS --> ROLES
+    CRS --> MYSQL
+    CRS --> FEATURES
+    RU --> ROLES
+    SYNC --> MYSQL
+
+    style DDEV fill:#e1f5ff
+    style DRUPAL fill:#4a90e2,color:#fff
+    style CRS fill:#ff6b6b,color:#fff
+    style COMPANY fill:#95e1d3
+    style COACH fill:#f38181
+    style EMPLOYEE fill:#a8e6cf
+    style ADMIN fill:#ffd93d
+

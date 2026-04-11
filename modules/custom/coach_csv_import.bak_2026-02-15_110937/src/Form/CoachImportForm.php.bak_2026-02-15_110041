@@ -1,0 +1,388 @@
+<?php
+
+namespace Drupal\coach_csv_import\Form;
+
+use Drupal\Core\Form\FormBase;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\user\Entity\User;
+use Drupal\profile\Entity\Profile;
+
+class CoachImportForm extends FormBase {
+
+  public function getFormId() {
+    return 'coach_csv_import_form';
+  }
+
+  public function buildForm(array $form, FormStateInterface $form_state) {
+
+    $form['company_id'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Company Name'),
+      '#options' => $this->loadCompanyOptions(),
+      '#required' => TRUE,
+    ];
+
+    $form['csv_file'] = [
+      '#type' => 'file',
+      '#title' => $this->t('Select File'),
+      '#description' => $this->t('Upload a CSV file. Required column: mail. Optional: name, first_name, last_name.'),
+      '#required' => TRUE,
+    ];
+
+    $form['send_email'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Send an email'),
+      '#default_value' => 0,
+    ];
+
+    $form['actions'] = ['#type' => 'actions'];
+
+    $form['actions']['submit'] = [
+      '#type' => 'submit',
+      '#value' => $this->t('Upload/Update coach'),
+      '#button_type' => 'primary',
+    ];
+
+    $form['actions']['download_key'] = [
+      '#type' => 'link',
+      '#title' => $this->t('Download coach Key'),
+      '#url' => \Drupal\Core\Url::fromRoute('coach_csv_import.coach_key'),
+      '#attributes' => ['class' => ['button']],
+    ];
+
+    $form['actions']['download_sample'] = [
+      '#type' => 'link',
+      '#title' => $this->t('Download Sample'),
+      '#url' => \Drupal\Core\Url::fromRoute('coach_csv_import.sample'),
+      '#attributes' => ['class' => ['button']],
+    ];
+
+    $form['actions']['cancel'] = [
+      '#type' => 'link',
+      '#title' => $this->t('Cancel'),
+      '#url' => \Drupal\Core\Url::fromUserInput('/coach'),
+      '#attributes' => ['class' => ['button']],
+    ];
+
+    // Simple layout styling.
+    $form['#attributes']['class'][] = 'coach-import-form';
+    $form['#attached']['html_head'][] = [
+      [
+        '#tag' => 'style',
+        '#value' => '
+          .coach-import-form {max-width: 1100px;}
+          .coach-import-form .form-item {display:inline-block; vertical-align: top; margin-right: 20px; min-width: 340px;}
+          .coach-import-form .form-actions {margin-top: 18px;}
+          .coach-import-form .form-actions .button {margin-right: 10px;}
+        ',
+      ],
+      'coach_import_inline_css',
+    ];
+
+    return $form;
+  }
+
+  /**
+   * Company dropdown:
+   * - loads company users
+   * - labels them by scanning user+profile fields to find the REAL company name
+   *   (same idea as your coach view output)
+   */
+  private function loadCompanyOptions(): array {
+    $opts = ['' => $this->t('- Select -')];
+
+    // Prefer role=company if used.
+    $uids = \Drupal::entityQuery('user')
+      ->condition('status', 1)
+      ->condition('roles', 'company')
+      ->accessCheck(FALSE)
+      ->execute();
+
+    // Fallback: any company user referenced from profile__field_company.
+    if (empty($uids)) {
+      $uids = \Drupal::database()->query("
+        SELECT DISTINCT field_company_target_id
+        FROM {profile__field_company}
+        WHERE field_company_target_id IS NOT NULL
+      ")->fetchCol();
+    }
+
+    $uids = array_values(array_unique(array_filter(array_map('intval', $uids))));
+    if (empty($uids)) {
+      return $opts;
+    }
+
+    $users = \Drupal::entityTypeManager()->getStorage('user')->loadMultiple($uids);
+
+    $labels = [];
+    foreach ($users as $u) {
+      $labels[$u->id()] = $this->getBestCompanyLabel($u);
+    }
+
+    natcasesort($labels);
+    return $opts + $labels;
+  }
+
+  /**
+   * Returns the best "company name" label from:
+   * - company user fields
+   * - company user profiles fields
+   * Avoids emails and "Company #1234" fallback unless nothing else exists.
+   */
+  private function getBestCompanyLabel($user): string {
+    $best = '';
+    $bestScore = -999999;
+
+    // Candidate field name hints (boost score).
+    $hints = ['company','business','org','organization','title','name'];
+
+    // Helper to score values.
+    $scoreValue = function(string $fieldName, string $val) use ($hints): int {
+      $val = trim($val);
+      if ($val === '') return -999999;
+
+      // Never use emails.
+      if (strpos($val, '@') !== FALSE) return -999999;
+
+      // Skip pure numbers.
+      if (preg_match('/^\d+$/', $val)) return -999999;
+
+      $score = 0;
+
+      // Prefer human-ish names.
+      if (preg_match('/[A-Za-z]/', $val)) $score += 20;
+      if (preg_match('/\s/', $val)) $score += 10;
+      if (strlen($val) >= 4) $score += 5;
+
+      $fn = strtolower($fieldName);
+      foreach ($hints as $h) {
+        if (strpos($fn, $h) !== FALSE) $score += 15;
+      }
+
+      // Penalize "Company #1234" style.
+      if (preg_match('/^company\s*#?\d+$/i', $val)) $score -= 50;
+
+      return $score;
+    };
+
+    // 1) Scan USER fields.
+    foreach ($user->getFieldDefinitions() as $fname => $def) {
+      if (strpos($fname, 'field_') !== 0) continue;
+      if (!$user->hasField($fname) || $user->get($fname)->isEmpty()) continue;
+
+      // Support common scalar storage.
+      $v = (string) ($user->get($fname)->value ?? '');
+      $s = $scoreValue($fname, $v);
+      if ($s > $bestScore) { $bestScore = $s; $best = $v; }
+    }
+
+    // 2) Scan PROFILES for this company user.
+    try {
+      $profiles = \Drupal::entityTypeManager()->getStorage('profile')->loadByProperties(['uid' => $user->id()]);
+      foreach ($profiles as $p) {
+
+        // Check profile label too.
+        if (method_exists($p, 'label')) {
+          $pl = (string) $p->label();
+          $s = $scoreValue('profile_label', $pl);
+          if ($s > $bestScore) { $bestScore = $s; $best = $pl; }
+        }
+
+        foreach ($p->getFieldDefinitions() as $fname => $def) {
+          if (strpos($fname, 'field_') !== 0) continue;
+          if (!$p->hasField($fname) || $p->get($fname)->isEmpty()) continue;
+
+          $v = (string) ($p->get($fname)->value ?? '');
+          $s = $scoreValue($fname, $v);
+          if ($s > $bestScore) { $bestScore = $s; $best = $v; }
+        }
+      }
+    } catch (\Throwable $e) {}
+
+    // Final fallback: username/display name (often "Company #1234").
+    if (trim($best) === '') {
+      $best = $user->getDisplayName();
+    }
+
+    return trim($best);
+  }
+
+  public function validateForm(array &$form, FormStateInterface $form_state) {
+    parent::validateForm($form, $form_state);
+
+    $validators = ['file_validate_extensions' => ['csv']];
+    $file = file_save_upload('csv_file', $validators, FALSE, 0);
+    if (!$file) {
+      $form_state->setErrorByName('csv_file', $this->t('Please upload a valid .csv file.'));
+      return;
+    }
+
+    $realpath = \Drupal::service('file_system')->realpath($file->getFileUri());
+    if (!$realpath || !is_readable($realpath)) {
+      $form_state->setErrorByName('csv_file', $this->t('Uploaded file could not be read.'));
+      return;
+    }
+
+    $form_state->set('csv_realpath', $realpath);
+  }
+
+  public function submitForm(array &$form, FormStateInterface $form_state) {
+    $company_id = (int) $form_state->getValue('company_id');
+    $send_email = (bool) $form_state->getValue('send_email');
+    $path = $form_state->get('csv_realpath');
+
+    $rows = $this->readCsv($path);
+    if (empty($rows)) {
+      $this->messenger()->addError($this->t('CSV is empty or invalid.'));
+      return;
+    }
+
+    $created = 0;
+    $updated = 0;
+    $errors = 0;
+
+    // IMPORTANT: use a real profile bundle that has field_company (prevents "Plugin ID default not found").
+    $profile_type = $this->detectProfileTypeWithCompanyField();
+
+    foreach ($rows as $row) {
+      $mail = trim((string)($row['mail'] ?? $row['email'] ?? ''));
+      if ($mail === '' || !filter_var($mail, FILTER_VALIDATE_EMAIL)) {
+        $errors++;
+        continue;
+      }
+
+      $name = trim((string)($row['name'] ?? ''));
+      if ($name === '') {
+        $name = strstr($mail, '@', TRUE) ?: $mail;
+      }
+
+      $first = trim((string)($row['first_name'] ?? $row['firstname'] ?? ''));
+      $last  = trim((string)($row['last_name']  ?? $row['lastname']  ?? ''));
+
+      $account = user_load_by_mail($mail);
+
+      if ($account) {
+        $account->setUsername($name);
+        $account->activate();
+        $account->addRole('coach');
+        $account->save();
+        $updated++;
+      }
+      else {
+        $account = User::create([
+          'name' => $name,
+          'mail' => $mail,
+          'status' => 1,
+        ]);
+        $account->addRole('coach');
+        $account->enforceIsNew();
+        $account->save();
+        $created++;
+      }
+
+      $this->upsertProfileCompany($account->id(), $company_id, $profile_type, $first, $last);
+
+      if ($send_email) {
+        $this->sendSimpleMail($mail, $name);
+      }
+    }
+
+    $this->messenger()->addStatus($this->t('Done. Created: @c, Updated: @u, Errors: @e', [
+      '@c' => $created, '@u' => $updated, '@e' => $errors,
+    ]));
+
+    $form_state->setRedirectUrl(\Drupal\Core\Url::fromUserInput('/coach'));
+  }
+
+  private function readCsv(string $realpath): array {
+    $fh = fopen($realpath, 'r');
+    if (!$fh) return [];
+
+    $header = fgetcsv($fh);
+    if (!$header) return [];
+
+    $header = array_map(function($h) {
+      return strtolower(trim((string)$h));
+    }, $header);
+
+    $rows = [];
+    while (($line = fgetcsv($fh)) !== FALSE) {
+      if (!array_filter($line, fn($v) => trim((string)$v) !== '')) continue;
+
+      $row = [];
+      foreach ($header as $idx => $key) {
+        $row[$key] = $line[$idx] ?? '';
+      }
+      $rows[] = $row;
+    }
+
+    fclose($fh);
+    return $rows;
+  }
+
+  /**
+   * Find the profile bundle that actually contains field_company.
+   * Prevents "Plugin ID 'default' was not found."
+   */
+  private function detectProfileTypeWithCompanyField(): string {
+    try {
+      $pt_storage = \Drupal::entityTypeManager()->getStorage('profile_type');
+      $types = $pt_storage->loadMultiple();
+      $efm = \Drupal::service('entity_field.manager');
+
+      foreach ($types as $bundle => $type) {
+        $defs = $efm->getFieldDefinitions('profile', $bundle);
+        if (isset($defs['field_company'])) {
+          return $bundle;
+        }
+      }
+
+      // Fallback to first existing type (if none has field_company).
+      if (!empty($types)) {
+        return array_key_first($types);
+      }
+    } catch (\Throwable $e) {}
+
+    // Absolute fallback.
+    return 'profile';
+  }
+
+  private function upsertProfileCompany(int $uid, int $company_id, string $profile_type, string $first, string $last): void {
+    if (!$company_id) return;
+
+    $ps = \Drupal::entityTypeManager()->getStorage('profile');
+
+    $existing = $ps->loadByProperties(['uid' => $uid]);
+    $profile = $existing ? reset($existing) : NULL;
+
+    if (!$profile) {
+      $profile = Profile::create([
+        'type' => $profile_type,
+        'uid' => $uid,
+        'status' => 1,
+      ]);
+    }
+
+    if ($profile->hasField('field_company')) {
+      $profile->set('field_company', $company_id);
+    }
+
+    if ($first && $profile->hasField('field_first_name')) {
+      $profile->set('field_first_name', $first);
+    }
+    if ($last && $profile->hasField('field_last_name')) {
+      $profile->set('field_last_name', $last);
+    }
+
+    $profile->save();
+  }
+
+  private function sendSimpleMail(string $to, string $username): void {
+    $params = [
+      'subject' => 'Coach account updated',
+      'message' => "Hello $username,\n\nYour coach account has been created/updated.\n\nThanks.",
+    ];
+    \Drupal::service('plugin.manager.mail')->mail('system', 'mail', $to, \Drupal::languageManager()->getDefaultLanguage()->getId(), $params);
+  }
+
+}

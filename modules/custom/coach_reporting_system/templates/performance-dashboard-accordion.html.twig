@@ -1,0 +1,157 @@
+{#
+/**
+ * @file
+ * Template for Performance Dashboard with Program-wise Accordions.
+ *
+ * Available variables:
+ * - companies: Array of companies for dropdown.
+ * - coaches: Array of coaches for dropdown.
+ * - selected_company: Selected company ID.
+ * - selected_coach: Selected coach ID.
+ * - company_name: Company name.
+ * - coach_name: Coach name.
+ * - show_results: Whether to show results.
+ * - accordion_items: Array of program accordion items.
+ */
+#}
+<div class="performance-dashboard-wrapper">
+  <div class="dashboard-container">
+    
+    {# Filter Section #}
+    <div class="dashboard-filters-section">
+      <h3 class="filters-title">Select Filters</h3>
+      <form id="dashboardFilterForm" class="dashboard-filter-form">
+        
+        <div class="filter-row">
+          {# Company Dropdown #}
+          <div class="form-group">
+            <label for="company-select" class="filter-label">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
+                <path d="M240,208H224V96a16,16,0,0,0-16-16H152V48a16,16,0,0,0-16-16H48A16,16,0,0,0,32,48V208H16a8,8,0,0,0,0,16H240a8,8,0,0,0,0-16ZM48,48h88V208H48ZM208,96V208H152V96Z"/>
+              </svg>
+              Select Company
+            </label>
+            <select id="company-select" name="company" class="dashboard-select" required data-drupal-selector="dashboard-company" {% if is_company %}disabled{% endif %}>
+              <option value="">-- Select Company --</option>
+              {% for uid, name in companies %}
+                <option value="{{ uid }}" {% if uid == selected_company %}selected{% endif %}>
+                  {{ name }}
+                </option>
+              {% endfor %}
+            </select>
+            {% if is_company %}
+              <small class="form-text text-muted" style="display: block; margin-top: 0.25rem; font-size: 0.875rem; color: #6b7280;">
+                Locked to your company account.
+              </small>
+            {% endif %}
+          </div>
+
+          {# Coach Dropdown #}
+          <div class="form-group">
+            <label for="coach-select" class="filter-label">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
+                <path d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z"/>
+              </svg>
+              Select Coach
+            </label>
+            <select id="coach-select" name="coach" class="dashboard-select" {% if not coaches %}disabled{% endif %} data-drupal-selector="dashboard-coach">
+              <option value="">-- Select Coach --</option>
+              {% for uid, name in coaches %}
+                <option value="{{ uid }}" {% if uid == selected_coach %}selected{% endif %}>
+                  {{ name }}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          {# Submit Button #}
+          <div class="form-group">
+            <button type="submit" class="btn-submit" id="applyFilters">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
+                <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"/>
+              </svg>
+              View Dashboard
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    {# Results Section #}
+    <div id="dashboardResults" class="dashboard-results">
+      {% if show_results %}
+        {% if accordion_items is empty %}
+          {# No Programs Found #}
+          <div class="alert alert-info">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256">
+              <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm-4,48a12,12,0,1,1-12,12A12,12,0,0,1,124,72Zm12,112a16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40a8,8,0,0,1,0,16Z"/>
+            </svg>
+            <p><strong>No programs found</strong> for the selected company and coach.</p>
+          </div>
+        {% else %}
+          {# Program Accordions #}
+          <div class="programs-accordion">
+            <h2 class="section-title">Programs Overview</h2>
+            <div class="accordion" id="programsAccordion">
+              {% for item in accordion_items %}
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="heading-{{ item.program_id }}">
+                    <button class="accordion-button {% if not loop.first %}collapsed{% endif %}" 
+                            type="button" 
+                            data-bs-toggle="collapse" 
+                            data-bs-target="#collapse-{{ item.program_id }}" 
+                            aria-expanded="{% if loop.first %}true{% else %}false{% endif %}" 
+                            aria-controls="collapse-{{ item.program_id }}">
+                      <span class="program-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256">
+                          <path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48ZM40,112H80v32H40Zm56,0H216v32H96ZM40,160H80v32H40Zm176,32H96V160H216v32Z"/>
+                        </svg>
+                      </span>
+                      <span class="program-name">{{ item.program_name }}</span>
+                      <span class="accordion-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
+                          <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"/>
+                        </svg>
+                      </span>
+                    </button>
+                  </h2>
+                  <div id="collapse-{{ item.program_id }}" 
+                       class="accordion-collapse collapse {% if loop.first %}show{% endif %}" 
+                       aria-labelledby="heading-{{ item.program_id }}" 
+                       data-bs-parent="#programsAccordion">
+                    <div class="accordion-body">
+                      {# Include the performance dashboard for this program #}
+                      {{ include('performance-dashboard.html.twig', {
+                        'program_id': item.program_id,
+                        'metrics': item.dashboard_data.metrics,
+                        'chart_data': item.dashboard_data.chart_data,
+                        'action_report': item.dashboard_data.action_report,
+                        'users_report': item.dashboard_data.users_report,
+                        'debug': item.dashboard_data.debug is defined ? item.dashboard_data.debug : null
+                      }, with_context = false) }}
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+      {% else %}
+        {# Empty State - No filters selected #}
+        <div class="empty-state">
+          <div class="empty-state-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" viewBox="0 0 256 256">
+              <path d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,160H40V56H216V200ZM168,136a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,136Zm0-32a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,104Z"/>
+            </svg>
+          </div>
+          <h3 class="empty-state-title">Select Company and Coach</h3>
+          <p class="empty-state-text">
+            Please select both a company and a coach from the dropdowns above to view the performance dashboard.
+          </p>
+        </div>
+      {% endif %}
+    </div>
+
+  </div>
+</div>
+

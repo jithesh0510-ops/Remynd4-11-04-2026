@@ -1,0 +1,40 @@
+uuid: 9bd15dbb-a93e-411f-ac1b-d93e83b970d4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_category
+    - node.type.questionnaire
+    - paragraphs.paragraphs_type.category
+  module:
+    - entity_reference_revisions
+id: node.questionnaire.field_category
+field_name: field_category
+entity_type: node
+bundle: questionnaire
+label: Category
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      category: category
+    negate: 0
+    target_bundles_drag_drop:
+      category:
+        weight: 5
+        enabled: true
+      question:
+        weight: 6
+        enabled: false
+      sub_category:
+        weight: 7
+        enabled: false
+      sub_sub_category:
+        weight: 8
+        enabled: false
+field_type: entity_reference_revisions

@@ -1,0 +1,10 @@
+uuid: 67a92dd4-ec3a-4d9e-a392-d286803beefc
+langcode: en
+status: true
+dependencies: {  }
+id: color_interaction_tool
+label: 'Color & Interaction Tool'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

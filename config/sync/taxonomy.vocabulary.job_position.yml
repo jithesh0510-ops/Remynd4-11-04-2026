@@ -1,0 +1,9 @@
+uuid: b5649934-4d6e-4aca-bc89-cab21af88b8e
+langcode: en
+status: true
+dependencies: {  }
+name: 'Job Position'
+vid: job_position
+description: null
+weight: 0
+new_revision: false

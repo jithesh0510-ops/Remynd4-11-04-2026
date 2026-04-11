@@ -1,0 +1,22 @@
+uuid: 87d2a1f0-81b4-41f3-82c4-65bbc8b6f925
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.questionnaire
+id: node.questionnaire.promote
+field_name: promote
+entity_type: node
+bundle: questionnaire
+label: 'Promoted to front page'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

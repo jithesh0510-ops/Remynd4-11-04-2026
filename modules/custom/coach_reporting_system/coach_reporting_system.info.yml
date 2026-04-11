@@ -1,0 +1,11 @@
+name: 'Coach Reporting System'
+type: module
+description: 'Custom module for managing coach assessments.'
+core_version_requirement: ^10
+package: Custom
+dependencies:
+  - drupal:node
+  - drupal:field
+  - drupal:user
+  - drupal:profile
+  - drupal:paragraphs

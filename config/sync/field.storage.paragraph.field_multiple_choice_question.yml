@@ -1,0 +1,20 @@
+uuid: 51d7abd1-42f8-470b-87e0-0189e8bc79d6
+langcode: en
+status: true
+dependencies:
+  module:
+    - entity_reference_revisions
+    - paragraphs
+id: paragraph.field_multiple_choice_question
+field_name: field_multiple_choice_question
+entity_type: paragraph
+type: entity_reference_revisions
+settings:
+  target_type: paragraph
+module: entity_reference_revisions
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,19 @@
+services:
+  logger.channel.crs_sync:
+    parent: logger.channel_base
+    arguments: ['crs_sync']
+
+  crs_sync.sync_manager:
+    class: Drupal\crs_sync\Sync\SyncManager
+    arguments:
+      $entity_type_manager: '@entity_type.manager'
+      $db: '@database'
+      $logger: '@logger.channel.crs_sync'
+      $time: '@datetime.time'
+
+  crs_sync.sync_controller:
+    class: Drupal\crs_sync\Controller\SyncController
+    arguments:
+      - '@crs_sync.sync_manager'
+      - '@renderer'
+    tags: ['controller.service_arguments']

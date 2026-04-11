@@ -1,0 +1,9 @@
+global-styling:
+  css:
+    theme:
+      css/style.css: {}
+
+views-fix:
+  css:
+    theme:
+      css/views-fix.css: {}

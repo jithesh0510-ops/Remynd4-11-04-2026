@@ -1,0 +1,24 @@
+uuid: 1147df3d-c6e1-4482-9d17-d9084933e081
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.multiple_a.field_multiple_choice_question
+    - paragraphs.paragraphs_type.multiple_a
+  module:
+    - entity_reference_revisions
+id: paragraph.multiple_a.default
+targetEntityType: paragraph
+bundle: multiple_a
+mode: default
+content:
+  field_multiple_choice_question:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

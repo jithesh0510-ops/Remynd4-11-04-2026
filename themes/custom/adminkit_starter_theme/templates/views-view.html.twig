@@ -1,0 +1,33 @@
+<div class="view view-{{ id }}">
+  {% if title %}
+    <h2>{{ title }}</h2>
+  {% endif %}
+  {% if header %}
+    <div class="view-header">{{ header }}</div>
+  {% endif %}
+  {% if exposed %}
+    <div class="view-filters">{{ exposed }}</div>
+  {% endif %}
+  {% if attachment_before %}
+    <div class="attachment attachment-before">{{ attachment_before }}</div>
+  {% endif %}
+  {% if rows %}
+    <div class="view-content row">
+      {{ rows }}
+    </div>
+  {% elseif empty %}
+    <div class="view-empty">{{ empty }}</div>
+  {% endif %}
+  {% if pager %}
+    <div class="view-pager">{{ pager }}</div>
+  {% endif %}
+  {% if attachment_after %}
+    <div class="attachment attachment-after">{{ attachment_after }}</div>
+  {% endif %}
+  {% if more %}
+    {{ more }}
+  {% endif %}
+  {% if footer %}
+    <div class="view-footer">{{ footer }}</div>
+  {% endif %}
+</div>

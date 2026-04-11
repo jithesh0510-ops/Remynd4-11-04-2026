@@ -1,0 +1,146 @@
+uuid: 932d8fd5-2e79-4289-841e-3c7fe4abbd22
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.survey.body
+    - field.field.node.survey.field_category
+    - field.field.node.survey.field_collect_name
+    - field.field.node.survey.field_is_survey
+    - field.field.node.survey.field_login_required
+    - field.field.node.survey.field_options
+    - field.field.node.survey.field_survey
+    - node.type.survey
+  module:
+    - conditional_fields
+    - paragraphs
+id: node.survey.default
+targetEntityType: node
+bundle: survey
+mode: default
+content:
+  field_category:
+    type: paragraphs
+    weight: 7
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      closed_mode: summary
+      autocollapse: none
+      closed_mode_threshold: 0
+      add_mode: button
+      form_display_mode: default
+      default_paragraph_type: _none
+      features:
+        add_above: '0'
+        collapse_edit_all: collapse_edit_all
+        convert: '0'
+        duplicate: duplicate
+    third_party_settings: {  }
+  field_collect_name:
+    type: boolean_checkbox
+    weight: 2
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_is_survey:
+    type: boolean_checkbox
+    weight: 4
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_login_required:
+    type: boolean_checkbox
+    weight: 1
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_options:
+    type: paragraphs
+    weight: 6
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: closed_expand_nested
+      closed_mode: preview
+      autocollapse: none
+      closed_mode_threshold: 0
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: _none
+      features:
+        add_above: '0'
+        collapse_edit_all: collapse_edit_all
+        convert: '0'
+        duplicate: duplicate
+    third_party_settings: {  }
+  field_survey:
+    type: paragraphs
+    weight: 5
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      closed_mode: summary
+      autocollapse: none
+      closed_mode_threshold: 0
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+      features:
+        collapse_edit_all: collapse_edit_all
+        duplicate: duplicate
+    third_party_settings:
+      conditional_fields:
+        7f4f9f31-e754-403c-97b4-7b5b1aa9bc6d:
+          entity_type: node
+          bundle: questionnaire
+          dependee: field_is_survey
+          settings:
+            state: '!visible'
+            reset: false
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              value: 1
+            effect: show
+            effect_options: {  }
+            selector: ''
+  langcode:
+    type: language_select
+    weight: 3
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  translation:
+    weight: 8
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  body: true
+  created: true
+  path: true
+  promote: true
+  status: true
+  sticky: true
+  uid: true

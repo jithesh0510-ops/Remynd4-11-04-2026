@@ -1,0 +1,10 @@
+uuid: 2ff7df46-2c8a-4df0-889e-0ec455c04fb9
+langcode: en
+status: true
+dependencies: {  }
+id: sub_sub_category
+label: 'Sub Sub Category'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

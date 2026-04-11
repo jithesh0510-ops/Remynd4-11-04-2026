@@ -1,0 +1,141 @@
+uuid: bda1fc1d-5c41-473f-89f6-06a3e4762549
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.profile.coach.field_company
+    - field.field.profile.coach.field_enable_the_coach_will_see
+    - field.field.profile.coach.field_see_laggards_to_stars
+    - field.field.profile.coach.field_see_previous_date
+    - field.field.profile.coach.field_see_questionnaire_result
+    - field.field.profile.coach.field_see_skills_assessment
+    - profile.type.coach
+  module:
+    - feeds_tamper
+    - profile
+third_party_settings:
+  feeds_tamper:
+    tampers:
+      a93d1bf6-e8e1-4e1e-baed-05ef871208a0:
+        separator: ;
+        limit: null
+        uuid: a93d1bf6-e8e1-4e1e-baed-05ef871208a0
+        plugin: explode
+        source: company
+        weight: 0
+        label: Explode
+label: 'Import Coach Profile'
+id: import_coach_profile
+description: ''
+help: ''
+import_period: -1
+fetcher: upload
+fetcher_configuration:
+  allowed_extensions: 'txt csv tsv xml opml'
+  directory: 'public://feeds'
+parser: csv
+parser_configuration:
+  delimiter: ','
+  no_headers: false
+  line_limit: 100
+processor: 'entity:profile'
+processor_configuration:
+  values:
+    type: coach
+  insert_new: 1
+  update_existing: 1
+  update_non_existent: _delete
+  skip_hash_check: false
+  skip_validation: false
+  skip_validation_types: {  }
+  authorize: false
+  revision: false
+  expire: -1
+  owner_feed_author: false
+  owner_id: 0
+custom_sources:
+  email:
+    value: email
+    label: email
+    machine_name: email
+    type: csv
+  company:
+    value: company_emails
+    label: company_emails
+    machine_name: company
+    type: csv
+  see_actionreport_result:
+    value: see_actionreport_result
+    label: see_actionreport_result
+    machine_name: see_actionreport_result
+    type: csv
+  lagard_to_stars:
+    value: lagard_to_stars
+    label: lagard_to_stars
+    machine_name: lagard_to_stars
+    type: csv
+  see_previous_date:
+    value: see_previous_date
+    label: see_previous_date
+    machine_name: see_previous_date
+    type: csv
+  see_questionnaire_result:
+    value: see_questionnaire_result
+    label: see_questionnaire_result
+    machine_name: see_questionnaire_result
+    type: csv
+  skills_assessment:
+    value: skills_assessment
+    label: skills_assessment
+    machine_name: skills_assessment
+    type: csv
+mappings:
+  -
+    target: field_company
+    map:
+      target_id: company
+    settings:
+      language: ''
+      reference_by: init
+      feeds_item: guid
+      autocreate: 0
+      autocreate_bundle: false
+  -
+    target: uid
+    map:
+      target_id: email
+    settings:
+      reference_by: mail
+      feeds_item: guid
+      autocreate: 0
+      autocreate_bundle: false
+  -
+    target: field_enable_the_coach_will_see
+    map:
+      value: see_actionreport_result
+    settings:
+      language: null
+  -
+    target: field_see_laggards_to_stars
+    map:
+      value: lagard_to_stars
+    settings:
+      language: null
+  -
+    target: field_see_previous_date
+    map:
+      value: see_previous_date
+    settings:
+      language: null
+  -
+    target: field_see_questionnaire_result
+    map:
+      value: see_questionnaire_result
+    settings:
+      language: null
+  -
+    target: field_see_skills_assessment
+    map:
+      value: skills_assessment
+    settings:
+      language: null

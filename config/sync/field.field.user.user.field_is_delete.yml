@@ -1,0 +1,22 @@
+uuid: 2a7ad2b9-f29e-4c69-8b7d-2ffc1a8cb45c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_is_delete
+  module:
+    - user
+id: user.user.field_is_delete
+field_name: field_is_delete
+entity_type: user
+bundle: user
+label: 'Is Delete'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

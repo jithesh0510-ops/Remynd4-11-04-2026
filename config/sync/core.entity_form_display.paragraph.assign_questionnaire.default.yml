@@ -1,0 +1,48 @@
+uuid: b584c697-af58-4d04-b325-d095c9f34aa0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.assign_questionnaire.field_hide
+    - field.field.paragraph.assign_questionnaire.field_job_position
+    - field.field.paragraph.assign_questionnaire.field_number_of_meetings
+    - field.field.paragraph.assign_questionnaire.field_questionnaire
+    - paragraphs.paragraphs_type.assign_questionnaire
+id: paragraph.assign_questionnaire.default
+targetEntityType: paragraph
+bundle: assign_questionnaire
+mode: default
+content:
+  field_hide:
+    type: boolean_checkbox
+    weight: 2
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_job_position:
+    type: options_buttons
+    weight: 4
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_number_of_meetings:
+    type: number
+    weight: 1
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_questionnaire:
+    type: entity_reference_autocomplete
+    weight: 0
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

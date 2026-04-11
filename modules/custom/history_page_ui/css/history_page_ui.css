@@ -1,0 +1,496 @@
+/* Import history pages only */
+body.path-admin-coach-import-history,
+body.path-admin-company-import-history,
+body.path-admin-employee-import-history {
+  background: #f5f7fb;
+}
+
+/* Page title */
+body.path-admin-coach-import-history h1,
+body.path-admin-company-import-history h1,
+body.path-admin-employee-import-history h1 {
+  font-size: 48px;
+  line-height: 1.1;
+  font-weight: 700;
+  color: #172b4d;
+  margin-bottom: 24px;
+}
+
+/* Main content card effect */
+body.path-admin-coach-import-history .layout-content,
+body.path-admin-company-import-history .layout-content,
+body.path-admin-employee-import-history .layout-content {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 4px 18px rgba(18, 38, 63, 0.08);
+}
+
+/* Status / warning / error messages */
+.messages,
+.messages--status,
+.messages--warning,
+.messages--error {
+  border-radius: 12px !important;
+  padding: 22px 24px !important;
+  margin-bottom: 28px !important;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+}
+
+/* Primary button look */
+a.button,
+.button,
+input.button,
+button.button,
+input[type="submit"],
+input[type="button"] {
+  background: #6fe3ef !important;
+  color: #123 !important;
+  border: 0 !important;
+  border-radius: 10px !important;
+  font-weight: 600 !important;
+  min-height: 46px !important;
+  padding: 10px 22px !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+}
+
+/* Delete button */
+a.button--danger,
+.button--danger,
+input.button.button--danger,
+button.button--danger,
+form input[value="Delete"] {
+  background: #e9edf5 !important;
+  color: #111 !important;
+  border-radius: 8px !important;
+}
+
+/* Tables */
+table,
+.views-table {
+  width: 100%;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+table thead th,
+.views-table thead th {
+  background: #f4f6fb !important;
+  color: #172b4d !important;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 18px 16px !important;
+  border-bottom: 1px solid #e5e9f2 !important;
+}
+
+table tbody td,
+.views-table tbody td {
+  padding: 18px 16px !important;
+  border-bottom: 1px solid #edf1f7 !important;
+  vertical-align: middle !important;
+  font-size: 15px;
+  color: #22324a;
+}
+
+table tbody tr:hover,
+.views-table tbody tr:hover {
+  background: #fafcff;
+}
+
+/* Download / View links */
+table a,
+.views-table a {
+  font-weight: 600;
+  color: #0a58ca;
+  text-decoration: none;
+}
+
+table a:hover,
+.views-table a:hover {
+  text-decoration: underline;
+}
+
+/* Details toggle */
+details {
+  background: #f8fbff;
+  border: 1px solid #d8e7ff;
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+details summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: #172b4d;
+}
+
+/* New import button spacing */
+a[href*="import-history-upload"],
+a[href*="importcsv"],
+a.button[href*="new"],
+a.button[href*="import"] {
+  margin-bottom: 20px !important;
+  display: inline-block;
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+  body.path-admin-coach-import-history h1,
+  body.path-admin-company-import-history h1,
+  body.path-admin-employee-import-history h1 {
+    font-size: 34px;
+  }
+
+  table thead th,
+  table tbody td,
+  .views-table thead th,
+  .views-table tbody td {
+    padding: 12px 10px !important;
+    font-size: 14px;
+  }
+}
+
+/* =========================
+   Coach + Employee upload pages
+   Match Company upload UI
+   ========================= */
+
+body.path-coach-import-history-upload,
+body.path-employee-import-history-upload {
+  background: #f5f7fb;
+}
+
+body.path-coach-import-history-upload .layout-content,
+body.path-employee-import-history-upload .layout-content {
+  background: transparent;
+}
+
+body.path-coach-import-history-upload h1,
+body.path-employee-import-history-upload h1 {
+  font-size: 58px;
+  line-height: 1.08;
+  font-weight: 700;
+  color: #172b4d;
+  margin-bottom: 28px;
+}
+
+body.path-coach-import-history-upload form,
+body.path-employee-import-history-upload form {
+  max-width: 1150px;
+}
+
+body.path-coach-import-history-upload label,
+body.path-employee-import-history-upload label {
+  font-size: 18px;
+  font-weight: 700;
+  color: #172b4d;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+body.path-coach-import-history-upload select,
+body.path-employee-import-history-upload select {
+  width: 580px;
+  max-width: 100%;
+  min-height: 54px;
+  padding: 10px 14px;
+  border: 1px solid #cfd8e3;
+  border-radius: 4px;
+  background: #fff;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+body.path-coach-import-history-upload input[type="file"],
+body.path-employee-import-history-upload input[type="file"] {
+  width: 360px;
+  max-width: 100%;
+  min-height: 52px;
+  padding: 10px;
+  border: 1px solid #cfd8e3;
+  border-radius: 4px;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+body.path-coach-import-history-upload .form-item,
+body.path-employee-import-history-upload .form-item {
+  margin-bottom: 20px;
+}
+
+body.path-coach-import-history-upload .description,
+body.path-coach-import-history-upload .form-item__description,
+body.path-employee-import-history-upload .description,
+body.path-employee-import-history-upload .form-item__description {
+  font-size: 14px;
+  color: #4b5563;
+  margin-top: 8px;
+  margin-bottom: 14px;
+}
+
+body.path-coach-import-history-upload .form-type-checkbox,
+body.path-employee-import-history-upload .form-type-checkbox {
+  margin-top: 8px;
+  margin-bottom: 20px;
+}
+
+body.path-coach-import-history-upload .form-type-checkbox input,
+body.path-employee-import-history-upload .form-type-checkbox input {
+  width: 22px;
+  height: 22px;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+body.path-coach-import-history-upload .form-actions,
+body.path-employee-import-history-upload .form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+  margin-top: 18px;
+}
+
+body.path-coach-import-history-upload .button,
+body.path-coach-import-history-upload input[type="submit"],
+body.path-coach-import-history-upload input[type="button"],
+body.path-coach-import-history-upload a.button,
+body.path-employee-import-history-upload .button,
+body.path-employee-import-history-upload input[type="submit"],
+body.path-employee-import-history-upload input[type="button"],
+body.path-employee-import-history-upload a.button {
+  background: #6fd9e6 !important;
+  color: #111827 !important;
+  border: 0 !important;
+  border-radius: 4px !important;
+  min-height: 52px !important;
+  padding: 12px 26px !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  box-shadow: none !important;
+  text-decoration: none !important;
+}
+
+body.path-coach-import-history-upload .button--primary,
+body.path-coach-import-history-upload input.button--primary,
+body.path-employee-import-history-upload .button--primary,
+body.path-employee-import-history-upload input.button--primary {
+  background: #6fd9e6 !important;
+  color: #111827 !important;
+}
+
+body.path-coach-import-history-upload input[type="file"]::file-selector-button,
+body.path-employee-import-history-upload input[type="file"]::file-selector-button {
+  background: #f3f4f6;
+  color: #111827;
+  border: 1px solid #cfd8e3;
+  border-radius: 4px;
+  padding: 8px 14px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+@media (max-width: 991px) {
+  body.path-coach-import-history-upload h1,
+  body.path-employee-import-history-upload h1 {
+    font-size: 36px;
+  }
+
+  body.path-coach-import-history-upload select,
+  body.path-coach-import-history-upload input[type="file"],
+  body.path-employee-import-history-upload select,
+  body.path-employee-import-history-upload input[type="file"] {
+    width: 100%;
+  }
+
+  body.path-coach-import-history-upload .form-actions,
+  body.path-employee-import-history-upload .form-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* Employee upload page button alignment fix only */
+body.path-employee-import-history-upload .form-actions,
+body.path-employee-import-history-upload .js-form-wrapper.form-actions {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 14px !important;
+  align-items: center !important;
+  margin-top: 18px !important;
+}
+
+body.path-employee-import-history-upload .form-actions > *,
+body.path-employee-import-history-upload .js-form-wrapper.form-actions > * {
+  margin: 0 !important;
+}
+
+body.path-employee-import-history-upload .form-actions .button,
+body.path-employee-import-history-upload .form-actions input[type="submit"],
+body.path-employee-import-history-upload .form-actions input[type="button"],
+body.path-employee-import-history-upload .form-actions a.button,
+body.path-employee-import-history-upload .js-form-wrapper.form-actions .button,
+body.path-employee-import-history-upload .js-form-wrapper.form-actions input[type="submit"],
+body.path-employee-import-history-upload .js-form-wrapper.form-actions input[type="button"],
+body.path-employee-import-history-upload .js-form-wrapper.form-actions a.button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  vertical-align: top !important;
+  min-height: 52px !important;
+  padding: 12px 24px !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  margin: 0 !important;
+  border-radius: 6px !important;
+  box-sizing: border-box !important;
+}
+
+body.path-employee-import-history-upload input[value="Upload"] {
+  min-width: 110px !important;
+}
+
+body.path-employee-import-history-upload input[value="Download employee Key"] {
+  min-width: 230px !important;
+}
+
+body.path-employee-import-history-upload input[value="Download Sample"] {
+  min-width: 180px !important;
+}
+
+body.path-employee-import-history-upload input[value="Upload/Update employee"] {
+  min-width: 240px !important;
+}
+
+body.path-employee-import-history-upload input[value="View Import History"] {
+  min-width: 200px !important;
+}
+
+/* FINAL employee upload button row fix */
+body.path-employee-import-history-upload .layout-content form .form-actions,
+body.path-employee-import-history-upload .layout-content form .actions,
+body.path-employee-import-history-upload .layout-content form [data-drupal-selector="edit-actions"] {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 14px !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+}
+
+body.path-employee-import-history-upload .layout-content form .form-actions > *,
+body.path-employee-import-history-upload .layout-content form .actions > *,
+body.path-employee-import-history-upload .layout-content form [data-drupal-selector="edit-actions"] > * {
+  float: none !important;
+  clear: none !important;
+  margin: 0 !important;
+  display: inline-flex !important;
+  vertical-align: top !important;
+}
+
+body.path-employee-import-history-upload .layout-content form .form-actions .button,
+body.path-employee-import-history-upload .layout-content form .form-actions input,
+body.path-employee-import-history-upload .layout-content form .form-actions a,
+body.path-employee-import-history-upload .layout-content form .actions .button,
+body.path-employee-import-history-upload .layout-content form .actions input,
+body.path-employee-import-history-upload .layout-content form .actions a,
+body.path-employee-import-history-upload .layout-content form [data-drupal-selector="edit-actions"] .button,
+body.path-employee-import-history-upload .layout-content form [data-drupal-selector="edit-actions"] input,
+body.path-employee-import-history-upload .layout-content form [data-drupal-selector="edit-actions"] a {
+  min-height: 52px !important;
+  padding: 12px 24px !important;
+  line-height: 1.2 !important;
+  border-radius: 6px !important;
+  box-sizing: border-box !important;
+  white-space: nowrap !important;
+  text-align: center !important;
+  justify-content: center !important;
+  align-items: center !important;
+  margin: 0 !important;
+}
+
+body.path-employee-import-history-upload .layout-content form input[value="Upload"] {
+  min-width: 110px !important;
+}
+
+body.path-employee-import-history-upload .layout-content form input[value="Download employee Key"] {
+  min-width: 230px !important;
+}
+
+body.path-employee-import-history-upload .layout-content form input[value="Download Sample"] {
+  min-width: 180px !important;
+}
+
+body.path-employee-import-history-upload .layout-content form input[value="Upload/Update employee"] {
+  min-width: 240px !important;
+}
+
+body.path-employee-import-history-upload .layout-content form input[value="View Import History"] {
+  min-width: 200px !important;
+}
+
+/* REAL fix: employee import button row */
+body.path-employee-import-history-upload .layout-content form .form-actions,
+body.path-employee-import-history-upload .layout-content form #edit-actions,
+body.path-employee-import-history-upload .layout-content form [data-drupal-selector="edit-actions"] {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 14px !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  margin-top: 18px !important;
+}
+
+body.path-employee-import-history-upload .layout-content form .form-actions .form-submit,
+body.path-employee-import-history-upload .layout-content form #edit-actions .form-submit,
+body.path-employee-import-history-upload .layout-content form [data-drupal-selector="edit-actions"] .form-submit,
+body.path-employee-import-history-upload .layout-content form .form-actions .button,
+body.path-employee-import-history-upload .layout-content form #edit-actions .button,
+body.path-employee-import-history-upload .layout-content form [data-drupal-selector="edit-actions"] .button,
+body.path-employee-import-history-upload .layout-content form .form-actions a,
+body.path-employee-import-history-upload .layout-content form #edit-actions a,
+body.path-employee-import-history-upload .layout-content form [data-drupal-selector="edit-actions"] a {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  min-height: 50px !important;
+  padding: 12px 22px !important;
+  line-height: 1.2 !important;
+  white-space: nowrap !important;
+  vertical-align: middle !important;
+  box-sizing: border-box !important;
+  border-radius: 8px !important;
+}
+
+body.path-employee-import-history-upload .layout-content form .form-actions > *,
+body.path-employee-import-history-upload .layout-content form #edit-actions > *,
+body.path-employee-import-history-upload .layout-content form [data-drupal-selector="edit-actions"] > * {
+  margin: 0 !important;
+  float: none !important;
+  clear: none !important;
+}
+
+body.path-employee-import-history-upload .layout-content form input[value="Upload"] {
+  min-width: 105px !important;
+}
+
+body.path-employee-import-history-upload .layout-content form input[value="Download employee Key"] {
+  min-width: 230px !important;
+}
+
+body.path-employee-import-history-upload .layout-content form input[value="Download Sample"] {
+  min-width: 180px !important;
+}
+
+body.path-employee-import-history-upload .layout-content form input[value="Upload/Update employee"] {
+  min-width: 235px !important;
+}
+
+body.path-employee-import-history-upload .layout-content form input[value="View Import History"] {
+  min-width: 195px !important;
+}

@@ -1,0 +1,118 @@
+uuid: 4502e9c3-ec2e-457e-8b84-e1f9e1857262
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.profile.company.field_company_id
+    - field.field.profile.company.field_frequency_coaching_session
+    - field.field.profile.company.field_no_of_coach
+    - field.field.profile.company.field_no_of_employees
+    - field.field.profile.company.field_no_of_password_generated
+    - profile.type.company
+  module:
+    - profile
+label: 'Import Company Profile'
+id: import_company_profile
+description: ''
+help: ''
+import_period: -1
+fetcher: upload
+fetcher_configuration:
+  allowed_extensions: 'txt csv tsv xml opml'
+  directory: 'public://feeds'
+parser: csv
+parser_configuration:
+  delimiter: ','
+  no_headers: false
+  line_limit: 100
+processor: 'entity:profile'
+processor_configuration:
+  values:
+    type: company
+  insert_new: 1
+  update_existing: 1
+  update_non_existent: _keep
+  skip_hash_check: false
+  skip_validation: false
+  skip_validation_types: {  }
+  authorize: false
+  revision: false
+  expire: -1
+  owner_feed_author: false
+  owner_id: 0
+custom_sources:
+  company_code:
+    value: company_code
+    label: company_code
+    machine_name: company_code
+    type: csv
+  no_of_coach:
+    value: no_of_coach
+    label: no_of_coach
+    machine_name: no_of_coach
+    type: csv
+  no_of_employees:
+    value: no_of_employees
+    label: no_of_employees
+    machine_name: no_of_employees
+    type: csv
+  no_of_password_generated:
+    value: no_of_password_generated
+    label: no_of_password_generated
+    machine_name: no_of_password_generated
+    type: csv
+  company_email:
+    value: company_email
+    label: company_email
+    machine_name: company_email
+    type: csv
+  frequency_coaching_session_per_person:
+    value: frequency_coaching_session_per_person
+    label: frequency_coaching_session_per_person
+    machine_name: frequency_coaching_session_per_person
+    type: csv
+mappings:
+  -
+    target: field_company_id
+    map:
+      value: company_code
+    settings:
+      language: null
+    unique: {  }
+  -
+    target: field_no_of_coach
+    map:
+      value: no_of_coach
+    settings:
+      language: null
+    unique: {  }
+  -
+    target: field_no_of_employees
+    map:
+      value: no_of_employees
+    settings:
+      language: null
+    unique: {  }
+  -
+    target: field_no_of_password_generated
+    map:
+      value: no_of_password_generated
+    settings:
+      language: null
+    unique: {  }
+  -
+    target: uid
+    map:
+      target_id: company_email
+    settings:
+      reference_by: mail
+      feeds_item: guid
+      autocreate: 0
+      autocreate_bundle: false
+  -
+    target: field_frequency_coaching_session
+    map:
+      value: frequency_coaching_session_per_person
+    settings:
+      language: null
+    unique: {  }

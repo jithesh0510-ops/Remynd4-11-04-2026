@@ -1,0 +1,15 @@
+_core:
+  default_config_hash: ijfbzDTN4CbE7Sr-6ubWzy_t1vH4OtU1doNCLssVz-4
+langcode: en
+uuid: 4299c273-e727-45e1-ac14-2657659b5e9c
+name: Remynd4
+mail: siddiq.mansoory@gmail.com
+slogan: ''
+page:
+  403: ''
+  404: ''
+  front: /reports/performance-dashboard
+admin_compact_mode: false
+weight_select_max: 100
+default_langcode: en
+mail_notification: ''

@@ -1,0 +1,49 @@
+uuid: 6a3b206f-a5bb-4257-bb74-e36a27197f4b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_survey_questions
+    - paragraphs.paragraphs_type.survey
+    - paragraphs.paragraphs_type.survey_questions
+  module:
+    - entity_reference_revisions
+id: paragraph.survey.field_survey_questions
+field_name: field_survey_questions
+entity_type: paragraph
+bundle: survey
+label: 'Survey Questions'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      survey_questions: survey_questions
+    negate: 0
+    target_bundles_drag_drop:
+      category:
+        weight: 8
+        enabled: false
+      options:
+        weight: 9
+        enabled: false
+      question:
+        weight: 10
+        enabled: false
+      sub_category:
+        weight: 11
+        enabled: false
+      sub_sub_category:
+        weight: 12
+        enabled: false
+      survey:
+        weight: 13
+        enabled: false
+      survey_questions:
+        weight: 14
+        enabled: true
+field_type: entity_reference_revisions

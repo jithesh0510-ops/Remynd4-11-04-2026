@@ -1,0 +1,27 @@
+uuid: 50e98a21-e74f-478b-a52e-12d6eab113c6
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.main
+  module:
+    - system
+  theme:
+    - remind4_admin_kit
+_core:
+  default_config_hash: KLMbdngczHd0RpmyzrandtC1jyXEv80Jtj7ofIVIKu8
+id: remind4_admin_kit_main_navigation
+theme: remind4_admin_kit
+region: primary_menu
+weight: -5
+provider: null
+plugin: 'system_menu_block:main'
+settings:
+  id: 'system_menu_block:main'
+  label: 'Main navigation'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 0
+  expand_all_items: true
+visibility: {  }

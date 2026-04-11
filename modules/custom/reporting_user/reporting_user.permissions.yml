@@ -1,0 +1,11 @@
+edit company users:
+  title: 'Edit Company Users'
+  description: 'Allows editing of company users via frontend.'
+
+edit coach users:
+  title: 'Edit Coach Users'
+  description: 'Allows editing of coach users via frontend.'
+
+edit employee users:
+  title: 'Edit Employee Users'
+  description: 'Allows editing of employee users via frontend.'

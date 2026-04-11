@@ -1,0 +1,22 @@
+uuid: fb246d40-1eae-4dc2-ab10-8b2007ae1aca
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - remind4_admin_kit
+_core:
+  default_config_hash: 4lBtFn7FphDdzgelXqwibl5ejyu7tqrwZvVmf82MgRA
+id: remind4_admin_kit_messages
+theme: remind4_admin_kit
+region: content
+weight: -5
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: Messages
+  label_display: '0'
+  provider: system
+visibility: {  }

@@ -1,0 +1,25 @@
+uuid: 8f2ea448-4674-4e49-95b2-61406e00d830
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - remynd4_coach
+_core:
+  default_config_hash: h3ged36UsT5cjmx2L-06ff_WwxhvqJpkyPChLHbf5vQ
+id: remynd4_coach_branding
+theme: remynd4_coach
+region: header
+weight: -6
+provider: null
+plugin: system_branding_block
+settings:
+  id: system_branding_block
+  label: 'Site branding'
+  label_display: '0'
+  provider: system
+  use_site_logo: true
+  use_site_name: false
+  use_site_slogan: false
+visibility: {  }

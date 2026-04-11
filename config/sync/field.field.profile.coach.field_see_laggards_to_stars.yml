@@ -1,0 +1,21 @@
+uuid: 544fbf24-8932-40cc-a7e2-5164d8706da9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.profile.field_see_laggards_to_stars
+    - profile.type.coach
+id: profile.coach.field_see_laggards_to_stars
+field_name: field_see_laggards_to_stars
+entity_type: profile
+bundle: coach
+label: 'See Laggards to Stars'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

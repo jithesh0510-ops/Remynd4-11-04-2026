@@ -1,0 +1,20 @@
+uuid: ac8120d2-8b91-4459-9b45-24d7d2a8cf22
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.comment.field_comment
+    - paragraphs.paragraphs_type.comment
+id: paragraph.comment.default
+targetEntityType: paragraph
+bundle: comment
+mode: default
+content:
+  field_comment:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

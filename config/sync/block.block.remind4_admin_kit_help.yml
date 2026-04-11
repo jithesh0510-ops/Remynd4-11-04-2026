@@ -1,0 +1,22 @@
+uuid: 34e209f8-ba12-4264-bf54-9847bdead243
+langcode: en
+status: true
+dependencies:
+  module:
+    - help
+  theme:
+    - remind4_admin_kit
+_core:
+  default_config_hash: LboS2JXy9W-E4MFKQksI6TctZCies42HjNrMo-L0jWE
+id: remind4_admin_kit_help
+theme: remind4_admin_kit
+region: content
+weight: -3
+provider: null
+plugin: help_block
+settings:
+  id: help_block
+  label: Help
+  label_display: '0'
+  provider: help
+visibility: {  }

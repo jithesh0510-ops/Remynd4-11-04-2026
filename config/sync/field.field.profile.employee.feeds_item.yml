@@ -1,0 +1,23 @@
+uuid: 00070343-9a88-4ae8-a5d2-d7d7c1210fba
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.profile.feeds_item
+    - profile.type.employee
+  module:
+    - feeds
+id: profile.employee.feeds_item
+field_name: feeds_item
+entity_type: profile
+bundle: employee
+label: 'Feeds item'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:feeds_feed'
+  handler_settings: {  }
+field_type: feeds_item

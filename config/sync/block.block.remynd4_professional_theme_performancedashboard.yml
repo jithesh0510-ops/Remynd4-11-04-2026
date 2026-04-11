@@ -1,0 +1,25 @@
+uuid: 5c2a8eaf-f16b-4a8a-b552-8cf8127d1dac
+langcode: en
+status: true
+dependencies:
+  module:
+    - coach_reporting_system
+    - system
+  theme:
+    - remynd4_professional_theme
+id: remynd4_professional_theme_performancedashboard
+theme: remynd4_professional_theme
+region: content
+weight: 0
+provider: null
+plugin: performance_dashboard_block
+settings:
+  id: performance_dashboard_block
+  label: 'Performance Dashboard'
+  label_display: visible
+  provider: coach_reporting_system
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '<front>'

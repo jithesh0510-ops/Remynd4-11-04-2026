@@ -1,0 +1,12 @@
+# Schema for the views plugins of the fullcalendar_legend module.
+
+views.area.fullcalendar_legend:
+  type: views_area
+  label: 'FullCalendar Legend'
+  mapping:
+    heading_level:
+      type: string
+      label: "The level given to the legend's HTML heading"
+      constraints:
+        Regex:
+          pattern: '/h[2-5]/'

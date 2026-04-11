@@ -1,0 +1,23 @@
+uuid: 0babb53a-2a53-4315-96f9-fd47582361aa
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_to
+    - paragraphs.paragraphs_type.action_plan
+id: paragraph.action_plan.field_to
+field_name: field_to
+entity_type: paragraph
+bundle: action_plan
+label: 'To (%)'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 0
+  max: 100
+  prefix: ''
+  suffix: ''
+field_type: integer

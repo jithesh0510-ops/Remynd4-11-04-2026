@@ -1,0 +1,37 @@
+uuid: 3729d4c4-5f1f-4efa-826d-e2ab63163e9d
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.questionnaire.body
+    - field.field.node.questionnaire.field_category
+    - field.field.node.questionnaire.field_create_questionnaire
+    - field.field.node.questionnaire.field_options
+    - node.type.questionnaire
+  module:
+    - text
+    - user
+id: node.questionnaire.teaser
+targetEntityType: node
+bundle: questionnaire
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_category: true
+  field_create_questionnaire: true
+  field_options: true
+  langcode: true
