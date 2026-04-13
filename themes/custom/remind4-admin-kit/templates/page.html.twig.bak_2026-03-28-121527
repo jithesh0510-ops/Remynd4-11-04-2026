@@ -1,0 +1,325 @@
+{#
+/**
+ * @file
+ * Theme override to display a single page.
+ *
+ * Based on AdminKit Bootstrap 5 dashboard template.
+ */
+#}
+<!DOCTYPE html>
+<html{{ html_attributes }}>
+<head>
+  <head-placeholder token="{{ placeholder_token|raw }}">
+  <title>{{ head_title|safe_join(' | ') }}</title>
+  <css-placeholder token="{{ placeholder_token|raw }}">
+  <js-placeholder token="{{ placeholder_token|raw }}">
+</head>
+<body{{ attributes.addClass('remind4-admin-kit') }}>
+  <a href="#main-content" class="visually-hidden focusable skip-link">
+    {{ 'Skip to main content'|t }}
+  </a>
+
+  <div class="wrapper">
+    {# Sidebar #}
+    <nav id="sidebar" class="sidebar js-sidebar">
+      <div class="sidebar-content js-simplebar">
+        {# Logo/Brand #}
+        <a class="sidebar-brand" href="{{ path('<front>') }}">
+          {% if site_logo %}
+            <img src="{{ site_logo }}" alt="{{ site_name }}" />
+          {% else %}
+            <span class="align-middle">{{ site_name }}</span>
+          {% endif %}
+        </a>
+
+        {# Primary Menu - Dynamic from Drupal menu system #}
+        {% if page.sidebar_first %}
+          {{ page.sidebar_first }}
+        {% elseif page.primary_menu %}
+          {{ page.primary_menu }}
+        {% endif %}
+      </div>
+    </nav>
+
+    {# Main Content Area #}
+    <div class="main">
+      {# Top Navbar #}
+      <nav class="navbar navbar-expand navbar-light navbar-bg">
+        <a class="sidebar-toggle js-sidebar-toggle">
+          <i class="hamburger align-self-center"></i>
+        </a>
+
+        <div class="navbar-collapse collapse">
+          <ul class="navbar-nav navbar-align">
+            {# Language Switcher - Before Notifications #}
+            {% if page.language_switcher %}
+              <li class="nav-item">
+                {{ page.language_switcher }}
+              </li>
+            {% endif %}
+
+            {# Notifications - Dynamic from Drupal messages #}
+            {% if notification_count is defined and notification_count > 0 %}
+              <li class="nav-item dropdown">
+                <a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <div class="position-relative">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell align-middle">
+                      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                      <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                    </svg>
+                    <span class="indicator">{{ notification_count }}</span>
+                  </div>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="alertsDropdown">
+                  <li>
+                    <div class="dropdown-menu-header">
+                      {{ notification_count }} {{ 'New Notification'|t }}{{ notification_count > 1 ? 's' : '' }}
+                    </div>
+                  </li>
+                  <li>
+                    <div class="list-group">
+                      {% if messages %}
+                        {% for type, message_list in messages %}
+                          {% for message in message_list %}
+                            <a href="#" class="list-group-item">
+                              <div class="row g-0 align-items-center">
+                                <div class="col-2">
+                                  {% if type == 'error' %}
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-circle text-danger">
+                                      <circle cx="12" cy="12" r="10"></circle>
+                                      <line x1="12" y1="8" x2="12" y2="12"></line>
+                                      <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                                    </svg>
+                                  {% elseif type == 'warning' %}
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell text-warning">
+                                      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                      <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                                    </svg>
+                                  {% else %}
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home text-primary">
+                                      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                      <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                    </svg>
+                                  {% endif %}
+                                </div>
+                                <div class="col-10">
+                                  <div class="text-dark">{{ message }}</div>
+                                  <div class="text-muted small mt-1">{{ 'Just now'|t }}</div>
+                                </div>
+                              </div>
+                            </a>
+                          {% endfor %}
+                        {% endfor %}
+                      {% endif %}
+                    </div>
+                  </li>
+                  <li>
+                    <div class="dropdown-menu-footer">
+                      <a href="{{ path('dblog.overview') }}" class="text-muted">{{ 'Show all notifications'|t }}</a>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+            {% endif %}
+
+            {# Messages Dropdown (Optional - can be added later) #}
+            {# <li class="nav-item dropdown">
+              <a class="nav-icon dropdown-toggle" href="#" id="messagesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <div class="position-relative">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-square align-middle">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                  </svg>
+                </div>
+              </a>
+            </li> #}
+
+            {# User Profile Dropdown #}
+            {% if logged_in %}
+              <li class="nav-item dropdown">
+                {# Mobile: Settings Icon #}
+                <a class="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#" role="button" id="userDropdownMobile" data-bs-toggle="dropdown" aria-expanded="false">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings align-middle">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                  </svg>
+                </a>
+                {# Desktop: Avatar / Initial + Name #}
+                <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                  {% if user_picture_url %}
+                    <img src="{{ user_picture_url }}" class="avatar img-fluid rounded-circle me-1" alt="{{ user_name }}" />
+                  {% else %}
+                    <div
+                      class="rounded-circle d-inline-flex align-items-center justify-content-center me-1"
+                      style="width: 2rem; height: 2rem; background-color: #e5e7eb; color: #6b7280; font-size: 0.875rem; font-weight: 600;"
+                    >
+                      {{ user_name|slice(0, 1)|upper }}
+                    </div>
+                  {% endif %}
+                  <span class="text-dark">{{ user_name }}</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                  <li>
+                    <a class="dropdown-item" href="{{ path('entity.user.canonical', {'user': user_id}) }}">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user align-middle me-1">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                      </svg> {{ 'Profile'|t }}
+                    </a>
+                  </li>
+                  {% if is_admin %}
+                    <li>
+                      <a class="dropdown-item" href="{{ path('system.admin') }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart align-middle me-1">
+                          <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                          <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+                        </svg> {{ 'Analytics'|t }}
+                      </a>
+                    </li>
+                  {% endif %}
+                  <li><hr class="dropdown-divider"></li>
+                  <li>
+                    <a class="dropdown-item" href="{{ path('entity.user.edit_form', {'user': user_id}) }}">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings align-middle me-1">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                      </svg> {{ 'Settings & Privacy'|t }}
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-help-circle align-middle me-1">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                      </svg> {{ 'Help Center'|t }}
+                    </a>
+                  </li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li>
+                    <a class="dropdown-item" href="{{ path('user.logout') }}">{{ 'Log out'|t }}</a>
+                  </li>
+                </ul>
+              </li>
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ path('user.login') }}">{{ 'Log in'|t }}</a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+      </nav>
+
+      {# Main Content #}
+      <main class="content" id="main-content">
+        <div class="container-fluid p-0">
+          {# Breadcrumb #}
+          {% if page.breadcrumb %}
+            <div class="row mb-3">
+              <div class="col-12">
+                {{ page.breadcrumb }}
+              </div>
+            </div>
+          {% endif %}
+
+          {# Page Title - Dynamic from Drupal (hidden on user profile pages) #}
+          {% if (hide_page_title is not defined or not hide_page_title) %}
+            {% if page['#title'] %}
+              <h1 class="h3 mb-3"><strong>{{ page['#title'] }}</strong></h1>
+            {% elseif title %}
+              <h1 class="h3 mb-3"><strong>{{ title }}</strong></h1>
+            {% endif %}
+          {% endif %}
+
+          {# Highlighted Messages #}
+          {% if page.highlighted %}
+            <div class="row mb-3">
+              <div class="col-12">
+                {{ page.highlighted }}
+              </div>
+            </div>
+          {% endif %}
+
+          {# Messages - Dynamic from Drupal system #}
+          {% if messages %}
+            <div class="row mb-3">
+              <div class="col-12">
+                {{ messages }}
+              </div>
+            </div>
+          {% endif %}
+          
+          {# Status Messages Block (if placed) #}
+          {% if page.highlighted %}
+            <div class="row mb-3">
+              <div class="col-12">
+                {{ page.highlighted }}
+              </div>
+            </div>
+          {% endif %}
+
+          {# Main Content #}
+          <div class="row">
+            <div class="col-12">
+              {{ page.content }}
+            </div>
+          </div>
+
+          {# Help #}
+          {% if page.help %}
+            <div class="row mt-3">
+              <div class="col-12">
+                {{ page.help }}
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </main>
+
+      {# Footer - Dynamic from Drupal blocks #}
+      <footer class="footer">
+        <div class="container-fluid">
+          <div class="row text-muted">
+            <div class="col-6 text-start">
+              {% if page.footer_first %}
+                {{ page.footer_first }}
+              {% elseif page.footer %}
+                {{ page.footer }}
+              {% else %}
+                <p class="mb-0">
+                  <a href="{{ path('<front>') }}" class="text-muted"><strong>{{ site_name }}</strong></a> &copy; {{ 'now'|date('Y') }}
+                </p>
+              {% endif %}
+            </div>
+            <div class="col-6 text-end">
+              {% if page.footer_second %}
+                {{ page.footer_second }}
+              {% else %}
+                <p class="mb-0">
+                  {{ 'Powered by'|t }} <a href="https://www.drupal.org" class="text-muted" target="_blank">Drupal</a>
+                </p>
+              {% endif %}
+            </div>
+          </div>
+          {% if page.footer_third or page.footer_fourth %}
+            <div class="row text-muted mt-2">
+              <div class="col-6 text-start">
+                {% if page.footer_third %}
+                  {{ page.footer_third }}
+                {% endif %}
+              </div>
+              <div class="col-6 text-end">
+                {% if page.footer_fourth %}
+                  {{ page.footer_fourth }}
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <js-bottom-placeholder token="{{ placeholder_token|raw }}">
+</body>
+</html>
+

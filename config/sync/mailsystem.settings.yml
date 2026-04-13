@@ -1,0 +1,8 @@
+defaults:
+  sender: smtp
+  formatter: smtp
+modules:
+  email_otp_login:
+    send_otp:
+      sender: smtp
+      formatter: smtp

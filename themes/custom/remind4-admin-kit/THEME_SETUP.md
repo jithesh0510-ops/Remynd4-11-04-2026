@@ -87,17 +87,11 @@ The theme provides 15 regions:
 
 ## 🔧 Customization
 
-### CSS Customization
-The compiled CSS is in `css/app.css`. For customization:
-1. Modify the source SCSS files in `adminkit-dev/src/scss/`
-2. Rebuild using webpack: `npm run build`
-3. Copy the compiled CSS to this theme
+### CSS / JavaScript customization
+Compiled assets live in this theme (`css/`, `js/`). To change styles or behavior:
 
-### JavaScript Customization
-The compiled JS is in `js/app.js`. For customization:
-1. Modify the source JS files in `adminkit-dev/src/js/`
-2. Rebuild using webpack: `npm run build`
-3. Copy the compiled JS to this theme
+1. Edit the SCSS/JS in **`adminkit_starter_theme`** (base AdminKit subtheme), or add overrides in **`remind4-admin-kit`**, or pull a fresh [AdminKit](https://github.com/adminkit/adminkit) template, build with `npm run build`, and copy the built files into this theme.
+2. Rebuild Drupal caches after changes (`drush cr`).
 
 ## 📝 Next Steps
 

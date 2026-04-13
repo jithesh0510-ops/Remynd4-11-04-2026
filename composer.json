@@ -1,9 +1,9 @@
 {
-    "name": "drupal/legacy-project",
-    "description": "Project template for Drupal projects with composer following drupal/drupal layout",
+    "name": "remynd4/site",
+    "description": "Remynd4 Drupal 10 application (Composer-managed dependencies)",
     "type": "project",
     "license": "GPL-2.0-or-later",
-    "homepage": "https://www.drupal.org/project/drupal",
+    "homepage": "https://github.com/jithesh0510-ops/remynd4-04-03-2026",
     "support": {
         "docs": "https://www.drupal.org/docs/user_guide/en/index.html",
         "chat": "https://www.drupal.org/node/314178"
@@ -23,7 +23,6 @@
         "drupal/bootstrap5": "^4.0",
         "drupal/conditional_fields": "4.x-dev@dev",
         "drupal/core-composer-scaffold": "^10.4",
-        "drupal/core-project-message": "^10.4",
         "drupal/core-recommended": "^10.4",
         "drupal/core-vendor-hardening": "^10.5",
         "drupal/csv_importer": "^2.0",
@@ -77,7 +76,6 @@
         "allow-plugins": {
             "composer/installers": true,
             "drupal/core-composer-scaffold": true,
-            "drupal/core-project-message": true,
             "drupal/core-vendor-hardening": true,
             "phpstan/extension-installer": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
@@ -89,6 +87,10 @@
         "drupal-scaffold": {
             "locations": {
                 "web-root": "./"
+            },
+            "file-mapping": {
+                "[web-root]/example.gitignore": false,
+                "[web-root]/sites/default/default.services.yml": false
             }
         },
         "patches": {
@@ -123,27 +125,6 @@
             ],
             "themes/custom/{$name}": [
                 "type:drupal-custom-theme"
-            ]
-        },
-        "drupal-core-project-message": {
-            "include-keys": [
-                "homepage",
-                "support"
-            ],
-            "post-create-project-cmd-message": [
-                "<bg=blue;fg=white>                                                         </>",
-                "<bg=blue;fg=white>  Congratulations, you’ve installed the Drupal codebase  </>",
-                "<bg=blue;fg=white>  from the drupal/legacy-project template!               </>",
-                "<bg=blue;fg=white>                                                         </>",
-                "",
-                "<bg=yellow;fg=black>Next steps</>:",
-                "  * Install the site: https://www.drupal.org/docs/installing-drupal",
-                "  * Read the user guide: https://www.drupal.org/docs/user_guide/en/index.html",
-                "  * Get support: https://www.drupal.org/support",
-                "  * Get involved with the Drupal community:",
-                "      https://www.drupal.org/getting-involved",
-                "  * Remove the plugin that prints this message:",
-                "      composer remove drupal/core-project-message"
             ]
         }
     }

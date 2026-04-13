@@ -3,12 +3,12 @@ _core:
 langcode: en
 uuid: 4299c273-e727-45e1-ac14-2657659b5e9c
 name: Remynd4
-mail: siddiq.mansoory@gmail.com
+mail: jitheshb33@gmail.com
 slogan: ''
 page:
   403: ''
   404: ''
-  front: /reports/performance-dashboard
+  front: /user/login
 admin_compact_mode: false
 weight_select_max: 100
 default_langcode: en

@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.node.questionnaire.body
     - field.field.node.questionnaire.field_category
+    - field.field.node.questionnaire.field_company
     - field.field.node.questionnaire.field_create_questionnaire
     - field.field.node.questionnaire.field_options
     - node.type.questionnaire
@@ -100,6 +101,14 @@ content:
       link: ''
     third_party_settings: {  }
     weight: 6
+    region: content
+  field_company:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 26
     region: content
   field_create_questionnaire:
     type: entity_reference_revisions_entity_view

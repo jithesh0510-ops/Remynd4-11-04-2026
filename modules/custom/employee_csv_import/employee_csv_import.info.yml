@@ -1,9 +1,0 @@
-name: Employee CSV Import
-type: module
-description: Employee Import/Update page with company dropdown and CSV upload.
-core_version_requirement: ^10
-package: Custom
-dependencies:
-  - drupal:system
-  - drupal:user
-  - drupal:file

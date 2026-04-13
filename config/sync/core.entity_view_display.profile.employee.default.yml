@@ -7,6 +7,7 @@ dependencies:
     - field.field.profile.employee.field_branch
     - field.field.profile.employee.field_coach
     - field.field.profile.employee.field_company
+    - field.field.profile.employee.field_company_new
     - field.field.profile.employee.field_employee_number
     - field.field.profile.employee.field_job_position
     - field.field.profile.employee.field_view_report
@@ -39,6 +40,14 @@ content:
       link: true
     third_party_settings: {  }
     weight: 5
+    region: content
+  field_company_new:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 12
     region: content
   field_employee_number:
     type: string

@@ -47,3 +47,6 @@ cloneable_entities:
   - feeds_subscription
   - feeds_feed
   - feeds_feed_type
+  - rest_resource_config
+  - mailer_policy
+  - mailer_transport

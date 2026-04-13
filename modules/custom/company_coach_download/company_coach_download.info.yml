@@ -1,5 +1,0 @@
-name: Company Coach Download
-type: module
-description: Download coaches filtered by company
-core_version_requirement: ^9 || ^10
-package: Custom

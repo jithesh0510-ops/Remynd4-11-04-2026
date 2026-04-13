@@ -1,9 +1,0 @@
-name: 'Report Upload'
-type: module
-description: 'Manage Lagard Starts and Pre/Post Relations data with CSV support.'
-core_version_requirement: ^10
-package: Custom
-dependencies:
-  - drupal:file
-  - drupal:user
-  - drupal:node

@@ -1,0 +1,364 @@
+body.path-user-login {
+  margin: 0;
+  background:
+    radial-gradient(circle at top left, rgba(122,215,231,0.22), transparent 28%),
+    radial-gradient(circle at bottom right, rgba(211,117,31,0.14), transparent 25%),
+    linear-gradient(135deg, #eef5f7 0%, #f7fbfc 100%);
+  font-family: Arial, sans-serif;
+}
+
+body.path-user-login .tabs,
+body.path-user-login .page-title,
+body.path-user-login .breadcrumb,
+body.path-user-login .messages,
+body.path-user-login header,
+body.path-user-login footer,
+body.path-user-login .region-sidebar-first,
+body.path-user-login .region-sidebar-second,
+body.path-user-login .skip-link,
+body.path-user-login a[href="#main-content"] {
+  display: none !important;
+}
+
+.remynd-login-page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.15fr 440px;
+  grid-template-rows: 100px 1fr;
+  gap: 22px;
+  padding: 0 18px 18px;
+  box-sizing: border-box;
+}
+
+.remynd-login-header {
+  grid-column: 1 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 10px 10px;
+}
+
+.remynd-login-brand img {
+  max-width: 260px;
+  height: auto;
+  display: block;
+}
+
+.remynd-login-title {
+  text-align: right;
+  color: #0b7f87;
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: .2px;
+}
+
+.remynd-login-title span {
+  display: block;
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #d07a20;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.remynd-login-left {
+  position: relative;
+  overflow: hidden;
+  border-radius: 28px;
+  background: linear-gradient(145deg, rgba(15,143,143,0.95) 0%, rgba(7,102,116,0.96) 100%);
+  color: #fff;
+  box-shadow: 0 18px 45px rgba(11, 68, 77, 0.18);
+  padding: 46px 42px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 540px;
+}
+
+.remynd-login-left::before,
+.remynd-login-left::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+}
+
+.remynd-login-left::before {
+  width: 280px;
+  height: 280px;
+  top: -70px;
+  right: -70px;
+}
+
+.remynd-login-left::after {
+  width: 180px;
+  height: 180px;
+  bottom: -40px;
+  left: -40px;
+}
+
+.remynd-login-left-badge {
+  display: inline-block;
+  width: fit-content;
+  background: rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .6px;
+  margin-bottom: 26px;
+}
+
+.remynd-login-left h1 {
+  margin: 0 0 18px;
+  font-size: 42px;
+  line-height: 1.15;
+  font-weight: 800;
+  max-width: 540px;
+}
+
+.remynd-login-left p {
+  margin: 0 0 16px;
+  max-width: 560px;
+  font-size: 17px;
+  line-height: 1.85;
+  color: rgba(255,255,255,0.92);
+}
+
+.remynd-login-points {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.remynd-login-point {
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 16px;
+  padding: 14px 16px;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.remynd-login-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.remynd-login-card {
+  width: 100%;
+  max-width: 440px;
+  background: rgba(255,255,255,0.96);
+  border: 1px solid rgba(214,223,229,0.9);
+  border-radius: 28px;
+  box-shadow: 0 20px 50px rgba(33, 59, 77, 0.14);
+  padding: 92px 30px 28px;
+  position: relative;
+}
+
+.remynd-login-card::before {
+  content: "";
+  position: absolute;
+  top: -42px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: #fff url('/sites/default/files/logo-email.png') center center / 74px auto no-repeat;
+  border: 4px solid #dff5f8;
+  box-shadow: 0 10px 24px rgba(16, 83, 93, 0.16);
+}
+
+.remynd-login-card-title {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.remynd-login-card-title h2 {
+  margin: 0 0 8px;
+  color: #16384b;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.remynd-login-card-title p {
+  margin: 0;
+  color: #6f7f8d;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.remynd-login-card .form-item {
+  margin-bottom: 18px;
+}
+
+.remynd-login-card label {
+  display: inline-block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #20394a;
+}
+
+.remynd-login-card input[type="email"],
+.remynd-login-card input[type="password"],
+.remynd-login-card input[type="text"] {
+  width: 100%;
+  height: 50px;
+  border: 1px solid #d7dee4;
+  border-radius: 12px;
+  background: #fff;
+  padding: 0 14px;
+  font-size: 15px;
+  box-sizing: border-box;
+  transition: all .2s ease;
+}
+
+.remynd-login-card input::placeholder {
+  color: #9aabb6;
+  opacity: 1;
+}
+
+.remynd-login-card input:focus {
+  outline: none;
+  border-color: #0f8f8f;
+  box-shadow: 0 0 0 4px rgba(15,143,143,.10);
+}
+
+.remynd-login-card .form-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.remynd-login-card .form-actions input,
+.remynd-login-card .form-actions button {
+  min-height: 48px;
+  border-radius: 12px;
+  padding: 0 24px;
+  font-size: 15px;
+  font-weight: 800;
+  border: 0;
+  cursor: pointer;
+}
+
+.remynd-login-card .form-actions input:first-child,
+.remynd-login-card .form-actions button:first-child {
+  background: linear-gradient(135deg, #7ad7e7 0%, #39bfd6 100%) !important;
+  color: #fff !important;
+  min-width: 150px !important;
+  border: 1px solid #6fd0e2 !important;
+  box-shadow: 0 10px 20px rgba(76, 189, 212, 0.24);
+}
+
+.remynd-login-remember-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 12px 0 10px;
+  flex-wrap: wrap;
+}
+
+.remynd-login-remember {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #425766;
+  font-weight: 600;
+}
+
+.remynd-login-remember input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #0f8f8f;
+  margin: 0;
+}
+
+.remynd-login-help {
+  margin-top: 10px;
+  text-align: right;
+}
+
+.remynd-login-help a {
+  color: #2276d2;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.remynd-login-help a:hover {
+  text-decoration: underline;
+}
+
+.remynd-login-footer-note {
+  display: block;
+  margin-top: 18px;
+  color: #6f7f8d;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+@media (max-width: 1100px) {
+  .remynd-login-page {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+  }
+
+  .remynd-login-header {
+    grid-column: 1 / 2;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding-bottom: 0;
+  }
+
+  .remynd-login-title {
+    text-align: left;
+  }
+
+  .remynd-login-left {
+    min-height: auto;
+  }
+
+  .remynd-login-right {
+    padding-bottom: 12px;
+  }
+}
+
+@media (max-width: 767px) {
+  .remynd-login-page {
+    padding: 0 12px 12px;
+    gap: 16px;
+  }
+
+  .remynd-login-left,
+  .remynd-login-card {
+    border-radius: 20px;
+  }
+
+  .remynd-login-left {
+    padding: 32px 22px;
+  }
+
+  .remynd-login-left h1 {
+    font-size: 30px;
+  }
+
+  .remynd-login-title {
+    font-size: 22px;
+  }
+
+  .remynd-login-card {
+    padding: 88px 20px 22px;
+  }
+}

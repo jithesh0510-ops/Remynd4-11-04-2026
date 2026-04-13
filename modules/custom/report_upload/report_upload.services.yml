@@ -1,3 +1,0 @@
-services:
-  report_upload.csv_parser:
-    class: Drupal\report_upload\Service\CsvParser

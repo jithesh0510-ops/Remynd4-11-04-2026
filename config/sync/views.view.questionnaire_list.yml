@@ -610,6 +610,19 @@ display:
           plugin_id: result
           empty: true
           content: 'Displaying @start - @end of @total'
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: false
+          content:
+            value: "<div style=\"margin-bottom:10px;\">\r\n  <a href=\"/node/add/questionnaire?destination=/questionnaire-list\"\r\n     class=\"button button--primary\">\r\n    Add Questionnaire\r\n  </a>\r\n</div>"
+            format: full_html
+          tokenize: false
       footer:
         result:
           id: result

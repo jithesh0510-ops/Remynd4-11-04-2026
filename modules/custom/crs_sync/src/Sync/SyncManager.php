@@ -28,9 +28,13 @@ class SyncManager {
 
   protected EntityTypeManagerInterface $etm;
   protected Connection $db;
-  protected Connection $legacy;
   protected LoggerInterface $logger;
   protected TimeInterface $time;
+
+  /**
+   * Cached connection to the legacy DB (qs_* tables). Lazily opened.
+   */
+  private ?Connection $legacyDb = NULL;
 
   public function __construct(
     EntityTypeManagerInterface $entity_type_manager,
@@ -42,15 +46,30 @@ class SyncManager {
     $this->db = $db;
     $this->logger = $logger;
     $this->time = $time;
-    // Secondary connection must be defined in settings.php as key 'legacy'.
-    $this->legacy = Database::getConnection('default', 'legacy');
+  }
+
+  /**
+   * Returns the secondary DB connection configured as $databases['legacy'].
+   *
+   * @throws \RuntimeException
+   *   If the connection is not defined in settings (required for sync routes).
+   */
+  protected function legacyConnection(): Connection {
+    if ($this->legacyDb === NULL) {
+      $info = Database::getAllConnectionInfo();
+      if (empty($info['legacy'])) {
+        throw new \RuntimeException('crs_sync requires a legacy database: set $databases[\'legacy\'] in settings.php (see module README).');
+      }
+      $this->legacyDb = Database::getConnection('default', 'legacy');
+    }
+    return $this->legacyDb;
   }
 
   /* ===================== PUBLIC ENTRYPOINTS ===================== */
 
   public function syncCompanies(): int {
     $count = 0;
-    $result = $this->legacy->select('qs_company_master', 'c')->fields('c')->execute();
+    $result = $this->legacyConnection()->select('qs_company_master', 'c')->fields('c')->execute();
     foreach ($result as $row) {
       $legacy_id = (int) ($row->id ?? $row->company_id ?? 0);
       if ($legacy_id <= 0) { continue; }
@@ -77,7 +96,7 @@ class SyncManager {
 
   public function syncCoaches(): int {
     $count = 0;
-    $query = $this->legacy->select('qs_coach_master', 'c');
+    $query = $this->legacyConnection()->select('qs_coach_master', 'c');
     $query->fields('c'); // includes c.coach_id (or c.id in some schemas)
     $query->leftJoin('qs_company_coach_details', 'ccd', 'ccd.coach_id = c.coach_id');
     $query->addField('ccd', 'company_id', 'company_id');
@@ -140,7 +159,7 @@ class SyncManager {
     $count = 0;
 
     // JOIN qs_branch_master + qs_job_position and fetch their names too.
-    $query = $this->legacy->select('qs_employee_master', 'e')
+    $query = $this->legacyConnection()->select('qs_employee_master', 'e')
       ->fields('e');
     $query->leftJoin('qs_branch_master', 'b', 'b.branch_id = e.branch_id');
     $query->leftJoin('qs_job_position', 'j', 'j.job_position_id = e.job_position_id');
@@ -639,7 +658,7 @@ class SyncManager {
 	public function syncQuestionnaires(): array {
 	  $created = 0; $updated = 0;
 
-	  $result = $this->legacy->select('qs_questionnaire_master', 'q')
+	  $result = $this->legacyConnection()->select('qs_questionnaire_master', 'q')
 		->fields('q')
 		->condition('q.status', 1)
 		->execute();
@@ -725,7 +744,7 @@ class SyncManager {
 	 */
 	protected function attachScores(int $qid_legacy, \Drupal\paragraphs\Entity\Paragraph $questionnaire_paragraph): void {
 	  // Build the select step by step; never reassign $query to addField()'s return value.
-	  $query = $this->legacy->select('qs_answer_master', 'a');
+	  $query = $this->legacyConnection()->select('qs_answer_master', 'a');
 	  $query->fields('a', ['answer_text', 'answer_text_value']);
 
 	  $query->leftJoin('qs_question_answer_details', 'd', 'd.answer_text_id = a.answer_text_id');
@@ -778,7 +797,7 @@ class SyncManager {
 	 * - Sub-subcategory: subcategory_id=X AND subsubcategory_id=Y
 	 */
 	protected function attachCategories(int $qid_legacy, \Drupal\paragraphs\Entity\Paragraph $q_para): void {
-	  $categories = $this->legacy->select('qs_category_master', 'c')
+	  $categories = $this->legacyConnection()->select('qs_category_master', 'c')
 		->fields('c')
 		->condition('c.questionnaire_id', $qid_legacy)
 		->condition('c.status', 1)
@@ -803,7 +822,7 @@ class SyncManager {
 
 		// Subcategories.
 		$subcat_paras = [];
-		$subcats = $this->legacy->select('qs_subcategory_master', 's')
+		$subcats = $this->legacyConnection()->select('qs_subcategory_master', 's')
 		  ->fields('s')
 		  ->condition('s.category_id', (int) $cat->category_id)
 		  ->condition('s.questionnaire_id', $qid_legacy)
@@ -828,7 +847,7 @@ class SyncManager {
 
 		  // Sub-subcategories.
 		  $subsub_refs = [];
-		  $subsubs = $this->legacy->select('qs_subsubcategory_master', 'ss')
+		  $subsubs = $this->legacyConnection()->select('qs_subsubcategory_master', 'ss')
 			->fields('ss')
 			->condition('ss.category_id', (int) $cat->category_id)
 			->condition('ss.subcategory_id', (int) $sub->subcategory_id)
@@ -889,7 +908,7 @@ class SyncManager {
 	  int $subsubcategory_id = 0,
 	  string $level = 'category'
 	): array {
-	  $q = $this->legacy->select('qs_question_master', 'q')
+	  $q = $this->legacyConnection()->select('qs_question_master', 'q')
 		->distinct()
 		->fields('q')
 		->condition('q.questionnaire_id', $questionnaire_id)
@@ -954,7 +973,7 @@ class SyncManager {
 
   $created = 0; $updated = 0; $skipped = 0;
 
-  $result = $this->legacy->select('qs_company_questionnaire_details', 'cq')
+  $result = $this->legacyConnection()->select('qs_company_questionnaire_details', 'cq')
     ->fields('cq', [
       'company_questionnaire_details_id',
       'company_id',
@@ -1086,7 +1105,7 @@ protected function getAssignmentJobPositionTids(int $assignment_id): array {
   if ($assignment_id <= 0) { return []; }
 
   // Build query step-by-step; keep $query as the query object.
-  $query = $this->legacy->select('qs_company_jobprofilerelation', 'r');
+  $query = $this->legacyConnection()->select('qs_company_jobprofilerelation', 'r');
   $query->fields('r', ['job_position_id']);
 
   // leftJoin() RETURNS THE ALIAS STRING — store it separately.
@@ -1256,7 +1275,7 @@ protected function loadTermTidByName(string $vocab, string $name, bool $create_i
 	 */
 	protected function getQuestionnaireNodeByLegacyId(int $qid_legacy): ?\Drupal\node\Entity\Node {
 	  // Pull the title with mojibake repair alias.
-	  $q = $this->legacy->select('qs_questionnaire_master', 'qm')
+	  $q = $this->legacyConnection()->select('qs_questionnaire_master', 'qm')
 		->fields('qm', ['questionnaire_id', 'questionnaire_name'])
 		->condition('qm.questionnaire_id', $qid_legacy)
 		->range(0, 1);

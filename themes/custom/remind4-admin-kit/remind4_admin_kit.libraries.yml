@@ -22,6 +22,7 @@ admin-kit-core:
   css:
     theme:
       css/app.css: {}
+      css/login-page.css: {}
   js:
     js/app.js: {}
   dependencies:

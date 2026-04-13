@@ -5,16 +5,28 @@ dependencies:
   config:
     - field.field.node.questionnaire.body
     - field.field.node.questionnaire.field_category
+    - field.field.node.questionnaire.field_company
     - field.field.node.questionnaire.field_create_questionnaire
     - field.field.node.questionnaire.field_options
     - node.type.questionnaire
   module:
     - paragraphs
+    - select2
 id: node.questionnaire.default
 targetEntityType: node
 bundle: questionnaire
 mode: default
 content:
+  field_company:
+    type: select2_entity_reference
+    weight: 26
+    region: content
+    settings:
+      width: 100%
+      autocomplete: false
+      match_operator: CONTAINS
+      match_limit: 10
+    third_party_settings: {  }
   field_create_questionnaire:
     type: paragraphs
     weight: 1

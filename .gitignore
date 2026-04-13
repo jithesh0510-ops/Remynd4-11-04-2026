@@ -4,6 +4,7 @@
 
 # --- Drupal: configuration and sensitive ---
 sites/*/settings*.php
+!sites/default/settings.ddev.php
 sites/*/services*.yml
 sites/default/settings.php
 sites/default/settings.local.php
@@ -37,6 +38,8 @@ sites/default/files/
 .classpath
 
 # --- OS generated ---
+# Windows downloaded-file marker (NTFS alternate stream)
+*:Zone.Identifier
 .DS_Store
 .DS_Store?
 ._*
@@ -51,6 +54,17 @@ logs/
 *.bak
 *.backup
 *.orig
+
+# --- Database exports and local archives (keep out of git; use object storage or CI artifacts) ---
+/*.sql
+/*.sql.gz
+/*.sql.zip
+/db-exports/
+Archive.zip
+remynd4-current-db*.zip
+remynd4-current-db.mysql8-original.zip
+remindy4_backup*.sql.gz
+db_backup*.sql.gz
 
 # --- PHP ---
 .phpunit.result.cache
@@ -69,13 +83,14 @@ coverage/
 .ddev/mailhog/
 .ddev/db_snapshots/
 
-# --- Contrib (install via Composer; do not commit) ---
+# --- Contrib and Composer-installed assets (do not commit) ---
 /modules/contrib/
 /themes/contrib/
+/libraries/
 # /core/
-# /libraries/
 
 # --- Project-specific optional ---
 # /INSTALL.txt
 # /README.md
 # /robots.txt
+/example.gitignore

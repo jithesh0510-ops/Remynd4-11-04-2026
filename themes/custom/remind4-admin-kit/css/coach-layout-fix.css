@@ -1,0 +1,104 @@
+/* ===== SAFE COACH PAGE FIX: no overlap, clean stacked layout ===== */
+
+/* hide the warning box visually for now */
+.path-coach .messages.messages--warning {
+  display: none !important;
+}
+
+/* top summary/header row */
+.path-coach .view-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 16px !important;
+  flex-wrap: wrap !important;
+}
+
+.path-coach .view-header a,
+.path-coach .view-header .button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 46px !important;
+  padding: 0 18px !important;
+  border-radius: 8px !important;
+  white-space: nowrap !important;
+}
+
+/* full filter form */
+.path-coach .views-exposed-form {
+  display: block !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* every direct block gets its own clean row */
+.path-coach .views-exposed-form > .js-form-item,
+.path-coach .views-exposed-form > .form-item,
+.path-coach .views-exposed-form > .form-actions {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 0 16px 0 !important;
+  padding: 0 !important;
+  position: static !important;
+  float: none !important;
+  clear: both !important;
+  transform: none !important;
+}
+
+/* labels */
+.path-coach .views-exposed-form label {
+  display: block !important;
+  margin: 0 0 8px 0 !important;
+}
+
+/* inputs/selects */
+.path-coach .views-exposed-form input.form-text,
+.path-coach .views-exposed-form input[type="text"],
+.path-coach .views-exposed-form input[type="search"],
+.path-coach .views-exposed-form select,
+.path-coach .views-exposed-form .form-select {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  box-sizing: border-box !important;
+  border-radius: 8px !important;
+  position: static !important;
+  float: none !important;
+}
+
+/* buttons row */
+.path-coach .views-exposed-form > .form-actions {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 12px !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+}
+
+/* buttons */
+.path-coach .views-exposed-form > .form-actions .button,
+.path-coach .views-exposed-form > .form-actions input[type="submit"],
+.path-coach .views-exposed-form > .form-actions button {
+  height: 48px !important;
+  min-height: 48px !important;
+  padding: 0 18px !important;
+  margin: 0 !important;
+  border-radius: 8px !important;
+  position: static !important;
+  float: none !important;
+  white-space: nowrap !important;
+}
+
+/* remove weird floating contextual/edit bits inside this area */
+.path-coach .view-header .contextual,
+.path-coach .view-header .trigger,
+.path-coach .view-header .dropbutton-wrapper,
+.path-coach .view-header .button-action {
+  display: none !important;
+}

@@ -1,7 +1,0 @@
-name: User CSV Download
-type: module
-description: Download selected users to CSV using Views Bulk Operations.
-core_version_requirement: ^10
-package: Custom
-dependencies:
-  - drupal:views_bulk_operations

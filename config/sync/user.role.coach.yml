@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   module:
-    - coach_reporting_system
     - profile
     - system
 id: coach
@@ -11,7 +10,6 @@ label: Coach
 weight: 5
 is_admin: null
 permissions:
-  - 'access coach reporting'
   - 'access content'
   - 'view any coach profile'
   - 'view any company profile'

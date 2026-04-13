@@ -7,6 +7,7 @@ module:
   admin_toolbar_tools: 0
   announcements_feed: 0
   automated_cron: 0
+  better_exposed_filters: 0
   big_pipe: 0
   block: 0
   block_content: 0
@@ -16,11 +17,11 @@ module:
   comment: 0
   conditional_fields: 0
   config: 0
-  config_translation: 0
   contact: 0
   contextual: 0
   crs_sync: 0
   csv_importer: 0
+  csv_serialization: 0
   datetime: 0
   dblog: 0
   dynamic_page_cache: 0
@@ -55,7 +56,6 @@ module:
   layout_discovery: 0
   libraries: 0
   link: 0
-  locale: 0
   masquerade: 0
   menu_block: 0
   menu_export: 0
@@ -75,11 +75,12 @@ module:
   remove_username: 0
   reporting_user: 0
   require_login: 0
+  rest: 0
   search: 0
   select2: 0
+  serialization: 0
   shortcut: 0
   simple_notification: 0
-  simplelogin: 0
   system: 0
   tamper: 0
   taxonomy: 0
@@ -88,6 +89,9 @@ module:
   update: 0
   user: 0
   user_csv_import: 0
+  views_bulk_operations: 0
+  views_data_export: 0
+  views_filters_populate: 0
   views_ui: 0
   content_translation: 10
   views: 10

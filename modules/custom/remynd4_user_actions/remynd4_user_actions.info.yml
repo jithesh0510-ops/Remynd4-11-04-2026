@@ -1,7 +1,0 @@
-name: 'Remynd4 User Actions'
-type: module
-description: 'Adds user bulk action: Reset password & inform chosen coaches.'
-core_version_requirement: ^10
-package: Custom
-dependencies:
-  - drupal:user

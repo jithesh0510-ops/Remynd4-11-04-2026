@@ -31,5 +31,10 @@ requirements:
       taxonomy_term: '@taxonomy_term.taxonomy_term_route_context:taxonomy_term'
     bundles: {  }
 extra:
-  include_403: true
-  include_404: true
+  include_403: false
+  include_404: false
+request_path:
+  negate: true
+  pages: |-
+    /mobile-otp-login-page
+    /email-otp-login

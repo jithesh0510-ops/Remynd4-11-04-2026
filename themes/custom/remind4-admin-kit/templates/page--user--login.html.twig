@@ -1,0 +1,49 @@
+{{ attach_library('remind4-admin-kit/login_page') }}
+
+<div class="remynd-login-page">
+  <div class="remynd-login-header">
+    <div class="remynd-login-brand">
+      <img src="/sites/default/files/logo-email.png" alt="Remynd4">
+    </div>
+    <div class="remynd-login-title">
+      Secure Login Portal
+      <span>REMYND4 MEMBER ACCESS</span>
+    </div>
+  </div>
+
+  <div class="remynd-login-left">
+    <div class="remynd-login-left-badge">Trusted • Secure • Guided Access</div>
+    <h1>Welcome back to Remynd4</h1>
+    <p>Sign in to continue to your secure member workspace with your registered email, password, and one-time OTP verification.</p>
+
+    <div class="remynd-login-points">
+      <div class="remynd-login-point">Access your company, coach, and employee workflows from one secure portal.</div>
+      <div class="remynd-login-point">Protected login with password and OTP-based verification for safer access.</div>
+      <div class="remynd-login-point">Need help signing in? Please contact your administrator for support.</div>
+    </div>
+  </div>
+
+  <div class="remynd-login-right">
+    <div class="remynd-login-card">
+      <div class="remynd-login-card-title">
+        <h2>Sign In</h2>
+        <p>Please enter your login details to continue</p>
+      </div>
+
+      {{ page.content }}
+
+      <div class="remynd-login-remember-row">
+        <label class="remynd-login-remember">
+          <input type="checkbox" name="remember_me_visual" id="remember_me_visual">
+          <span>Remember me</span>
+        </label>
+
+        <div class="remynd-login-help">
+          <a href="/user/password">Forgot Password?</a>
+        </div>
+      </div>
+
+      <small class="remynd-login-footer-note">For your own security an OTP will be requested when needed.</small>
+    </div>
+  </div>
+</div>

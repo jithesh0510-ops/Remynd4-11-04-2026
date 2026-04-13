@@ -1,7 +1,0 @@
-name: Company Dropdown
-type: module
-description: Convert company text filter to dropdown
-core_version_requirement: ^9 || ^10
-package: Custom
-dependencies:
-  - drupal:views

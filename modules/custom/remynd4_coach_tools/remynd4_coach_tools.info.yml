@@ -1,5 +1,0 @@
-name: 'Remynd4 Coach Tools'
-type: module
-description: 'V2 coach import/export pages without touching existing routes'
-core_version_requirement: ^9 || ^10
-package: Custom

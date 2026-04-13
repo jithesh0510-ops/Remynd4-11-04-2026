@@ -1,0 +1,11 @@
+uuid: 53b8dbb2-8898-4f6c-a20a-43293a1fd534
+langcode: en
+status: true
+dependencies:
+  module:
+    - user_csv_download
+id: download_selected_users_csv
+label: 'Download selected users CSV'
+type: user
+plugin: download_selected_users_csv
+configuration: {  }

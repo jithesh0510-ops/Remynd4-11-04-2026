@@ -7,6 +7,7 @@ dependencies:
     - field.field.profile.employee.field_branch
     - field.field.profile.employee.field_coach
     - field.field.profile.employee.field_company
+    - field.field.profile.employee.field_company_new
     - field.field.profile.employee.field_employee_number
     - field.field.profile.employee.field_job_position
     - field.field.profile.employee.field_view_report
@@ -47,6 +48,16 @@ content:
       autocomplete: false
       match_operator: CONTAINS
       match_limit: 10
+    third_party_settings: {  }
+  field_company_new:
+    type: entity_reference_autocomplete
+    weight: 30
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_employee_number:
     type: string_textfield
