@@ -1,0 +1,94 @@
+<?php
+
+/**
+ * @file
+ * Mail handlers for coach import history.
+ */
+
+/**
+ * Implements hook_mail().
+ */
+function coach_import_history_mail($key, &$message, $params) {
+  $attachments = [];
+  if (!empty($params['attachments']) && is_array($params['attachments'])) {
+    $attachments = $params['attachments'];
+  }
+
+  switch ($key) {
+    case 'coach_import':
+      $message['subject'] = !empty($params['subject']) ? $params['subject'] : 'Coach account created';
+
+      $body = '';
+      if (!empty($params['message']) && is_string($params['message'])) {
+        $body = trim($params['message']);
+      }
+      elseif (!empty($params['body']) && is_string($params['body'])) {
+        $body = trim($params['body']);
+      }
+      elseif (!empty($params['body']) && is_array($params['body'])) {
+        $body = trim(implode("\n", array_filter($params['body'])));
+      }
+
+      if ($body === '') {
+        $username = $params['username'] ?? ($params['name'] ?? '');
+        $email = $params['email'] ?? '';
+        $company_name = $params['company_name'] ?? '';
+
+        $lines = [
+          'Hello,',
+          '',
+          'Your coach account has been created.',
+        ];
+
+        if ($company_name !== '') {
+          $lines[] = '';
+          $lines[] = 'Selected company: ' . $company_name;
+        }
+
+        if ($username !== '') {
+          $lines[] = '';
+          $lines[] = 'Username: ' . $username;
+        }
+
+        if ($email !== '') {
+          $lines[] = '';
+          $lines[] = 'Email: ' . $email;
+        }
+
+        $body = implode("\n", $lines);
+      }
+
+      $message['body'] = [$body];
+      if (!empty($attachments)) {
+        $message['params']['attachments'] = $attachments;
+        $message['attachments'] = $attachments;
+      }
+      break;
+
+    case 'admin_coach_import_mail':
+      $message['subject'] = !empty($params['subject']) ? $params['subject'] : 'Coach Import Notification';
+
+      $body = '';
+      if (!empty($params['message']) && is_string($params['message'])) {
+        $body = trim($params['message']);
+      }
+      elseif (!empty($params['body']) && is_string($params['body'])) {
+        $body = trim($params['body']);
+      }
+      elseif (!empty($params['body']) && is_array($params['body'])) {
+        $body = trim(implode("\n", array_filter($params['body'])));
+      }
+
+      if ($body === '') {
+        $company_name = $params['company_name'] ?? '';
+        $body = 'Selected company: ' . ($company_name !== '' ? $company_name : 'N/A');
+      }
+
+      $message['body'] = [$body];
+      if (!empty($attachments)) {
+        $message['params']['attachments'] = $attachments;
+        $message['attachments'] = $attachments;
+      }
+      break;
+  }
+}

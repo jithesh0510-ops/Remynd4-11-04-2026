@@ -1,0 +1,150 @@
+<?php
+
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\Transport;
+use Symfony\Component\Mime\Email;
+
+/**
+ * Implements hook_mail().
+ */
+function company_import_history_mail($key, &$message, $params) {
+  $attachments = [];
+  if (!empty($params['attachments']) && is_array($params['attachments'])) {
+    $attachments = $params['attachments'];
+  }
+
+  switch ($key) {
+    case 'company_import':
+      $message['subject'] = !empty($params['subject']) ? $params['subject'] : 'Company account created';
+
+      $body = '';
+      if (!empty($params['message']) && is_string($params['message'])) {
+        $body = trim($params['message']);
+      }
+      elseif (!empty($params['body']) && is_string($params['body'])) {
+        $body = trim($params['body']);
+      }
+      elseif (!empty($params['body']) && is_array($params['body'])) {
+        $body = trim(implode("\n", array_filter($params['body'])));
+      }
+
+      if ($body === '') {
+        $username = $params['username'] ?? '';
+        $email = $params['email'] ?? '';
+        $company_name = $params['company_name'] ?? '';
+
+        $lines = [
+          'Hello,',
+          '',
+          'Your company account has been created.',
+        ];
+
+        if ($company_name !== '') {
+          $lines[] = '';
+          $lines[] = 'Company: ' . $company_name;
+        }
+        if ($username !== '') {
+          $lines[] = '';
+          $lines[] = 'Username: ' . $username;
+        }
+        if ($email !== '') {
+          $lines[] = '';
+          $lines[] = 'Email: ' . $email;
+        }
+
+        $body = implode("\n", $lines);
+      }
+
+      $message['body'] = [$body];
+      if (!empty($attachments)) {
+        $message['params']['attachments'] = $attachments;
+        $message['attachments'] = $attachments;
+      }
+      break;
+
+    case 'admin_company_import_mail':
+      $message['subject'] = !empty($params['subject']) ? $params['subject'] : 'Company Import Notification';
+
+      $body = '';
+      if (!empty($params['message']) && is_string($params['message'])) {
+        $body = trim($params['message']);
+      }
+      elseif (!empty($params['body']) && is_string($params['body'])) {
+        $body = trim($params['body']);
+      }
+      elseif (!empty($params['body']) && is_array($params['body'])) {
+        $body = trim(implode("\n", array_filter($params['body'])));
+      }
+
+      if ($body === '') {
+        $company_name = $params['company_name'] ?? '';
+        $body = 'Selected company: ' . ($company_name !== '' ? $company_name : 'N/A');
+      }
+
+      $message['body'] = [$body];
+      if (!empty($attachments)) {
+        $message['params']['attachments'] = $attachments;
+        $message['attachments'] = $attachments;
+      }
+      break;
+  }
+}
+
+/**
+ * Sends direct mail with optional attachments.
+ */
+function company_import_history_send_direct_mail(string $to, string $subject, string $body, array $attachments = []): bool {
+  try {
+    $dsn = \Drupal::config('system.mail')->get('mailer_dsn');
+    if (empty($dsn)) {
+      \Drupal::logger('company_import_history')->error('Direct mail failed: mailer_dsn is empty.');
+      return FALSE;
+    }
+
+    $site_mail = \Drupal::config('system.site')->get('mail');
+    if (empty($site_mail)) {
+      $site_mail = ini_get('sendmail_from') ?: 'no-reply@example.com';
+    }
+
+    $site_name = \Drupal::config('system.site')->get('name') ?: 'Remynd4';
+
+    $email = (new Email())
+      ->from(sprintf('%s <%s>', $site_name, $site_mail))
+      ->to($to)
+      ->subject($subject)
+      ->text($body);
+
+    $attached = 0;
+    foreach ($attachments as $attachment) {
+      $filepath = $attachment['filepath'] ?? '';
+      if (!empty($filepath) && file_exists($filepath)) {
+        $filename = $attachment['filename'] ?? basename($filepath);
+        $mime = $attachment['filemime'] ?? 'application/octet-stream';
+        $content = file_get_contents($filepath);
+        if ($content !== FALSE) {
+          $email->attach($content, $filename, $mime);
+          $attached++;
+        }
+      }
+    }
+
+    $transport = Transport::fromDsn($dsn);
+    $mailer = new Mailer($transport);
+    $mailer->send($email);
+
+    \Drupal::logger('company_import_history')->notice('Direct mail sent to @to | subject=@subject | attachments=@count', [
+      '@to' => $to,
+      '@subject' => $subject,
+      '@count' => $attached,
+    ]);
+
+    return TRUE;
+  }
+  catch (\Throwable $e) {
+    \Drupal::logger('company_import_history')->error('Direct mail failed for @to: @msg', [
+      '@to' => $to,
+      '@msg' => $e->getMessage(),
+    ]);
+    return FALSE;
+  }
+}

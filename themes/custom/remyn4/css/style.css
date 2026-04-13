@@ -1,0 +1,542 @@
+/* =====================
+   BASE TYPOGRAPHY & RESET
+===================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body, input, textarea, select, button {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
+  color: white;
+  line-height: 1.4;
+}
+
+body {
+  background-color: #101723;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: 1.5rem;
+  color: #86f1ff;
+}
+
+a {
+  text-decoration: none;
+  color: #86f1ff;
+}
+
+/* =====================
+   SIDEBAR & NAVIGATION
+===================== */
+.sidebar {
+  width: 320px;
+  background-color: #101723;
+  transition: all 0.2s ease;
+}
+
+.sidebar .nav-link,
+.nav ul li > a,
+.nav ul li > span {
+  color: white;
+  border-radius: 9999px;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s ease;
+  background-color: transparent;
+}
+
+.sidebar .nav-link:hover, .nav ul li > a:hover, .nav ul li > span:hover, .nav ul li.active > span, .nav ul li ul li.active > a {
+	background-color: #86f1ff;
+	outline: 2px solid #86f1ff;
+	outline-offset: -2px;
+	color: #4030ad;
+}
+
+.nav-icon {
+  width: 24px;
+  height: 24px;
+  fill: #86f1ff;
+}
+
+.nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav ul li {
+  padding: 0.3rem 0.5rem;
+  position: relative;
+}
+
+.nav ul li.has-children > span::after {
+  content: '▶';
+  font-size: 0.8rem;
+  transition: transform 0.3s;
+  margin-left: auto;
+  margin-right: 0.5rem;
+  color: #86f1ff;
+}
+
+.nav ul li.open > span::after {
+  transform: rotate(90deg);
+}
+
+.nav ul li ul {
+  margin-top: 0.25rem;
+  padding-left: 1.5rem;
+  border-left: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav ul li ul li > a {
+  background: none;
+  font-size: 0.8rem;
+  padding: 0.4rem 1rem;
+  color: white;
+  border-radius: 6px;
+}
+
+.nav ul li ul li > a:hover {
+    background-color: #86f1ff;
+	outline: 2px solid #86f1ff;
+	outline-offset: -2px;
+	color: #4030ad;
+}
+
+/* =====================
+   BUTTONS & FORMS
+===================== */
+.btn-circle {
+  border-radius: 9999px;
+  background-color: #4030ad;
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+}
+
+.btn-primary {
+  background-color: #86f1ff;
+  color: #4030ad;
+  outline: auto 2px;
+}
+
+.btn-primary:hover {
+  background-color: #4030ad;
+  color: #86f1ff;
+  outline-color: #86f1ff !important;
+}
+
+form input,
+form select,
+form textarea {
+  /*width: 100%;*/
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  border: 1px solid #86f1ff;
+  font-size: 1rem;
+  background-color: #21304a69;
+  color: white;
+  transition: border-color 0.2s;
+}
+
+form input:focus,
+form textarea:focus,
+form select:focus {
+  /*outline: none;
+  border-color: #4030ad;
+  background-color: #101723;*/
+}
+
+form .form-actions {
+	margin-top: 0;
+	display: flex;
+	gap: 1rem;
+	margin: 0;
+}
+
+form .form-actions input[type="submit"], form .form-actions .button, .views-exposed-form input[type="submit"] {
+	background-color: #86f1ff;
+	color: #4030ad;
+	border: none;
+	border-radius: 6px;
+	padding: 0.6rem 1.5rem;
+	font-size: 1rem;
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+	margin: 0;
+	padding: 1rem 1rem;
+}
+
+form .form-actions input[type="submit"]:hover,
+form .form-actions .button:hover,
+.views-exposed-form input[type="submit"]:hover {
+  background-color: #4030ad;
+  color: #86f1ff;
+}
+
+.views-exposed-form {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: end;
+	gap: 1rem;
+}
+
+.views-exposed-form .form-item {
+  margin: 0;
+}
+
+/* =====================
+   TABLES
+===================== */
+table,
+table.cols-5 {
+  width: 100%;
+  border-collapse: collapse;
+  border: 2px solid #86f1ff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  background-color: #21304a69;
+}
+
+table th, table.cols-5 th {
+  background-color: #86f1ff;
+  color: #4030ad !important;
+  font-weight: 600;
+  text-align: left;
+  padding: 0.75rem 1rem;
+}
+
+table td, table.cols-5 td {
+  padding: 1.5rem;
+  color: white;
+  border-bottom: 1px solid #86f1ff;
+}
+
+table th a, table.cols-5 th a {
+	color: #4030ad;
+}
+
+table a, table.cols-5 td a {
+  color: #86f1ff;
+}
+
+table tbody tr:nth-child(even) {
+  background-color: #101723;
+}
+
+table tbody tr:nth-child(odd) {
+  background-color: #21304a69;
+}
+
+
+table td .dropbutton-multiple {
+	margin-right: 0;
+	padding-right: 0;
+}
+table td .dropbutton-widget {
+	position: relative;
+}
+
+/* =====================
+   MISC UTILITIES
+===================== */
+.background-dark { background-color: #101723; }
+.card-bg { background: #21304a69; border-color: #86f1ff; }
+.textdark-color { color: #86f1ff !important; }
+.darkmode-border { border: 2px solid #86f1ff !important; }
+.blackbg-report { background: #21304a69; }
+
+#block-remyn4-page-title { display: none; }
+
+/* Dropbutton */
+.dropbutton, .dropbutton-wrapper, .dropbutton-widget {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.dropbutton-action a {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: #86f1ff;
+  color: #4030ad;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.dropbutton-action a:hover {
+  background-color: #4030ad;
+  color: #86f1ff;
+}
+
+.dropbutton-toggle { display: none; }
+
+/* Messages */
+.messages {
+  padding: 1rem 1.5rem;
+  margin: 1rem 0;
+  border-left: 6px solid #86f1ff;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.messages--status,
+.messages--warning,
+.messages--error {
+  background-color: #21304a69;
+  border-color: #86f1ff;
+  color: white;
+}
+
+.messages--status { color: #86f1ff; }
+
+/* =====================
+   PAGINATION STYLING
+===================== */
+.pager {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0;
+  list-style: none;
+  gap: 0.5rem;
+}
+
+.pager__item a {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: #21304a69;
+  color: #86f1ff;
+  border: 1px solid #86f1ff;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.pager__item a:hover {
+  background-color: #86f1ff;
+  color: #4030ad;
+}
+
+.pager__item.is-active a,
+.pager__item a[aria-current="page"] {
+  background-color: #86f1ff;
+  color: #4030ad;
+  pointer-events: none;
+  font-weight: bold;
+}
+
+.pager__item--next a,
+.pager__item--last a {
+  background-color: #21304a69;
+  color: white;
+}
+
+.pager__item--next a:hover,
+.pager__item--last a:hover {
+  background-color: #86f1ff;
+  color: #4030ad;
+}
+
+.link-text {
+	margin: 0 10px;
+}
+
+
+/* Make all dropbutton actions display inline */
+.dropbutton-wrapper,
+.dropbutton-widget,
+.dropbutton {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+}
+
+/* Style individual buttons */
+
+
+.dropbutton-action a:hover {
+  background-color: #005f94;
+}
+
+/* Hide the dropdown toggle button */
+.dropbutton-toggle {
+  display: none !important;
+}
+
+/* Show secondary actions inline */
+.dropbutton .secondary-action {
+  display: inline-block !important;
+  position: static !important;
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+
+.js .dropbutton-wrapper, .js .dropbutton-widget {
+	position: relative !important;
+	display: block;
+	margin: 0;
+	padding: 0;
+}
+.js td .dropbutton-multiple {
+	max-width: 100%;
+	margin-right: 0;
+	padding-right: 0;
+}
+.js .dropbutton-multiple .dropbutton-widget {
+	padding-right: 0;
+}
+
+
+.views-form .js-form-wrapper.form-wrapper {
+	display: flex;
+	align-items: end;
+	gap: 1rem;
+}
+
+.views-form .form-text {
+	color: #fff;
+}
+
+.views-form .form-select {
+	color: #fff;
+	background-color: #21304a69;border: 1px solid #86f1ff;
+  padding: 0.75rem 1rem;
+}
+
+.views-form .js-form-item.form-item.form-type-select.js-form-type-select.form-item-action.js-form-item-action {
+	margin: 0;
+	padding: 0;
+	margin-top: 1.5rem;
+}
+tr.selected td {
+	background-color: unset;
+}
+
+.form-item__label--multiple-value-form, .field-multiple-table .field-label h4.label {
+	color: #000;
+}
+
+
+
+
+
+/* Wrapper styling */
+#block-remyn4-local-tasks {
+	/* background-color: #f9f9f9; */
+	border: 1px solid #ddd;
+	/* padding: 1rem 0; */
+	/* border-radius: 6px; */
+	font-family: system-ui, sans-serif;
+}
+
+/* Contextual links trigger button */
+#block-remyn4-local-tasks .contextual .trigger {
+  position: absolute;
+  right: 0.5rem;
+  top: 0.5rem;
+  background: #007acc;
+  color: white;
+  padding: 0.3rem 0.6rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  z-index: 10;
+}
+
+/* Contextual links menu */
+#block-remyn4-local-tasks .contextual-links {
+  position: absolute;
+  right: 0.5rem;
+  top: 2.5rem;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  list-style: none;
+  padding: 0.5rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+#block-remyn4-local-tasks .contextual-links li {
+  margin: 0.2rem 0;
+}
+
+#block-remyn4-local-tasks .contextual-links li a {
+  color: #333;
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+
+#block-remyn4-local-tasks .contextual-links li a:hover {
+  text-decoration: underline;
+  color: #007acc;
+}
+
+/* Primary tabs styling */
+#block-remyn4-local-tasks > ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-left: 0;
+  list-style: none;
+  border-bottom: 2px solid #ddd;
+}
+
+#block-remyn4-local-tasks > ul > li {
+  margin: 0;
+}
+
+#block-remyn4-local-tasks > ul > li a {
+	display: inline-block;
+	padding: 0.5rem 1rem;
+	border-radius: 4px 4px 0 0;
+	background-color: #86f1ff;
+	color: #333;
+	text-decoration: none;
+	font-weight: 500;
+	transition: background-color 0.2s ease;
+}
+#block-remyn4-local-tasks > ul > li a:hover,
+#block-remyn4-local-tasks > ul > li a:focus {
+  background-color: #dee2e6;
+  color: #000;
+}
+
+/* Active tab (optional styling, you can toggle a class with JS or Drupal) */
+#block-remyn4-local-tasks > ul > li.is-active a {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-bottom: none;
+  font-weight: 600;
+  color: #000;
+}
+.form-text {
+	color: #86f1ff;
+}
+
+/* =====================
+   MEDIA QUERIES (BOTTOM)
+===================== */
+@media (max-width: 600px) {
+  .views-exposed-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .pager {
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+}

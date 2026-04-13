@@ -1,0 +1,13 @@
+name: 'Anonymous Redirection'
+type: module
+description: 'Redirects anonymous users to the login page.'
+core_version_requirement: ^10 || ^11
+package: Custom
+dependencies:
+  - drupal:user
+# version: '1.0.0'
+
+# Information added by Drupal.org packaging script on 2024-05-17
+version: '1.0.0'
+project: 'anonymous_redirection'
+datestamp: 1715965182

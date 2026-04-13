@@ -1,0 +1,39 @@
+<?php
+
+/**
+ * Implements hook_mail().
+ */
+function email_otp_login_mail($key, &$message, $params) {
+
+  // Fallback for direct/system mail calls.
+  if (!isset($message['subject']) || $message['subject'] === '') {
+    if (!empty($params['subject'])) {
+      $message['subject'] = $params['subject'];
+    }
+  }
+
+  if (empty($message['body'])) {
+    $message['body'] = [];
+  }
+
+  if (!empty($params['message']) && empty(array_filter($message['body']))) {
+    $message['body'][] = $params['message'];
+  }
+
+
+  if ($key === 'send_otp') {
+    $message['subject'] = $params['subject'] ?? 'Your OTP for login';
+    $message['headers']['Content-Type'] = 'text/html; charset=UTF-8';
+    $message['body'][] = $params['body'] ?? '';
+  }
+}
+
+/**
+ * Attach styling on OTP login pages and user login page.
+ */
+function email_otp_login_page_attachments(array &$attachments) {
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  if (in_array($route_name, ['email_otp_login.form', 'user.login', 'user.pass'], TRUE)) {
+    $attachments['#attached']['library'][] = 'email_otp_login/otp_page';
+  }
+}

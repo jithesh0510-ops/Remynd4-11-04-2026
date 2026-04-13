@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * Implements hook_page_attachments().
+ */
+function history_page_ui_page_attachments(array &$attachments) {
+  $path = \Drupal::service('path.current')->getPath();
+
+  $match_paths = [
+    '/admin/coach-import-history',
+    '/admin/company-import-history',
+    '/admin/employee-import-history',
+    '/coach/import-history-upload',
+    '/employee/import-history-upload',
+  ];
+
+  if (in_array($path, $match_paths, TRUE)) {
+    $attachments['#attached']['library'][] = 'history_page_ui/history_ui';
+  }
+}

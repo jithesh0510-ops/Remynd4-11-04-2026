@@ -1,0 +1,15 @@
+name: 'Views Filters Populate Test Config'
+type: module
+description: 'Configuration to aid testing of Views Filters Populate.'
+package: 'Testing'
+core_version_requirement: ^10 || ^11
+dependencies:
+  - drupal:node
+  - drupal:user
+  - drupal:views
+  - views_filters_populate:views_filters_populate_test_config
+
+# Information added by Drupal.org packaging script on 2025-03-12
+version: '2.2.0'
+project: 'views_filters_populate'
+datestamp: 1741769748

@@ -1,0 +1,40 @@
+employee_import_history.import_form:
+  path: '/employee/import-history-upload'
+  defaults:
+    _title: 'Import/Update employee'
+    _form: '\Drupal\employee_import_history\Form\EmployeeImportHistoryForm'
+  requirements:
+    _permission: 'access administration pages'
+
+employee_import_history.import_history:
+  path: '/admin/employee-import-history'
+  defaults:
+    _title: 'Employee Import History'
+    _controller: '\Drupal\employee_import_history\Controller\EmployeeImportHistoryController::listing'
+  requirements:
+    _permission: 'access administration pages'
+
+employee_import_history.download_sample:
+  path: '/employee/import-history-upload/download-sample'
+  defaults:
+    _controller: '\Drupal\employee_import_history\Controller\EmployeeImportHistoryController::downloadSample'
+  requirements:
+    _permission: 'access administration pages'
+
+employee_import_history.download_key:
+  path: '/employee/import-history-upload/download-key/{company_uid}'
+  defaults:
+    _controller: '\Drupal\employee_import_history\Controller\EmployeeImportHistoryController::downloadKey'
+    company_uid: 0
+  requirements:
+    _permission: 'access administration pages'
+    company_uid: '\d+'
+
+employee_import_history.delete:
+  path: '/admin/employee-import-history/delete/{id}'
+  defaults:
+    _controller: '\Drupal\employee_import_history\Controller\EmployeeImportHistoryController::deleteImport'
+  requirements:
+    _permission: 'access administration pages'
+    id: '\d+'
+

@@ -1,0 +1,157 @@
+<?php
+
+namespace Drupal\remynd4_user_actions\Controller;
+
+use Drupal\user\Entity\User;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+final class CoachImportDownloadController {
+
+  private function yn($v): string {
+    if (is_bool($v)) return $v ? 'Yes' : 'No';
+    if (is_numeric($v)) return ((int) $v) ? 'Yes' : 'No';
+    $s = strtolower(trim((string) $v));
+    if ($s === '' || $s === '0' || $s === 'no' || $s === 'false') return 'No';
+    return 'Yes';
+  }
+
+  private function pick(User $u, array $field_names): string {
+    foreach ($field_names as $f) {
+      if ($u->hasField($f) && !$u->get($f)->isEmpty()) {
+        $it = $u->get($f)->first();
+        if (isset($it->value) && $it->value !== NULL) return (string) $it->value;
+        if (isset($it->target_id) && $it->target_id !== NULL) return (string) $it->target_id;
+      }
+    }
+    return '';
+  }
+
+  /**
+   * Download CSV sample for coach import.
+   */
+  public function sample(): Response {
+    $headers = [
+      'coach_id','first_name','last_name','address1','address2','email','phone_no',
+      'see_quest','see_action','status','skills_asse','lagard_to','see_previous_date',
+    ];
+
+    $out = fopen('php://temp', 'w+');
+    fputcsv($out, $headers);
+    fputcsv($out, [
+      0,'John','Doe','Addr line 1','Addr line 2','john@example.com','9999999999',
+      'Yes','No','Yes','No','No','No'
+    ]);
+    rewind($out);
+    $csv = stream_get_contents($out);
+    fclose($out);
+
+    $response = new Response($csv);
+    $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
+    $response->headers->set('Content-Disposition', 'attachment; filename="coach_import_sample.csv"');
+    $response->headers->set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+    $response->headers->set('Pragma', 'no-cache');
+    return $response;
+  }
+
+  /**
+   * Download "Coach Key" CSV for selected company only.
+   * URL: /coach/importcsv/coach-key?company=2584
+   */
+  public function coachKey(Request $request): Response {
+    $company_uid = (int) $request->query->get('company');
+    if (!$company_uid) {
+      return new Response("Missing ?company=\n", 400);
+    }
+
+    $company = User::load($company_uid);
+    if (!$company) {
+      return new Response("Invalid company user id: $company_uid\n", 404);
+    }
+
+    // 1) Try company_profiles field (some sites store mapping here).
+    $profile_ids = [];
+    if ($company->hasField('company_profiles') && !$company->get('company_profiles')->isEmpty()) {
+      foreach ($company->get('company_profiles') as $it) {
+        if (isset($it->target_id)) $profile_ids[] = (int) $it->target_id;
+      }
+    }
+
+    // 2) Your DB shows company_profiles is EMPTY for 2584, but profiles exist owned by company uid.
+    if (empty($profile_ids) && \Drupal::entityTypeManager()->hasDefinition('profile')) {
+      $profiles = \Drupal::entityTypeManager()->getStorage('profile')->loadByProperties(['uid' => $company_uid]);
+      foreach ($profiles as $p) {
+        $profile_ids[] = (int) $p->id();
+      }
+    }
+
+    $headers = [
+      'coach_id','first_name','last_name','address1','address2','email','phone_no',
+      'see_quest','see_action','status','skills_asse','lagard_to','see_previous_date',
+    ];
+
+    $out = fopen('php://temp', 'w+');
+    fputcsv($out, $headers);
+
+    // If company has no profiles, we cannot match coaches -> return a friendly row (no 500).
+    if (empty($profile_ids)) {
+      fputcsv($out, ['NO_COACHES', 'No coaches mapped to this company']);
+      rewind($out);
+      $csv = stream_get_contents($out);
+      fclose($out);
+
+      $r = new Response($csv);
+      $r->headers->set('Content-Type', 'text/csv; charset=UTF-8');
+      $r->headers->set('Content-Disposition', 'attachment; filename="coach_key_company_'.$company_uid.'.csv"');
+      $r->headers->set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+      $r->headers->set('Pragma', 'no-cache');
+      return $r;
+    }
+
+    // Find ACTIVE coaches whose company_profiles references ANY of the company profile ids.
+    $q = \Drupal::entityQuery('user')
+      ->accessCheck(FALSE)
+      ->condition('status', 1)
+      ->condition('roles', 'coach')
+      ->condition('company_profiles.target_id', $profile_ids, 'IN');
+
+    $coach_uids = $q->execute();
+
+    if (empty($coach_uids)) {
+      fputcsv($out, ['NO_COACHES', 'No coaches mapped to this company']);
+    }
+    else {
+      $coaches = User::loadMultiple($coach_uids);
+      foreach ($coaches as $u) {
+        $row = [
+          $u->id(),
+          $this->pick($u, ['field_first_name','first_name']),
+          $this->pick($u, ['field_last_name','last_name']),
+          $this->pick($u, ['field_address1','address1']),
+          $this->pick($u, ['field_address2','address2']),
+          $u->getEmail(),
+          $this->pick($u, ['field_phone_no','field_phone','phone_no','phone']),
+          $this->yn($this->pick($u, ['field_see_quest','see_quest','field_see_question'])),
+          $this->yn($this->pick($u, ['field_see_action','see_action'])),
+          $u->isActive() ? 'Yes' : 'No',
+          $this->yn($this->pick($u, ['field_skills_asse','skills_asse'])),
+          $this->yn($this->pick($u, ['field_lagard_to','lagard_to'])),
+          $this->yn($this->pick($u, ['field_see_previous_date','see_previous_date'])),
+        ];
+        fputcsv($out, $row);
+      }
+    }
+
+    rewind($out);
+    $csv = stream_get_contents($out);
+    fclose($out);
+
+    $response = new Response($csv);
+    $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
+    $response->headers->set('Content-Disposition', 'attachment; filename="coach_key_company_'.$company_uid.'.csv"');
+    $response->headers->set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+    $response->headers->set('Pragma', 'no-cache');
+    return $response;
+  }
+
+}

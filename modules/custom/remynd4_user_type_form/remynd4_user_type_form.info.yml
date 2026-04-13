@@ -1,0 +1,5 @@
+name: Remynd4 User Type Form
+type: module
+description: Shows different user fields on Add user page based on ?coach=1/?company=1/?employee=1
+core_version_requirement: ^10
+package: Custom

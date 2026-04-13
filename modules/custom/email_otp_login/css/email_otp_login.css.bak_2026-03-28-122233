@@ -1,0 +1,252 @@
+body.path-user-login {
+  background: #f4f4f4 !important;
+  margin: 0 !important;
+}
+
+body.path-user-login .tabs,
+body.path-user-login .page-title,
+body.path-user-login .breadcrumb,
+body.path-user-login .messages {
+  display: none !important;
+}
+
+body.path-user-login .dialog-off-canvas-main-canvas,
+body.path-user-login .layout-container,
+body.path-user-login .main-content,
+body.path-user-login .region-content {
+  min-height: 100vh !important;
+}
+
+body.path-user-login .region-content {
+  display: grid !important;
+  grid-template-columns: 1fr 430px !important;
+  gap: 18px !important;
+  align-items: start !important;
+  padding: 0 !important;
+  max-width: 100% !important;
+}
+
+/* Top header strip */
+body.path-user-login .region-content::before {
+  content: "";
+  display: block;
+  grid-column: 1 / 3;
+  height: 108px;
+  background:
+    url('/sites/default/files/logo-email.png') 18px 18px / 280px auto no-repeat,
+    linear-gradient(#f4f4f4, #f4f4f4);
+  border-bottom: 1px solid #d8d8d8;
+}
+
+/* Left content box */
+body.path-user-login .region-content::after {
+  content: "Dear Remynd4 Users !!\A\AWelcome to Remynd4 secure sign in portal.\A\AUse your registered email, password, and OTP to continue securely.\A\AIf you face any issue, contact the administrator.";
+  white-space: pre-line;
+  display: block;
+  grid-column: 1 / 2;
+  margin-left: 18px;
+  margin-right: 0;
+  margin-top: 24px;
+  background: #ffffff;
+  border: 1px solid #d8d8d8;
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.04);
+  min-height: 320px;
+  padding: 26px 24px;
+  color: #1b2d3d;
+  font-size: 16px;
+  line-height: 1.8;
+  box-sizing: border-box;
+}
+
+/* Teal top bar inside left panel */
+body.path-user-login .region-content {
+  position: relative;
+}
+
+body.path-user-login .region-content > * {
+  z-index: 1;
+}
+
+body.path-user-login .region-content::after {
+  background:
+    linear-gradient(180deg, #0f8f8f 0 54px, #ffffff 54px 100%);
+  padding-top: 72px;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+body.path-user-login form,
+body.path-user-login .user-login-form,
+body.path-user-login .email-otp-login-form {
+  grid-column: 2 / 3 !important;
+  width: 100% !important;
+  max-width: 430px !important;
+  margin-top: 26px !important;
+  margin-right: 18px !important;
+  margin-left: 0 !important;
+  background: #ffffff !important;
+  border: 1px solid #d7d7d7 !important;
+  border-radius: 18px !important;
+  box-shadow: 0 2px 10px rgba(0,0,0,.05) !important;
+  padding: 84px 28px 24px !important;
+  position: relative !important;
+  box-sizing: border-box !important;
+}
+
+/* Circle icon on card top */
+body.path-user-login form::before,
+body.path-user-login .user-login-form::before,
+body.path-user-login .email-otp-login-form::before {
+  content: "";
+  position: absolute;
+  top: -38px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: #ffffff url('/sites/default/files/logo-email.png') center center / 82px auto no-repeat;
+  border: 2px solid #2aa3a3;
+  box-shadow: 0 4px 14px rgba(0,0,0,.08);
+}
+
+/* Hide big extra heading */
+body.path-user-login h1,
+body.path-user-login h2 {
+  display: none !important;
+}
+
+.email-otp-login-card-title {
+  text-align: center !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  color: #0f8f8f !important;
+  margin: 0 0 8px !important;
+}
+
+.email-otp-login-card-subtitle {
+  text-align: center !important;
+  color: #6b7d88 !important;
+  font-size: 13px !important;
+  margin-bottom: 22px !important;
+}
+
+body.path-user-login .form-item {
+  margin-bottom: 18px !important;
+}
+
+body.path-user-login label {
+  display: inline-block !important;
+  margin-bottom: 8px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  color: #20394a !important;
+}
+
+body.path-user-login input[type="email"],
+body.path-user-login input[type="password"],
+body.path-user-login input[type="text"] {
+  width: 100% !important;
+  height: 48px !important;
+  border: 1px solid #d7dee4 !important;
+  border-radius: 8px !important;
+  background: #ffffff !important;
+  padding: 0 14px !important;
+  font-size: 15px !important;
+  box-sizing: border-box !important;
+}
+
+body.path-user-login input::placeholder {
+  color: #90a08c !important;
+  opacity: 1 !important;
+}
+
+body.path-user-login input:focus {
+  outline: none !important;
+  border-color: #0f8f8f !important;
+  box-shadow: 0 0 0 3px rgba(15,143,143,.10) !important;
+}
+
+/* Button row */
+body.path-user-login .form-actions {
+  display: flex !important;
+  gap: 12px !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  margin-top: 8px !important;
+}
+
+body.path-user-login .form-actions input {
+  min-height: 44px !important;
+  border-radius: 8px !important;
+  padding: 0 22px !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  border: 0 !important;
+  cursor: pointer !important;
+}
+
+/* Primary button */
+body.path-user-login .form-actions input:first-child {
+  background: #0f8f8f !important;
+  color: #ffffff !important;
+  min-width: 110px !important;
+}
+
+/* Secondary buttons */
+body.path-user-login .form-actions input:not(:first-child) {
+  background: #6f7b88 !important;
+  color: #ffffff !important;
+}
+
+/* OTP email box */
+body.path-user-login .otp-current-email {
+  background: #f2fbfb !important;
+  border: 1px solid #d2ecec !important;
+  border-radius: 8px !important;
+  padding: 12px 14px !important;
+  color: #18485d !important;
+  margin-bottom: 16px !important;
+  font-size: 14px !important;
+}
+
+/* Forgot password note */
+body.path-user-login form::after,
+body.path-user-login .user-login-form::after,
+body.path-user-login .email-otp-login-form::after {
+  content: "Forgot Password ?";
+  display: block;
+  margin-top: 14px;
+  color: #3e6fd1;
+  font-size: 13px;
+  text-align: left;
+}
+
+@media (max-width: 991px) {
+  body.path-user-login .region-content {
+    grid-template-columns: 1fr !important;
+    padding: 0 14px 24px !important;
+  }
+
+  body.path-user-login .region-content::before {
+    grid-column: 1 / 2;
+    background:
+      url('/sites/default/files/logo-email.png') center 18px / 240px auto no-repeat,
+      linear-gradient(#f4f4f4, #f4f4f4);
+  }
+
+  body.path-user-login .region-content::after {
+    grid-column: 1 / 2;
+    margin: 0;
+    min-height: auto;
+  }
+
+  body.path-user-login form,
+  body.path-user-login .user-login-form,
+  body.path-user-login .email-otp-login-form {
+    grid-column: 1 / 2 !important;
+    margin: 18px 0 0 !important;
+    max-width: 100% !important;
+  }
+}

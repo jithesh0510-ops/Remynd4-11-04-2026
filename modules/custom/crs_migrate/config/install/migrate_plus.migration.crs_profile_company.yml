@@ -1,0 +1,30 @@
+langcode: en
+status: true
+id: crs_profile_company
+migration_group: crs_migrate
+label: 'CRS Profile (Company)'
+source:
+  plugin: sql
+  key: legacy
+  query: >
+    SELECT
+      t.id     AS legacy_id,
+      t.name   AS full_name,
+      t.email  AS email
+    FROM qs_company_master t
+process:
+  # Link to user imported by crs_users_company
+  uid:
+    plugin: migration_lookup
+    migration: crs_users_company
+    source: legacy_id
+  type:
+    plugin: default_value
+    default_value: company
+  field_full_name: full_name
+destination:
+  plugin: 'entity:profile'
+  default_bundle: company
+migration_dependencies:
+  required:
+    - crs_users_company

@@ -1,0 +1,9 @@
+<?php
+
+function company_import_history_mail($key, &$message, $params) {
+  if ($key === 'coach_import') {
+    $message['subject'] = $params['subject'] ?? 'Company account created';
+    $body = $params['message'] ?? '';
+    $message['body'] = is_array($body) ? $body : explode("\n", (string) $body);
+  }
+}

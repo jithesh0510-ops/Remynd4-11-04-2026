@@ -1,0 +1,31 @@
+company_import_history.import_form:
+  path: '/company/importcsv'
+  defaults:
+    _title: 'Import/Update company'
+    _form: '\Drupal\company_import_history\Form\CompanyImportHistoryForm'
+  requirements:
+    _permission: 'access administration pages'
+
+company_import_history.import_history:
+  path: '/admin/company-import-history'
+  defaults:
+    _title: 'Company Import History'
+    _controller: '\Drupal\company_import_history\Controller\CompanyImportHistoryController::listing'
+  requirements:
+    _permission: 'access administration pages'
+
+company_import_history.download_sample:
+  path: '/company/importcsv/download-sample'
+  defaults:
+    _controller: '\Drupal\company_import_history\Controller\CompanyImportHistoryController::downloadSample'
+  requirements:
+    _permission: 'access administration pages'
+
+company_import_history.delete:
+  path: '/admin/company-import-history/delete/{id}'
+  defaults:
+    _controller: '\Drupal\company_import_history\Controller\CompanyImportHistoryController::deleteImport'
+  requirements:
+    _permission: 'access administration pages'
+    id: '\d+'
+

@@ -1,0 +1,8 @@
+name: Coach Import History
+type: module
+description: Separate coach CSV import with file history and result logs.
+core_version_requirement: ^10 || ^11
+package: Custom
+dependencies:
+  - drupal:file
+  - drupal:user

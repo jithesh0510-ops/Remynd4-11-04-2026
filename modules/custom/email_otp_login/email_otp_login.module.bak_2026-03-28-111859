@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * Implements hook_mail().
+ */
+function email_otp_login_mail($key, &$message, $params) {
+  if ($key === 'send_otp') {
+    $message['subject'] = $params['subject'] ?? 'Your OTP for login';
+    $message['headers']['Content-Type'] = 'text/html; charset=UTF-8';
+    $message['body'][] = $params['body'] ?? '';
+  }
+}
+
+/**
+ * Attach styling only on the Email OTP page.
+ */
+function email_otp_login_page_attachments(array &$attachments) {
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  if ($route_name === 'email_otp_login.form') {
+    $attachments['#attached']['library'][] = 'email_otp_login/otp_page';
+  }
+}

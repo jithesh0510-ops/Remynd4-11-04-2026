@@ -1,0 +1,74 @@
+<?php
+
+/**
+ * @file
+ * Install file for Coach Import History.
+ */
+
+function coach_import_history_schema() {
+  $schema['coach_import_history'] = [
+    'description' => 'Stores coach import file history.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'not null' => TRUE,
+      ],
+      'company_uid' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => 0,
+      ],
+      'company_name' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+        'default' => '',
+      ],
+      'fid' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => 0,
+      ],
+      'filename' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+        'default' => '',
+      ],
+      'file_uri' => [
+        'type' => 'varchar',
+        'length' => 512,
+        'not null' => FALSE,
+        'default' => '',
+      ],
+      'created_count' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => 0,
+      ],
+      'updated_count' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => 0,
+      ],
+      'error_count' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'default' => 0,
+      ],
+      'result_json' => [
+        'type' => 'bigtext',
+        'not null' => FALSE,
+        'size' => 'big',
+      ],
+      'created' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+    ],
+    'primary key' => ['id'],
+  ];
+
+  return $schema;
+}

@@ -1,0 +1,132 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for Remove Username module.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\user\UserInterface;
+
+/**
+ * Implements hook_help().
+ */
+function remove_username_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.remove_username':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t("This simple module is removing the 'name' (username) field from the user management forms (create/register/edit accounts) by making the 'email' field required and copying the email address into the username field.") . '</p>';
+      return $output;
+  }
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function remove_username_form_commerce_checkout_flow_alter(&$form, FormStateInterface $form_state) {
+  if (isset($form['login']['returning_customer'])) {
+    $customer = &$form['login']['returning_customer'];
+    $customer['name']['#title'] = t('Email address');
+  }
+
+  if (isset($form['login']['register'])) {
+    $register = &$form['login']['register'];
+    $register['name']['#access'] = FALSE;
+
+    array_unshift($form['#validate'], 'remove_username_commerce_checkout_prepare_form');
+  }
+}
+
+/**
+ * Copy the 'mail' field to the 'name' field before form validation.
+ */
+function remove_username_commerce_checkout_prepare_form(&$form, FormStateInterface $form_state) {
+  $values = $form_state->getValue($form['#parents']);
+  $triggering_element = $form_state->getTriggeringElement();
+
+  if (!empty($triggering_element['#op']) && 'register' == $triggering_element['#op']) {
+    $email = $values['login']['register']['mail'];
+    // Login class has its own validation callback.
+    $form_state->setValue(['login', 'register', 'name'], $email);
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function remove_username_form_user_register_form_alter(&$form, FormStateInterface $form_state) {
+  $form['account']['name']['#required'] = FALSE;
+  $form['account']['name']['#access'] = FALSE;
+  $form['account']['mail']['#required'] = TRUE;
+  array_unshift($form['#validate'], 'remove_username_prepare_form_user_values');
+  $form['#validate'][] = 'remove_username_form_user_post_validate';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function remove_username_form_user_form_alter(&$form, FormStateInterface $form_state) {
+  $form['account']['name']['#required'] = FALSE;
+  $form['account']['name']['#access'] = FALSE;
+  $form['account']['mail']['#required'] = TRUE;
+  array_unshift($form['#validate'], 'remove_username_prepare_form_user_values');
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function remove_username_form_user_login_form_alter(&$form, FormStateInterface $form_state) {
+  $form['name']['#title'] = t('Email address');
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function remove_username_form_user_pass_alter(&$form, FormStateInterface $form_state) {
+  $form['name']['#title'] = t('Email address');
+}
+
+/**
+ * Copy the 'mail' field to the 'name' field before form validation.
+ */
+function remove_username_prepare_form_user_values(&$form, FormStateInterface $form_state) {
+  $email = $form_state->getValue('mail');
+
+  if ($user = user_load_by_name($email)) {
+    /** @var \Drupal\Core\Entity\EntityFormInterface $form_object */
+    $form_object = $form_state->getFormObject();
+
+    if ($user->id() != $form_object->getEntity()->id()) {
+      $form_state->setErrorByName('mail', t('The username %value is already taken.', ['%value' => $email]));
+    }
+  }
+
+  if ($error = user_validate_name($email)) {
+    $form_state->setErrorByName('mail', $error);
+  }
+
+  $form_state->setValue('name', $email);
+}
+
+/**
+ * Remove the errors related to 'name' field.
+ */
+function remove_username_form_user_post_validate(&$form, FormStateInterface $form_state) {
+  $errors = $form_state->getErrors();
+  unset($errors['name']);
+  $form_state->clearErrors();
+  foreach ($errors as $field => $value) {
+    $form_state->setErrorByName($field, $value);
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_presave().
+ */
+function remove_username_user_presave(UserInterface $user) {
+  if ($mail = $user->getEmail()) {
+    $user->setUsername($mail);
+  }
+}

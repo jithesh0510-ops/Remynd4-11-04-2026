@@ -1,0 +1,21 @@
+{
+    "name": "drupal/menu_export",
+    "description": "This module exports and imports menus and menu links.",
+    "type": "drupal-module",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Sandeep Reddy",
+            "email": "sandeepguntaka@drupal.org"
+        },
+        {
+            "name": "Joseph Olstad",
+            "email": "joseph.olstad@drupal.org"
+        }
+    ],
+    "homepage": "https://www.drupal.org/project/menu_export",
+    "support": {
+        "issues": "https://www.drupal.org/project/issues/menu_export",
+        "source": "https://git.drupalcode.org/project/menu_export"
+    }
+}

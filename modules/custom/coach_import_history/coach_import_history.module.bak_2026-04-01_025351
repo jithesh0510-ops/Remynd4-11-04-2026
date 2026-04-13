@@ -1,0 +1,11 @@
+<?php
+
+function coach_import_history_mail($key, &$message, $params) {
+  switch ($key) {
+    case 'admin_coach_import_mail':
+      $message['subject'] = $params['subject'] ?? 'Coach Import Notification';
+      $message['body'] = [];
+      $message['body'][] = $params['message'] ?? '';
+      break;
+  }
+}

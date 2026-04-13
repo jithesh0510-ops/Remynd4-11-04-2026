@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * @file
+ * Install, update, and uninstall functions for the remove_username module.
+ */
+
+/**
+ * Copy all users email to their username field.
+ */
+function remove_username_install() {
+  /** @var \Drupal\user\UserInterface[] $users */
+  $users = \Drupal::entityTypeManager()->getStorage('user')->loadMultiple();
+  foreach ($users as $user) {
+    if ($user->isAnonymous()) {
+      continue;
+    }
+    if (empty($user->getEmail())) {
+      \Drupal::logger('remove_username')->error(sprintf("User %s (%s) has no email", $user->getAccountName(), $user->id()));
+      continue;
+    }
+    $user->setUsername($user->getEmail());
+    $user->save();
+  }
+}

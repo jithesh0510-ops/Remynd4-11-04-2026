@@ -1,0 +1,161 @@
+<?php
+
+namespace Drupal\remynd4_user_actions\Controller;
+
+use Drupal\Core\Controller\ControllerBase;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Drupal\user\Entity\User;
+
+final class CoachImportDownloadController extends ControllerBase {
+
+  public function sample(): Response {
+    $out = fopen('php://temp', 'w+');
+    $headers = [
+      'coach_id','first_name','last_name','address1','address2','email','phone_no',
+      'see_quest','see_action','status','skills_asse','lagard_to','see_previous_date',
+    ];
+    fputcsv($out, $headers);
+    fputcsv($out, [0,'John','Doe','Addr line 1','Addr line 2','john@example.com','999999999','Yes','No','Yes','No','No','No']);
+    rewind($out);
+    $csv = stream_get_contents($out);
+    fclose($out);
+
+    $res = new Response($csv);
+    $res->headers->set('Content-Type', 'text/csv; charset=UTF-8');
+    $res->headers->set('Content-Disposition', 'attachment; filename="coach_import_sample.csv"');
+    $res->headers->set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+    $res->headers->set('Pragma', 'no-cache');
+    return $res;
+  }
+
+  private function getCompanyProfileIds(int $company_uid): array {
+    if (!$this->entityTypeManager()->hasDefinition('profile')) return [];
+    $profiles = $this->entityTypeManager()->getStorage('profile')->loadByProperties(['uid' => $company_uid]);
+    $ids = [];
+    foreach ($profiles as $p) $ids[] = (int) $p->id();
+    return array_values(array_unique($ids));
+  }
+
+  /**
+   * Detect which user field table/column stores profile references.
+   * Returns [table, column] or [null, null].
+   */
+  private function detectUserProfileRefField(array $profile_ids): array {
+    if (!$profile_ids) return [NULL, NULL];
+    $db = \Drupal::database();
+    $schema = $db->schema();
+    $tables = $db->query("SHOW TABLES LIKE :t", [":t" => "user__field_%"])->fetchCol();
+
+    $best = [NULL, NULL, 0];
+    foreach ($tables as $t) {
+      try {
+        $cols = $schema->fieldNames($t);
+        foreach ($cols as $c) {
+          if (!str_ends_with($c, "_target_id")) continue;
+          $count = (int) $db->select($t, "x")->condition("x.$c", $profile_ids, "IN")->countQuery()->execute()->fetchField();
+          if ($count > $best[2]) $best = [$t, $c, $count];
+        }
+      } catch (\Throwable $e) {}
+    }
+    return [$best[0], $best[1]];
+  }
+
+  private function getCoachUidsByProfiles(array $profile_ids): array {
+    [$table, $col] = $this->detectUserProfileRefField($profile_ids);
+    if (!$table || !$col) return [];
+
+    $db = \Drupal::database();
+    // Find coach users whose field references company profile ids.
+    $uids = $db->select($table, 't')
+      ->fields('t', ['entity_id'])
+      ->condition("t.$col", $profile_ids, 'IN')
+      ->distinct()
+      ->execute()
+      ->fetchCol();
+
+    // Ensure those users actually have role coach.
+    if (!$uids) return [];
+    $uids = array_map('intval', $uids);
+
+    $coach_uids = \Drupal::entityQuery('user')
+      ->condition('uid', $uids, 'IN')
+      ->condition('roles', 'coach')
+      ->accessCheck(FALSE)
+      ->execute();
+
+    return array_values(array_map('intval', $coach_uids));
+  }
+
+  private function yn($v): string {
+    return in_array((string)$v, ['1','yes','y','true','on'], TRUE) ? 'Yes' : 'No';
+  }
+
+  private function pick(User $u, array $field_names): string {
+    foreach ($field_names as $f) {
+      if ($u->hasField($f) && !$u->get($f)->isEmpty()) {
+        $it = $u->get($f)->first();
+        if (isset($it->value) && $it->value !== NULL) return (string) $it->value;
+      }
+    }
+    return '';
+  }
+
+  public function coachKey(Request $request): Response {
+    $company_uid = (int) $request->query->get('company');
+    if ($company_uid <= 0) {
+      return new Response("Missing/invalid company parameter.\n", 400);
+    }
+
+    $profile_ids = $this->getCompanyProfileIds($company_uid);
+    $coach_uids = $this->getCoachUidsByProfiles($profile_ids);
+
+    $out = fopen('php://temp', 'w+');
+    $headers = [
+      'coach_id','first_name','last_name','address1','address2','email','phone_no',
+      'see_quest','see_action','status','skills_asse','lagard_to','see_previous_date',
+    ];
+    fputcsv($out, $headers);
+
+    if (!$coach_uids) {
+      fputcsv($out, ['NO_COACHES', 'No coaches mapped to this company']);
+    }
+    else {
+      $users = User::loadMultiple($coach_uids);
+      foreach ($coach_uids as $uid) {
+        /** @var \Drupal\user\Entity\User|null $u */
+        $u = $users[$uid] ?? NULL;
+        if (!$u) continue;
+
+        $row = [
+          $u->id(),
+          $this->pick($u, ['field_first_name','first_name']),
+          $this->pick($u, ['field_last_name','last_name']),
+          $this->pick($u, ['field_address1','address1']),
+          $this->pick($u, ['field_address2','address2']),
+          $u->getEmail(),
+          $this->pick($u, ['field_phone_no','phone_no','field_phone']),
+          $this->yn($this->pick($u, ['field_see_quest','see_quest'])),
+          $this->yn($this->pick($u, ['field_see_action','see_action'])),
+          $this->pick($u, ['field_status','status']),
+          $this->yn($this->pick($u, ['field_skills_asse','skills_asse'])),
+          $this->pick($u, ['field_lagard_to','lagard_to']),
+          $this->yn($this->pick($u, ['field_see_previous_date','see_previous_date'])),
+        ];
+        fputcsv($out, $row);
+      }
+    }
+
+    rewind($out);
+    $csv = stream_get_contents($out);
+    fclose($out);
+
+    $res = new Response($csv);
+    $res->headers->set('Content-Type', 'text/csv; charset=UTF-8');
+    $res->headers->set('Content-Disposition', 'attachment; filename="coach_key_company_'.$company_uid.'.csv"');
+    $res->headers->set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+    $res->headers->set('Pragma', 'no-cache');
+    return $res;
+  }
+
+}

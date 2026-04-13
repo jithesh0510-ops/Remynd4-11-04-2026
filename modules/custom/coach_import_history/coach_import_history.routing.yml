@@ -1,0 +1,40 @@
+coach_import_history.import_form:
+  path: '/coach/import-history-upload'
+  defaults:
+    _title: 'Import/Update coach'
+    _form: '\Drupal\coach_import_history\Form\CoachImportHistoryForm'
+  requirements:
+    _permission: 'access administration pages'
+
+coach_import_history.import_history:
+  path: '/admin/coach-import-history'
+  defaults:
+    _title: 'Coach Import History'
+    _controller: '\Drupal\coach_import_history\Controller\CoachImportHistoryController::listing'
+  requirements:
+    _permission: 'access administration pages'
+
+coach_import_history.download_sample:
+  path: '/coach/import-history-upload/download-sample'
+  defaults:
+    _controller: '\Drupal\coach_import_history\Controller\CoachImportHistoryController::downloadSample'
+  requirements:
+    _permission: 'access administration pages'
+
+coach_import_history.download_key:
+  path: '/coach/import-history-upload/download-key/{company_uid}'
+  defaults:
+    _controller: '\Drupal\coach_import_history\Controller\CoachImportHistoryController::downloadKey'
+    company_uid: 0
+  requirements:
+    _permission: 'access administration pages'
+    company_uid: '\d+'
+
+coach_import_history.delete:
+  path: '/admin/coach-import-history/delete/{id}'
+  defaults:
+    _controller: '\Drupal\coach_import_history\Controller\CoachImportHistoryController::deleteImport'
+  requirements:
+    _permission: 'access administration pages'
+    id: '\d+'
+

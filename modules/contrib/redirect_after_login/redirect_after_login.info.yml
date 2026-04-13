@@ -1,0 +1,11 @@
+name: Redirect After Login
+description: 'Redirect user after login to a configured url '
+package: Login Redirection
+type: module
+core_version_requirement: ^10.3 || ^11.0
+configure: redirect_after_login.admin_settings
+
+# Information added by Drupal.org packaging script on 2025-09-30
+version: '3.0.2'
+project: 'redirect_after_login'
+datestamp: 1759245890

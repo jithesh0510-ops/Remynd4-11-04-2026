@@ -1,0 +1,5 @@
+otp_page:
+  version: 1.x
+  css:
+    theme:
+      css/email_otp_login.css: {}

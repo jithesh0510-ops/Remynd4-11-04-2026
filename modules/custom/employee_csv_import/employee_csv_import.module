@@ -1,0 +1,12 @@
+<?php
+
+/**
+ * Implements hook_mail().
+ */
+function employee_csv_import_mail($key, &$message, $params) {
+  if ($key === 'employee_import') {
+    $message['subject'] = $params['subject'] ?? 'Employee account updated';
+    $body = $params['body'] ?? [];
+    $message['body'] = is_array($body) ? $body : [(string) $body];
+  }
+}

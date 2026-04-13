@@ -1,0 +1,7 @@
+email_otp_login.form:
+  path: '/email-otp-login'
+  defaults:
+    _title: 'Login with Email OTP'
+    _form: '\Drupal\email_otp_login\Form\EmailOtpLoginForm'
+  requirements:
+    _access: 'TRUE'

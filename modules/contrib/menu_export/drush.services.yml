@@ -1,0 +1,5 @@
+services:
+  menu_export.commands:
+    class: \Drupal\menu_export\Commands\MenuExportDrushCommands
+    tags:
+      - { name: drush.command }

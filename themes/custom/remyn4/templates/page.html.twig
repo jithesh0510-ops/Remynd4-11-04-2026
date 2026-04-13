@@ -1,0 +1,93 @@
+{# templates/page.html.twig #}
+<!DOCTYPE html>
+<html lang="{{ language.getId() }}" dir="{{ language.getDirection() }}">
+<head>
+  <head-placeholder token="{{ placeholder_token }}">
+  <title>{{ head_title|render|striptags }}</title>
+
+  {# Dynamic favicon from theme settings #}
+  {% if theme_settings.favicon %}
+    <link rel="icon" href="{{ theme_settings.favicon }}" type="image/png">
+  {% endif %}
+
+  <css-placeholder token="{{ placeholder_token }}">
+  <js-placeholder token="{{ placeholder_token }}">
+</head>
+<body class="min-vh-100">
+  <a href="#main-content" class="visually-hidden focusable skip-link">
+    {{ 'Skip to main content'|t }}
+  </a>
+
+  <div class="d-flex h-100">
+    <!-- Sidebar -->
+    <nav class="sidebar d-flex p-4 h-100">
+      <div>
+        <div class="text-center mb-4">
+          {% if theme_settings.logo %}
+            <img src="{{ theme_settings.logo }}" style="width: 75%;" alt="Logo" />
+          {% else %}
+            <img src="{{ directory }}/img/logo.svg" style="width: 75%;" alt="Default Logo" />
+          {% endif %}
+        </div>
+
+
+        {% if page.primary_menu %}
+          <nav class="nav flex-column gap-2 mb-4" role="navigation" aria-label="Main navigation">
+            {{ page.primary_menu }}
+          </nav>
+        {% endif %}
+
+        <ul class="nav flex-column gap-2 mt-4">
+          <li class="nav-item"><a href="#" class="nav-link d-flex align-items-center gap-4">➕ New Request</a></li>
+          <li class="nav-item"><a href="#" class="nav-link d-flex align-items-center gap-4">📘 User Guide</a></li>
+          <li class="nav-item"><a href="#" class="nav-link d-flex align-items-center gap-4">🔔 Notifications</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="flex-grow-1 d-flex flex-column">
+      <header class="header d-flex justify-content-between align-items-center p-4">
+        <div class="d-flex align-items-center gap-3">
+          <h2 class="mb-0">{{ title }}</h2>
+        </div>
+        <div class="d-flex gap-2 align-items-center">
+          {% if page.notification_block %}
+            <div class="position-relative">
+              {{ page.notification_block }}
+            </div>
+          {% else %}
+            <button class="btn btn-light btn-circle" aria-label="Notifications">🔔</button>
+          {% endif %}
+
+          {% if logged_in %}
+            <div class="dropdown">
+              <button class="btn btn-light btn-circle dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                👤
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                <li><a class="dropdown-item" href="{{ path('user.page') }}">{{ 'My Profile'|t }}</a></li>
+                <li><a class="dropdown-item" href="{{ path('user.logout') }}">{{ 'Log out'|t }}</a></li>
+              </ul>
+            </div>
+          {% else %}
+            <a href="{{ path('user.login') }}" class="btn btn-outline-primary">{{ 'Log in'|t }}</a>
+          {% endif %}
+        </div>
+      </header>
+
+      {% if tabs %}
+        <nav class="tabs p-4">
+          {{ tabs }}
+        </nav>
+      {% endif %}
+
+      <main class="flex-grow-1 p-4" id="main-content">
+        {{ page.content }}
+      </main>
+    </div>
+  </div>
+
+  <js-bottom-placeholder token="{{ placeholder_token }}">
+</body>
+</html>

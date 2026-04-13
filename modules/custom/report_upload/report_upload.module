@@ -1,0 +1,16 @@
+<?php
+
+use Drupal\Core\Extension\ModuleHandlerInterface;
+
+/**
+ * Implements hook_theme().
+ */
+function report_upload_theme($existing, $type, $theme, $path) {
+  return [
+    'report_upload_forms_page' => [
+      'render element' => 'forms',
+      'template' => 'report-upload-forms-page',
+      'path' => \Drupal::service('extension.list.module')->getPath('report_upload') . '/templates',
+    ],
+  ];
+}

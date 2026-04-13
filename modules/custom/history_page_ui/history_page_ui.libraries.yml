@@ -1,0 +1,5 @@
+history_ui:
+  version: 1.x
+  css:
+    theme:
+      css/history_page_ui.css: {}

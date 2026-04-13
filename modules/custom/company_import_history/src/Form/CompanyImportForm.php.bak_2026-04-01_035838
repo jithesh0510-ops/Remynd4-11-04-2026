@@ -1,0 +1,98 @@
+<?php
+
+namespace Drupal\company_import_history\Form;
+
+use Drupal\Core\Form\FormBase;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
+
+class CompanyImportForm extends FormBase {
+
+  public function getFormId() {
+    return 'company_import_form';
+  }
+
+  public function buildForm(array $form, FormStateInterface $form_state) {
+    $form['#attributes']['enctype'] = 'multipart/form-data';
+
+    $form['company_name'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Company Name'),
+      '#options' => $this->getCompanyOptions(),
+      '#empty_option' => $this->t('- Select -'),
+      '#required' => FALSE,
+    ];
+
+    $form['import_file'] = [
+      '#type' => 'file',
+      '#title' => $this->t('Select File'),
+      '#description' => $this->t('Allowed: csv, xlsx, xls'),
+    ];
+
+    $form['upload_button'] = [
+      '#type' => 'submit',
+      '#value' => $this->t('Upload'),
+      '#attributes' => [
+        'class' => ['button'],
+        'style' => 'background:#7fe7f2;border-color:#7fe7f2;color:#111;margin-top:8px;',
+      ],
+    ];
+
+    $form['send_email'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Send an email'),
+    ];
+
+    $form['actions_row'] = [
+      '#type' => 'container',
+      '#attributes' => ['style' => 'display:flex;gap:10px;flex-wrap:wrap;margin-top:15px;'],
+    ];
+
+    $form['actions_row']['history_link'] = [
+      '#type' => 'link',
+      '#title' => $this->t('View Import History'),
+      '#url' => Url::fromRoute('company_import_history.import_history'),
+      '#attributes' => [
+        'class' => ['button'],
+        'style' => 'background:#7fe7f2;border-color:#7fe7f2;color:#111;',
+      ],
+    ];
+
+    return $form;
+  }
+
+  public function submitForm(array &$form, FormStateInterface $form_state) {
+    $this->messenger()->addStatus($this->t('Company import form loaded.'));
+    $form_state->setRedirect('company_import_history.import_history');
+  }
+
+  protected function getCompanyOptions() {
+    $options = [];
+
+    try {
+      $connection = \Drupal::database();
+
+      if ($connection->schema()->tableExists('profile__field_company_name')) {
+        $query = $connection->select('profile__field_company_name', 'c');
+        $query->fields('c', ['field_company_name_value']);
+        $query->distinct();
+        $query->isNotNull('field_company_name_value');
+        $query->orderBy('field_company_name_value', 'ASC');
+        $results = $query->execute()->fetchCol();
+
+        foreach ($results as $value) {
+          $value = trim((string) $value);
+          if ($value !== '') {
+            $options[$value] = $value;
+          }
+        }
+      }
+    }
+    catch (\Exception $e) {
+      \Drupal::logger('company_import_history')->warning($e->getMessage());
+    }
+
+    return $options;
+  }
+
+}

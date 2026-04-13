@@ -1,0 +1,294 @@
+<?php
+
+namespace Drupal\coach_csv_import\Form;
+
+use Drupal\Core\Form\FormBase;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\user\Entity\User;
+use Drupal\profile\Entity\Profile;
+
+class CoachImportForm extends FormBase {
+
+  public function getFormId() {
+    return 'coach_csv_import_form';
+  }
+
+  public function buildForm(array $form, FormStateInterface $form_state) {
+
+    // Company dropdown: company is a USER entity (your field_company target_type = user).
+    $form['company_id'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Company Name'),
+      '#options' => $this->loadCompanyOptions(),
+      '#required' => TRUE,
+    ];
+
+    $form['csv_file'] = [
+      '#type' => 'file',
+      '#title' => $this->t('Select File'),
+      '#description' => $this->t('Upload a CSV file. Required column: mail. Optional: name, first_name, last_name.'),
+      '#required' => TRUE,
+    ];
+
+    $form['send_email'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Send an email'),
+      '#default_value' => 0,
+    ];
+
+    $form['actions'] = ['#type' => 'actions'];
+
+    $form['actions']['submit'] = [
+      '#type' => 'submit',
+      '#value' => $this->t('Upload/Update coach'),
+      '#button_type' => 'primary',
+    ];
+
+    $form['actions']['download_key'] = [
+      '#type' => 'link',
+      '#title' => $this->t('Download coach Key'),
+      '#url' => \Drupal\Core\Url::fromRoute('coach_csv_import.coach_key'),
+      '#attributes' => ['class' => ['button']],
+    ];
+
+    $form['actions']['download_sample'] = [
+      '#type' => 'link',
+      '#title' => $this->t('Download Sample'),
+      '#url' => \Drupal\Core\Url::fromRoute('coach_csv_import.sample'),
+      '#attributes' => ['class' => ['button']],
+    ];
+
+    $form['actions']['cancel'] = [
+      '#type' => 'link',
+      '#title' => $this->t('Cancel'),
+      '#url' => \Drupal\Core\Url::fromUserInput('/coach'),
+      '#attributes' => ['class' => ['button']],
+    ];
+
+    // Make it look like your screenshot (simple layout).
+    $form['#attributes']['class'][] = 'coach-import-form';
+    $form['#attached']['html_head'][] = [
+      [
+        '#tag' => 'style',
+        '#value' => '
+          .coach-import-form {max-width: 1100px;}
+          .coach-import-form .form-item {display:inline-block; vertical-align: top; margin-right: 20px; min-width: 320px;}
+          .coach-import-form .form-actions {margin-top: 18px;}
+          .coach-import-form .form-actions .button {margin-right: 10px;}
+        ',
+      ],
+      'coach_import_inline_css',
+    ];
+
+    return $form;
+  }
+
+  private function loadCompanyOptions(): array {
+    $opts = ['' => $this->t('- Select -')];
+
+    // If you have a "company" role, this is best:
+    $query = \Drupal::entityQuery('user')
+      ->condition('status', 1)
+      ->condition('roles', 'company');
+    $uids = $query->accessCheck(FALSE)->execute();
+
+    // If no users have "company" role, fallback to all users that are referenced in profile__field_company.
+    if (empty($uids)) {
+      $uids = \Drupal::database()->query("
+        SELECT DISTINCT field_company_target_id
+        FROM {profile__field_company}
+        WHERE field_company_target_id IS NOT NULL
+      ")->fetchCol();
+    }
+
+    $uids = array_values(array_unique(array_filter(array_map('intval', $uids))));
+    if (!$uids) return $opts;
+
+    /** @var \Drupal\user\UserStorageInterface $storage */
+    $storage = \Drupal::entityTypeManager()->getStorage('user');
+    $companies = $storage->loadMultiple($uids);
+
+    foreach ($companies as $u) {
+      $opts[$u->id()] = $u->getDisplayName();
+    }
+
+    // Sort by label
+    $sorted = $opts;
+    unset($sorted['']);
+    natcasesort($sorted);
+    return ['' => $this->t('- Select -')] + $sorted;
+  }
+
+  public function validateForm(array &$form, FormStateInterface $form_state) {
+    parent::validateForm($form, $form_state);
+
+    // Validate CSV upload.
+    $validators = ['file_validate_extensions' => ['csv']];
+    $file = file_save_upload('csv_file', $validators, FALSE, 0);
+    if (!$file) {
+      $form_state->setErrorByName('csv_file', $this->t('Please upload a valid .csv file.'));
+      return;
+    }
+
+    $realpath = \Drupal::service('file_system')->realpath($file->getFileUri());
+    if (!$realpath || !is_readable($realpath)) {
+      $form_state->setErrorByName('csv_file', $this->t('Uploaded file could not be read.'));
+      return;
+    }
+
+    $form_state->set('csv_realpath', $realpath);
+  }
+
+  public function submitForm(array &$form, FormStateInterface $form_state) {
+    $company_id = (int) $form_state->getValue('company_id');
+    $send_email = (bool) $form_state->getValue('send_email');
+    $path = $form_state->get('csv_realpath');
+
+    $rows = $this->readCsv($path);
+    if (!$rows) {
+      $this->messenger()->addError($this->t('CSV is empty or invalid.'));
+      return;
+    }
+
+    $created = 0;
+    $updated = 0;
+    $errors = 0;
+
+    // Determine profile type to use (pick first).
+    $profile_type = $this->guessProfileType();
+
+    foreach ($rows as $i => $row) {
+      $mail = trim((string)($row['mail'] ?? $row['email'] ?? ''));
+      if (!$mail || !filter_var($mail, FILTER_VALIDATE_EMAIL)) {
+        $errors++;
+        continue;
+      }
+
+      $name = trim((string)($row['name'] ?? ''));
+      if ($name === '') {
+        $name = strstr($mail, '@', TRUE) ?: $mail;
+      }
+
+      $first = trim((string)($row['first_name'] ?? $row['firstname'] ?? ''));
+      $last  = trim((string)($row['last_name']  ?? $row['lastname']  ?? ''));
+
+      $account = user_load_by_mail($mail);
+
+      if ($account) {
+        // Update.
+        $account->setUsername($name);
+        $account->activate();
+        $account->addRole('coach');
+        $account->save();
+        $updated++;
+      }
+      else {
+        // Create.
+        $account = User::create([
+          'name' => $name,
+          'mail' => $mail,
+          'status' => 1,
+        ]);
+        $account->addRole('coach');
+        $account->enforceIsNew();
+        $account->save();
+        $created++;
+      }
+
+      // Set profile fields (company + optional name fields if exist).
+      $this->upsertProfileCompany($account->id(), $company_id, $profile_type, $first, $last);
+
+      // Optional: send email (simple).
+      if ($send_email) {
+        $this->sendSimpleMail($mail, $name);
+      }
+    }
+
+    $this->messenger()->addStatus($this->t('Done. Created: @c, Updated: @u, Errors: @e', [
+      '@c' => $created, '@u' => $updated, '@e' => $errors,
+    ]));
+
+    // Go back to coach list after import.
+    $form_state->setRedirectUrl(\Drupal\Core\Url::fromUserInput('/coach'));
+  }
+
+  private function readCsv(string $realpath): array {
+    $fh = fopen($realpath, 'r');
+    if (!$fh) return [];
+
+    $header = fgetcsv($fh);
+    if (!$header) return [];
+
+    $header = array_map(function($h) {
+      return strtolower(trim((string)$h));
+    }, $header);
+
+    $rows = [];
+    while (($line = fgetcsv($fh)) !== FALSE) {
+      if (!array_filter($line, fn($v) => trim((string)$v) !== '')) {
+        continue;
+      }
+      $row = [];
+      foreach ($header as $idx => $key) {
+        $row[$key] = $line[$idx] ?? '';
+      }
+      $rows[] = $row;
+    }
+
+    fclose($fh);
+    return $rows;
+  }
+
+  private function guessProfileType(): string {
+    try {
+      $types = \Drupal::entityTypeManager()->getStorage('profile_type')->loadMultiple();
+      if ($types) {
+        return array_key_first($types);
+      }
+    } catch (\Throwable $e) {}
+    return 'profile';
+  }
+
+  private function upsertProfileCompany(int $uid, int $company_id, string $profile_type, string $first, string $last): void {
+    if (!$company_id) return;
+
+    /** @var \Drupal\profile\ProfileStorageInterface $ps */
+    $ps = \Drupal::entityTypeManager()->getStorage('profile');
+
+    // Load existing profile for user (any bundle).
+    $existing = $ps->loadByProperties(['uid' => $uid]);
+    /** @var \Drupal\profile\Entity\Profile|null $profile */
+    $profile = $existing ? reset($existing) : NULL;
+
+    if (!$profile) {
+      $profile = Profile::create([
+        'type' => $profile_type,
+        'uid' => $uid,
+        'status' => 1,
+      ]);
+    }
+
+    if ($profile->hasField('field_company')) {
+      $profile->set('field_company', $company_id);
+    }
+
+    // Optional name fields if they exist on profile.
+    if ($first && $profile->hasField('field_first_name')) {
+      $profile->set('field_first_name', $first);
+    }
+    if ($last && $profile->hasField('field_last_name')) {
+      $profile->set('field_last_name', $last);
+    }
+
+    $profile->save();
+  }
+
+  private function sendSimpleMail(string $to, string $username): void {
+    // Minimal mail without custom mail plugin.
+    $params = [
+      'subject' => 'Coach account updated',
+      'message' => "Hello $username,\n\nYour coach account has been created/updated.\n\nThanks.",
+    ];
+    \Drupal::service('plugin.manager.mail')->mail('system', 'mail', $to, \Drupal::languageManager()->getDefaultLanguage()->getId(), $params);
+  }
+}
