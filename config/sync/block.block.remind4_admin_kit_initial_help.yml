@@ -1,15 +1,15 @@
 uuid: fb05ce15-255d-4694-8ebc-e2b50598ca9f
 langcode: en
-status: true
+status: false
 dependencies:
   module:
     - help
   theme:
-    - remind4_admin_kit_initial
+    - remind4_admin_kit
 _core:
   default_config_hash: LboS2JXy9W-E4MFKQksI6TctZCies42HjNrMo-L0jWE
 id: remind4_admin_kit_initial_help
-theme: remind4_admin_kit_initial
+theme: remind4_admin_kit
 region: content
 weight: -3
 provider: null

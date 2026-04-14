@@ -4,7 +4,7 @@ namespace Drupal\reporting_user\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\profile\Entity\Profile;
+use Drupal\reporting_user\ReportingUserInlineAccess;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -93,6 +93,13 @@ class InlineJobPositionController extends ControllerBase {
           'success' => FALSE,
           'message' => 'Employee profile not found. ID: ' . $employee_id,
         ], 404);
+      }
+
+      if (!ReportingUserInlineAccess::accountMayEditEmployeeProfile($profile, $this->currentUser())) {
+        return new JsonResponse([
+          'success' => FALSE,
+          'message' => 'Access denied.',
+        ], 403);
       }
 
       // Validate job position ID if provided.

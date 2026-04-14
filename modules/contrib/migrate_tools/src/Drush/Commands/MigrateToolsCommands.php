@@ -993,22 +993,18 @@ class MigrateToolsCommands extends DrushCommands {
 
     $manager = $this->migrationPluginManager;
 
-    $matched_migrations = [];
+    $matched_migration_definitions = $manager->getDefinitions();
 
-    if (empty($migration_ids)) {
-      // Get all migrations.
-      $plugins = $manager->createInstances([]);
-      $matched_migrations = $plugins;
-    }
-    else {
+    // Filter by specific migration IDs.
+    if ($migration_ids) {
+      $filtered_migrations = [];
+
       // Get the requested migrations.
       $migration_ids = explode(',', mb_strtolower($migration_ids));
 
-      $definitions = $manager->getDefinitions();
-
       foreach ($migration_ids as $given_migration_id) {
-        if (isset($definitions[$given_migration_id])) {
-          $matched_migrations[$given_migration_id] = $manager->createInstance($given_migration_id);
+        if (isset($matched_migration_definitions[$given_migration_id])) {
+          $filtered_migrations[$given_migration_id] = $matched_migration_definitions[$given_migration_id];
         }
         else {
           $error_message = \dt('Migration @id does not exist', ['@id' => $given_migration_id]);
@@ -1019,8 +1015,42 @@ class MigrateToolsCommands extends DrushCommands {
             throw new \Exception($error_message);
           }
         }
-
       }
+
+      $matched_migration_definitions = $filtered_migrations;
+    }
+
+    // Filters the matched migrations if a group or a tag has been input.
+    if (!empty($filter['migration_group']) || !empty($filter['migration_tags'])) {
+      // Get migrations in any of the specified groups and with any of the
+      // specified tags.
+      foreach ($filter as $property => $values) {
+        if (!empty($values)) {
+          $filtered_migrations = [];
+          foreach ($values as $search_value) {
+            foreach ($matched_migration_definitions as $id => $migration_definition) {
+              // Cast to array because migration_tags can be an array.
+              $configured_values = (array) ($migration_definition[$property] ?? NULL);
+              $configured_id = in_array($search_value, $configured_values, TRUE) ? $search_value : 'default';
+              if (empty($search_value) || $search_value === $configured_id) {
+                if (empty($migration_ids) || in_array(
+                    mb_strtolower($id),
+                    $migration_ids,
+                    TRUE
+                  )) {
+                  $filtered_migrations[$id] = $migration_definition;
+                }
+              }
+            }
+          }
+          $matched_migration_definitions = $filtered_migrations;
+        }
+      }
+    }
+
+    $matched_migrations = [];
+    foreach (array_keys($matched_migration_definitions) as $id) {
+      $matched_migrations[$id] = $manager->createInstance($id);
     }
 
     // Do not return any migrations which fail to meet requirements.
@@ -1041,35 +1071,6 @@ class MigrateToolsCommands extends DrushCommands {
         }
         else {
           throw $exception;
-        }
-      }
-    }
-
-    // Filters the matched migrations if a group or a tag has been input.
-    if (!empty($filter['migration_group']) || !empty($filter['migration_tags'])) {
-      // Get migrations in any of the specified groups and with any of the
-      // specified tags.
-      foreach ($filter as $property => $values) {
-        if (!empty($values)) {
-          $filtered_migrations = [];
-          foreach ($values as $search_value) {
-            foreach ($matched_migrations as $id => $migration) {
-              // Cast to array because migration_tags can be an array.
-              $definition = $migration->getPluginDefinition();
-              $configured_values = (array) ($definition[$property] ?? NULL);
-              $configured_id = in_array($search_value, $configured_values, TRUE) ? $search_value : 'default';
-              if (empty($search_value) || $search_value === $configured_id) {
-                if (empty($migration_ids) || in_array(
-                    mb_strtolower($id),
-                    $migration_ids,
-                    TRUE
-                  )) {
-                  $filtered_migrations[$id] = $migration;
-                }
-              }
-            }
-          }
-          $matched_migrations = $filtered_migrations;
         }
       }
     }

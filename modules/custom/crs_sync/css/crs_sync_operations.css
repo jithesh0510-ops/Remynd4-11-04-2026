@@ -1,0 +1,14 @@
+/* Spacing for the CRS legacy import admin form. */
+.crs-sync-operations .form-actions,
+.crs-sync-operations .js-form-type-submit {
+  margin-top: 0.75rem;
+}
+
+.crs-sync-operations details {
+  margin-bottom: 1.25rem;
+}
+
+.crs-sync-operations details .form-submit {
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+}

@@ -8,7 +8,7 @@ php: 8.0
 dependencies:
   - social_auth:social_auth
 
-# Information added by Drupal.org packaging script on 2025-05-09
-version: '2.0.1'
+# Information added by Drupal.org packaging script on 2026-03-02
+version: '2.0.2'
 project: 'social_auth_apple'
-datestamp: 1746792056
+datestamp: 1772451028

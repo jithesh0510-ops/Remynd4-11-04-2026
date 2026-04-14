@@ -5,9 +5,44 @@
  * Install hooks for CRS Migrate.
  */
 
+use Symfony\Component\Yaml\Yaml;
+
 /**
  * Implements hook_install().
  */
 function crs_migrate_install() {
   // Nothing required at install-time. Migrations are config-based (migrate_plus).
+}
+
+/**
+ * Import crs_emp_filling_session migration config on existing sites.
+ */
+function crs_migrate_update_9001() {
+  $path = \Drupal::service('extension.list.module')->getPath('crs_migrate') . '/config/install/migrate_plus.migration.crs_emp_filling_session.yml';
+  if (!is_readable($path)) {
+    return t('crs_emp_filling_session YAML not found; skipped.');
+  }
+  $data = Yaml::parseFile($path);
+  \Drupal::configFactory()->getEditable('migrate_plus.migration.crs_emp_filling_session')->setData($data)->save();
+  return t('Imported migration config migrate_plus.migration.crs_emp_filling_session.');
+}
+
+/**
+ * Re-import coach session migrations (coach id normalized via qs_coach_master).
+ */
+function crs_migrate_update_9002() {
+  $module = \Drupal::service('extension.list.module')->getPath('crs_migrate') . '/config/install';
+  $saved = [];
+  foreach ([
+    'migrate_plus.migration.crs_coach_submission_session',
+    'migrate_plus.migration.crs_emp_filling_session',
+  ] as $name) {
+    $path = $module . '/' . $name . '.yml';
+    if (!is_readable($path)) {
+      continue;
+    }
+    \Drupal::configFactory()->getEditable($name)->setData(Yaml::parseFile($path))->save();
+    $saved[] = $name;
+  }
+  return empty($saved) ? t('No migration YAML updated.') : t('Updated: @l', ['@l' => implode(', ', $saved)]);
 }

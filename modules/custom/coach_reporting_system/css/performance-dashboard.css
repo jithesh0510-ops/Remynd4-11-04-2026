@@ -1292,6 +1292,118 @@ input[type="submit"],
 }
 
 /* ========================================
+   Professional Dashboard Polish Overrides
+   ======================================== */
+
+.performance-dashboard-wrapper .dashboard-filters-section {
+  border: 1px solid #d9e3ea;
+  border-radius: 0.75rem;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+  padding: 1.25rem 1.25rem 1rem;
+  margin-bottom: 1.1rem;
+}
+
+.performance-dashboard-wrapper .filters-title,
+.performance-dashboard-wrapper .section-title,
+.performance-dashboard-wrapper .dashboard-title {
+  text-align: left !important;
+  margin-left: 0 !important;
+  color: #0f172a;
+}
+
+.performance-dashboard-wrapper .filters-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0 0 0.85rem 0;
+}
+
+.performance-dashboard-wrapper .section-title {
+  font-size: 1.55rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+  letter-spacing: -0.01em;
+}
+
+.performance-dashboard-wrapper .filter-row {
+  grid-template-columns: minmax(260px, 1fr) minmax(260px, 1fr) auto;
+  gap: 0.85rem;
+  align-items: end;
+}
+
+.performance-dashboard-wrapper .form-group {
+  gap: 0.4rem;
+}
+
+.performance-dashboard-wrapper .dashboard-select {
+  min-height: 2.75rem;
+  border: 1px solid #d7e0e8;
+  border-radius: 0.5rem;
+  background-color: #ffffff;
+  box-shadow: none;
+}
+
+.performance-dashboard-wrapper .dashboard-select:hover:not(:disabled),
+.performance-dashboard-wrapper .dashboard-select:focus {
+  border-color: #86f1ff;
+  box-shadow: 0 0 0 3px rgba(134, 241, 255, 0.18);
+  transform: none;
+}
+
+.performance-dashboard-wrapper .btn-submit {
+  min-height: 2.75rem;
+  border-radius: 0.55rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  padding: 0.7rem 1.35rem;
+}
+
+.performance-dashboard-wrapper .programs-accordion {
+  margin-top: 0.35rem;
+}
+
+.performance-dashboard-wrapper .accordion {
+  gap: 0.7rem;
+}
+
+.performance-dashboard-wrapper .accordion-item {
+  border: 1px solid #dbe7ef;
+  border-radius: 0.65rem;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+.performance-dashboard-wrapper .accordion-button {
+  min-height: 3.1rem;
+  padding: 0.8rem 1rem;
+  border: 0;
+  border-radius: 0.65rem;
+  font-weight: 600;
+}
+
+.performance-dashboard-wrapper .accordion-button:hover {
+  background: #f8fbfd !important;
+  color: #0f172a !important;
+}
+
+.performance-dashboard-wrapper .accordion-button:not(.collapsed) {
+  background: #f8fdff !important;
+  border-bottom: 1px solid #dce8f0 !important;
+}
+
+.performance-dashboard-wrapper .program-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 0.35rem;
+  margin-right: 0.5rem;
+}
+
+.performance-dashboard-wrapper .program-name {
+  font-size: 0.925rem;
+  line-height: 1.25;
+}
+
+/* ========================================
    Accessibility Enhancements
    ======================================== */
 

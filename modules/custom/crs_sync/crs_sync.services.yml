@@ -11,9 +11,15 @@ services:
       $logger: '@logger.channel.crs_sync'
       $time: '@datetime.time'
 
-  crs_sync.sync_controller:
-    class: Drupal\crs_sync\Controller\SyncController
+  crs_sync.migration_reset:
+    class: Drupal\crs_sync\Sync\MigrationResetService
     arguments:
-      - '@crs_sync.sync_manager'
-      - '@renderer'
-    tags: ['controller.service_arguments']
+      $entityTypeManager: '@entity_type.manager'
+      $database: '@database'
+      $logger: '@logger.channel.crs_sync'
+      $currentUser: '@current_user'
+
+  crs_sync.migration_field_audit:
+    class: Drupal\crs_sync\Sync\MigrationFieldAudit
+    arguments:
+      $entityFieldManager: '@entity_field.manager'

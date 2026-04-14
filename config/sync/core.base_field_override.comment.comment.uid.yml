@@ -15,6 +15,6 @@ translatable: false
 default_value: {  }
 default_value_callback: 'Drupal\comment\Entity\Comment::getDefaultEntityOwner'
 settings:
-  handler: default
+  handler: 'default:user'
   handler_settings: {  }
 field_type: entity_reference

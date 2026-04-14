@@ -137,6 +137,12 @@
       // ===== Collapse =====
       $(once('navCollapseInit', '[data-bs-toggle="collapse"]', context)).each(function () {
         var $toggle = $(this);
+
+        // Let Performance Dashboard manage its own accordion behavior.
+        if ($toggle.closest('.programs-accordion').length) {
+          return;
+        }
+
         var $target = getTarget($toggle);
         if (!$target.length) return;
 

@@ -112,6 +112,107 @@ function coach_reporting_system_schema() {
     ],
   ];
 
+  $schema['coach_reporting_session'] = [
+    'description' => 'Coach-led questionnaire session (one row per started session).',
+    'fields' => [
+      'sid' => [
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Session primary key.',
+      ],
+      'coach_uid' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Drupal UID of the coach.',
+      ],
+      'company_uid' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Drupal UID of the company.',
+      ],
+      'program_nid' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Questionnaire node ID.',
+      ],
+      'employee_uid' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Drupal UID of the employee.',
+      ],
+      'fill_date' => [
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => FALSE,
+        'description' => 'Filling date (typically Y-m-d).',
+      ],
+      'created' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Request time when the session row was created.',
+      ],
+      'submitted' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+        'description' => 'Unix timestamp when answers were saved; NULL until submitted.',
+      ],
+    ],
+    'primary key' => ['sid'],
+    'indexes' => [
+      'coach_company_program_emp' => ['coach_uid', 'company_uid', 'program_nid', 'employee_uid'],
+      'submitted' => ['submitted'],
+    ],
+  ];
+
+  $schema['coach_reporting_session_answer'] = [
+    'description' => 'Answers for coach_reporting_session (step UUID + optional matrix row UUID).',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'not null' => TRUE,
+      ],
+      'sid' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'step_uuid' => [
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ],
+      'row_uuid' => [
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => FALSE,
+      ],
+      'value' => [
+        'type' => 'text',
+        'size' => 'big',
+        'not null' => FALSE,
+      ],
+      'created' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'sid' => ['sid'],
+      'step_uuid' => ['step_uuid'],
+      'row_uuid' => ['row_uuid'],
+    ],
+  ];
+
   return $schema;
 }
 
@@ -136,4 +237,19 @@ function coach_reporting_system_update_8001() {
   }
   
   return t('Created missing database tables for coach reporting system.');
+}
+
+/**
+ * Create coach questionnaire session tables if missing.
+ */
+function coach_reporting_system_update_8002() {
+  $db = Database::getConnection();
+  $schema = coach_reporting_system_schema();
+  if (!$db->schema()->tableExists('coach_reporting_session')) {
+    $db->schema()->createTable('coach_reporting_session', $schema['coach_reporting_session']);
+  }
+  if (!$db->schema()->tableExists('coach_reporting_session_answer')) {
+    $db->schema()->createTable('coach_reporting_session_answer', $schema['coach_reporting_session_answer']);
+  }
+  return t('Ensured coach_reporting_session and coach_reporting_session_answer tables exist.');
 }

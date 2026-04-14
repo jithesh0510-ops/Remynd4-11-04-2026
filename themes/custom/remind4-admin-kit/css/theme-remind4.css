@@ -1,0 +1,278 @@
+/**
+ * @file
+ * Remind4 brand layer: primary #86f1ff, typography, layout accents.
+ * Loaded after app.css to override Bootstrap / AdminKit defaults.
+ */
+
+/* --------------------------------------------------------------------------
+   Design tokens (inherited across the admin UI)
+   -------------------------------------------------------------------------- */
+body.remind4-admin-kit {
+  --remind4-primary: #86f1ff;
+  --remind4-primary-rgb: 134, 241, 255;
+  --remind4-primary-soft: rgba(134, 241, 255, 0.14);
+  --remind4-primary-mid: #5ee4f5;
+  --remind4-primary-deep: #0c7588;
+  --remind4-primary-ink: #042a32;
+  --remind4-surface: #eef5f8;
+  --remind4-surface-elevated: #fafcfd;
+  --remind4-ink: #0f172a;
+  --remind4-ink-muted: #475569;
+  --remind4-border: rgba(12, 88, 102, 0.12);
+
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--remind4-ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body.remind4-admin-kit :is(h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6) {
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--remind4-ink);
+}
+
+body.remind4-admin-kit a:not(.btn):not(.sidebar-link):not(.nav-link.dropdown-toggle) {
+  color: var(--remind4-primary-deep);
+}
+
+body.remind4-admin-kit a:not(.btn):not(.sidebar-link):not(.nav-link.dropdown-toggle):hover {
+  color: #065a68;
+}
+
+/* Bootstrap 5 variables for descendants */
+body.remind4-admin-kit {
+  --bs-primary: #86f1ff;
+  --bs-primary-rgb: 134, 241, 255;
+  --bs-info: #86f1ff;
+  --bs-info-rgb: 134, 241, 255;
+  --bs-link-color: var(--remind4-primary-deep);
+  --bs-link-hover-color: #065a68;
+}
+
+body.remind4-admin-kit .btn-primary {
+  --bs-btn-color: var(--remind4-primary-ink);
+  --bs-btn-bg: #86f1ff;
+  --bs-btn-border-color: #6ee8f7;
+  --bs-btn-hover-color: var(--remind4-primary-ink);
+  --bs-btn-hover-bg: #6ee8f7;
+  --bs-btn-hover-border-color: #5adef0;
+  --bs-btn-active-color: var(--remind4-primary-ink);
+  --bs-btn-active-bg: #5adef0;
+  --bs-btn-active-border-color: #48d4e8;
+  --bs-btn-focus-shadow-rgb: 134, 241, 255;
+}
+
+body.remind4-admin-kit .btn-outline-primary {
+  --bs-btn-color: var(--remind4-primary-deep);
+  --bs-btn-border-color: var(--remind4-primary-deep);
+  --bs-btn-hover-bg: var(--remind4-primary-soft);
+  --bs-btn-hover-border-color: var(--remind4-primary-deep);
+  --bs-btn-hover-color: #042a32;
+}
+
+/* --------------------------------------------------------------------------
+   Shell: sidebar, main canvas, top bar
+   -------------------------------------------------------------------------- */
+body.remind4-admin-kit .sidebar,
+body.remind4-admin-kit .sidebar-content,
+body.remind4-admin-kit .sidebar-link,
+body.remind4-admin-kit a.sidebar-link {
+  background: #101b24;
+}
+
+body.remind4-admin-kit .sidebar-link,
+body.remind4-admin-kit a.sidebar-link {
+  color: rgba(226, 232, 240, 0.62);
+  border-left: 3px solid transparent;
+}
+
+body.remind4-admin-kit .sidebar-link i,
+body.remind4-admin-kit .sidebar-link svg,
+body.remind4-admin-kit a.sidebar-link i,
+body.remind4-admin-kit a.sidebar-link svg {
+  color: rgba(226, 232, 240, 0.55);
+}
+
+body.remind4-admin-kit .sidebar-link:hover,
+body.remind4-admin-kit a.sidebar-link:hover {
+  background: rgba(134, 241, 255, 0.06);
+  color: rgba(248, 250, 252, 0.92);
+}
+
+body.remind4-admin-kit .sidebar-link:hover i,
+body.remind4-admin-kit .sidebar-link:hover svg,
+body.remind4-admin-kit a.sidebar-link:hover i,
+body.remind4-admin-kit a.sidebar-link:hover svg {
+  color: rgba(248, 250, 252, 0.88);
+}
+
+body.remind4-admin-kit .sidebar-item.active .sidebar-link:hover,
+body.remind4-admin-kit .sidebar-item.active > .sidebar-link {
+  background: linear-gradient(
+    90deg,
+    rgba(134, 241, 255, 0.16) 0%,
+    rgba(134, 241, 255, 0.06) 55%,
+    transparent 100%
+  );
+  border-left-color: #86f1ff;
+  color: #f8fafc;
+}
+
+body.remind4-admin-kit .sidebar-item.active .sidebar-link:hover i,
+body.remind4-admin-kit .sidebar-item.active .sidebar-link:hover svg,
+body.remind4-admin-kit .sidebar-item.active > .sidebar-link i,
+body.remind4-admin-kit .sidebar-item.active > .sidebar-link svg {
+  color: #86f1ff;
+}
+
+body.remind4-admin-kit .sidebar-brand {
+  color: #f8fafc;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+body.remind4-admin-kit .sidebar-brand:hover {
+  color: #86f1ff;
+}
+
+body.remind4-admin-kit .main {
+  background: var(--remind4-surface);
+}
+
+body.remind4-admin-kit .navbar-bg {
+  background: var(--remind4-surface-elevated) !important;
+}
+
+body.remind4-admin-kit .navbar-brand .feather,
+body.remind4-admin-kit .navbar-brand svg {
+  color: var(--remind4-primary-deep) !important;
+}
+
+body.remind4-admin-kit .content {
+  color: var(--remind4-ink);
+}
+
+/* Allow wide tables to scroll inside flex layout (.main > .content). */
+body.remind4-admin-kit .main .content#main-content,
+body.remind4-admin-kit #main-content {
+  min-width: 0;
+  max-width: 100%;
+}
+
+body.remind4-admin-kit .navbar {
+  background: var(--remind4-surface-elevated);
+  border-bottom: 1px solid var(--remind4-border);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+body.remind4-admin-kit .sidebar-toggle {
+  color: var(--remind4-ink-muted);
+}
+
+body.remind4-admin-kit .sidebar-toggle:hover,
+body.remind4-admin-kit .sidebar-toggle:focus {
+  color: var(--remind4-primary-deep);
+}
+
+body.remind4-admin-kit .nav-icon:hover,
+body.remind4-admin-kit .nav-icon:focus {
+  color: var(--remind4-primary-deep);
+  background-color: rgba(134, 241, 255, 0.12);
+}
+
+/* --------------------------------------------------------------------------
+   Main content: tables, focus rings
+   -------------------------------------------------------------------------- */
+body.remind4-admin-kit #main-content table thead {
+  background: linear-gradient(180deg, #0f2430 0%, #152f3f 100%);
+  color: #f1f5f9;
+}
+
+body.remind4-admin-kit #main-content table thead th {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border-bottom: 2px solid rgba(134, 241, 255, 0.35);
+  white-space: nowrap;
+}
+
+/* Company view: allow long metrics headers to wrap into 2 lines. */
+body.remind4-admin-kit #main-content .view-id-company th.views-field-field-no-of-coach,
+body.remind4-admin-kit #main-content .view-id-company th.views-field-field-no-of-employees,
+body.remind4-admin-kit #main-content .view-id-company th.views-field-field-no-of-password-generated {
+  white-space: normal;
+  line-height: 1.15;
+  min-width: 8.75rem;
+}
+
+/* Keep numeric values compact and readable for 3-5 digits. */
+body.remind4-admin-kit #main-content .view-id-company td.views-field-field-no-of-coach,
+body.remind4-admin-kit #main-content .view-id-company td.views-field-field-no-of-employees,
+body.remind4-admin-kit #main-content .view-id-company td.views-field-field-no-of-password-generated {
+  white-space: nowrap;
+  text-align: center;
+  min-width: 5rem;
+}
+
+body.remind4-admin-kit #main-content table tbody tr:hover {
+  background-color: rgba(134, 241, 255, 0.06);
+}
+
+body.remind4-admin-kit #main-content .table-responsive,
+body.remind4-admin-kit #main-content .remind4-table-scroll,
+body.remind4-admin-kit #main-content .views-table-wrapper,
+body.remind4-admin-kit #main-content .table-wrapper,
+body.remind4-admin-kit #main-content form:has(> table),
+body.remind4-admin-kit #main-content .form-wrapper:has(> table),
+body.remind4-admin-kit #main-content .js-form-wrapper:has(> table),
+body.remind4-admin-kit #main-content div:has(> table.views-table),
+body.remind4-admin-kit #main-content div:has(> table.sticky-header) {
+  border-color: var(--remind4-border);
+  scrollbar-color: rgba(134, 241, 255, 0.55) rgba(15, 23, 42, 0.06);
+}
+
+body.remind4-admin-kit #main-content .remind4-table-scroll {
+  border-color: var(--remind4-border);
+  scrollbar-color: rgba(134, 241, 255, 0.55) rgba(15, 23, 42, 0.06);
+}
+
+body.remind4-admin-kit #main-content .table-responsive::-webkit-scrollbar-thumb,
+body.remind4-admin-kit #main-content .remind4-table-scroll::-webkit-scrollbar-thumb,
+body.remind4-admin-kit #main-content .views-table-wrapper::-webkit-scrollbar-thumb,
+body.remind4-admin-kit #main-content .table-wrapper::-webkit-scrollbar-thumb,
+body.remind4-admin-kit #main-content form:has(> table)::-webkit-scrollbar-thumb,
+body.remind4-admin-kit #main-content .form-wrapper:has(> table)::-webkit-scrollbar-thumb,
+body.remind4-admin-kit #main-content .js-form-wrapper:has(> table)::-webkit-scrollbar-thumb,
+body.remind4-admin-kit #main-content div:has(> table.views-table)::-webkit-scrollbar-thumb,
+body.remind4-admin-kit #main-content div:has(> table.sticky-header)::-webkit-scrollbar-thumb {
+  background: rgba(134, 241, 255, 0.45);
+}
+
+body.remind4-admin-kit #main-content .table-responsive::-webkit-scrollbar-thumb:hover,
+body.remind4-admin-kit #main-content .remind4-table-scroll::-webkit-scrollbar-thumb:hover,
+body.remind4-admin-kit #main-content .views-table-wrapper::-webkit-scrollbar-thumb:hover,
+body.remind4-admin-kit #main-content .table-wrapper::-webkit-scrollbar-thumb:hover,
+body.remind4-admin-kit #main-content form:has(> table)::-webkit-scrollbar-thumb:hover,
+body.remind4-admin-kit #main-content .form-wrapper:has(> table)::-webkit-scrollbar-thumb:hover,
+body.remind4-admin-kit #main-content .js-form-wrapper:has(> table)::-webkit-scrollbar-thumb:hover,
+body.remind4-admin-kit #main-content div:has(> table.views-table)::-webkit-scrollbar-thumb:hover,
+body.remind4-admin-kit #main-content div:has(> table.sticky-header)::-webkit-scrollbar-thumb:hover {
+  background: rgba(134, 241, 255, 0.65);
+}
+
+body.remind4-admin-kit #main-content input:focus,
+body.remind4-admin-kit #main-content textarea:focus,
+body.remind4-admin-kit #main-content select:focus {
+  border-color: #5ee4f5 !important;
+  box-shadow: 0 0 0 3px rgba(134, 241, 255, 0.22) !important;
+}
+
+/* Local tasks / tabs often use Bootstrap nav */
+body.remind4-admin-kit .tabs .nav-link.active,
+body.remind4-admin-kit .nav-tabs .nav-link.active {
+  border-color: rgba(12, 88, 102, 0.15) rgba(12, 88, 102, 0.15) #86f1ff;
+  color: var(--remind4-primary-deep);
+}

@@ -137,9 +137,13 @@
             const isExpanded = button.getAttribute('aria-expanded') === 'true';
             if (isExpanded && !target.classList.contains('show')) {
               target.classList.add('show');
+              target.classList.remove('hide');
+              target.setAttribute('aria-hidden', 'false');
             }
-            if (!isExpanded && target.classList.contains('show')) {
+            if (!isExpanded) {
               target.classList.remove('show');
+              target.classList.add('hide');
+              target.setAttribute('aria-hidden', 'true');
               button.classList.add('collapsed');
             }
           }
@@ -175,6 +179,8 @@
             allCollapses.forEach(function(collapse) {
               if (collapse !== target) {
                 collapse.classList.remove('show');
+                collapse.classList.add('hide');
+                collapse.setAttribute('aria-hidden', 'true');
               }
             });
           }
@@ -185,11 +191,15 @@
             this.classList.add('collapsed');
             this.setAttribute('aria-expanded', 'false');
             target.classList.remove('show');
+            target.classList.add('hide');
+            target.setAttribute('aria-hidden', 'true');
           } else {
             // Expand
             this.classList.remove('collapsed');
             this.setAttribute('aria-expanded', 'true');
+            target.classList.remove('hide');
             target.classList.add('show');
+            target.setAttribute('aria-hidden', 'false');
           }
         });
       });

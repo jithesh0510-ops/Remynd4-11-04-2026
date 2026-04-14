@@ -1,0 +1,38 @@
+langcode: en
+status: true
+id: crs_users_company
+migration_group: crs_migrate
+label: 'CRS Users (Company)'
+source:
+  plugin: crs_legacy_table
+  key: legacy
+  table: qs_company_master
+  alias: t
+  fields:
+    id: legacy_id
+    email: mail
+    company_name: uname
+  ids:
+    legacy_id:
+      type: integer
+process:
+  name: uname
+  mail: mail
+  status:
+    plugin: default_value
+    default_value: 1
+  roles:
+    plugin: default_value
+    default_value:
+      - company
+  created:
+    plugin: callback
+    callable: time
+    unpack_source: true
+    source: {  }
+  pass:
+    plugin: default_value
+    default_value: Temp!ChangeMe123
+destination:
+  plugin: 'entity:user'
+migration_dependencies: {  }

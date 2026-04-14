@@ -893,40 +893,58 @@ $settings['migrate_node_migrate_type_classic'] = FALSE;
 #   include $app_root . '/' . $site_path . '/settings.local.php';
 # }
 
-// === LOCAL DB OVERRIDE (remindy4) ===
-$databases['default']['default']['database'] = 'remindy4';
-$databases['default']['default']['username'] = 'remynd4';
-$databases['default']['default']['password'] = 'remynd4pass';
-$databases['default']['default']['host'] = '127.0.0.1';
-$databases['default']['default']['port'] = '3306';
-
-// === DB DRIVER FIX (required for Drupal 10) ===
-$databases['default']['default']['driver'] = 'mysql';
-$databases['default']['default']['namespace'] = 'Drupal\\Core\\Database\\Driver\\mysql';
-
-// === LOCAL DB OVERRIDE (remindy4) ===
-$databases['default']['default']['database'] = 'remindy4';
-$databases['default']['default']['username'] = 'remynd4';
-$databases['default']['default']['password'] = 'remynd4pass';
-$databases['default']['default']['host'] = '127.0.0.1';
-$databases['default']['default']['port'] = '3306';
-
-// === DB DRIVER FIX (required for Drupal 10) ===
-$databases['default']['default']['driver'] = 'mysql';
-$databases['default']['default']['namespace'] = 'Drupal\\Core\\Database\\Driver\\mysql';
-
-// === LOCAL DB OVERRIDE (remindy4) ===
-$databases['default']['default']['database'] = 'remindy4';
-$databases['default']['default']['username'] = 'remynd4';
-$databases['default']['default']['password'] = 'remynd4pass';
-$databases['default']['default']['host'] = '127.0.0.1';
-$databases['default']['default']['port'] = '3306';
+// === LOCAL DB (used when not running under DDEV; DDEV overwrites in settings.ddev.php) ===
+$databases['default']['default'] = [
+  'database' => 'remindy4',
+  'username' => 'remynd4',
+  'password' => 'remynd4pass',
+  'host' => '127.0.0.1',
+  'port' => '3306',
+  'driver' => 'mysql',
+  'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
+];
 
 // === REQUIRED: hash_salt ===
 $settings['hash_salt'] = 'remindy4_' . md5(__FILE__);
 
-// === FIX: legacy DB alias (some custom code expects this) ===
-$databases['legacy']['default'] = $databases['default']['default'];
+/** Config sync directory (relative to Drupal root; matches repo `config/sync`). */
+$settings['config_sync_directory'] = 'config/sync';
 
-/** Config sync directory */
-$settings['config_sync_directory'] = 'sites/default/config/sync';
+// Automatically generated include for settings managed by ddev.
+$ddev_settings = __DIR__ . '/settings.ddev.php';
+if (getenv('IS_DDEV_PROJECT') == 'true' && is_readable($ddev_settings)) {
+  require $ddev_settings;
+}
+
+/**
+ * crs_sync legacy MySQL connection ($databases['legacy']).
+ *
+ * Must be defined AFTER settings.ddev.php: otherwise legacy still pointed at
+ * 127.0.0.1 while default was rewritten to host `db`, and SyncManager failed.
+ *
+ * - Default: same database name as Drupal (e.g. DDEV uses `db`). Import legacy
+ *   `qs_*` tables into that database, or use a separate DB via env
+ *   CRS_LEGACY_DATABASE (e.g. `legacy_drupal_ready` after running
+ *   crs_sync/sql/legacy_drupal_ready_schema.sql).
+ */
+if (!empty($databases['default']['default'])) {
+  $d = $databases['default']['default'];
+  $legacy_env = getenv('CRS_LEGACY_DATABASE');
+  if (is_string($legacy_env) && trim($legacy_env) !== '') {
+    $legacy_db = trim($legacy_env);
+  }
+  else {
+    $legacy_db = $d['database'];
+  }
+  $databases['legacy']['default'] = [
+    'driver' => $d['driver'] ?? 'mysql',
+    'database' => $legacy_db,
+    'username' => $d['username'],
+    'password' => $d['password'],
+    'host' => $d['host'],
+    'port' => $d['port'] ?? '3306',
+    'prefix' => $d['prefix'] ?? '',
+    'namespace' => $d['namespace'] ?? 'Drupal\\Core\\Database\\Driver\\mysql',
+    'collation' => $d['collation'] ?? 'utf8mb4_general_ci',
+  ];
+}

@@ -6,7 +6,7 @@ package: Field types
 dependencies:
   - drupal:options
 
-# Information added by Drupal.org packaging script on 2025-01-24
-version: '2.0.4'
+# Information added by Drupal.org packaging script on 2026-02-01
+version: '2.0.5'
 project: 'entity_reference_display'
-datestamp: 1737693930
+datestamp: 1769967862

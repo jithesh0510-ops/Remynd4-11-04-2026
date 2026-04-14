@@ -131,7 +131,7 @@ class MigrateExecutable extends MigrateExecutableBase {
     }
     if (!$keyValue instanceof KeyValueFactoryInterface) {
       // If options aren't passed, the keyValue parameter must be the options.
-      if (!isset($options)) {
+      if (!isset($options) || empty($options)) {
         $options = $keyValue;
       }
       @trigger_error('Calling ' . __METHOD__ . '() without the $keyValue argument is deprecated in migrate_tools:6.1.0 and it will be required in migrate_tools:7.0.0. See https://www.drupal.org/node/3537201', E_USER_DEPRECATED);
@@ -317,10 +317,40 @@ class MigrateExecutable extends MigrateExecutableBase {
     $this->progressMessage();
     $this->removeListeners();
 
+    $keys = array_keys($this->getSource()->getIds());
     $unused_ids = $this->getSource()->getRemainingIdList();
-    if ($unused_ids) {
-      $this->message->display($this->t("The following specified IDs were not found in the source IDs: @idlist.", [
-        '@idlist' => implode(', ', array_map(static fn($ids): string => implode(':', $ids), $unused_ids)),
+    $map_rows = [];
+    $bad_rows = [];
+    foreach ($unused_ids as $unused_id) {
+      if (count($keys) == count($unused_id)) {
+        $selector = array_combine($keys, $unused_id);
+        // Handle possible TypeError.
+        // @see https://www.drupal.org/project/migrate_tools/issues/3416010
+        try {
+          $row_data = $this->getIdMap()->getRowBySource($selector);
+          $map_rows[implode(':', $unused_id)] = $row_data;
+        }
+        catch (\TypeError $e) {
+          $bad_rows[] = implode(':', $unused_id);
+        }
+      }
+      else {
+        $id = implode(':', $unused_id);
+        $this->message->display($this->t("Invalid source id: Source id @id does not match this migration's source key count, which is :count.", [
+          '@id' => $id,
+          ':count' => count($keys),
+        ]));
+        $bad_rows[] = $id;
+      }
+    }
+    if ($bad_rows) {
+      $this->message->display($this->t("The following specified IDs could not be migrated: @idlist. They may be missing from your source.", [
+        '@idlist' => implode(', ', $bad_rows),
+      ]));
+    }
+    if ($map_rows) {
+      $this->message->display($this->t("The following specified IDs have been migrated in the past, but were ignored in this migration: @idlist. Check the migrate status of their rows for more information.", [
+        '@idlist' => implode(', ', array_keys($map_rows)),
       ]));
     }
   }

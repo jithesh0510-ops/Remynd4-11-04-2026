@@ -1,15 +1,15 @@
 uuid: 4fde3609-e7f1-4e15-882e-f6f421dd080c
 langcode: en
-status: true
+status: false
 dependencies:
   module:
     - system
   theme:
-    - remind4_admin_kit_initial
+    - remind4_admin_kit
 _core:
   default_config_hash: h3ged36UsT5cjmx2L-06ff_WwxhvqJpkyPChLHbf5vQ
 id: remind4_admin_kit_initial_branding
-theme: remind4_admin_kit_initial
+theme: remind4_admin_kit
 region: header
 weight: -6
 provider: null

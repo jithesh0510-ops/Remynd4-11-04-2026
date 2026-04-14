@@ -1,17 +1,17 @@
 uuid: 5e678b2e-7068-4c97-acd2-9380bacfbf13
 langcode: en
-status: true
+status: false
 dependencies:
   config:
     - system.menu.main
   module:
     - system
   theme:
-    - remind4_admin_kit_initial
+    - remind4_admin_kit
 _core:
   default_config_hash: KLMbdngczHd0RpmyzrandtC1jyXEv80Jtj7ofIVIKu8
 id: remind4_admin_kit_initial_main_navigation
-theme: remind4_admin_kit_initial
+theme: remind4_admin_kit
 region: primary_menu
 weight: -5
 provider: null

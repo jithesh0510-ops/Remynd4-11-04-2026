@@ -33,9 +33,8 @@ $settings['skip_permissions_hardening'] = TRUE;
 $settings['trusted_host_patterns'] = ['.*'];
 
 // Set $settings['config_sync_directory'] if not set in settings.php.
-// Project canonical sync directory (repo root, relative to Drupal app root).
 if (empty($settings['config_sync_directory'])) {
-  $settings['config_sync_directory'] = 'config/sync';
+  $settings['config_sync_directory'] = 'sites/default/files/sync';
 }
 
 // Override drupal/symfony_mailer default config to use Mailpit.

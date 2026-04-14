@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.user.user.feeds_item
     - field.field.user.user.field_address
+    - field.field.user.user.field_address_1
     - field.field.user.user.field_first_name
     - field.field.user.user.field_full_name
     - field.field.user.user.field_is_delete
@@ -204,6 +205,7 @@ content:
 hidden:
   contact: true
   feeds_item: true
+  field_address_1: true
   field_is_delete: true
   langcode: true
   language: true

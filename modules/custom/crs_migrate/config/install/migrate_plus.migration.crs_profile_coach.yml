@@ -4,15 +4,20 @@ id: crs_profile_coach
 migration_group: crs_migrate
 label: 'CRS Profile (Coach)'
 source:
-  plugin: sql
+  plugin: crs_legacy_table
   key: legacy
-  query: >
-    SELECT
-      c.id        AS legacy_id,
-      c.name      AS full_name,
-      c.email     AS email,
-      c.company_id AS company_legacy_id
-    FROM qs_coach_master c
+  table: qs_coach_master
+  alias: c
+  fields:
+    id: legacy_id
+    full_name: full_name
+    email: email
+  expressions:
+    - expression: '(SELECT MIN(ccd.company_id) FROM qs_company_coach_details ccd WHERE ccd.coach_id = c.coach_id)'
+      alias: company_legacy_id
+  ids:
+    legacy_id:
+      type: integer
 process:
   uid:
     plugin: migration_lookup

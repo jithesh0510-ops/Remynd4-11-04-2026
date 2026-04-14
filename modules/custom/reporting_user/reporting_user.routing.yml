@@ -1,0 +1,19 @@
+reporting_user.update_job_position:
+  path: '/reporting-user/update-job-position'
+  defaults:
+    _controller: '\Drupal\reporting_user\Controller\InlineJobPositionController::updateJobPosition'
+  methods: [POST]
+  requirements:
+    _user_is_logged_in: 'TRUE'
+    _csrf_request_header_token: 'TRUE'
+    _method: 'POST'
+
+reporting_user.update_coach:
+  path: '/reporting-user/update-coach'
+  defaults:
+    _controller: '\Drupal\reporting_user\Controller\InlineCoachController::updateCoach'
+  methods: [POST]
+  requirements:
+    _user_is_logged_in: 'TRUE'
+    _csrf_request_header_token: 'TRUE'
+    _method: 'POST'

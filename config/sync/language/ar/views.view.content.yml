@@ -10,7 +10,6 @@ display:
           label: العنوان
         type:
           label: 'نوع المحتوى'
-          separator: ', '
         name:
           label: المؤلف
         status:
@@ -22,7 +21,6 @@ display:
           label: التحديث
         langcode:
           label: اللغة
-          separator: ', '
         operations:
           label: عمليات
       pager:

@@ -8,6 +8,7 @@
 use Drupal\block\Entity\Block;
 use Drupal\bootstrap5\SettingsManager;
 use Drupal\bootstrap5\SubthemeFormManager;
+use Drupal\Component\Utility\Html;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
 use Drupal\views\Form\ViewsForm;
@@ -62,6 +63,14 @@ function bootstrap5_preprocess_html(&$variables) {
   // Body colour theme.
   $variables['b5_body_schema'] = theme_get_setting('b5_body_schema');
   $variables['b5_body_bg_schema'] = theme_get_setting('b5_body_bg_schema');
+
+  // Add route as CSS class.
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  $route_class = Html::cleanCssIdentifier(str_replace('.', '-', $route_name));
+  $variables['attributes']['class'][] = 'page-route-' . $route_class;
+
+  // Theme mode.
+  $variables['b5_theme_mode'] = theme_get_setting('b5_theme_mode');
 }
 
 /**
@@ -374,7 +383,7 @@ function bootstrap5_preprocess_media_library_item__widget(array &$variables) {
  * THEME_theme_suggestions_menu_alter.
  */
 function bootstrap5_preprocess_block(&$variables) {
-  if (isset($variables['elements']['#id'])) {
+  if (isset($variables['elements']['#id']) && !isset($variables['content']['#lazy_builder'])) {
     $block = Block::load($variables['elements']['#id']);
     if ($block) {
       $region = Block::load($variables['elements']['#id'])->getRegion();

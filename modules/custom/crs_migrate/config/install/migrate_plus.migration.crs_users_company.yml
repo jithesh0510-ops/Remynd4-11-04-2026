@@ -4,16 +4,17 @@ id: crs_users_company
 migration_group: crs_migrate
 label: 'CRS Users (Company)'
 source:
-  plugin: sql
+  plugin: crs_legacy_table
   key: legacy
-  # TODO: adjust column names as needed in SELECT
-  query: >
-    SELECT
-      t.id              AS legacy_id,
-      t.email           AS mail,
-      t.name            AS uname,
-      t.created         AS created_ts
-    FROM qs_company_master t
+  table: qs_company_master
+  alias: t
+  fields:
+    id: legacy_id
+    email: mail
+    company_name: uname
+  ids:
+    legacy_id:
+      type: integer
 process:
   name: uname
   mail: mail
@@ -26,8 +27,9 @@ process:
       - company
   created:
     plugin: callback
-    callable: intval
-    source: created_ts
+    callable: time
+    unpack_source: true
+    source: []
   # Set a default password for all migrated users; consider forcing reset post-import.
   pass:
     plugin: default_value

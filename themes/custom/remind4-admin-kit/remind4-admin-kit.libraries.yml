@@ -1,5 +1,0 @@
-login_page:
-  version: 1.x
-  css:
-    theme:
-      css/login-page.css: {}

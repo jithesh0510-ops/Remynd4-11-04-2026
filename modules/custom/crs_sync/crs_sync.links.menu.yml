@@ -1,0 +1,6 @@
+crs_sync.operations:
+  title: 'CRS legacy import'
+  description: 'Purge and import users, questionnaires, and assignments from the legacy database.'
+  parent: system.admin_config
+  route_name: crs_sync.operations
+  weight: 50

@@ -1,0 +1,14 @@
+uuid: 75e4237b-052c-4884-9a8c-983f274ffb3b
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: 0vrcpI1xnyD2C3Yi2eZPCw0Tmz60qdZM-C0ukx96bXA
+id: crs_migrate
+label: 'CRS Migrate'
+description: 'Legacy users & profiles from qs_* tables'
+source_type: 'MySQL (legacy)'
+module: null
+shared_configuration:
+  source:
+    key: legacy

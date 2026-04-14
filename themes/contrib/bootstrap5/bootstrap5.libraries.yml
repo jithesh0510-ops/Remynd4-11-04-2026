@@ -107,7 +107,7 @@ user:
 bootstrap5-js-latest:
   version: '5.3.8'
   js:
-    dist/bootstrap/5.3.8/dist/js/bootstrap.bundle.js: {}
+    dist/bootstrap/5.3.8/dist/js/bootstrap.bundle.js: { weight: -1 }
 
 global-styling:
   css:

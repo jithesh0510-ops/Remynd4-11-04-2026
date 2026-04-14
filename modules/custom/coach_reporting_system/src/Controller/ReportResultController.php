@@ -21,27 +21,28 @@ class ReportResultController extends ControllerBase {
     try {
       $query_params = $request->query->all();
 
-      // Validate required parameters
-      $required_params = ['company', 'program', 'employee'];
-      foreach ($required_params as $param) {
-        if (empty($query_params[$param])) {
-          $this->messenger()->addError($this->t('Missing required parameter: @param', ['@param' => $param]));
-          return $this->redirect('coach_reporting_system.report');
-        }
-      }
-
       $company_uid   = (int) $query_params['company'];
       $program_nid   = (int) $query_params['program'];
-      $employee_uid  = (int) $query_params['employee'];
+      $employee_uid  = !empty($query_params['employee']) ? (int) $query_params['employee'] : 0;
       $coach_uid     = !empty($query_params['coach']) && $query_params['coach'] !== 'all' ? (int) $query_params['coach'] : NULL;
       $report_type   = $query_params['report_type'] ?? 'latest';
+      $report_scope  = $query_params['report_scope'] ?? 'per_person';
       if (!in_array($report_type, ['latest', 'overtime'], TRUE)) {
         $report_type = 'latest';
+      }
+      if (!in_array($report_scope, ['per_person', 'all'], TRUE)) {
+        $report_scope = 'per_person';
       }
       $report_content = $query_params['report_content'] ?? [];
       $from_date     = $query_params['from'] ?? NULL;
       $to_date       = $query_params['to'] ?? NULL;
       $download      = !empty($query_params['download']);
+      $requires_employee = !$download || $report_scope === 'per_person';
+
+      if (empty($company_uid) || empty($program_nid) || ($requires_employee && empty($employee_uid))) {
+        $this->messenger()->addError($this->t('Please select company, program, and employee to continue.'));
+        return $this->redirect('coach_reporting_system.report');
+      }
 
       if (!is_array($report_content)) {
         $report_content = [];
@@ -52,16 +53,20 @@ class ReportResultController extends ControllerBase {
       // Load entities and validate
       $company  = $this->entityTypeManager()->getStorage('user')->load($company_uid);
       $program  = $this->entityTypeManager()->getStorage('node')->load($program_nid);
-      $employee = $this->entityTypeManager()->getStorage('user')->load($employee_uid);
+      $employee = $employee_uid ? $this->entityTypeManager()->getStorage('user')->load($employee_uid) : NULL;
       $coach    = $coach_uid ? $this->entityTypeManager()->getStorage('user')->load($coach_uid) : NULL;
 
-      if (!$company || !$program || !$employee) {
+      if (!$company || !$program || ($requires_employee && !$employee)) {
         $this->messenger()->addError($this->t('Invalid company, program, or employee selected.'));
         return $this->redirect('coach_reporting_system.report');
       }
 
       // Enforce access: user may only view/download reports they are allowed to see.
-      if (!$this->currentUserCanAccessReport($company_uid, $coach_uid, $employee_uid)) {
+      if ($employee_uid > 0 && !$this->currentUserCanAccessReport($company_uid, $coach_uid, $employee_uid)) {
+        $this->messenger()->addError($this->t('You do not have permission to view this report.'));
+        return $this->redirect('coach_reporting_system.report');
+      }
+      if ($employee_uid === 0 && !$this->currentUserCanAccessCompanyReport($company_uid)) {
         $this->messenger()->addError($this->t('You do not have permission to view this report.'));
         return $this->redirect('coach_reporting_system.report');
       }
@@ -1824,6 +1829,10 @@ protected function buildCompetencyAnalysisTable(int $company_uid, int $program_n
    * Download report as Excel file with colors, charts, and separate sheets.
    */
   protected function downloadReportAsExcel($company_uid, $program_nid, $coach_uid, $employee_uid, $report_type, $report_content, $from_date, $to_date) {
+    if (empty($employee_uid)) {
+      return $this->downloadAllEmployeesAsExcel($company_uid, $program_nid, $coach_uid, $report_type, $from_date, $to_date);
+    }
+
     // Load entities
     $company  = $this->entityTypeManager()->getStorage('user')->load($company_uid);
     $program  = $this->entityTypeManager()->getStorage('node')->load($program_nid);
@@ -1926,6 +1935,77 @@ protected function buildCompetencyAnalysisTable(int $company_uid, int $program_n
     $response->headers->set('Pragma', 'public');
     $response->headers->set('Cache-Control', 'must-revalidate, post-check=0, pre-check=0');
     
+    return $response;
+  }
+
+  /**
+   * Download all employees for selected filters in a single Excel file.
+   */
+  protected function downloadAllEmployeesAsExcel($company_uid, $program_nid, $coach_uid, $report_type, $from_date, $to_date) {
+    $db = \Drupal::database();
+    $company = $this->entityTypeManager()->getStorage('user')->load($company_uid);
+    $program = $this->entityTypeManager()->getStorage('node')->load($program_nid);
+    if (!$company || !$program) {
+      $this->messenger()->addError($this->t('Invalid company or program selected.'));
+      return $this->redirect('coach_reporting_system.report');
+    }
+
+    $query = $db->select('coach_reporting_session', 's')
+      ->fields('s', ['employee_uid'])
+      ->condition('company_uid', $company_uid)
+      ->condition('program_nid', $program_nid)
+      ->isNotNull('submitted')
+      ->distinct();
+
+    if (!empty($coach_uid)) {
+      $query->condition('coach_uid', (int) $coach_uid);
+    }
+    if ($report_type === 'overtime' && !empty($from_date) && !empty($to_date)) {
+      $from_ts = strtotime($from_date . ' 00:00:00') ?: 0;
+      $to_ts = strtotime($to_date . ' 23:59:59') ?: 0;
+      if ($from_ts && $to_ts) {
+        $query->condition('submitted', [$from_ts, $to_ts], 'BETWEEN');
+      }
+    }
+
+    $employee_ids = array_map('intval', $query->execute()->fetchCol());
+    if (empty($employee_ids)) {
+      $this->messenger()->addError($this->t('No reports found for the selected filters.'));
+      return $this->redirect('coach_reporting_system.report');
+    }
+
+    $employee_storage = $this->entityTypeManager()->getStorage('user');
+    $employees = $employee_storage->loadMultiple($employee_ids);
+
+    $html = '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head><body>';
+    $html .= '<h1>' . $this->t('All Employees Report') . '</h1>';
+    $html .= '<p><strong>' . $this->t('Company') . ':</strong> ' . htmlspecialchars($company->label()) . '</p>';
+    $html .= '<p><strong>' . $this->t('Program') . ':</strong> ' . htmlspecialchars($program->label()) . '</p>';
+    if ($report_type === 'overtime' && !empty($from_date) && !empty($to_date)) {
+      $html .= '<p><strong>' . $this->t('Date range') . ':</strong> ' . htmlspecialchars($from_date . ' - ' . $to_date) . '</p>';
+    }
+    else {
+      $html .= '<p><strong>' . $this->t('Date') . ':</strong> ' . $this->t('Latest') . '</p>';
+    }
+
+    foreach ($employee_ids as $employee_uid) {
+      if (empty($employees[$employee_uid])) {
+        continue;
+      }
+      $employee = $employees[$employee_uid];
+      $html .= '<hr />';
+      $html .= '<h2>' . htmlspecialchars($employee->label()) . '</h2>';
+      $html .= $this->buildPerPersonTableForExport($company_uid, $program_nid, $coach_uid, $employee_uid, $report_type, $from_date, $to_date);
+    }
+    $html .= '</body></html>';
+
+    $response = new Response($html);
+    $safe_program = preg_replace('/[^a-zA-Z0-9 ]/', '', $program->label());
+    $filename = trim($safe_program) . ' - All Employees.xls';
+    $response->headers->set('Content-Type', 'application/vnd.ms-excel');
+    $response->headers->set('Content-Disposition', 'attachment; filename="' . $filename . '"');
+    $response->headers->set('Pragma', 'public');
+    $response->headers->set('Cache-Control', 'must-revalidate, post-check=0, pre-check=0');
     return $response;
   }
 
@@ -2106,6 +2186,32 @@ protected function buildCompetencyAnalysisTable(int $company_uid, int $program_n
       return in_array($company_uid, $allowed, TRUE);
     }
 
+    return FALSE;
+  }
+
+  /**
+   * Access check for company-level reports where employee is not selected.
+   */
+  protected function currentUserCanAccessCompanyReport(int $company_uid): bool {
+    $current_user = \Drupal::currentUser();
+    $current_uid = (int) $current_user->id();
+    $roles = $current_user->getRoles(TRUE);
+
+    $is_admin = in_array('administrator', $roles, TRUE) || $current_user->hasPermission('administer users');
+    if ($is_admin) {
+      return TRUE;
+    }
+    if (in_array('company', $roles, TRUE)) {
+      return $company_uid === $current_uid;
+    }
+    if (in_array('coach', $roles, TRUE)) {
+      $allowed = $this->getCompaniesForCoach($current_uid);
+      return in_array($company_uid, $allowed, TRUE);
+    }
+    if (in_array('employee', $roles, TRUE)) {
+      $allowed = $this->getCompaniesForEmployee($current_uid);
+      return in_array($company_uid, $allowed, TRUE);
+    }
     return FALSE;
   }
 

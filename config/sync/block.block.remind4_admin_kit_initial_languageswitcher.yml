@@ -1,13 +1,13 @@
 uuid: a7cfdda8-8e35-4e20-a0f3-8fc5023c1b30
 langcode: en
-status: true
+status: false
 dependencies:
   module:
     - language
   theme:
-    - remind4_admin_kit_initial
+    - remind4_admin_kit
 id: remind4_admin_kit_initial_languageswitcher
-theme: remind4_admin_kit_initial
+theme: remind4_admin_kit
 region: header
 weight: 0
 provider: null

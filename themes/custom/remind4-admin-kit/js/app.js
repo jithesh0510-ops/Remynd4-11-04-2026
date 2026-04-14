@@ -137,6 +137,12 @@
       // ===== Collapse =====
       $(once('navCollapseInit', '[data-bs-toggle="collapse"]', context)).each(function () {
         var $toggle = $(this);
+
+        // Let Performance Dashboard manage its own accordion behavior.
+        if ($toggle.closest('.programs-accordion').length) {
+          return;
+        }
+
         var $target = getTarget($toggle);
         if (!$target.length) return;
 
@@ -230,6 +236,36 @@
           if (e.key === 'Escape' || e.keyCode === 27) {
             console.log('ESC pressed, closing all dropdowns');
             closeAllDropdowns();
+          }
+        });
+      });
+
+      // ===== Dismissible Drupal Messages =====
+      $(once('drupalMessageDismissInit', '[data-drupal-messages] .messages', context)).each(function () {
+        var $message = $(this);
+        if ($message.find('.messages__close').length) {
+          return;
+        }
+
+        var label = Drupal.t ? Drupal.t('Close message') : 'Close message';
+        var $btn = $('<button type="button" class="messages__close" aria-label="' + label + '"></button>');
+        $message.append($btn);
+      });
+
+      $(once('drupalMessageDismissClick', 'html', document)).each(function () {
+        $(document).on('click.drupalMessageDismiss', '.messages__close', function (e) {
+          e.preventDefault();
+          var $message = $(this).closest('.messages');
+          var $wrapper = $message.closest('.messages__wrapper');
+          var $container = $message.closest('[data-drupal-messages]');
+
+          $message.remove();
+
+          if ($wrapper.length && $wrapper.children('.messages').length === 0) {
+            $wrapper.remove();
+          }
+          if ($container.length && $container.find('.messages').length === 0) {
+            $container.remove();
           }
         });
       });

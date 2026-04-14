@@ -1,0 +1,42 @@
+langcode: en
+status: true
+id: crs_emp_filling_session
+migration_group: crs_migrate
+label: 'CRS employee questionnaire filling sessions (qs_emp_questionnaire_filling_master → coach_reporting_session)'
+source:
+  plugin: crs_emp_questionnaire_filling_session_source
+  key: legacy
+process:
+  coach_uid:
+    -
+      plugin: get
+      source: coach_id
+    -
+      plugin: crs_legacy_coach_map_key
+    -
+      plugin: crs_coach_uid_resolve
+      company_source: company_id
+  company_uid:
+    plugin: crs_legacy_uid_from_map
+    map_type: company
+    source: company_id
+  employee_uid:
+    plugin: crs_legacy_uid_from_map
+    map_type: employee
+    source: employee_id
+  program_nid:
+    plugin: crs_content_map_target
+    map_type: crs_questionnaire_node
+    source: questionnaire_id
+  fill_date: fill_date
+  created:
+    plugin: callback
+    callable: intval
+    source: created
+  submitted:
+    plugin: callback
+    callable: intval
+    source: submitted
+destination:
+  plugin: crs_coach_reporting_session
+migration_dependencies: {}

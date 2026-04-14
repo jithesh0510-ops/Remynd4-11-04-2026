@@ -30,6 +30,6 @@
     "require": {
         "php": ">=8",
         "drupal/social_auth": "^4",
-        "patrickbussmann/oauth2-apple": "^0.3"
+        "patrickbussmann/oauth2-apple": "^0.4"
     }
 }

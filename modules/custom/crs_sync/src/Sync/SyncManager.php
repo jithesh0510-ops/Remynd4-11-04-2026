@@ -16,6 +16,7 @@ use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\node\Entity\Node;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
+use Drupal\taxonomy\Entity\Term;
 
 
 
@@ -63,6 +64,213 @@ class SyncManager {
       $this->legacyDb = Database::getConnection('default', 'legacy');
     }
     return $this->legacyDb;
+  }
+
+  /**
+   * Verifies legacy DB connectivity and presence of core crs_sync tables.
+   *
+   * @return array{ok: bool, detail: string}
+   *   Human-readable strings for admin UI (plain text, not HTML).
+   */
+  public function legacyDiagnostics(): array {
+    $info = Database::getAllConnectionInfo();
+    if (empty($info['legacy'])) {
+      return [
+        'ok' => FALSE,
+        'detail' => 'Missing $databases[\'legacy\']. Define it in settings.php after settings.ddev.php so host is `db` under DDEV.',
+      ];
+    }
+    $legacy = $info['legacy']['default'];
+    $detail = sprintf(
+      'Using %s@%s / database `%s`.',
+      $legacy['username'] ?? '?',
+      $legacy['host'] ?? '?',
+      $legacy['database'] ?? '?'
+    );
+    try {
+      $conn = Database::getConnection('default', 'legacy');
+      $conn->query('SELECT 1')->execute();
+      if (!$conn->schema()->tableExists('qs_company_master')) {
+        return [
+          'ok' => FALSE,
+          'detail' => $detail . ' No table `qs_company_master`. Import the legacy schema into this database, or set env CRS_LEGACY_DATABASE to the database that contains qs_* tables.',
+        ];
+      }
+      $n = (int) $conn->select('qs_company_master')->countQuery()->execute()->fetchField();
+      return [
+        'ok' => TRUE,
+        'detail' => $detail . sprintf(' Table `qs_company_master` exists (%d rows).', $n),
+      ];
+    }
+    catch (\Throwable $e) {
+      return [
+        'ok' => FALSE,
+        'detail' => $detail . ' ' . $e->getMessage(),
+      ];
+    }
+  }
+
+  /**
+   * Verifies legacy tables required for a Migrate id exist on the legacy connection.
+   *
+   * @return string|null
+   *   A plain-text error message, or NULL if all tables exist.
+   */
+  public function legacyMigrateSourceTablesError(string $migration_id): ?string {
+    $required = [
+      'crs_coach_submission_session' => ['qs_coach_submitted_session'],
+      'crs_coach_submission_answer' => [
+        'qs_coach_submitted_session',
+        'qs_coach_submitted_answer',
+      ],
+      'crs_emp_filling_session' => ['qs_emp_questionnaire_filling_master'],
+    ];
+    if (!isset($required[$migration_id])) {
+      return NULL;
+    }
+    $info = Database::getAllConnectionInfo();
+    if (empty($info['legacy'])) {
+      return 'Missing $databases[\'legacy\'] in settings.php.';
+    }
+    $legacy = $info['legacy']['default'];
+    $db_name = $legacy['database'] ?? '?';
+    try {
+      $conn = Database::getConnection('default', 'legacy');
+      $missing = [];
+      foreach ($required[$migration_id] as $table) {
+        if (!$conn->schema()->tableExists($table)) {
+          $missing[] = $table;
+        }
+      }
+      if (!$missing) {
+        return NULL;
+      }
+      return sprintf(
+        'Legacy database `%s` is missing table(s): %s. If legacy uses the same DB as Drupal (e.g. `db`), run: ddev mysql %s < modules/custom/crs_sync/sql/qs_coach_submitted_tables.sql — or import the full crs_sync/sql/legacy_drupal_ready_schema.sql into a separate database and set CRS_LEGACY_DATABASE to that name.',
+        $db_name,
+        implode(', ', $missing),
+        $db_name
+      );
+    }
+    catch (\Throwable $e) {
+      return sprintf('Legacy database `%s`: %s', $db_name, $e->getMessage());
+    }
+  }
+
+  /**
+   * Counts and Drupal-side map state for coach submission migrations.
+   *
+   * @return array{ok: bool, lines: string[]}
+   *   Plain-text lines for admin UI; ok is false when imports cannot succeed yet.
+   */
+  public function coachSubmissionPrerequisites(): array {
+    $lines = [];
+    $ok = TRUE;
+    $info = Database::getAllConnectionInfo();
+    $legacy_name = $info['legacy']['default']['database'] ?? '?';
+
+    try {
+      $legacy = $this->legacyConnection();
+      $session_count = 0;
+      $answer_count = 0;
+      if ($legacy->schema()->tableExists('qs_coach_submitted_session')) {
+        $session_count = (int) $legacy->select('qs_coach_submitted_session')->countQuery()->execute()->fetchField();
+      }
+      if ($legacy->schema()->tableExists('qs_coach_submitted_answer')) {
+        $answer_count = (int) $legacy->select('qs_coach_submitted_answer')->countQuery()->execute()->fetchField();
+      }
+      $emp_fill_count = 0;
+      $emp_fill_table_exists = $legacy->schema()->tableExists('qs_emp_questionnaire_filling_master');
+      if ($emp_fill_table_exists) {
+        $emp_fill_count = (int) $legacy->select('qs_emp_questionnaire_filling_master')->countQuery()->execute()->fetchField();
+      }
+      $lines[] = sprintf(
+        'Legacy DB `%s`: qs_coach_submitted_session = %d, qs_coach_submitted_answer = %d, qs_emp_questionnaire_filling_master = %d row(s).',
+        $legacy_name,
+        $session_count,
+        $answer_count,
+        $emp_fill_count
+      );
+      if ($session_count === 0 && $emp_fill_count === 0) {
+        $ok = FALSE;
+        if ($emp_fill_table_exists) {
+          $lines[] = 'Submission tables exist on the legacy connection but all are empty (0 rows). Migrations only import what is in this database — load your production MySQL dump into this DB, or set env CRS_LEGACY_DATABASE to the database that already contains qs_coach_submitted_* / qs_emp_questionnaire_filling_master data.';
+        }
+        else {
+          $lines[] = 'No coach submission rows and qs_emp_questionnaire_filling_master is missing. Create tables (e.g. modules/custom/crs_sync/sql/qs_coach_submitted_tables.sql), then import legacy data or point CRS_LEGACY_DATABASE at the correct MySQL database.';
+        }
+      }
+    }
+    catch (\Throwable $e) {
+      $ok = FALSE;
+      $lines[] = 'Legacy connection: ' . $e->getMessage();
+    }
+
+    try {
+      $q_map = 0;
+      $m_map = 0;
+      if ($this->db->schema()->tableExists('crs_sync_content_map')) {
+        $q_map = (int) $this->db->select('crs_sync_content_map', 'm')
+          ->condition('type', 'crs_questionnaire_node')
+          ->countQuery()
+          ->execute()
+          ->fetchField();
+        $m_map = (int) $this->db->select('crs_sync_content_map', 'm')
+          ->condition('type', 'crs_questionnaire_matrix')
+          ->countQuery()
+          ->execute()
+          ->fetchField();
+      }
+      $lines[] = sprintf(
+        'Drupal `crs_sync_content_map`: crs_questionnaire_node = %d, crs_questionnaire_matrix = %d (needed for session program_nid / answer step_uuid).',
+        $q_map,
+        $m_map
+      );
+      if ($q_map === 0 || $m_map === 0) {
+        $ok = FALSE;
+        $lines[] = 'Questionnaire content map is empty. Run section 3 “Import questionnaires” (and ensure crs_sync populates crs_sync_content_map) before coach submissions can import.';
+      }
+    }
+    catch (\Throwable $e) {
+      $ok = FALSE;
+      $lines[] = 'Drupal DB: ' . $e->getMessage();
+    }
+
+    try {
+      if ($this->db->schema()->tableExists('crs_sync_legacy_map')) {
+        $coach = (int) $this->db->select('crs_sync_legacy_map', 'm')
+          ->condition('type', 'coach')
+          ->countQuery()
+          ->execute()
+          ->fetchField();
+        $company = (int) $this->db->select('crs_sync_legacy_map', 'm')
+          ->condition('type', 'company')
+          ->countQuery()
+          ->execute()
+          ->fetchField();
+        $employee = (int) $this->db->select('crs_sync_legacy_map', 'm')
+          ->condition('type', 'employee')
+          ->countQuery()
+          ->execute()
+          ->fetchField();
+        $lines[] = sprintf(
+          'Drupal `crs_sync_legacy_map`: coach = %d, company = %d, employee = %d row(s) (each session row needs matching legacy IDs).',
+          $coach,
+          $company,
+          $employee
+        );
+        if ($coach === 0 || $company === 0 || $employee === 0) {
+          $ok = FALSE;
+          $lines[] = 'Legacy user map is incomplete. Run section 2 (Companies, Coaches, Employees) so coach/company/employee legacy IDs resolve.';
+        }
+      }
+    }
+    catch (\Throwable $e) {
+      $ok = FALSE;
+      $lines[] = 'crs_sync_legacy_map: ' . $e->getMessage();
+    }
+
+    return ['ok' => $ok, 'lines' => $lines];
   }
 
   /* ===================== PUBLIC ENTRYPOINTS ===================== */
@@ -308,6 +516,8 @@ class SyncManager {
       }
     }
 
+    $this->setIfHas($account, 'field_address_1', $data['address_1_flat'] ?? NULL);
+
     // Website link.
     if ($account->hasField('field_website') && !empty($data['website'])) {
       if ($link = $this->prepareLink($data['website'])) {
@@ -366,6 +576,27 @@ class SyncManager {
   }
 
   /* ===================== HELPERS ===================== */
+
+  /**
+   * Map legacy questionnaire / question identifiers to Drupal entity IDs.
+   *
+   * Used by crs_migrate coach questionnaire submission migrations to resolve
+   * program_nid (node) and paragraph UUIDs (matrix step + question rows).
+   */
+  protected function upsertContentMap(string $type, int $legacy_id, string $target_type, int $target_id, string $bundle): void {
+    $now = (int) $this->time->getRequestTime();
+    $this->db->merge('crs_sync_content_map')
+      ->key('type', $type)
+      ->key('legacy_id', $legacy_id)
+      ->fields([
+        'target_type' => $target_type,
+        'target_id' => $target_id,
+        'bundle' => $bundle,
+        'created' => $now,
+        'changed' => $now,
+      ])
+      ->execute();
+  }
 
   /** Map upsert (idempotent). */
   protected function upsertMap(string $type, int $legacy_id, int $uid): void {
@@ -566,12 +797,13 @@ class SyncManager {
     $is_delete = (int) ($row->is_delete ?? $row->deleted ?? 0);
 
     // Address candidates (the buildAddress() helper will normalize these).
+    $line1 = $this->firstNotEmpty($row, ['address1', 'address_line1', 'street', 'street1']);
     $address = [
       'country'             => $this->firstNotEmpty($row, ['country', 'country_code', 'country_name']),
       'administrative_area' => $this->firstNotEmpty($row, ['state', 'region', 'province', 'administrative_area']),
       'locality'            => $this->firstNotEmpty($row, ['city', 'locality', 'town']),
       'postal_code'         => $this->firstNotEmpty($row, ['postal', 'postcode', 'zip', 'zipcode']),
-      'address_line1'       => $this->firstNotEmpty($row, ['address1', 'address_line1', 'street', 'street1']),
+      'address_line1'       => $line1,
       'address_line2'       => $this->firstNotEmpty($row, ['address2', 'address_line2', 'street2']),
       'organization'        => $this->firstNotEmpty($row, ['organization', 'company', 'org']),
       'given_name'          => $first,
@@ -594,6 +826,8 @@ class SyncManager {
       'user_picture_url' => $avatar,
       'feeds_item_id'    => $feeds_item_id ?: NULL,
       'address'          => $address,
+      // Mirrors legacy DB address1 / street for user.field_address_1 (string).
+      'address_1_flat'   => $line1,
     ]);
   }
 
@@ -702,6 +936,9 @@ class SyncManager {
 		// Keep title normalized.
 		$node->setTitle($this->utf($node->getTitle()));
 		$node->save();
+
+		$this->upsertContentMap('crs_questionnaire_node', $qid_legacy, 'node', (int) $node->id(), 'questionnaire');
+		$this->upsertContentMap('crs_questionnaire_matrix', $qid_legacy, 'paragraph', (int) $q_para->id(), 'questionnaire');
 
 		if ($was_created) { $created++; } else { $updated++; }
 		$this->logger->info('Questionnaire @nid synced', ['@nid' => $node->id()]);
@@ -943,6 +1180,10 @@ class SyncManager {
 		  'field_hint'  => $this->utf($row->question_hint ?? ''),
 		]);
 		$p->save();
+		$qid = (int) ($row->question_id ?? 0);
+		if ($qid > 0) {
+		  $this->upsertContentMap('crs_question', $qid, 'paragraph', (int) $p->id(), 'question');
+		}
 		$refs[] = $this->ref($p);
 	  }
 	  return $refs;

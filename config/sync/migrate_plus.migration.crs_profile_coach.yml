@@ -1,0 +1,41 @@
+langcode: en
+status: true
+id: crs_profile_coach
+migration_group: crs_migrate
+label: 'CRS Profile (Coach)'
+source:
+  plugin: crs_legacy_table
+  key: legacy
+  table: qs_coach_master
+  alias: c
+  fields:
+    id: legacy_id
+    full_name: full_name
+    email: email
+  expressions:
+    -
+      expression: '(SELECT MIN(ccd.company_id) FROM qs_company_coach_details ccd WHERE ccd.coach_id = c.coach_id)'
+      alias: company_legacy_id
+  ids:
+    legacy_id:
+      type: integer
+process:
+  uid:
+    plugin: migration_lookup
+    migration: crs_users_coach
+    source: legacy_id
+  type:
+    plugin: default_value
+    default_value: coach
+  field_full_name: full_name
+  field_company:
+    plugin: migration_lookup
+    migration: crs_users_company
+    source: company_legacy_id
+destination:
+  plugin: 'entity:profile'
+  default_bundle: coach
+migration_dependencies:
+  required:
+    - crs_users_company
+    - crs_users_coach

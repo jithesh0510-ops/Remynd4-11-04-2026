@@ -1,7 +1,9 @@
 uuid: ee03e99b-530d-4734-9f77-740eb73157c7
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - user
 id: user.field_address_1
 field_name: field_address_1
 entity_type: user

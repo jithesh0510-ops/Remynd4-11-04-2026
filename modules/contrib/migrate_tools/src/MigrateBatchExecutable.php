@@ -323,8 +323,14 @@ class MigrateBatchExecutable extends MigrateExecutable {
    * {@inheritdoc}
    */
   public function checkStatus(): int {
+    // @todo removed in https://www.drupal.org/node/3139212
+    // Remove this BC shim after 11.3 is no longer supported.
+    foreach (\class_parents($this, TRUE) as $parent) {
+      if (!\method_exists($parent, 'checkStatus')) {
+        return 0;
+      }
+    }
     $status = parent::checkStatus();
-
     if ($status === MigrationInterface::RESULT_COMPLETED) {
       // Do some batch housekeeping.
       $context = $this->getBatchContext();

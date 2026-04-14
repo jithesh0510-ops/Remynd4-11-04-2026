@@ -5,6 +5,7 @@ core_version_requirement: ^10 || ^11
 package: 'CRS'
 dependencies:
   - drupal:migrate
-  - drupal:migrate_plus
   - drupal:migrate_tools
   - drupal:profile
+  - coach_reporting_system:coach_reporting_system
+  - crs_sync:crs_sync

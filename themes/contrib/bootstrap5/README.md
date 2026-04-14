@@ -73,17 +73,15 @@ MACHINE_NAME with my_subtheme
 
 ## Branching
 
-* `3.0.x` Stable branch based on `Starterkit` and `Stable9` (Drupal 9.4+, Drupal 10+)
-* `2.0.x` Legacy branch based on `Claro` and `Stable` (Drupal 9 only)
+* `4.0.x` Drupal 10/11 support (inclusions: bootstrap icons (included), bootswatch, dark mode, CSS variables)
+* `3.0.x` Stable branch based on Starterkit and Stable9 (Drupal 9.4+, Drupal 10+) `deprecated`
 
-### Upgrade: 2.x to 3.x
-
-Run database updates via interface (OR run drush updb).
-It will uninstall old themes (if present) and enable `stable9`.
-
-If your installation is config driven, don't forget to switch `stable` and `claro` to `stable9`.
 
 ## FAQ
+
+### FAQ - CSS returns conflicting results for administrator
+
+If administrator CSS is returning bad results, apply [#3458077 core patch](https://www.drupal.org/project/drupal/issues/3458077).
 
 ### FAQ - Adding custom color
 
@@ -164,34 +162,4 @@ We call a macro which calls itself to render the full tree.
     {% endif %}
   </li>
 {% endmacro %}
-```
-
-
-## Upgrade to branch 3.0.x
-
-### drush 11
-
-- When running `drush updb`, make sure you are running drush 11 otherwise you
-  might run into errors.
-- Run updates via drupal interface if using drush 10 or less.
-- If errors already appeared, use either `drush theme:uninstall claro stable`
-  and/or `drush theme:install stable9` depending on what php error you'll get.
-
-### Configuration
-
-If using configuration synchronization, make sure your core.extension.yml contains
-
-```
-theme:
-...
-stable9: 0
-```
-
-instead of
-
-```
-theme:
-...
-stable: 0
-classy: 0
 ```

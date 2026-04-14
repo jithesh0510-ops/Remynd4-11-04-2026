@@ -1,7 +1,26 @@
+crs_sync.operations:
+  path: '/admin/config/services/crs-sync'
+  defaults:
+    _form: '\Drupal\crs_sync\Form\CrsSyncOperationsForm'
+    _title: 'CRS legacy import'
+  requirements:
+    _permission: 'administer crs sync'
+  options:
+    _admin_route: TRUE
+
+# Backwards compatibility: old dashboard URL redirects to the operations page.
 crs_sync.dashboard:
   path: '/crs-sync/dashboard'
   defaults:
     _controller: '\Drupal\crs_sync\Controller\SyncController::dashboard'
-    _title: 'CRS Sync Dashboard'
+    _title: 'CRS Sync'
   requirements:
-    _permission: 'access content'
+    _permission: 'administer crs sync'
+
+crs_sync.purge_confirm:
+  path: '/crs-sync/purge'
+  defaults:
+    _form: '\Drupal\crs_sync\Form\PurgeMigrationConfirmForm'
+    _title: 'Purge migrated data'
+  requirements:
+    _permission: 'administer crs sync'

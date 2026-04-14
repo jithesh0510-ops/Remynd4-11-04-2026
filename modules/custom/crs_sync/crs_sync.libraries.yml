@@ -1,0 +1,6 @@
+operations_admin:
+  css:
+    theme:
+      css/crs_sync_operations.css: {}
+  dependencies:
+    - system/admin

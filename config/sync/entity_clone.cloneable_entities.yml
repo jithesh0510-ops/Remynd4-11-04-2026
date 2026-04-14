@@ -50,3 +50,5 @@ cloneable_entities:
   - rest_resource_config
   - mailer_policy
   - mailer_transport
+  - migration_group
+  - migration

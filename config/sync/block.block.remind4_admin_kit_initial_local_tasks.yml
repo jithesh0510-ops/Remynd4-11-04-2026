@@ -1,13 +1,13 @@
 uuid: d0b31000-c101-4179-bb0a-18767efda410
 langcode: en
-status: true
+status: false
 dependencies:
   theme:
-    - remind4_admin_kit_initial
+    - remind4_admin_kit
 _core:
   default_config_hash: yukt8rHM0BMQj7AxGhb_4BRgUwLFIU_L1yXM7hE3Hl0
 id: remind4_admin_kit_initial_local_tasks
-theme: remind4_admin_kit_initial
+theme: remind4_admin_kit
 region: breadcrumb
 weight: -5
 provider: null

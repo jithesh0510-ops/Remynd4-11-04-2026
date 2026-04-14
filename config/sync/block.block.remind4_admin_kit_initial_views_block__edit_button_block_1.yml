@@ -1,6 +1,6 @@
 uuid: bba90e23-0078-47ff-9800-2cb3b14220da
 langcode: en
-status: true
+status: false
 dependencies:
   config:
     - views.view.edit_button
@@ -8,9 +8,9 @@ dependencies:
     - node
     - views
   theme:
-    - remind4_admin_kit_initial
+    - remind4_admin_kit
 id: remind4_admin_kit_initial_views_block__edit_button_block_1
-theme: remind4_admin_kit_initial
+theme: remind4_admin_kit
 region: breadcrumb
 weight: 0
 provider: null

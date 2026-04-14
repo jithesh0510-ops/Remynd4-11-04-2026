@@ -19,6 +19,7 @@ module:
   config: 0
   contact: 0
   contextual: 0
+  crs_migrate: 0
   crs_sync: 0
   csv_importer: 0
   csv_serialization: 0
@@ -56,12 +57,18 @@ module:
   layout_discovery: 0
   libraries: 0
   link: 0
+  locale: 0
+  mailer_transport: 0
+  mailsystem: 0
   masquerade: 0
   menu_block: 0
   menu_export: 0
   menu_item_role_access: 0
   menu_link_content: 0
   menu_ui: 0
+  migrate: 0
+  migrate_plus: 0
+  migrate_tools: 0
   mysql: 0
   node: 0
   options: 0
@@ -81,6 +88,9 @@ module:
   serialization: 0
   shortcut: 0
   simple_notification: 0
+  simplelogin: 0
+  smtp: 0
+  symfony_mailer: 0
   system: 0
   tamper: 0
   taxonomy: 0
@@ -88,6 +98,7 @@ module:
   toolbar: 0
   update: 0
   user: 0
+  user_csv_download: 0
   user_csv_import: 0
   views_bulk_operations: 0
   views_data_export: 0

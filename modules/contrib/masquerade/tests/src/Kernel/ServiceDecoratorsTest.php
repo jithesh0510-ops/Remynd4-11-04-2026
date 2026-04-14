@@ -5,7 +5,7 @@ namespace Drupal\Tests\masquerade\Kernel;
 use Drupal\KernelTests\KernelTestBase;
 
 /**
- * Class ServiceDecoratorsTest.
+ * Tests decorated service and metadata bag.
  *
  * @group masquerade
  */

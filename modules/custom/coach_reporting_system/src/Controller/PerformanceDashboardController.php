@@ -359,9 +359,9 @@ class PerformanceDashboardController extends ControllerBase {
     }
     
     return [
-      'metrics' => $this->getMetrics($company_uid, $program_nid, $employee_uid, $report_type, $from_date, $to_date),
-      'chart_data' => $this->getChartData($company_uid, $program_nid, $employee_uid, $report_type, $from_date, $to_date),
-      'action_report' => $this->getActionReport($company_uid, $program_nid, $employee_uid),
+      'metrics' => $this->getMetrics($company_uid, $program_nid, $coach_uid, $employee_uid, $report_type, $from_date, $to_date),
+      'chart_data' => $this->getChartData($company_uid, $program_nid, $coach_uid, $employee_uid, $report_type, $from_date, $to_date),
+      'action_report' => $this->getActionReport($company_uid, $program_nid, $coach_uid, $employee_uid),
       'users_report' => $this->getUsersReport($company_uid, $program_nid, $coach_uid, $employee_uid, $report_type, $from_date, $to_date, 0, 10),
       'debug' => $debug_info,
     ];
@@ -370,7 +370,7 @@ class PerformanceDashboardController extends ControllerBase {
   /**
    * Get dashboard metrics.
    */
-  protected function getMetrics($company_uid, $program_nid, $employee_uid, $report_type, $from_date, $to_date) {
+  protected function getMetrics($company_uid, $program_nid, $coach_uid, $employee_uid, $report_type, $from_date, $to_date) {
     $db = $this->database;
 
     // Number of Users Coached
@@ -379,6 +379,9 @@ class PerformanceDashboardController extends ControllerBase {
     $users_query->condition('company_uid', $company_uid);
     $users_query->condition('program_nid', $program_nid);
     $users_query->isNotNull('submitted');
+    if ($coach_uid) {
+      $users_query->condition('coach_uid', $coach_uid);
+    }
     
     if ($employee_uid) {
       $users_query->condition('employee_uid', $employee_uid);
@@ -393,6 +396,9 @@ class PerformanceDashboardController extends ControllerBase {
     $sessions_query->condition('company_uid', $company_uid);
     $sessions_query->condition('program_nid', $program_nid);
     $sessions_query->isNotNull('submitted');
+    if ($coach_uid) {
+      $sessions_query->condition('coach_uid', $coach_uid);
+    }
     
     if ($employee_uid) {
       $sessions_query->condition('employee_uid', $employee_uid);
@@ -402,17 +408,17 @@ class PerformanceDashboardController extends ControllerBase {
     $sessions_count = (int) $sessions_query->execute()->fetchField();
 
     // Behavioral Progress (average score from sessions)
-    $behavioral_progress = $this->getAverageScore($company_uid, $program_nid, $employee_uid, $report_type, $from_date, $to_date);
+    $behavioral_progress = $this->getAverageScore($company_uid, $program_nid, $coach_uid, $employee_uid, $report_type, $from_date, $to_date);
 
     // On-The-Job Progress - NOW DYNAMIC!
-    $on_job_progress = $this->getOnJobProgress($company_uid, $program_nid, $employee_uid, $report_type, $from_date, $to_date);
+    $on_job_progress = $this->getOnJobProgress($company_uid, $program_nid, $coach_uid, $employee_uid, $report_type, $from_date, $to_date);
     
     // Calculate previous period for comparison
-    $on_job_previous = $this->getOnJobProgressPrevious($company_uid, $program_nid, $employee_uid);
+    $on_job_previous = $this->getOnJobProgressPrevious($company_uid, $program_nid, $coach_uid, $employee_uid);
     $on_job_change = $this->calculatePercentageChange($on_job_previous, $on_job_progress);
 
     // ROI - Calculate based on performance improvement
-    $roi = $this->calculateROI($company_uid, $program_nid, $employee_uid, $report_type, $from_date, $to_date);
+    $roi = $this->calculateROI($company_uid, $program_nid, $coach_uid, $employee_uid, $report_type, $from_date, $to_date);
 
     \Drupal::logger('coach_reporting_system')->notice('Metrics calculated: users=@users, sessions=@sessions, behavioral=@behav%, on_job=@onjob%', [
       '@users' => $users_coached,
@@ -448,13 +454,13 @@ class PerformanceDashboardController extends ControllerBase {
   /**
    * Get chart data for Google Charts.
    */
-  protected function getChartData($company_uid, $program_nid, $employee_uid, $report_type, $from_date, $to_date) {
+  protected function getChartData($company_uid, $program_nid, $coach_uid, $employee_uid, $report_type, $from_date, $to_date) {
     // SQL queries are logged in each individual chart method using \Drupal::logger()
     return [
-      'overview' => $this->getOverviewChartData($company_uid, $program_nid, $employee_uid, $report_type, $from_date, $to_date),
-      'competency' => $this->getCompetencyChartData($company_uid, $program_nid, $employee_uid, $report_type, $from_date, $to_date),
-      'department' => $this->getDepartmentChartData($company_uid, $program_nid, $employee_uid, $report_type, $from_date, $to_date),
-      'sessions' => $this->getSessionsChartData($company_uid, $program_nid, $employee_uid, $report_type, $from_date, $to_date),
+      'overview' => $this->getOverviewChartData($company_uid, $program_nid, $coach_uid, $employee_uid, $report_type, $from_date, $to_date),
+      'competency' => $this->getCompetencyChartData($company_uid, $program_nid, $coach_uid, $employee_uid, $report_type, $from_date, $to_date),
+      'department' => $this->getDepartmentChartData($company_uid, $program_nid, $coach_uid, $employee_uid, $report_type, $from_date, $to_date),
+      'sessions' => $this->getSessionsChartData($company_uid, $program_nid, $coach_uid, $employee_uid, $report_type, $from_date, $to_date),
     ];
   }
 
@@ -462,7 +468,7 @@ class PerformanceDashboardController extends ControllerBase {
    * Get overview chart data (coaching results over time) - Last 6 months by default.
    * Shows Month and Year format (e.g., "Jun 2025").
    */
-  protected function getOverviewChartData($company_uid, $program_nid, $employee_uid, $report_type, $from_date, $to_date) {
+  protected function getOverviewChartData($company_uid, $program_nid, $coach_uid, $employee_uid, $report_type, $from_date, $to_date) {
     $db = $this->database;
     $chart_data = [['Month', 'Average Score']];
     
@@ -531,6 +537,9 @@ class PerformanceDashboardController extends ControllerBase {
       $session_query->condition('program_nid', $program_nid);
       $session_query->isNotNull('submitted');
       $session_query->condition('submitted', [$month_start, $month_end], 'BETWEEN');
+      if ($coach_uid) {
+        $session_query->condition('coach_uid', $coach_uid);
+      }
       
       if ($employee_uid) {
         $session_query->condition('employee_uid', $employee_uid);
@@ -568,7 +577,7 @@ class PerformanceDashboardController extends ControllerBase {
    * Get competency trends chart data - Last 6 months by default or date range.
    * Shows Month and Year format (e.g., "Jun 2025").
    */
-  protected function getCompetencyChartData($company_uid, $program_nid, $employee_uid, $report_type, $from_date, $to_date) {
+  protected function getCompetencyChartData($company_uid, $program_nid, $coach_uid, $employee_uid, $report_type, $from_date, $to_date) {
     $db = $this->database;
     $chart_data = [['Month', 'Score']];
     
@@ -619,6 +628,9 @@ class PerformanceDashboardController extends ControllerBase {
       $session_query->condition('program_nid', $program_nid);
       $session_query->isNotNull('submitted');
       $session_query->condition('submitted', [$month_start, $month_end], 'BETWEEN');
+      if ($coach_uid) {
+        $session_query->condition('coach_uid', $coach_uid);
+      }
       
       if ($employee_uid) {
         $session_query->condition('employee_uid', $employee_uid);
@@ -642,8 +654,11 @@ class PerformanceDashboardController extends ControllerBase {
    * Get Stars, Core, and Laggards chart data from on-the-job performance.
    * Now supports date filtering - Last 6 months by default.
    */
-  protected function getDepartmentChartData($company_uid, $program_nid, $employee_uid, $report_type, $from_date, $to_date) {
+  protected function getDepartmentChartData($company_uid, $program_nid, $coach_uid, $employee_uid, $report_type, $from_date, $to_date) {
     $db = $this->database;
+    $company_field = $this->resolveOnJobField('company_uid', 'company_id');
+    $employee_field = $this->resolveOnJobField('employee_uid', 'employee_id');
+    $coach_field = $this->resolveOnJobField('coach_uid', 'coach_id');
     
     // Determine date range
     if ($from_date && $to_date) {
@@ -666,19 +681,28 @@ class PerformanceDashboardController extends ControllerBase {
     
     // Get all employees with on-the-job performance data
     $query = $db->select('qs_emp_lagard_starts', 'q');
-    $query->fields('q', ['employee_uid']);
+    if ($employee_field) {
+      $query->addField('q', $employee_field, 'employee_uid');
+    }
     $query->addExpression('AVG(target_achieved / NULLIF(target_forecasted, 0) * 100)', 'avg_performance');
-    $query->condition('company_uid', $company_uid);
+    if ($company_field) {
+      $query->condition($company_field, $company_uid);
+    }
     $query->condition('questionnaire_id', $program_nid);
-    
-    // Apply date filter based on month field
-    $query->condition('month', [$from_month, $to_month], 'BETWEEN');
-    
-    if ($employee_uid) {
-      $query->condition('employee_uid', $employee_uid);
+    if ($coach_uid && $coach_field) {
+      $query->condition($coach_field, $coach_uid);
     }
     
-    $query->groupBy('employee_uid');
+    // Apply date filter based on month-like field.
+    $this->applyOnJobMonthRange($query, $from_month, $to_month);
+    
+    if ($employee_uid && $employee_field) {
+      $query->condition($employee_field, $employee_uid);
+    }
+    
+    if ($employee_field) {
+      $query->groupBy($employee_field);
+    }
     
     // Log the actual SQL query
     $sql = (string) $query;
@@ -766,7 +790,7 @@ class PerformanceDashboardController extends ControllerBase {
    * Get sessions chart data - Coaching sessions by month.
    * Last 6 months by default, or custom date range.
    */
-  protected function getSessionsChartData($company_uid, $program_nid, $employee_uid, $report_type, $from_date, $to_date) {
+  protected function getSessionsChartData($company_uid, $program_nid, $coach_uid, $employee_uid, $report_type, $from_date, $to_date) {
     $db = $this->database;
     $chart_data = [['Period', 'Sessions']];
     
@@ -812,6 +836,9 @@ class PerformanceDashboardController extends ControllerBase {
       $query->condition('program_nid', $program_nid);
       $query->isNotNull('submitted');
       $query->condition('submitted', [$month_start, $month_end], 'BETWEEN');
+      if ($coach_uid) {
+        $query->condition('coach_uid', $coach_uid);
+      }
       
       if ($employee_uid) {
         $query->condition('employee_uid', $employee_uid);
@@ -1003,7 +1030,7 @@ class PerformanceDashboardController extends ControllerBase {
   /**
    * Get action report data.
    */
-  protected function getActionReport($company_uid, $program_nid, $employee_uid) {
+  protected function getActionReport($company_uid, $program_nid, $coach_uid, $employee_uid) {
     // This would query competencies and their progress
     // For now, return sample structure
     return [
@@ -1039,6 +1066,10 @@ class PerformanceDashboardController extends ControllerBase {
       $count_query->condition('company_uid', $company_uid);
       $count_query->condition('program_nid', $program_nid);
       $count_query->isNotNull('submitted');
+      if ($coach_uid) {
+        $count_query->condition('coach_uid', $coach_uid);
+      }
+      $this->applyDateFilter($count_query, $report_type, $from_date, $to_date);
       $total_count = (int) $count_query->execute()->fetchField();
       
       // Get all employees for this program/company with pagination
@@ -1047,6 +1078,10 @@ class PerformanceDashboardController extends ControllerBase {
       $query->condition('company_uid', $company_uid);
       $query->condition('program_nid', $program_nid);
       $query->isNotNull('submitted');
+      if ($coach_uid) {
+        $query->condition('coach_uid', $coach_uid);
+      }
+      $this->applyDateFilter($query, $report_type, $from_date, $to_date);
       $query->groupBy('employee_uid');
       $query->range($page * $items_per_page, $items_per_page);
       
@@ -1063,8 +1098,8 @@ class PerformanceDashboardController extends ControllerBase {
       }
       
       // Get latest and previous performance
-      $latest = $this->getAverageScore($company_uid, $program_nid, $uid, 'latest', NULL, NULL);
-      $previous = $this->getAverageScore($company_uid, $program_nid, $uid, 'previous', NULL, NULL);
+      $latest = $this->getAverageScore($company_uid, $program_nid, $coach_uid, $uid, 'latest', NULL, NULL);
+      $previous = $this->getAverageScore($company_uid, $program_nid, $coach_uid, $uid, 'previous', NULL, NULL);
       
       // Get session dates
       $sessions = $db->select('coach_reporting_session', 's')
@@ -1075,8 +1110,11 @@ class PerformanceDashboardController extends ControllerBase {
         ->isNotNull('submitted')
         ->orderBy('submitted', 'DESC')
         ->range(0, 2)
-        ->execute()
-        ->fetchCol();
+        ;
+      if ($coach_uid) {
+        $sessions->condition('coach_uid', $coach_uid);
+      }
+      $sessions = $sessions->execute()->fetchCol();
       
       $last_session = !empty($sessions[0]) ? date('Y-m-d', $sessions[0]) : 'N/A';
       $first_session = !empty($sessions) ? date('Y-m-d', end($sessions)) : 'N/A';
@@ -1154,7 +1192,7 @@ class PerformanceDashboardController extends ControllerBase {
   /**
    * Helper: Get average score for sessions.
    */
-  protected function getAverageScore($company_uid, $program_nid, $employee_uid, $report_type, $from_date, $to_date) {
+  protected function getAverageScore($company_uid, $program_nid, $coach_uid, $employee_uid, $report_type, $from_date, $to_date) {
     $db = $this->database;
     
     // Get sessions
@@ -1162,6 +1200,9 @@ class PerformanceDashboardController extends ControllerBase {
     $query->fields('s', ['sid']);
     $query->condition('company_uid', $company_uid);
     $query->condition('program_nid', $program_nid);
+    if ($coach_uid) {
+      $query->condition('coach_uid', $coach_uid);
+    }
     
     if ($employee_uid) {
       $query->condition('employee_uid', $employee_uid);
@@ -1215,8 +1256,11 @@ class PerformanceDashboardController extends ControllerBase {
    * Helper: Get on-the-job progress percentage.
    * Now supports last 6 months default and custom date ranges.
    */
-  protected function getOnJobProgress($company_uid, $program_nid, $employee_uid, $report_type, $from_date, $to_date) {
+  protected function getOnJobProgress($company_uid, $program_nid, $coach_uid, $employee_uid, $report_type, $from_date, $to_date) {
     $db = $this->database;
+    $company_field = $this->resolveOnJobField('company_uid', 'company_id');
+    $employee_field = $this->resolveOnJobField('employee_uid', 'employee_id');
+    $coach_field = $this->resolveOnJobField('coach_uid', 'coach_id');
     
     \Drupal::logger('coach_reporting_system')->notice('On-Job Progress: Calculating for company=@company, program=@program', [
       '@company' => $company_uid,
@@ -1226,11 +1270,16 @@ class PerformanceDashboardController extends ControllerBase {
     $query = $db->select('qs_emp_lagard_starts', 'q');
     $query->addExpression('AVG(target_achieved / NULLIF(target_forecasted, 0) * 100)', 'avg_progress');
     $query->addExpression('COUNT(*)', 'record_count');
-    $query->condition('company_uid', $company_uid);
+    if ($company_field) {
+      $query->condition($company_field, $company_uid);
+    }
     $query->condition('questionnaire_id', $program_nid);
+    if ($coach_uid && $coach_field) {
+      $query->condition($coach_field, $coach_uid);
+    }
     
-    if ($employee_uid) {
-      $query->condition('employee_uid', $employee_uid);
+    if ($employee_uid && $employee_field) {
+      $query->condition($employee_field, $employee_uid);
     }
     
     // Determine date range for month filter
@@ -1255,7 +1304,7 @@ class PerformanceDashboardController extends ControllerBase {
     }
     
     // Apply month filter
-    $query->condition('month', [$from_month, $to_month], 'BETWEEN');
+    $this->applyOnJobMonthRange($query, $from_month, $to_month);
     
     $result = $query->execute()->fetch();
     
@@ -1273,8 +1322,11 @@ class PerformanceDashboardController extends ControllerBase {
   /**
    * Helper: Get on-the-job progress for previous period (for comparison).
    */
-  protected function getOnJobProgressPrevious($company_uid, $program_nid, $employee_uid) {
+  protected function getOnJobProgressPrevious($company_uid, $program_nid, $coach_uid, $employee_uid) {
     $db = $this->database;
+    $company_field = $this->resolveOnJobField('company_uid', 'company_id');
+    $employee_field = $this->resolveOnJobField('employee_uid', 'employee_id');
+    $coach_field = $this->resolveOnJobField('coach_uid', 'coach_id');
     
     // Get data from 12-6 months ago (previous 6-month period)
     $to_month = date('Y-m', strtotime('-6 months'));
@@ -1282,12 +1334,17 @@ class PerformanceDashboardController extends ControllerBase {
     
     $query = $db->select('qs_emp_lagard_starts', 'q');
     $query->addExpression('AVG(target_achieved / NULLIF(target_forecasted, 0) * 100)', 'avg_progress');
-    $query->condition('company_uid', $company_uid);
+    if ($company_field) {
+      $query->condition($company_field, $company_uid);
+    }
     $query->condition('questionnaire_id', $program_nid);
-    $query->condition('month', [$from_month, $to_month], 'BETWEEN');
+    $this->applyOnJobMonthRange($query, $from_month, $to_month);
+    if ($coach_uid && $coach_field) {
+      $query->condition($coach_field, $coach_uid);
+    }
     
-    if ($employee_uid) {
-      $query->condition('employee_uid', $employee_uid);
+    if ($employee_uid && $employee_field) {
+      $query->condition($employee_field, $employee_uid);
     }
     
     $result = $query->execute()->fetchField();
@@ -1312,10 +1369,10 @@ class PerformanceDashboardController extends ControllerBase {
   /**
    * Helper: Calculate ROI.
    */
-  protected function calculateROI($company_uid, $program_nid, $employee_uid, $report_type, $from_date, $to_date) {
+  protected function calculateROI($company_uid, $program_nid, $coach_uid, $employee_uid, $report_type, $from_date, $to_date) {
     // Simple ROI calculation based on performance improvement
-    $latest = $this->getAverageScore($company_uid, $program_nid, $employee_uid, 'latest', NULL, NULL);
-    $previous = $this->getAverageScore($company_uid, $program_nid, $employee_uid, 'previous', NULL, NULL);
+    $latest = $this->getAverageScore($company_uid, $program_nid, $coach_uid, $employee_uid, 'latest', NULL, NULL);
+    $previous = $this->getAverageScore($company_uid, $program_nid, $coach_uid, $employee_uid, 'previous', NULL, NULL);
     
     if ($previous > 0) {
       return (($latest - $previous) / $previous) * 100;
@@ -1331,6 +1388,38 @@ class PerformanceDashboardController extends ControllerBase {
     // Get previous period value and calculate change
     // For now, return placeholder
     return '+10%';
+  }
+
+  /**
+   * Resolve a field name in qs_emp_lagard_starts using primary/fallback names.
+   */
+  protected function resolveOnJobField(string $primary, ?string $fallback = NULL): ?string {
+    $schema = $this->database->schema();
+    if ($schema->fieldExists('qs_emp_lagard_starts', $primary)) {
+      return $primary;
+    }
+    if ($fallback && $schema->fieldExists('qs_emp_lagard_starts', $fallback)) {
+      return $fallback;
+    }
+    return NULL;
+  }
+
+  /**
+   * Apply month range filter for qs_emp_lagard_starts.
+   */
+  protected function applyOnJobMonthRange($query, string $from_month, string $to_month): void {
+    $month_field = $this->resolveOnJobField('month');
+    if ($month_field) {
+      $query->condition($month_field, [$from_month, $to_month], 'BETWEEN');
+      return;
+    }
+    // Fallback: derive YYYY-MM from created column.
+    if ($this->resolveOnJobField('created')) {
+      $query->where('LEFT(q.created, 7) BETWEEN :from_month AND :to_month', [
+        ':from_month' => $from_month,
+        ':to_month' => $to_month,
+      ]);
+    }
   }
 
 }

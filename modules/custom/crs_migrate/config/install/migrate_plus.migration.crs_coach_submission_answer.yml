@@ -1,0 +1,32 @@
+langcode: en
+status: true
+id: crs_coach_submission_answer
+migration_group: crs_migrate
+label: 'CRS coach questionnaire answers (legacy → coach_reporting_session_answer)'
+source:
+  plugin: crs_coach_submission_answer_source
+  key: legacy
+process:
+  sid:
+    plugin: migration_lookup
+    migration: crs_coach_submission_session
+    source: session_id
+    no_stub: true
+  step_uuid:
+    plugin: crs_paragraph_uuid_from_content_map
+    map_type: crs_questionnaire_matrix
+    source: questionnaire_id
+  row_uuid:
+    plugin: crs_paragraph_uuid_from_content_map
+    map_type: crs_question
+    source: question_id
+  value: answer_value
+  created:
+    plugin: callback
+    callable: intval
+    source: answer_created
+destination:
+  plugin: crs_coach_reporting_session_answer
+migration_dependencies:
+  required:
+    - crs_coach_submission_session

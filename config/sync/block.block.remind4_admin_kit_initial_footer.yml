@@ -1,17 +1,17 @@
 uuid: 3444e2c2-a097-48b4-91b1-a11900de5557
 langcode: en
-status: true
+status: false
 dependencies:
   config:
     - system.menu.footer
   module:
     - system
   theme:
-    - remind4_admin_kit_initial
+    - remind4_admin_kit
 _core:
   default_config_hash: xX9k7eXwGFBBlYjoy1fbmKOwQn8jAEcOjJldcwEGTws
 id: remind4_admin_kit_initial_footer
-theme: remind4_admin_kit_initial
+theme: remind4_admin_kit
 region: footer
 weight: -6
 provider: null

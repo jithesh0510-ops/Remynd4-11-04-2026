@@ -6,8 +6,6 @@ display:
           submit_button: Appliquer
           reset_button_label: Réinitialiser
           exposed_sorts_label: 'Trier par'
-          sort_asc_label: Asc
-          sort_desc_label: Desc
       pager:
         options:
           tags:
@@ -24,18 +22,14 @@ display:
           label: 'Mise à jour en masse'
         title:
           label: Titre
-          separator: ', '
         type:
           label: Type
-          separator: ', '
         name:
           label: Auteur
-          separator: ', '
         changed:
           label: 'Mis à jour'
-          separator: ', '
         imported:
-          separator: ', '
+          label: Importé
         operations:
           label: Actions
       filters:
@@ -45,5 +39,3 @@ display:
         type:
           expose:
             label: Type
-  page_1:
-    display_title: Page

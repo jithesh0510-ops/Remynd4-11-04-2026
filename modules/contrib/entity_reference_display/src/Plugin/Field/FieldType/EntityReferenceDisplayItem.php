@@ -93,7 +93,7 @@ class EntityReferenceDisplayItem extends FieldItemBase implements OptionsProvide
   /**
    * {@inheritdoc}
    */
-  public function getPossibleValues(AccountInterface $account = NULL) {
+  public function getPossibleValues(?AccountInterface $account = NULL) {
     // Get values from possible options.
     return array_keys($this->getPossibleOptions($account));
   }
@@ -101,7 +101,7 @@ class EntityReferenceDisplayItem extends FieldItemBase implements OptionsProvide
   /**
    * {@inheritdoc}
    */
-  public function getPossibleOptions(AccountInterface $account = NULL) {
+  public function getPossibleOptions(?AccountInterface $account = NULL) {
     // Get all display modes in alphabetical order.
     $display_modes = $this->getAllDisplayModes();
     // Get displays to exclude from options.
@@ -123,7 +123,7 @@ class EntityReferenceDisplayItem extends FieldItemBase implements OptionsProvide
   /**
    * {@inheritdoc}
    */
-  public function getSettableValues(AccountInterface $account = NULL) {
+  public function getSettableValues(?AccountInterface $account = NULL) {
     // Get values from settable options.
     return array_keys($this->getSettableOptions($account));
   }
@@ -131,7 +131,7 @@ class EntityReferenceDisplayItem extends FieldItemBase implements OptionsProvide
   /**
    * {@inheritdoc}
    */
-  public function getSettableOptions(AccountInterface $account = NULL) {
+  public function getSettableOptions(?AccountInterface $account = NULL) {
     // Get the same as from possible options.
     return $this->getPossibleOptions($account);
   }

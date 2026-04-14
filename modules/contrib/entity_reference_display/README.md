@@ -33,14 +33,15 @@ selection for site editors.
 1. Module can be installed via the
 [standard Drupal installation process](http://drupal.org/node/1897420).
 2. Go to the "Manage fields" page for an entity.
-3. Add a new field of "Display mode" type.
-4. You can then adjust the field settings (e.g. default value, excluded or
+3. Add a new field of "Reference" type.
+4. Select "Display mode" in the options page.
+5. You can then adjust the field settings (e.g. default value, excluded or
 included modes).
-5. After saving the field, go to the "Manage form display" tab.
-6. Select the desired widget for the display mode field and save the form.
-7. Go to "Manage display" and find your existing entity reference field.
-8. Choose "Selected display mode" format and save the form again.
-9. That's it. Just edit the entity and select different displays.
+6. After saving the field, go to the "Manage form display" tab.
+7. Select the desired widget for the display mode field and save the form.
+8. Go to "Manage display" and find your existing entity reference field.
+9. Choose "Selected display mode" format and save the form again.
+10. That's it. Just edit the entity and select different displays.
 
 ## Maintainers
 

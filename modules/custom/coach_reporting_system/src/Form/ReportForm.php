@@ -32,11 +32,12 @@ class ReportForm extends BaseUploadForm {
   /** {@inheritdoc} */
   public function buildForm(array $form, FormStateInterface $form_state): array {
     // Persist selections across AJAX rebuilds.
-    $selected_company  = $form_state->getValue('company') ?: '';
-    $selected_program  = $form_state->getValue('program') ?: '';
-    $selected_coach    = $form_state->getValue('coach') ?: '';
+    $selected_company = $form_state->getValue('company') ?: '';
+    $selected_program = $form_state->getValue('program') ?: '';
+    $selected_coach = $form_state->getValue('coach') ?: '';
     $selected_employee = $form_state->getValue('employee') ?: '';
-    $selected_status   = $form_state->getValue('employee_status') ?: 'active';
+    $selected_date_mode = $form_state->getValue('date_mode') ?: 'latest';
+    $selected_report_scope = $form_state->getValue('report_scope') ?: 'per_person';
 
     $current_user = \Drupal::currentUser();
     $current_uid  = (int) $current_user->id();
@@ -55,7 +56,7 @@ class ReportForm extends BaseUploadForm {
       $form['#attached']['library'][] = 'select2/select2';
     }
 
-    // Attach professional form styling
+    // Attach professional form styling.
     $form['#attached']['library'][] = 'coach_reporting_system/report_form';
 
     // ----- Company options (filtered by role) -----
@@ -77,7 +78,7 @@ class ReportForm extends BaseUploadForm {
       }
     }
 
-    // 1) Company (Select2 when available, else core select)
+    // 1) Select Company.
     $form['company'] = [
       '#type' => $use_select2 ? 'select2' : 'select',
       '#title' => $this->t('Select Company'),
@@ -108,7 +109,7 @@ class ReportForm extends BaseUploadForm {
       '#states' => ['visible' => [':input[name="company"]' => ['!value' => '']]],
     ];
 
-    // 2) Program (Questionnaire) – only programs that have data in report table
+    // 2) Select Program.
     $program_options = [];
     if (!empty($selected_company)) {
       $all_programs = $this->getQuestionnairesByCompany((int) $selected_company);
@@ -117,8 +118,8 @@ class ReportForm extends BaseUploadForm {
     }
     $form['dependents']['program'] = [
       '#type' => $use_select2 ? 'select2' : 'select',
-      '#title' => $this->t('Select a Program'),
-      '#description' => $this->t('Programs with report data for the selected company.'),
+      '#title' => $this->t('Select Program'),
+      '#description' => $this->t('Programs with submitted report data.'),
       '#options' => $program_options,
       '#empty_option' => empty($selected_company) ? $this->t('Select a company first') : (empty($program_options) ? $this->t('No programs with report data') : $this->t('- Select program -')),
       '#placeholder' => empty($selected_company) ? $this->t('Select a company first') : $this->t('- Select program -'),
@@ -134,7 +135,7 @@ class ReportForm extends BaseUploadForm {
       $form['dependents']['program']['#select2'] = ['allowClear' => TRUE, 'width' => 'resolve'];
     }
 
-    // 3) Coach – based on company + program; only coaches with report data; message if none
+    // 3) Select Coach.
     $coach_options = [];
     if (!empty($selected_company) && !empty($selected_program)) {
       $coach_uids_with_data = $this->getCoachUidsWithReportData((int) $selected_company, (int) $selected_program);
@@ -177,7 +178,7 @@ class ReportForm extends BaseUploadForm {
     else {
       $form['dependents']['coach'] = [
         '#type' => $use_select2 ? 'select2' : 'select',
-        '#title' => $this->t('Select a Coach'),
+        '#title' => $this->t('Select Coach'),
         '#options' => $coach_options,
         '#empty_option' => $this->t('- Select Coach -'),
         '#placeholder' => $this->t('- Select Coach -'),
@@ -191,23 +192,22 @@ class ReportForm extends BaseUploadForm {
         '#disabled' => $is_coach,
         '#description' => $is_coach
           ? $this->t('Locked to your coach account.')
-          : $this->t('Based on company and program. Choose "All Coaches" or a specific coach.'),
+          : $this->t('Choose a specific coach or all coaches.'),
       ];
       if ($use_select2) {
         $form['dependents']['coach']['#select2'] = ['allowClear' => TRUE, 'width' => 'resolve'];
       }
     }
 
-    // 4) Employee (based on company, program, coach / all coaches)
+    // 4) Select Employee.
     $employee_options = [];
-    $selected_status = $selected_status ?: 'active';
     if (!empty($selected_company) && !empty($selected_program) && $selected_coach !== '') {
       $coach_filter = NULL;
       if ($selected_coach !== 'all' && is_numeric($selected_coach)) {
         $coach_filter = (int) $selected_coach;
       }
       $employee_options = $this->getEmployeeByCompanyCoachProgram(
-        (int) $selected_company, $coach_filter, (int) $selected_program, $selected_status
+        (int) $selected_company, $coach_filter, (int) $selected_program, 'active'
       );
     }
     if ($is_employee && !empty($employee_options)) {
@@ -215,12 +215,12 @@ class ReportForm extends BaseUploadForm {
     }
     $form['dependents']['employee'] = [
       '#type' => $use_select2 ? 'select2' : 'select',
-      '#title' => $this->t('Select an Employee'),
-      '#description' => $this->t('Filtered by Company, Program, and Coach selection.'),
+      '#title' => $this->t('Select Employee'),
+      '#description' => $this->t('Required for viewing an individual report.'),
       '#options' => $employee_options,
       '#empty_option' => empty($selected_coach) ? $this->t('Select a coach first') : $this->t('- Select Employee -'),
       '#placeholder' => empty($selected_coach) ? $this->t('Select a coach first') : $this->t('- Select Employee -'),
-      '#required' => TRUE,
+      '#required' => FALSE,
       '#default_value' => $selected_employee ?: ($is_employee ? (string) $current_uid : ''),
       '#states' => [
         'visible' => [':input[name="coach"]' => ['!value' => '']],
@@ -232,234 +232,98 @@ class ReportForm extends BaseUploadForm {
       $form['dependents']['employee']['#select2'] = ['allowClear' => TRUE, 'width' => 'resolve'];
     }
 
-    // Select Active/Inactive Employee
-    $form['dependents']['employee_status'] = [
+    // 5) Select Date type.
+    $form['dependents']['date_mode'] = [
       '#type' => 'radios',
-      '#title' => $this->t('Select Active/Inactive Employee'),
-      '#options' => ['active' => $this->t('Active'), 'inactive' => $this->t('Inactive')],
-      '#default_value' => $selected_status,
+      '#title' => $this->t('Select Date'),
+      '#options' => [
+        'latest' => $this->t('Latest'),
+        'between' => $this->t('Between 2 dates (From and To)'),
+      ],
+      '#default_value' => $selected_date_mode,
       '#states' => [
-        'visible' => [':input[name="coach"]' => ['!value' => '']],
-        'disabled' => [':input[name="coach"]' => ['value' => '']],
+        'visible' => [':input[name="program"]' => ['!value' => '']],
       ],
       '#ajax' => ['callback' => '::updateDependents', 'event' => 'change', 'wrapper' => 'dependent-wrapper'],
     ];
 
-    // Select Date: Latest or Report overtime (from date to date)
-    $report_type_default = $form_state->getValue('report_type') ?: 'latest';
-    $form['dependents']['report_type'] = [
+    // 6) Type of report.
+    $form['dependents']['report_scope'] = [
       '#type' => 'radios',
-      '#title' => $this->t('Select Date'),
+      '#title' => $this->t('Type of report'),
       '#options' => [
-        'latest'   => $this->t('Latest'),
-        'overtime' => $this->t('Report overtime (from date to date)'),
+        'per_person' => $this->t('Per person'),
+        'all' => $this->t('All'),
       ],
-      '#default_value' => $report_type_default,
-      '#states' => ['visible' => [':input[name="employee"]' => ['!value' => '']]],
-    ];
-
-    // Report content checkboxes (always build container, use #states for visibility)
-    $form['dependents']['report_content'] = [
-      '#type' => 'container',
-      '#attributes' => ['class' => ['report-content-container']],
+      '#default_value' => $selected_report_scope,
       '#states' => [
-        'visible' => [
-          ':input[name="employee"]' => ['!value' => ''],
-          ':input[name="report_type"]' => ['!value' => ''],
-        ],
+        'visible' => [':input[name="program"]' => ['!value' => '']],
+      ],
+      '#ajax' => ['callback' => '::updateDependents', 'event' => 'change', 'wrapper' => 'dependent-wrapper'],
+    ];
+
+    // 7) Date range.
+    $form['dependents']['date_range'] = [
+      '#type' => 'container',
+      '#attributes' => ['class' => ['crs-daterange-fallback']],
+      '#states' => [
+        'visible' => [':input[name="date_mode"]' => ['value' => 'between']],
       ],
     ];
-
-    // Individual report type checkboxes
-    $report_options = [
-      'per_person' => $this->t('Per Person'),
-      'competency_analysis' => $this->t('Competency analysis'),
-      'on_job_performance' => $this->t('On-The-Job Performance Results'),
-      'coaching_impact' => $this->t('Coaching Impact on Performance'),
-      'one_to_one_coaching' => $this->t('One to One Coaching'),
+    $form['dependents']['date_range']['from_date'] = [
+      '#type' => 'date',
+      '#title' => $this->t('From'),
+      '#default_value' => $form_state->getValue(['date_range', 'from_date']) ?: '',
+      '#states' => ['required' => [':input[name="date_mode"]' => ['value' => 'between']]],
+    ];
+    $form['dependents']['date_range']['to_date'] = [
+      '#type' => 'date',
+      '#title' => $this->t('To'),
+      '#default_value' => $form_state->getValue(['date_range', 'to_date']) ?: '',
+      '#states' => ['required' => [':input[name="date_mode"]' => ['value' => 'between']]],
     ];
 
-    foreach ($report_options as $key => $label) {
-      $form['dependents']['report_content'][$key] = [
-        '#type' => 'checkbox',
-        '#title' => $label,
-        '#attributes' => ['class' => ['individual']],
-        '#default_value' => $form_state->getValue($key) ?: 0,
-      ];
+    // Enable action buttons only when report data exists.
+    $from_date = $form_state->getValue(['date_range', 'from_date']) ?: '';
+    $to_date = $form_state->getValue(['date_range', 'to_date']) ?: '';
+    $query_type = $selected_date_mode === 'between' ? 'overtime' : 'latest';
+
+    $can_download = FALSE;
+    $can_view = FALSE;
+    if (!empty($selected_company) && !empty($selected_program) && $selected_coach !== '') {
+      $coach_filter = $selected_coach;
+      if ($selected_report_scope === 'all') {
+        $can_download = $this->hasAnyReportData((int) $selected_company, (int) $selected_program, (string) $coach_filter, $query_type, $from_date, $to_date);
+      }
+      elseif (!empty($selected_employee)) {
+        $can_view = $this->hasReportData((int) $selected_company, (int) $selected_program, (string) $coach_filter, (int) $selected_employee, $query_type, $from_date, $to_date);
+        $can_download = $can_view;
+      }
     }
 
-    // Date range (if datetime_range exists, use daterange; else simple dates).
-    $use_daterange = \Drupal::moduleHandler()->moduleExists('datetime_range');
-    if ($use_daterange) {
-      $default_dr = $form_state->getValue('date_range') ?: [];
-      $form['dependents']['date_range'] = [
-        '#type' => 'daterange',
-        '#title' => $this->t('Date range'),
-        '#date_timezone' => date_default_timezone_get(),
-        '#date_date_element' => 'date',
-        '#date_time_element' => 'none',
-        '#default_value' => [
-          'value' => $default_dr['value'] ?? '',
-          'end_value' => $default_dr['end_value'] ?? '',
-        ],
-        '#states' => [
-          'visible' => [
-            ':input[name="employee"]' => ['!value' => ''],
-            ':input[name="report_type"]' => ['value' => 'overtime'],
-          ],
-          'required' => [':input[name="report_type"]' => ['value' => 'overtime']],
-        ],
-      ];
-    }
-    else {
-      $form['dependents']['date_range'] = [
-        '#type' => 'container',
-        '#attributes' => ['class' => ['crs-daterange-fallback']],
-        '#states' => [
-          'visible' => [
-            ':input[name="employee"]' => ['!value' => ''],
-            ':input[name="report_type"]' => ['value' => 'overtime'],
-          ],
-        ],
-      ];
-      $form['dependents']['date_range']['from_date'] = [
-        '#type' => 'date',
-        '#title' => $this->t('From'),
-        '#default_value' => $form_state->getValue(['date_range', 'from_date']) ?: '',
-        '#states' => ['required' => [':input[name="report_type"]' => ['value' => 'overtime']]],
-      ];
-      $form['dependents']['date_range']['to_date'] = [
-        '#type' => 'date',
-        '#title' => $this->t('To'),
-        '#default_value' => $form_state->getValue(['date_range', 'to_date']) ?: '',
-        '#states' => ['required' => [':input[name="report_type"]' => ['value' => 'overtime']]],
-      ];
-    }
-
-    // Actions: buttons always enabled; validation runs on submit via AJAX.
+    // Actions.
     $form['actions'] = ['#type' => 'actions'];
     $form['actions']['view_online'] = [
       '#type' => 'submit',
+      '#name' => 'view_online',
       '#value' => $this->t('View Report'),
       '#submit' => ['::submitViewOnline'],
       '#attributes' => ['class' => ['button', 'button--primary', 'report-action', 'view-online']],
+      '#disabled' => !$can_view,
+      '#states' => [
+        'disabled' => [
+          [':input[name="report_scope"]' => ['value' => 'all']],
+        ],
+      ],
     ];
     $form['actions']['download_report'] = [
       '#type' => 'submit',
+      '#name' => 'download_report',
       '#value' => $this->t('Download Report'),
       '#submit' => ['::submitDownloadReport'],
       '#attributes' => ['class' => ['button', 'button--secondary', 'report-action', 'download-report']],
+      '#disabled' => !$can_download,
     ];
-
-    // Auto-trigger initial AJAX for preselected values and add Select All functionality.
-    $inline_js = <<<JS
-(function (Drupal, once) {
-  Drupal.behaviors.crsAutoInit = {
-    attach: function (context) {
-      once('crsAutoInit', 'body', context).forEach(function () {
-        function trigger(selector) {
-          var el = context.querySelector(selector);
-          if (el && el.value && el.value !== '') {
-            setTimeout(function(){ try { el.dispatchEvent(new Event('change', { bubbles: true })); } catch(e){} }, 0);
-          }
-        }
-        trigger('select[name="company"]');
-        trigger('select[name="program"]');
-        trigger('select[name="coach"]');
-        trigger('select[name="employee"]');
-        var radios = context.querySelectorAll('input[name="employee_status"]');
-        var checked = Array.prototype.slice.call(radios).find(function(r){ return r.checked; });
-        if (checked) {
-          setTimeout(function(){ try { checked.dispatchEvent(new Event('change', { bubbles: true })); } catch(e){} }, 0);
-        }
-      });
-    }
-  };
-
-  // Form validation and date range validation
-  Drupal.behaviors.crsFormValidation = {
-    attach: function (context) {
-      once('crsFormValidation', 'form', context).forEach(function (form) {
-        // Check if this is the report form
-        if (!form.id || form.id !== 'coach-reporting-system-report-form') {
-          return;
-        }
-        form.addEventListener('submit', function(e) {
-          // Only validate if form is actually being submitted (not AJAX)
-          var submitButton = e.submitter || document.activeElement;
-          if (!submitButton || (submitButton.type !== 'submit' && submitButton.tagName !== 'BUTTON')) {
-            return; // Let Drupal handle it
-          }
-
-          var reportType = form.querySelector('input[name="report_type"]:checked');
-          var reportContentContainer = form.querySelector('.report-content-container');
-          
-          // Only validate report content if container is visible and report type is selected
-          if (reportType && reportContentContainer && reportContentContainer.offsetParent !== null) {
-            var reportContent = form.querySelectorAll('.individual:checked');
-            if (reportContent.length === 0) {
-              e.preventDefault();
-              alert(Drupal.t('Please select at least one report content option.'));
-              return false;
-            }
-          }
-
-          // Validate date range only for overtime reports
-          if (reportType && reportType.value === 'overtime') {
-            var fromDate, toDate;
-            
-            // Check for daterange field
-            var dateRange = form.querySelector('input[name="date_range[value]"]');
-            var dateRangeEnd = form.querySelector('input[name="date_range[end_value]"]');
-            
-            if (dateRange && dateRangeEnd) {
-              fromDate = dateRange.value;
-              toDate = dateRangeEnd.value;
-            } else {
-              // Fallback to separate date fields
-              var fromField = form.querySelector('input[name="date_range[from_date]"]');
-              var toField = form.querySelector('input[name="date_range[to_date]"]');
-              if (fromField && toField) {
-                fromDate = fromField.value;
-                toDate = toField.value;
-              }
-            }
-
-            // Only validate if date range fields are visible
-            var dateRangeContainer = form.querySelector('.form-item--daterange, .crs-daterange-fallback');
-            if (dateRangeContainer && dateRangeContainer.offsetParent !== null) {
-              if (!fromDate || !toDate) {
-                e.preventDefault();
-                alert(Drupal.t('Please select both start and end dates for overtime reports.'));
-                return false;
-              }
-
-              if (fromDate > toDate) {
-                e.preventDefault();
-                alert(Drupal.t('Start date must be before or equal to end date.'));
-                return false;
-              }
-            }
-          }
-        });
-      });
-    }
-  };
-})(Drupal, once);
-JS;
-    $form['#attached']['library'][] = 'core/drupal';
-    $form['#attached']['library'][] = 'core/once';
-    $form['#attached']['html_head'][] = [
-      [
-        '#type' => 'html_tag',
-        '#tag' => 'script',
-        '#attributes' => ['type' => 'text/javascript'],
-        '#markup' => $inline_js,
-      ],
-      'crs_autoinit_inline_js',
-    ];
-
-    // Report will be displayed on a separate page via redirect
 
     return $form;
   }
@@ -469,23 +333,36 @@ JS;
    */
   public function updateDependents(array &$form, FormStateInterface $form_state) {
     $form_state->setRebuild(TRUE);
-    
+
+    // Keep AJAX warnings inside the wrapper to avoid duplicated banners.
+    unset($form['dependents']['status_message']);
+
     // Add status messages for empty dependent fields
     $selected_company = $form_state->getValue('company');
     $selected_program = $form_state->getValue('program');
     $selected_coach = $form_state->getValue('coach');
-    
+
     if (empty($selected_company)) {
-      $form['dependents']['#prefix'] = '<div class="messages messages--warning">' . 
-        $this->t('Please select a company to continue.') . '</div>';
+      $form['dependents']['status_message'] = [
+        '#type' => 'container',
+        '#weight' => -100,
+        'message' => [
+          '#markup' => '<div class="messages messages--warning">' . $this->t('Please select a company to continue.') . '</div>',
+        ],
+      ];
     }
     elseif (empty($selected_program)) {
       $all_programs = $this->getQuestionnairesByCompany((int) $selected_company);
       $program_nids_with_data = $this->getProgramNidsWithReportData((int) $selected_company);
       $program_options = array_intersect_key($all_programs, array_flip($program_nids_with_data));
       if (empty($program_options)) {
-        $form['dependents']['#prefix'] = '<div class="messages messages--warning">' . 
-          $this->t('No programs with report data for the selected company.') . '</div>';
+        $form['dependents']['status_message'] = [
+          '#type' => 'container',
+          '#weight' => -100,
+          'message' => [
+            '#markup' => '<div class="messages messages--warning">' . $this->t('No programs with report data for the selected company.') . '</div>',
+          ],
+        ];
       }
     }
     elseif (empty($selected_coach) || $selected_coach === '') {
@@ -498,11 +375,16 @@ JS;
         }
       }
       if (empty($coach_options)) {
-        $form['dependents']['#prefix'] = '<div class="messages messages--warning">' . 
-          $this->t('No coaches available for the selected company and program.') . '</div>';
+        $form['dependents']['status_message'] = [
+          '#type' => 'container',
+          '#weight' => -100,
+          'message' => [
+            '#markup' => '<div class="messages messages--warning">' . $this->t('No coaches available for the selected company and program.') . '</div>',
+          ],
+        ];
       }
     }
-    
+
     return $form['dependents'];
   }
 
@@ -541,7 +423,7 @@ JS;
   /**
    * Whether there is at least one submitted session for the given selection.
    */
-  protected function hasReportData(int $company_uid, int $program_nid, string $coach, int $employee_uid): bool {
+  protected function hasReportData(int $company_uid, int $program_nid, string $coach, int $employee_uid, string $report_type = 'latest', ?string $from = NULL, ?string $to = NULL): bool {
     $db = \Drupal::database();
     $q = $db->select('coach_reporting_session', 's')
       ->fields('s', ['sid'])
@@ -551,6 +433,37 @@ JS;
       ->isNotNull('submitted');
     if ($coach !== '' && $coach !== 'all') {
       $q->condition('coach_uid', (int) $coach);
+    }
+    if ($report_type === 'overtime' && !empty($from) && !empty($to)) {
+      $from_ts = strtotime($from . ' 00:00:00') ?: 0;
+      $to_ts = strtotime($to . ' 23:59:59') ?: 0;
+      if ($from_ts && $to_ts) {
+        $q->condition('submitted', [$from_ts, $to_ts], 'BETWEEN');
+      }
+    }
+    $q->range(0, 1);
+    return (bool) $q->execute()->fetchField();
+  }
+
+  /**
+   * Whether there is any submitted session for company/program and optional coach/date.
+   */
+  protected function hasAnyReportData(int $company_uid, int $program_nid, string $coach, string $report_type = 'latest', ?string $from = NULL, ?string $to = NULL): bool {
+    $db = \Drupal::database();
+    $q = $db->select('coach_reporting_session', 's')
+      ->fields('s', ['sid'])
+      ->condition('company_uid', $company_uid)
+      ->condition('program_nid', $program_nid)
+      ->isNotNull('submitted');
+    if ($coach !== '' && $coach !== 'all') {
+      $q->condition('coach_uid', (int) $coach);
+    }
+    if ($report_type === 'overtime' && !empty($from) && !empty($to)) {
+      $from_ts = strtotime($from . ' 00:00:00') ?: 0;
+      $to_ts = strtotime($to . ' 23:59:59') ?: 0;
+      if ($from_ts && $to_ts) {
+        $q->condition('submitted', [$from_ts, $to_ts], 'BETWEEN');
+      }
     }
     $q->range(0, 1);
     return (bool) $q->execute()->fetchField();
@@ -564,7 +477,10 @@ JS;
     $program = $form_state->getValue('program');
     $coach = $form_state->getValue('coach');
     $employee = $form_state->getValue('employee');
-    $report_type = $form_state->getValue('report_type') ?: 'latest';
+    $date_mode = $form_state->getValue('date_mode') ?: 'latest';
+    $report_scope = $form_state->getValue('report_scope') ?: 'per_person';
+    $trigger = $form_state->getTriggeringElement();
+    $trigger_name = $trigger['#name'] ?? '';
 
     if (empty($company)) {
       $form_state->setErrorByName('company', $this->t('Company selection is required.'));
@@ -575,37 +491,41 @@ JS;
     if ($coach === '' || $coach === null) {
       $form_state->setErrorByName('coach', $this->t('Coach selection is required.'));
     }
-    if (empty($employee)) {
-      $form_state->setErrorByName('employee', $this->t('Employee selection is required.'));
+    if ($trigger_name === 'view_online' && $report_scope !== 'per_person') {
+      $form_state->setErrorByName('report_scope', $this->t('View Report supports only "Per person".'));
+    }
+    if ($trigger_name === 'view_online' && empty($employee)) {
+      $form_state->setErrorByName('employee', $this->t('Employee selection is required to view a report.'));
     }
 
-    if ($report_type === 'overtime') {
+    $from = '';
+    $to = '';
+    if ($date_mode === 'between') {
       $dr = $form_state->getValue('date_range') ?: [];
-      $from = null;
-      $to = null;
-      if (isset($dr['value'], $dr['end_value'])) {
-        $from = substr((string) $dr['value'], 0, 10);
-        $to = substr((string) $dr['end_value'], 0, 10);
-      } elseif (isset($dr['from_date'], $dr['to_date'])) {
-        $from = $dr['from_date'];
-        $to = $dr['to_date'];
-      }
+      $from = $dr['from_date'] ?? '';
+      $to = $dr['to_date'] ?? '';
       if (empty($from) || empty($to)) {
-        $form_state->setErrorByName('date_range', $this->t('Date range is required for overtime reports.'));
+        $form_state->setErrorByName('date_range', $this->t('Please select From and To dates.'));
       } elseif ($from > $to) {
         $form_state->setErrorByName('date_range', $this->t('Start date must be before or equal to end date.'));
       }
     }
 
-    $report_options = ['per_person', 'competency_analysis', 'on_job_performance', 'coaching_impact', 'one_to_one_coaching'];
-    $report_content = [];
-    foreach ($report_options as $option) {
-      if ($form_state->getValue($option)) {
-        $report_content[] = $option;
+    if (!$form_state->hasAnyErrors() && !empty($company) && !empty($program) && $coach !== '' && $coach !== null) {
+      $query_type = $date_mode === 'between' ? 'overtime' : 'latest';
+      if ($trigger_name === 'view_online') {
+        if (!$this->hasReportData((int) $company, (int) $program, (string) $coach, (int) $employee, $query_type, $from, $to)) {
+          $form_state->setErrorByName('employee', $this->t('No report found for the selected filters.'));
+        }
       }
-    }
-    if (empty($report_content)) {
-      $form_state->setErrorByName('report_content', $this->t('Please select at least one report content option.'));
+      elseif ($report_scope === 'all') {
+        if (!$this->hasAnyReportData((int) $company, (int) $program, (string) $coach, $query_type, $from, $to)) {
+          $form_state->setErrorByName('program', $this->t('No report found for the selected filters.'));
+        }
+      }
+      elseif (!empty($employee) && !$this->hasReportData((int) $company, (int) $program, (string) $coach, (int) $employee, $query_type, $from, $to)) {
+        $form_state->setErrorByName('employee', $this->t('No report found for the selected filters.'));
+      }
     }
   }
 
@@ -619,34 +539,22 @@ JS;
     $program = $form_state->getValue('program');
     $coach = $form_state->getValue('coach');
     $employee = $form_state->getValue('employee');
-    $report_type = $form_state->getValue('report_type') ?: 'latest';
-
-    $report_options = ['per_person', 'competency_analysis', 'on_job_performance', 'coaching_impact', 'one_to_one_coaching'];
-    $report_content = [];
-    foreach ($report_options as $option) {
-      if ($form_state->getValue($option)) {
-        $report_content[] = $option;
-      }
-    }
+    $date_mode = $form_state->getValue('date_mode') ?: 'latest';
 
     $params = [
       'company'        => $company,
       'program'        => $program,
       'coach'          => $coach ?: 'all',
       'employee'       => $employee,
-      'report_type'    => $report_type,
-      'report_content' => $report_content,
+      'report_type'    => $date_mode === 'between' ? 'overtime' : 'latest',
+      'report_scope'   => 'per_person',
+      'report_content' => ['per_person'],
     ];
 
-    if ($report_type === 'overtime') {
+    if ($date_mode === 'between') {
       $dr = $form_state->getValue('date_range') ?: [];
-      if (isset($dr['value'], $dr['end_value'])) {
-        $params['from'] = substr((string) $dr['value'], 0, 10);
-        $params['to'] = substr((string) $dr['end_value'], 0, 10);
-      } elseif (isset($dr['from_date'], $dr['to_date'])) {
-        $params['from'] = $dr['from_date'];
-        $params['to'] = $dr['to_date'];
-      }
+      $params['from'] = $dr['from_date'] ?? '';
+      $params['to'] = $dr['to_date'] ?? '';
     }
 
     $form_state->setRedirect('coach_reporting_system.report_result', [], ['query' => $params]);
@@ -657,35 +565,26 @@ JS;
     $program = $form_state->getValue('program');
     $coach = $form_state->getValue('coach');
     $employee = $form_state->getValue('employee');
-    $report_type = $form_state->getValue('report_type') ?: 'latest';
-
-    $report_options = ['per_person', 'competency_analysis', 'on_job_performance', 'coaching_impact', 'one_to_one_coaching'];
-    $report_content = [];
-    foreach ($report_options as $option) {
-      if ($form_state->getValue($option)) {
-        $report_content[] = $option;
-      }
-    }
+    $date_mode = $form_state->getValue('date_mode') ?: 'latest';
+    $report_scope = $form_state->getValue('report_scope') ?: 'per_person';
 
     $params = [
       'company'        => $company,
       'program'        => $program,
       'coach'          => $coach ?: 'all',
-      'employee'       => $employee,
-      'report_type'    => $report_type,
-      'report_content' => $report_content,
+      'report_type'    => $date_mode === 'between' ? 'overtime' : 'latest',
+      'report_scope'   => $report_scope,
+      'report_content' => ['per_person'],
       'download'       => '1',
     ];
+    if (!empty($employee)) {
+      $params['employee'] = $employee;
+    }
 
-    if ($report_type === 'overtime') {
+    if ($date_mode === 'between') {
       $dr = $form_state->getValue('date_range') ?: [];
-      if (isset($dr['value'], $dr['end_value'])) {
-        $params['from'] = substr((string) $dr['value'], 0, 10);
-        $params['to'] = substr((string) $dr['end_value'], 0, 10);
-      } elseif (isset($dr['from_date'], $dr['to_date'])) {
-        $params['from'] = $dr['from_date'];
-        $params['to'] = $dr['to_date'];
-      }
+      $params['from'] = $dr['from_date'] ?? '';
+      $params['to'] = $dr['to_date'] ?? '';
     }
 
     $form_state->setRedirect('coach_reporting_system.report_result', [], ['query' => $params]);

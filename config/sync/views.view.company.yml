@@ -1187,10 +1187,10 @@ display:
       path: company-export
       filename: Company-List.csv
       automatic_download: false
+      export_filesystem: public
       custom_redirect_path: false
       redirect_to_display: none
       include_query_params: false
-      export_filesystem: public
     cache_metadata:
       max-age: 0
       contexts:
@@ -1393,10 +1393,10 @@ display:
       path: coach-export
       filename: Coaches-List.csv
       automatic_download: false
+      export_filesystem: public
       custom_redirect_path: false
       redirect_to_display: none
       include_query_params: false
-      export_filesystem: public
     cache_metadata:
       max-age: 0
       contexts:
@@ -1424,10 +1424,10 @@ display:
       path: employee-export
       filename: Employee-List.csv
       automatic_download: false
+      export_filesystem: public
       custom_redirect_path: false
       redirect_to_display: none
       include_query_params: false
-      export_filesystem: public
     cache_metadata:
       max-age: 0
       contexts:
@@ -2134,8 +2134,162 @@ display:
           empty_zero: false
           hide_alter_empty: true
           destination: false
+      filters:
+        roles_target_id:
+          id: roles_target_id
+          table: user__roles
+          field: roles_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: user
+          entity_field: roles
+          plugin_id: user_roles
+          operator: or
+          value:
+            company: company
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+        combine:
+          id: combine
+          table: views
+          field: combine
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: combine
+          operator: word
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: combine_op
+            label: Search
+            description: ''
+            use_operator: false
+            operator: combine_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: combine
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              content_editor: '0'
+              company: '0'
+              coach: '0'
+              employee: '0'
+            placeholder: 'Search ...'
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          fields:
+            field_full_name: field_full_name
+            field_first_name: field_first_name
+            field_last_name: field_last_name
+            mail: mail
+        status:
+          id: status
+          table: users_field_data
+          field: status
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: user
+          entity_field: status
+          plugin_id: boolean
+          operator: '='
+          value: All
+          group: 1
+          exposed: true
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: status_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: status
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              content_editor: '0'
+              company: '0'
+              coach: '0'
+              employee: '0'
+          is_grouped: true
+          group_info:
+            label: 'User status'
+            description: ''
+            identifier: status
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items:
+              1:
+                title: Enabled
+                operator: '='
+                value: '1'
+              2:
+                title: Disabled
+                operator: '='
+                value: '0'
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
       defaults:
         fields: false
+        filters: false
+        filter_groups: false
         header: false
       display_description: ''
       header:
@@ -3042,7 +3196,7 @@ display:
           plugin_id: text
           empty: false
           content:
-            value: "<style>\r\n/* =========================\r\n   COACH VIEW - FINAL FIX\r\n   ========================= */\r\n\r\n/* Empty result message */\r\n.coach-filter-align .view-empty {\r\n  background: #f4f9fb;\r\n  border: 1px solid #cde3ea;\r\n  padding: 18px 20px;\r\n  margin-top: 20px;\r\n  border-radius: 8px;\r\n  font-size: 15px;\r\n  color: #2c3e50;\r\n  font-weight: 500;\r\n  clear: both;\r\n}\r\n.coach-filter-align .view-empty:before {\r\n  content: \"ℹ \";\r\n  color: #4db6c3;\r\n  font-size: 18px;\r\n  font-weight: bold;\r\n}\r\n\r\n/* Header area buttons */\r\n.coach-filter-align .view-header {\r\n  margin-bottom: 18px;\r\n}\r\n.coach-filter-align .view-header .button,\r\n.coach-filter-align .view-header a.button {\r\n  display: inline-flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  height: 46px;\r\n  min-height: 46px;\r\n  padding: 0 22px;\r\n  line-height: 1;\r\n  white-space: nowrap;\r\n  box-sizing: border-box;\r\n  margin-left: 8px;\r\n  border-radius: 6px;\r\n  vertical-align: middle;\r\n}\r\n\r\n/* Main exposed form container */\r\n.coach-filter-align .views-exposed-form {\r\n  width: 100%;\r\n}\r\n.coach-filter-align .views-exposed-form .form--inline {\r\n  display: flex !important;\r\n  flex-wrap: nowrap !important;\r\n  align-items: flex-end !important;\r\n  gap: 18px !important;\r\n  width: 100% !important;\r\n  overflow: visible !important;\r\n}\r\n\r\n/* Kill theme floats/margins */\r\n.coach-filter-align .views-exposed-form .form-item,\r\n.coach-filter-align .views-exposed-form .form-actions {\r\n  float: none !important;\r\n  clear: none !important;\r\n  margin: 0 !important;\r\n  padding: 0 !important;\r\n  position: relative !important;\r\n}\r\n\r\n/* Labels */\r\n.coach-filter-align .views-exposed-form label {\r\n  display: block !important;\r\n  position: static !important;\r\n  margin: 0 0 8px 0 !important;\r\n  line-height: 1.2 !important;\r\n  white-space: nowrap !important;\r\n  font-weight: 500 !important;\r\n  text-align: left !important;\r\n}\r\n\r\n/* Common fields */\r\n.coach-filter-align .views-exposed-form input[type=\"text\"],\r\n.coach-filter-align .views-exposed-form input[type=\"search\"],\r\n.coach-filter-align .views-exposed-form select {\r\n  height: 44px !important;\r\n  min-height: 44px !important;\r\n  box-sizing: border-box !important;\r\n  border-radius: 6px !important;\r\n  width: 100% !important;\r\n}\r\n\r\n/* Search */\r\n.coach-filter-align .views-exposed-form .form-item-combine {\r\n  flex: 0 0 360px !important;\r\n  width: 360px !important;\r\n  max-width: 360px !important;\r\n}\r\n.coach-filter-align .views-exposed-form .form-item-combine input {\r\n  width: 360px !important;\r\n  max-width: 360px !important;\r\n}\r\n\r\n/* Company */\r\n.coach-filter-align .views-exposed-form .form-item-field-company-target-id,\r\n.coach-filter-align .views-exposed-form .form-item-company {\r\n  flex: 0 0 350px !important;\r\n  width: 350px !important;\r\n  max-width: 350px !important;\r\n}\r\n.coach-filter-align .views-exposed-form .form-item-field-company-target-id select,\r\n.coach-filter-align .views-exposed-form .form-item-company select {\r\n  width: 350px !important;\r\n  max-width: 350px !important;\r\n}\r\n\r\n/* Items */\r\n.coach-filter-align .views-exposed-form .form-item-items-per-page {\r\n  flex: 0 0 110px !important;\r\n  width: 110px !important;\r\n  max-width: 110px !important;\r\n}\r\n.coach-filter-align .views-exposed-form .form-item-items-per-page select {\r\n  width: 110px !important;\r\n  max-width: 110px !important;\r\n}\r\n\r\n/* Action */\r\n.coach-filter-align .views-exposed-form .form-item-action {\r\n  flex: 0 0 280px !important;\r\n  width: 280px !important;\r\n  max-width: 280px !important;\r\n}\r\n.coach-filter-align .views-exposed-form .form-item-action select {\r\n  width: 280px !important;\r\n  max-width: 280px !important;\r\n}\r\n\r\n/* Specific label correction for Items and Action */\r\n.coach-filter-align .views-exposed-form .form-item-items-per-page label,\r\n.coach-filter-align .views-exposed-form .form-item-action label {\r\n  position: static !important;\r\n  display: block !important;\r\n  margin-bottom: 8px !important;\r\n  z-index: 1 !important;\r\n}\r\n\r\n/* Button wrapper */\r\n.coach-filter-align .views-exposed-form .form-actions {\r\n  display: flex !important;\r\n  align-items: flex-end !important;\r\n  justify-content: flex-start !important;\r\n  flex: 0 0 auto !important;\r\n  width: auto !important;\r\n  max-width: none !important;\r\n}\r\n\r\n/* Buttons */\r\n.coach-filter-align .views-exposed-form .form-actions input,\r\n.coach-filter-align .views-exposed-form .form-actions .button,\r\n.coach-filter-align .views-exposed-form input[type=\"submit\"],\r\n.coach-filter-align .views-exposed-form button {\r\n  height: 44px !important;\r\n  min-height: 44px !important;\r\n  line-height: 1 !important;\r\n  white-space: nowrap !important;\r\n  padding: 0 22px !important;\r\n  box-sizing: border-box !important;\r\n  border-radius: 6px !important;\r\n  margin: 0 !important;\r\n}\r\n\r\n/* Search button */\r\n.coach-filter-align .views-exposed-form input[value=\"Search\"] {\r\n  min-width: 110px !important;\r\n}\r\n\r\n/* Apply button */\r\n.coach-filter-align .views-exposed-form input[value=\"Apply to selected items\"] {\r\n  min-width: 225px !important;\r\n  width: 225px !important;\r\n  max-width: 225px !important;\r\n  position: static !important;\r\n  margin-left: 0 !important;\r\n}\r\n\r\n/* Prevent overlay */\r\n.coach-filter-align .views-exposed-form .form-item-action,\r\n.coach-filter-align .views-exposed-form .form-actions,\r\n.coach-filter-align .views-exposed-form .form-item-items-per-page {\r\n  z-index: auto !important;\r\n  overflow: visible !important;\r\n}\r\n\r\n/* Table spacing */\r\n.coach-filter-align .view-content {\r\n  margin-top: 14px;\r\n}\r\n\r\n/* Responsive fallback */\r\n@media (max-width: 1400px) {\r\n  .coach-filter-align .views-exposed-form .form--inline {\r\n    flex-wrap: wrap !important;\r\n  }\r\n\r\n  .coach-filter-align .views-exposed-form .form-item-combine,\r\n  .coach-filter-align .views-exposed-form .form-item-field-company-target-id,\r\n  .coach-filter-align .views-exposed-form .form-item-company,\r\n  .coach-filter-align .views-exposed-form .form-item-items-per-page,\r\n  .coach-filter-align .views-exposed-form .form-item-action,\r\n  .coach-filter-align .views-exposed-form .form-actions {\r\n    flex: 1 1 100% !important;\r\n    width: 100% !important;\r\n    max-width: 100% !important;\r\n  }\r\n\r\n  .coach-filter-align .views-exposed-form .form-item-combine input,\r\n  .coach-filter-align .views-exposed-form .form-item-field-company-target-id select,\r\n  .coach-filter-align .views-exposed-form .form-item-company select,\r\n  .coach-filter-align .views-exposed-form .form-item-items-per-page select,\r\n  .coach-filter-align .views-exposed-form .form-item-action select,\r\n  .coach-filter-align .views-exposed-form .form-actions input {\r\n    width: 100% !important;\r\n    max-width: 100% !important;\r\n  }\r\n}\r\n</style>"
+            value: ''
             format: full_html
           tokenize: false
       display_extenders: {  }
@@ -4504,7 +4658,7 @@ display:
           plugin_id: text
           empty: false
           content:
-            value: "<style>\r\n\r\n/* Align filters in one row */\r\n.views-exposed-form .form--inline{\r\n  display:flex;\r\n  align-items:flex-end;\r\n  gap:15px;\r\n  flex-wrap:wrap;\r\n}\r\n\r\n/* Standard height for inputs */\r\n.views-exposed-form input,\r\n.views-exposed-form select{\r\n  height:38px;\r\n  min-height:38px;\r\n  box-sizing:border-box;\r\n}\r\n\r\n/* Search field width */\r\n.views-exposed-form input[type=\"text\"]{\r\n  width:260px;\r\n}\r\n\r\n/* Reset dropdown behaviour */\r\n.views-exposed-form select{\r\n  max-height:38px;\r\n  overflow:hidden;\r\n}\r\n\r\n/* Labels spacing */\r\n.views-exposed-form label{\r\n  margin-bottom:4px;\r\n  font-size:13px;\r\n  display:block;\r\n}\r\n\r\n/* Form item alignment */\r\n.views-exposed-form .form-item{\r\n  margin-bottom:0;\r\n  display:flex;\r\n  flex-direction:column;\r\n  justify-content:flex-end;\r\n}\r\n\r\n</style>"
+            value: ''
             format: full_html
           tokenize: false
       display_extenders: {  }

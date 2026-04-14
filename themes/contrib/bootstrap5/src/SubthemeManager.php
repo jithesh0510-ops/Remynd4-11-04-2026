@@ -246,6 +246,7 @@ class SubthemeManager {
       $infoYml['libraries'][] = $subtheme_machine_name . '/global-styling';
       $infoYml['libraries-override'] = [
         'bootstrap5/global-styling' => FALSE,
+        'bootstrap5/ckeditor5-stylesheets' => FALSE,
       ];
 
       foreach ([

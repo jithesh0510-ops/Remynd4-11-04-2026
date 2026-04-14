@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\migrate_tools\Controller;
 
+use Drupal\Component\Render\MarkupInterface;
 use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\Xss;
 use Drupal\Core\Controller\ControllerBase;
@@ -34,6 +35,42 @@ class MigrationController extends ControllerBase implements ContainerInjectionIn
       $container->get('plugin.manager.migration'),
       $container->get('current_route_match')
     );
+  }
+
+  /**
+   * Route title callback for migration pages.
+   *
+   * @param \Drupal\migrate_plus\Entity\MigrationInterface|null $migration
+   *   Migration from url, or NULL if this is just a group page.
+   * @param \Drupal\migrate_plus\Entity\MigrationGroupInterface|null $group
+   *   Migration group from url.
+   *
+   * @return \Drupal\Component\Render\MarkupInterface|string|null
+   *   Title.
+   */
+  public function title(?MigrationInterface $migration = NULL, ?MigrationGroupInterface $group = NULL): MarkupInterface|string|null {
+    $route_name = $this->currentRouteMatch->getRouteName();
+    $group_label = $group?->label();
+    $migration_label = $migration?->label();
+
+    // If neither entity is available, fall back to null.
+    if ($group_label === NULL && $migration_label === NULL) {
+      return NULL;
+    }
+
+    return match ($route_name) {
+      'entity.migration_group.edit_form' => $this->t('Edit migration group @group', ['@group' => $group_label ?? '']),
+      'entity.migration_group.delete_form' => $this->t('Delete migration group @group', ['@group' => $group_label ?? '']),
+      'entity.migration.list' => $this->t('Migrations of @group', ['@group' => $group_label ?? '']),
+      'entity.migration.overview' => $this->t('Migration overview of @migration', ['@migration' => $migration_label ?? '']),
+      'entity.migration.source' => $this->t('Source of @migration', ['@migration' => $migration_label ?? '']),
+      'entity.migration.process' => $this->t('Process of @migration', ['@migration' => $migration_label ?? '']),
+      'entity.migration.destination' => $this->t('Destination of @migration', ['@migration' => $migration_label ?? '']),
+      'entity.migration.edit_form' => $this->t('Edit migration @migration', ['@migration' => $migration_label ?? '']),
+      'entity.migration.delete_form' => $this->t('Delete migration @migration', ['@migration' => $migration_label ?? '']),
+      'migrate_tools.execute' => $this->t('Execute migration @migration', ['@migration' => $migration_label ?? '']),
+      default => $migration_label ?? $group_label,
+    };
   }
 
   /**

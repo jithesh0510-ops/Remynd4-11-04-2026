@@ -260,7 +260,7 @@ abstract class ImporterBase extends PluginBase implements ImporterInterface {
 
       $languages = $this->languageManager->getLanguages();
       $langcode_default = $this->languageManager->getDefaultLanguage()->getId();
-      $langcode = $this->languageManager->isMultilingual() && isset($languages[$content['langcode']]) ? $content['langcode'] : $langcode_default;
+      $langcode = $this->languageManager->isMultilingual() && !empty($content['langcode']) && isset($languages[$content['langcode']]) ? $content['langcode'] : $langcode_default;
 
       if ($entity) {
         if ($entity->hasTranslation($langcode)) {

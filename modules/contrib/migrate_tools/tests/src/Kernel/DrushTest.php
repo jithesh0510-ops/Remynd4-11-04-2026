@@ -129,7 +129,15 @@ namespace Drupal\Tests\migrate_tools\Kernel {
     public function testFailingStatusThrowsException(): void {
       $this->expectException(\Exception::class);
       $this->expectExceptionMessage('The "does_not_exist" plugin does not exist.');
-      $this->commands->status('invalid_plugin');
+      // Explicitly pass an array of the defaults for $options, as otherwise
+      // its default value, which contains definitions of the options for
+      // Drush, will be incorrectly used as actual values.
+      $this->commands->status('invalid_plugin', [
+        'group' => '',
+        'tag' => '',
+        'names-only' => FALSE,
+        'continue-on-failure' => FALSE,
+      ]);
     }
 
     /**
