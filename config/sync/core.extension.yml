@@ -6,6 +6,7 @@ module:
   admin_toolbar_search: 0
   admin_toolbar_tools: 0
   announcements_feed: 0
+  anonymous_redirection: 0
   automated_cron: 0
   better_exposed_filters: 0
   big_pipe: 0
@@ -13,8 +14,14 @@ module:
   block_content: 0
   breakpoint: 0
   ckeditor5: 0
+  coach_creator: 0
+  coach_csv_import: 0
+  coach_import_history: 0
   coach_reporting_system: 0
   comment: 0
+  company_coach_download: 0
+  company_dropdown: 0
+  company_import_history: 0
   conditional_fields: 0
   config: 0
   contact: 0
@@ -29,6 +36,8 @@ module:
   edit_in_place_field: 0
   editor: 0
   email_otp_login: 0
+  employee_csv_import: 0
+  employee_import_history: 0
   entity: 0
   entity_clone: 0
   entity_reference_display: 0
@@ -45,6 +54,7 @@ module:
   fullcalendar: 0
   help: 0
   history: 0
+  history_page_ui: 0
   image: 0
   jquery_ui: 0
   jquery_ui_button: 0
@@ -70,6 +80,7 @@ module:
   migrate: 0
   migrate_plus: 0
   migrate_tools: 0
+  mobile_otp_login: 0
   mysql: 0
   node: 0
   options: 0
@@ -81,6 +92,10 @@ module:
   profile: 0
   redirect_after_login: 0
   remove_username: 0
+  remynd4_coach_tools: 0
+  remynd4_user_actions: 0
+  remynd4_user_type_form: 0
+  report_upload: 0
   reporting_user: 0
   require_login: 0
   rest: 0
