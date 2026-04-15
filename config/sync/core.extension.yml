@@ -28,6 +28,7 @@ module:
   dynamic_page_cache: 0
   edit_in_place_field: 0
   editor: 0
+  email_otp_login: 0
   entity: 0
   entity_clone: 0
   entity_reference_display: 0
@@ -88,7 +89,6 @@ module:
   serialization: 0
   shortcut: 0
   simple_notification: 0
-  simplelogin: 0
   smtp: 0
   symfony_mailer: 0
   system: 0
