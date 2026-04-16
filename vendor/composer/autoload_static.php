@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit04f037f98761ade2b7cc0abe92c984ab
+class ComposerStaticInit1beb38f9eab250e54df804ca810b1164
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -393,10 +393,10 @@ class ComposerStaticInit04f037f98761ade2b7cc0abe92c984ab
         ),
         'League\\OAuth2\\Client\\' => 
         array (
-            0 => __DIR__ . '/..' . '/patrickbussmann/oauth2-apple/src',
-            1 => __DIR__ . '/..' . '/league/oauth2-linkedin/src',
-            2 => __DIR__ . '/..' . '/league/oauth2-google/src',
-            3 => __DIR__ . '/..' . '/league/oauth2-client/src',
+            0 => __DIR__ . '/..' . '/league/oauth2-client/src',
+            1 => __DIR__ . '/..' . '/league/oauth2-google/src',
+            2 => __DIR__ . '/..' . '/league/oauth2-linkedin/src',
+            3 => __DIR__ . '/..' . '/patrickbussmann/oauth2-apple/src',
         ),
         'League\\Csv\\' => 
         array (
@@ -647,10 +647,10 @@ class ComposerStaticInit04f037f98761ade2b7cc0abe92c984ab
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit04f037f98761ade2b7cc0abe92c984ab::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit04f037f98761ade2b7cc0abe92c984ab::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit04f037f98761ade2b7cc0abe92c984ab::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit04f037f98761ade2b7cc0abe92c984ab::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit1beb38f9eab250e54df804ca810b1164::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit1beb38f9eab250e54df804ca810b1164::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit1beb38f9eab250e54df804ca810b1164::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit1beb38f9eab250e54df804ca810b1164::$classMap;
 
         }, null, ClassLoader::class);
     }

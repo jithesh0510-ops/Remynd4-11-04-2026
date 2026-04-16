@@ -77,10 +77,10 @@
  *
  * @code
  * $databases['default']['default'] = [
- *   'database' => '16_04_2026_remynd4_db',
- *   'username' => 'remynd4user',
- *   'password' => 'Remynd4@16042026',
- *   'host' => '127.0.0.1',
+ *   'database' => 'remindy4',
+ *   'username' => 'root',
+ *   'password' => '',
+ *   'host' => 'localhost',
  *   'port' => '3306',
  *   'driver' => 'mysql',
  *   'prefix' => '',
@@ -193,10 +193,10 @@ $databases = [];
  * @code
  *   $databases['default']['default'] = [
  *     'driver' => 'pgsql',
- *     'database' => '16_04_2026_remynd4_db',
- *     'username' => 'remynd4user',
- *     'password' => 'Remynd4@16042026',
- *     'host' => '127.0.0.1',
+ *     'database' => 'remindy4',
+ *     'username' => 'root',
+ *     'password' => '',
+ *     'host' => 'localhost',
  *     'prefix' => '',
  *   ];
  * @endcode
@@ -205,7 +205,7 @@ $databases = [];
  * @code
  *   $databases['default']['default'] = [
  *     'driver' => 'sqlite',
- *     'database' => '16_04_2026_remynd4_db',
+ *     'database' => 'remindy4',
  *   ];
  * @endcode
  *
@@ -215,10 +215,10 @@ $databases = [];
  *     'driver' => 'my_driver',
  *     'namespace' => 'Drupal\my_module\Driver\Database\my_driver',
  *     'autoload' => 'modules/my_module/src/Driver/Database/my_driver/',
- *     'database' => '16_04_2026_remynd4_db',
- *     'username' => 'remynd4user',
- *     'password' => 'Remynd4@16042026',
- *     'host' => '127.0.0.1',
+ *     'database' => 'remindy4',
+ *     'username' => 'root',
+ *     'password' => '',
+ *     'host' => 'localhost',
  *     'prefix' => '',
  *   ];
  * @endcode
@@ -230,10 +230,10 @@ $databases = [];
  *     'driver' => 'my_driver',
  *     'namespace' => 'Drupal\my_module\Driver\Database\my_driver',
  *     'autoload' => 'modules/my_module/src/Driver/Database/my_driver/',
- *     'database' => '16_04_2026_remynd4_db',
- *     'username' => 'remynd4user',
- *     'password' => 'Remynd4@16042026',
- *     'host' => '127.0.0.1',
+ *     'database' => 'remindy4',
+ *     'username' => 'root',
+ *     'password' => '',
+ *     'host' => 'localhost',
  *     'prefix' => '',
  *     'dependencies' => [
  *       'parent_module' => [
@@ -895,9 +895,9 @@ $settings['migrate_node_migrate_type_classic'] = FALSE;
 
 // === LOCAL DB (used when not running under DDEV; DDEV overwrites in settings.ddev.php) ===
 $databases['default']['default'] = [
-  'database' => '16_04_2026_remynd4_db',
-  'username' => 'remynd4user',
-  'password' => 'Remynd4@16042026',
+  'database' => 'remindy4',
+  'username' => 'remynd4',
+  'password' => 'remynd4pass',
   'host' => '127.0.0.1',
   'port' => '3306',
   'driver' => 'mysql',

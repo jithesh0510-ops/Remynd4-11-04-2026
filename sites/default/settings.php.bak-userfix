@@ -78,10 +78,10 @@
  * @code
  * $databases['default']['default'] = [
  *   'database' => '16_04_2026_remynd4_db',
- *   'username' => 'remynd4user',
- *   'password' => 'Remynd4@16042026',
- *   'host' => '127.0.0.1',
- *   'port' => '3306',
+ *   'username' => 'root',
+ *   'password' => '',
+ *   'host' => 'localhost',
+ *   'port' => '',
  *   'driver' => 'mysql',
  *   'prefix' => '',
  *   'collation' => 'utf8mb4_general_ci',
@@ -194,9 +194,9 @@ $databases = [];
  *   $databases['default']['default'] = [
  *     'driver' => 'pgsql',
  *     'database' => '16_04_2026_remynd4_db',
- *     'username' => 'remynd4user',
- *     'password' => 'Remynd4@16042026',
- *     'host' => '127.0.0.1',
+ *     'username' => 'root',
+ *     'password' => '',
+ *     'host' => 'localhost',
  *     'prefix' => '',
  *   ];
  * @endcode
@@ -216,9 +216,9 @@ $databases = [];
  *     'namespace' => 'Drupal\my_module\Driver\Database\my_driver',
  *     'autoload' => 'modules/my_module/src/Driver/Database/my_driver/',
  *     'database' => '16_04_2026_remynd4_db',
- *     'username' => 'remynd4user',
- *     'password' => 'Remynd4@16042026',
- *     'host' => '127.0.0.1',
+ *     'username' => 'root',
+ *     'password' => '',
+ *     'host' => 'localhost',
  *     'prefix' => '',
  *   ];
  * @endcode
@@ -231,9 +231,9 @@ $databases = [];
  *     'namespace' => 'Drupal\my_module\Driver\Database\my_driver',
  *     'autoload' => 'modules/my_module/src/Driver/Database/my_driver/',
  *     'database' => '16_04_2026_remynd4_db',
- *     'username' => 'remynd4user',
- *     'password' => 'Remynd4@16042026',
- *     'host' => '127.0.0.1',
+ *     'username' => 'root',
+ *     'password' => '',
+ *     'host' => 'localhost',
  *     'prefix' => '',
  *     'dependencies' => [
  *       'parent_module' => [
@@ -896,10 +896,10 @@ $settings['migrate_node_migrate_type_classic'] = FALSE;
 // === LOCAL DB (used when not running under DDEV; DDEV overwrites in settings.ddev.php) ===
 $databases['default']['default'] = [
   'database' => '16_04_2026_remynd4_db',
-  'username' => 'remynd4user',
-  'password' => 'Remynd4@16042026',
-  'host' => '127.0.0.1',
-  'port' => '3306',
+  'username' => 'root',
+  'password' => '',
+  'host' => 'localhost',
+  'port' => '',
   'driver' => 'mysql',
   'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
 ];

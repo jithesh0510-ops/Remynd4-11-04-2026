@@ -1,8 +1,8 @@
 defaults:
-  sender: smtp
-  formatter: smtp
+  sender: SMTPMailSystem
+  formatter: SMTPMailSystem
 modules:
   email_otp_login:
     send_otp:
-      sender: smtp
-      formatter: smtp
+      sender: SMTPMailSystem
+      formatter: SMTPMailSystem
