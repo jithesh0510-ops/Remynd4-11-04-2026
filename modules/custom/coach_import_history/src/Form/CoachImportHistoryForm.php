@@ -194,7 +194,7 @@ private function buildCoachAttachments(string $filepath): array {
 
     $form['actions']['download_sample'] = [
       '#type' => 'markup',
-      '#markup' => '<a href="/coach/import-history-upload/sample" class="button">Download Sample</a>',
+      '#markup' => '<a href="/coach/import-history-upload/download-sample" class="button">Download Sample</a>',
     ];
 
     $form['actions']['submit'] = [
@@ -220,6 +220,46 @@ private function buildCoachAttachments(string $filepath): array {
 
   public function validateForm(array &$form, FormStateInterface $form_state) {
     $company_uid = (int) $form_state->getValue('company_uid');
+
+    $company_name = '';
+    if (!empty($company_uid)) {
+      $company_user = \Drupal\user\Entity\User::load($company_uid);
+      if ($company_user) {
+        if ($company_user->hasField('field_company') && !$company_user->get('field_company')->isEmpty()) {
+          $company_name = trim((string) $company_user->get('field_company')->value);
+        }
+        if ($company_name === '') {
+          $company_name = trim((string) $company_user->getDisplayName());
+        }
+      }
+    }
+
+    $company_name = '';
+    if (!empty($company_uid)) {
+      $company_user = \Drupal\user\Entity\User::load($company_uid);
+      if ($company_user) {
+        $company_name = trim((string) $company_user->getDisplayName());
+        if ($company_user->hasField('field_company') && !$company_user->get('field_company')->isEmpty()) {
+          $field_company_value = trim((string) $company_user->get('field_company')->value);
+          if ($field_company_value !== '') {
+            $company_name = $field_company_value;
+          }
+        }
+      }
+    }
+
+    $selected_company_label = '';
+    $complete_form = $form_state->getCompleteForm();
+    $company_options = $complete_form['company_uid']['#options'] ?? ($complete_form['company_uid']['widget']['#options'] ?? []);
+    if (isset($company_options[$company_uid]) && $company_options[$company_uid] !== '') {
+      $selected_company_label = (string) $company_options[$company_uid];
+    }
+    elseif (!empty($company_name)) {
+      $selected_company_label = (string) $company_name;
+    }
+    elseif (!empty($company_uid)) {
+      $selected_company_label = 'Company ID: ' . $company_uid;
+    }
     if (empty($company_uid) || !User::load($company_uid)) {
       $form_state->setErrorByName('company_uid', $this->t('Please select a valid company.'));
     }
@@ -283,7 +323,7 @@ private function buildCoachAttachments(string $filepath): array {
         \Drupal::languageManager()->getDefaultLanguage()->getId(),
         [
           'subject' => 'Coach Import Notification',
-          'message' => 'Selected company: ' . $selected_company_label,
+          'message' => "Coach import started.\n\nSelected company: " . (!empty($company_name) ? $company_name : (!empty($selected_company_label) ? $selected_company_label : 'Not available')) . "\n\nUploaded by: " . \Drupal::currentUser()->getAccountName(),
         ],
         NULL,
         TRUE
@@ -293,6 +333,30 @@ private function buildCoachAttachments(string $filepath): array {
 
 
     $company_uid = (int) $form_state->getValue('company_uid');
+
+    $selected_company_label = '';
+    $company_name = '';
+
+    if (!empty($company_uid)) {
+      $company_user = \Drupal\user\Entity\User::load($company_uid);
+      if ($company_user) {
+        $selected_company_label = $company_user->getDisplayName();
+        $company_name = $selected_company_label;
+
+        if ($company_user->hasField('field_company') && !$company_user->get('field_company')->isEmpty()) {
+          $company_name = (string) $company_user->get('field_company')->value;
+          if ($selected_company_label === '') {
+            $selected_company_label = $company_name;
+          }
+        }
+      }
+    }
+
+    if ($selected_company_label === '' && !empty($company_uid)) {
+      $selected_company_label = 'Company ID: ' . $company_uid;
+      $company_name = $selected_company_label;
+    }
+
     $send_email = (bool) $form_state->getValue('send_email');
     $fids = $form_state->getValue('csv_file');
     $fid = (int) $fids[0];
@@ -326,9 +390,38 @@ private function buildCoachAttachments(string $filepath): array {
       return;
     }
 
-    $header = fgetcsv($handle);
+    $header = fgetcsv($handle, 0, ',', '\\');
     if (!$header) {
       fclose($handle);
+
+    $admin_lines = [];
+    $admin_lines[] = 'Coach import completed.';
+    $admin_lines[] = '';
+    $admin_lines[] = 'Selected company: ' . (!empty($company_name) ? $company_name : (!empty($selected_company_label) ? $selected_company_label : 'Not available'));
+    $admin_lines[] = 'Uploaded by: ' . \Drupal::currentUser()->getAccountName();
+    $admin_lines[] = 'Total rows processed: ' . max(0, $row_number - 1);
+    $admin_lines[] = 'Created: ' . $created;
+    $admin_lines[] = 'Updated: ' . $updated;
+    $admin_lines[] = 'Errors: ' . $errors;
+    $admin_lines[] = '';
+    $admin_lines[] = 'Details:';
+
+    foreach ($results as $item) {
+      $admin_lines[] = 'Row ' . ($item['row'] ?? '-') . ' | email=' . ($item['email'] ?? '-') . ' | status=' . ($item['result'] ?? '-') . ' | ' . ($item['message'] ?? '');
+    }
+
+    \Drupal::service('plugin.manager.mail')->mail(
+      'coach_import_history',
+      'admin_coach_import_mail',
+      'jithesh0510@gmail.com',
+      \Drupal::languageManager()->getDefaultLanguage()->getId(),
+      [
+        'subject' => 'Coach Import Summary - ' . $company_name,
+        'message' => implode("\n", $admin_lines),
+      ],
+      NULL,
+      TRUE
+    );
       $this->messenger()->addError($this->t('CSV header row is missing.'));
       return;
     }
@@ -358,7 +451,7 @@ private function buildCoachAttachments(string $filepath): array {
     $row_number = 1;
     $results = [];
 
-    while (($row = fgetcsv($handle)) !== FALSE) {
+    while (($row = fgetcsv($handle, 0, ',', '\\')) !== FALSE) {
       $row_number++;
 
       try {
@@ -406,6 +499,13 @@ private function buildCoachAttachments(string $filepath): array {
           }
 
           $existing->save();
+
+          $results[] = [
+            'row' => $row_number,
+            'email' => $email,
+            'result' => 'Updated',
+            'message' => 'Coach updated | company=' . $company_name . ' | username=' . ($username ?: $email) . ' | first_name=' . $first_name . ' | last_name=' . $last_name . ' | name=' . $name,
+          ];
 
         if ($send_email) {
           $mail_username = $username ?? $email;
@@ -479,6 +579,13 @@ private function buildCoachAttachments(string $filepath): array {
 
           $user->setPassword($password);
           $user->save();
+
+          $results[] = [
+            'row' => $row_number,
+            'email' => $email,
+            'result' => 'Created',
+            'message' => 'Coach created | company=' . $company_name . ' | username=' . ($username ?: $email) . ' | first_name=' . $first_name . ' | last_name=' . $last_name . ' | name=' . $name,
+          ];
 
           if ($send_email) {
       $this->sendCoachImportMailToUser(
